@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CAbilMorph id="MorphtoMercenaryBunker">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:MorphsandBurrows"/>
+        <Alert value="UpgradeComplete"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BunkerFortified" State="Restricted"/>
+        <Flags index="BestUnit" value="1"/>
+        <Flags index="Birth" value="1"/>
+        <Flags index="DisableAbils" value="1"/>
+        <Flags index="FastBuild" value="1"/>
+        <Flags index="Interruptible" value="1"/>
+        <Flags index="Produce" value="1"/>
+        <Flags index="ShowProgress" value="1"/>
+        <InfoArray Score="1" Unit="MercenaryBunker">
+            <SectionArray index="Abils">
+                <DurationArray index="Delay" value="35"/>
+            </SectionArray>
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="35"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Delay" value="35"/>
+            </SectionArray>
+        </InfoArray>
+        <ValidatorArray value="HasNoCargo"/>
+    </CAbilMorph>
+    <CAbilBuild id="TerranBuild">
+        <InfoArray index="Build2" Time="20"/>
+        <InfoArray index="Build7" Time="60">
+            <Button Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build8" Unit="HiveMindEmulator">
+            <Button DefaultButtonFace="HiveMindEmulator" State="Restricted"/>
+        </InfoArray>
+        <InfoArray index="Build9">
+            <Button Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build15" Unit="SiegeBreakerSieged" Time="90">
+            <Button DefaultButtonFace="HireSiegeBreakers"/>
+        </InfoArray>
+        <!--InfoArray index="Build20" Unit="PerditionTurret" Time="35">
+            <Button DefaultButtonFace="PerditionTurret" State="Restricted" Requirements="HaveEngineeringBay"/>
+        </InfoArray>
+        <InfoArray index="Build21" Unit="CommandCenter" Time="100">
+            <Button DefaultButtonFace="CommandCenterOrbRelay" State="Suppressed" Requirements="UseOrbitalRelay"/>
+        </InfoArray>
+        <InfoArray index="Build22" Unit="HiveMindEmulator" Time="50">
+            <Button DefaultButtonFace="HiveMindEmulator" Requirements="UseHiveMindEmulator"/>
+        </InfoArray-->
+        <InfoArray index="Build23">
+            <Button DefaultButtonFace=""/>
+        </InfoArray>
+    </CAbilBuild>
+</Catalog>

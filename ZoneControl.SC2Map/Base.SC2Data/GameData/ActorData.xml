@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CActorUnit id="MercenaryBunker" parent="GenericUnitStandard" unitName="MercenaryBunker">
+        <On Terms="AbilMorph.*.Finish; MorphFrom Bunker; MorphTo MercenaryBunker" Send="Create"/>
+        <Aliases value="_CreepEngulfable"/>
+        <Aliases value="_UnitHuge"/>
+        <Macros value="BunkerTransportAnim"/>
+        <EditorCategories value=""/>
+        <Model value="JumboBunker"/>
+        <ModelFlags index="OutlineOccluder" value="1"/>
+        <CreepHeightClass value="Small"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
+        <BuildModel value="JumboBunker"/>
+        <DeathArray index="Normal" ModelLink="BunkerDeath" SoundLink=""/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Bunker_Explode"/>
+        <DeathCustoms ModelLink="BunkerUpgradeDeath" Name="Upgrade"/>
+        <DeathCustoms ModelLink="BunkerDeathEmpty" Name="Empty"/>
+        <PlacementModel value="BunkerPlacement"/>
+        <PlacementSound value="Terran_BuildingPlacement"/>
+        <PlacementActorModel value="BunkerPlacementModel"/>
+        <PlaceholderActorModel value="BunkerPlaceholderModel"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <BarOffset value="80"/>
+        <BarWidth value="85"/>
+        <GlossaryAnim value="Stand,Work"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\wireframe-terran-bunker-neosteelframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\btn-building-terran-bunkerneosteel.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <NameOffset value="70"/>
+        <SoundArray index="Ready" value="Bunker_Ready"/>
+        <SoundArray index="What" value="Bunker_What"/>
+        <SoundArray index="Construction" value="Terran_ConstructionWhat"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Textures\btn-building-terran-bunkerneosteel.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\wireframe-terran-bunker-neosteelframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorUnit id="Bunker">
+        <On Terms="AbilMorph.*.Finish; MorphFrom Bunker; MorphTo MercenaryBunker" Send="Destroy"/>
+    </CActorUnit>
+</Catalog>
