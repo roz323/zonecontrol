@@ -308,7 +308,7 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
     while (true) {
         lv_player = PlayerGroupNextPlayer(autoD61BCB46_g, lv_player);
         if (lv_player < 0) { break; }
-        PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, 1000);
+        PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, 1000000);
     }
     if ((gf_SpawnPlayers() == true)) {
     }

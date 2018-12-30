@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CAbilArmMagazine id="ArmSiloWithNuke">
+        <InfoArray index="Ammo1">
+            <Charge Link="Abil/##id##"/>
+            <Cooldown Link="Abil/##id##"/>
+            <Button Requirements=""/>
+        </InfoArray>
+    </CAbilArmMagazine>
+    <CAbilResearch id="BarracksTechLabResearch">
+        <InfoArray index="Research1" Time="0">
+            <Resource index="Minerals" value="750"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research2" Time="0">
+            <Resource index="Minerals" value="300"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research3" Time="0">
+            <Resource index="Minerals" value="200"/>
+            <Resource index="Vespene" value="0"/>
+            <Button Requirements=""/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectTarget id="BuildAutoTurret">
+        <Cost index="0">
+            <Resource index="Minerals" value="225"/>
+            <Vital index="Energy" value="0"/>
+        </Cost>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="GuardianShield">
+        <Cost index="0">
+            <Vital index="Energy" value="0"/>
+        </Cost>
+        <!--Cost index="0">
+            <Vital index="Energy" value="75"/>
+            <Cooldown Link="GuardianShield" TimeUse="30"/>
+        </Cost-->
+        <!--Flags index="AutoCast" value="1"/-->
+        <!--Flags index="AutoCastOn" value="1"/-->
+        <!--AutoCastFilters value="Visible;Neutral,Enemy"/>
+        <AutoCastValidatorArray value="VoidSentryNearbyFriendlyUnitInCombat"/-->
+        <!--CmdButtonArray index="Execute" Requirements="HaveVoidSentryGuardianShield"/-->
+        <!--CmdButtonArray index="Execute" Requirements="NotHaveVoidSentryForceFieldCampaignMarker"/-->
+        <!--CmdButtonArray index="Execute" State="Restricted"/-->
+    </CAbilEffectInstant>
     <CAbilMorph id="MorphtoMercenaryBunker">
         <EditorCategories value="Race:Terran,AbilityorEffectType:MorphsandBurrows"/>
         <Alert value="UpgradeComplete"/>
@@ -24,13 +68,24 @@
         </InfoArray>
         <ValidatorArray value="HasNoCargo"/>
     </CAbilMorph>
+    <CAbilBuild id="RavenBuild">
+        <InfoArray index="Build1">
+            <Resource index="Minerals" value="225"/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilResearch id="StarportTechLabResearch">
+        <InfoArray index="Research4" Time="0">
+            <Resource index="Minerals" value="350"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+    </CAbilResearch>
     <CAbilBuild id="TerranBuild">
         <InfoArray index="Build2" Time="20"/>
         <InfoArray index="Build7" Time="60">
             <Button Requirements=""/>
         </InfoArray>
         <InfoArray index="Build8" Unit="HiveMindEmulator">
-            <Button DefaultButtonFace="HiveMindEmulator" State="Restricted"/>
+            <Button DefaultButtonFace="HiveMindEmulator"/>
         </InfoArray>
         <InfoArray index="Build9">
             <Button Requirements=""/>
@@ -51,4 +106,60 @@
             <Button DefaultButtonFace=""/>
         </InfoArray>
     </CAbilBuild>
+    <CAbilResearch id="UpgradeAttack">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="Attack">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="TerranInfantryWeaponsLevel1" Requirements="AttackNotFullyUpgraded"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="UpgradeArmor">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="Armor">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="TerranInfantryArmorLevel1" Requirements="ArmorNotFullyUpgraded"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="UpgradeRange">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="Range">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="Grapple" Requirements="RangeNotFullyUpgraded"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="UpgradeRegen">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="Regen">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="HealRedirect" Requirements="RegenNotFullyUpgraded"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="UpgradeSpeed">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="Speed">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="Charge" Requirements="SpeedNotFullyUpgraded"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="UpgradeBuildingArmor">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="BuildingArmor">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="UpgradeBuildingArmorLevel1" Requirements="BuildingArmorNotFullyUpgraded"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="UpgradeBuildingRegen">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="BuildingRegen">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="QueenHeal" Requirements="BuildingRegenNotFullyUpgraded"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="UpgradeBunkerSlots">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="BunkerSlots">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="ResearchNeosteelFrame" Requirements="BunkerSlotsNotFullyUpgraded"/>
+        </InfoArray>
+    </CAbilResearch>
 </Catalog>

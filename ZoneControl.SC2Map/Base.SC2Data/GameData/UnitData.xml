@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CUnit id="AutoTurret">
+        <PlacementFootprint value=""/>
+    </CUnit>
     <CUnit id="Bunker">
         <LifeStart value="50000"/>
         <LifeMax value="50000"/>
@@ -37,6 +40,34 @@
     <CUnit id="EngineeringBay">
         <FlagArray index="Invulnerable" value="1"/>
         <Food value="45"/>
+        <AbilArray Link="UpgradeAttack"/>
+        <AbilArray Link="UpgradeArmor"/>
+        <AbilArray Link="UpgradeRange"/>
+        <AbilArray Link="UpgradeRegen"/>
+        <AbilArray Link="UpgradeSpeed"/>
+        <AbilArray Link="UpgradeBuildingArmor"/>
+        <AbilArray Link="UpgradeBuildingRegen"/>
+        <AbilArray Link="UpgradeBunkerSlots"/>
+        <AbilArray Link="StimpackMarauder"/>
+        <AbilArray Link="BarracksTechLabResearch"/>
+        <AbilArray Link="MercCompoundResearch"/>
+        <AbilArray Link="StarportTechLabResearch"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="0" AbilCmd="UpgradeAttack,Research1" Column="1"/>
+            <LayoutButtons index="1" Face="TerranInfantryArmorLevel1" AbilCmd="UpgradeArmor,Research1"/>
+            <LayoutButtons index="2" Face="Grapple" AbilCmd="UpgradeRange,Research1" Column="2"/>
+            <LayoutButtons index="3" Face="HealRedirect" AbilCmd="UpgradeRegen,Research1" Row="0" Column="3"/>
+            <LayoutButtons index="4" Face="Charge" AbilCmd="UpgradeSpeed,Research1" Row="0"/>
+            <LayoutButtons index="5" Face="QueenHeal" AbilCmd="UpgradeBuildingRegen,Research1" Row="1" Column="1"/>
+            <LayoutButtons index="6" Face="UpgradeBuildingArmorLevel1" AbilCmd="UpgradeBuildingArmor,Research1" Column="0"/>
+            <LayoutButtons index="7" Face="Stimpack" AbilCmd="BarracksTechLabResearch,Research1" Row="2" Column="0"/>
+            <LayoutButtons index="8" Face="ResearchShieldWall" AbilCmd="BarracksTechLabResearch,Research2" Row="2" Column="1"/>
+            <LayoutButtons index="9" Face="ResearchPunisherGrenades" AbilCmd="BarracksTechLabResearch,Research3" Requirements="TalDarimMothershipRequirements" Row="2" Column="3"/>
+            <LayoutButtons index="10" Face="ReaperSpeed" AbilCmd="MercCompoundResearch,Research4" Row="2" Column="4"/>
+            <LayoutButtons index="11" Face="ResearchNeosteelFrame" AbilCmd="UpgradeBunkerSlots,Research1" Row="1" Column="2"/>
+            <LayoutButtons index="12" Face="ResearchRavenEnergyUpgrade" Type="AbilCmd" AbilCmd="StarportTechLabResearch,Research4" Column="4"/>
+            <LayoutButtons index="13" removed="1"/>
+        </CardLayouts>
     </CUnit>
     <CUnit id="Ghost">
         <KillResource index="Minerals" value="15"/>
@@ -62,6 +93,17 @@
     </CUnit>
     <CUnit id="GhostAcademy">
         <FlagArray index="Invulnerable" value="1"/>
+        <AbilArray index="4" removed="1"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="0" Face="Cancel" AbilCmd="que5,CancelLast" Row="2" Column="4"/>
+            <LayoutButtons index="1" Face="CancelBuilding" AbilCmd="BuildInProgress,Cancel"/>
+            <LayoutButtons index="2" Face="Halt" AbilCmd="BuildInProgress,Halt" Column="3"/>
+            <LayoutButtons index="3" Face="NukeArm" AbilCmd="ArmSiloWithNuke,Ammo1" Column="0"/>
+            <LayoutButtons index="4" Face="SelectBuilder" Type="SelectBuilder" AbilCmd="" Row="1" Column="3"/>
+            <LayoutButtons index="5" Face="SpectreNukeArm" AbilCmd="SpectreNukeSiloArmMagazine,Ammo2" Row="2" Column="0"/>
+            <LayoutButtons index="6" removed="1"/>
+            <LayoutButtons index="7" removed="1"/>
+        </CardLayouts>
     </CUnit>
     <CUnit id="HammerSecurity">
         <KillResource index="Minerals" value="15"/>
@@ -76,13 +118,15 @@
         <CostResource index="Minerals" value="125"/>
         <CostResource index="Vespene" value="0"/>
         <KillResource index="Minerals" value="50"/>
-        <AbilArray index="0" Link="GuardianShield"/>
-        <AbilArray index="1" removed="1"/>
+        <BehaviorArray Link="GuardianShieldPermanent"/>
         <CardLayouts index="0">
             <LayoutButtons index="1" removed="1"/>
         </CardLayouts>
         <Footprint value="Footprint1x1Contour"/>
         <PlacementFootprint value="Footprint1x1"/>
+        <EnergyMax value="0"/>
+        <EnergyRegenRate value="0"/>
+        <AbilArray index="1" removed="1"/>
     </CUnit>
     <CUnit id="Marauder">
         <KillResource index="Minerals" value="10"/>
@@ -205,6 +249,10 @@
             <Cooldown Link="Bunker/Revive"/>
         </ReviveInfoBase>
     </CUnit>
+    <CUnit id="Nuke">
+        <CostResource index="Minerals" value="4500"/>
+        <CostResource index="Vespene" value="0"/>
+    </CUnit>
     <CUnit id="Reaper">
         <KillResource index="Minerals" value="10"/>
         <LifeStart value="250"/>
@@ -222,7 +270,7 @@
         <AbilArray index="2" Link="Repair"/>
         <AbilArray index="3" Link="TerranBuild"/>
         <AbilArray index="4" Link="SpectreNuke"/>
-        <AbilArray index="5" removed="1"/>
+        <AbilArray index="5" Link="BuildAutoTurret"/>
         <AbilArray index="6" removed="1"/>
         <!--CardLayouts index="0">
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="CancelTerrazineHarvest,Execute" Row="2" Column="4"/>
@@ -251,6 +299,7 @@
                 <Column value="3"/>
             </LayoutButtons>
             <LayoutButtons index="10" Face="HireSiegeBreakers" Type="AbilCmd" AbilCmd="TerranBuild,Build15" Row="1" Column="0"/>
+            <LayoutButtons Face="AutoTurret" Type="AbilCmd" AbilCmd="BuildAutoTurret,Execute" Row="1" Column="2"/>
         </CardLayouts>
         <CardLayouts index="1" removed="1"/>
         <CardLayouts index="2" removed="1"/>
