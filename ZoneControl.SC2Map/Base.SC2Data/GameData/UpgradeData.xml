@@ -1,119 +1,260 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
-    <CUpgrade id="Attack">
-        <EffectArray Reference="Effect,GuassRifle,Amount" Value="1"/>
-        <EffectArray Reference="Effect,KelmorianMinerDamage,Amount" Value="1"/>
-        <EffectArray Reference="Abil,UpgradeAttack,InfoArray[Research1].Resource[Minerals]" Value="25"/>
-        <EffectArray Reference="Abil,UpgradeAttack,InfoArray[Research1].Charge.CountMax" Value="1"/>
-        <EditorCategories value="UpgradeType:AttackBonus"/>
-        <AffectedUnitArray value="Marine"/>
-        <AffectedUnitArray value="WarPig"/>
-        <AffectedUnitArray value="EngineeringBay"/>
-        <MaxLevel value="20"/>
+    <CUpgrade id="BunkerArmor" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/BunkerArmor"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Unit,Bunker,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Bunker,LifeArmor[0]" Value="1"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research25].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,InfestedBunker,LifeArmor[0]" Value="1"/>
+        <EffectArray index="4" Reference="Unit,InfestedBunker,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="5" Reference="Unit,SensorTower,LifeArmor[0]" Value="1"/>
+        <EffectArray index="6" Reference="Unit,SensorTower,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="7" Reference="Unit,SupplyDepotLowered,LifeArmor[0]" Value="1"/>
+        <EffectArray index="8" Reference="Unit,SupplyDepotLowered,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="9" Reference="Unit,SupplyDepot,LifeArmor[0]" Value="1"/>
+        <EffectArray index="10" Reference="Unit,SupplyDepot,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="11" Reference="Unit,HiveMindEmulator,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,HiveMindEmulator,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,SiegeBreakerSieged,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,SiegeBreaker,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,SiegeBreaker,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,SiegeBreakerSieged,LifeArmorLevel" Value="1"/>
+        <AffectedUnitArray index="0" value="Bunker"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
     </CUpgrade>
-    <CUpgrade id="Armor">
-        <EffectArray Reference="Abil,UpgradeArmor,InfoArray[Research1].Resource[Minerals]" Value="25"/>
-        <EffectArray Reference="Abil,UpgradeArmor,InfoArray[Research1].Charge.CountMax" Value="1"/>
-        <EffectArray Reference="Unit,Marine,LifeArmor" Value="1"/>
-        <EffectArray Reference="Unit,WarPig,LifeArmor" Value="1"/>
-        <EffectArray Reference="Unit,Reaper,LifeArmor" Value="1"/>
-        <EffectArray Reference="Unit,MercReaper,LifeArmor" Value="1"/>
-        <EffectArray Reference="Unit,Marauder,LifeArmor" Value="1"/>
-        <EffectArray Reference="Unit,HammerSecurity,LifeArmor" Value="1"/>
-        <EffectArray Reference="Unit,Ghost,LifeArmor" Value="1"/>
-        <EffectArray Reference="Unit,Spectre,LifeArmor" Value="1"/>
-        <EffectArray Reference="Unit,AutoTurret,LifeArmor" Value="1"/>
-        <AffectedUnitArray value="Marine"/>
-        <AffectedUnitArray value="WarPig"/>
-        <AffectedUnitArray value="Reaper"/>
-        <AffectedUnitArray value="MercReaper"/>
-        <AffectedUnitArray value="HammerSecurity"/>
-        <AffectedUnitArray value="Ghost"/>
-        <AffectedUnitArray value="Spectre"/>
-        <AffectedUnitArray value="AutoTurret"/>
-        <AffectedUnitArray value="EngineeringBay"/>
-        <MaxLevel value="20"/>
+    <CUpgrade id="BunkerCapacity" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/BunkerCapacity"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-techupgrade-terran-neosteelbunker_mod.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Abil,BunkerTransport,TotalCargoSpace[0]" Value="1"/>
+        <EffectArray index="1" Reference="Abil,BunkerTransport,MaxCargoCount[0]" Value="1"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research23].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Weapon,GuassRifle232,Level[0]" Value="1"/>
+        <EffectArray index="4" removed="1"/>
+        <EffectArray index="5" removed="1"/>
+        <EffectArray index="6" removed="1"/>
+        <EffectArray index="7" removed="1"/>
+        <EffectArray index="8" removed="1"/>
+        <EffectArray index="9" removed="1"/>
+        <EffectArray index="10" removed="1"/>
+        <EffectArray index="11" removed="1"/>
+        <AffectedUnitArray index="0" value="Bunker"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
     </CUpgrade>
-    <CUpgrade id="Range">
-        <EffectArray Reference="Weapon,GuassRifle,Range" Value="0.08"/>
-        <EffectArray Reference="Abil,UpgradeRange,InfoArray[Research1].Resource[Minerals]" Value="25"/>
-        <EffectArray Reference="Abil,UpgradeRange,InfoArray[Research1].Charge.CountMax" Value="1"/>
-        <AffectedUnitArray value="Marine"/>
-        <AffectedUnitArray value="WarPig"/>
-        <AffectedUnitArray value="EngineeringBay"/>
-        <MaxLevel value="20"/>
+    <CUpgrade id="BunkerLifeRegeneration" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/BunkerLifeRegeneration"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-research-zerg-regenerativebio-steel.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Weapon,GuassRifle23,Level[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Bunker,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research24].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,InfestedBunker,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="4" Reference="Unit,HiveMindEmulator,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="5" Reference="Unit,SensorTower,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="6" Reference="Unit,AutoTurret,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="7" Reference="Unit,SupplyDepot,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="8" Reference="Unit,SupplyDepotLowered,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="9" removed="1"/>
+        <EffectArray index="10" removed="1"/>
+        <EffectArray index="11" removed="1"/>
+        <AffectedUnitArray index="0" value="Bunker"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
     </CUpgrade>
-    <CUpgrade id="Regen">
-        <EffectArray Reference="Abil,UpgradeRegen,InfoArray[Research1].Resource[Minerals]" Value="25"/>
-        <EffectArray Reference="Abil,UpgradeRegen,InfoArray[Research1].Charge.CountMax" Value="1"/>
-        <EffectArray Reference="Unit,Marine,LifeRegenRate" Value="1.660100"/>
-        <EffectArray Reference="Unit,WarPig,LifeRegenRate" Value="1.660100"/>
-        <EffectArray Reference="Unit,Reaper,LifeRegenRate" Value="1.660100"/>
-        <EffectArray Reference="Unit,MercReaper,LifeRegenRate" Value="1.660100"/>
-        <EffectArray Reference="Unit,Marauder,LifeRegenRate" Value="1.660100"/>
-        <EffectArray Reference="Unit,HammerSecurity,LifeRegenRate" Value="1.660100"/>
-        <EffectArray Reference="Unit,Ghost,LifeRegenRate" Value="1.660100"/>
-        <EffectArray Reference="Unit,Spectre,LifeRegenRate" Value="1.660100"/>
-        <EffectArray Reference="Unit,AutoTurret,LifeRegenRate" Value="1.660100"/>
-        <AffectedUnitArray value="Marine"/>
-        <AffectedUnitArray value="WarPig"/>
-        <AffectedUnitArray value="Reaper"/>
-        <AffectedUnitArray value="MercReaper"/>
-        <AffectedUnitArray value="HammerSecurity"/>
-        <AffectedUnitArray value="Ghost"/>
-        <AffectedUnitArray value="Spectre"/>
-        <AffectedUnitArray value="AutoTurret"/>
-        <AffectedUnitArray value="EngineeringBay"/>
-        <MaxLevel value="20"/>
-    </CUpgrade>
-    <CUpgrade id="ShieldWall">
+    <CUpgrade id="CombatShield">
         <EffectArray index="0" Reference="Unit,Marine,LifeMax" Value="20"/>
         <EffectArray index="1" Reference="Unit,Marine,LifeStart" Value="20"/>
-        <EffectArray index="4" Reference="Unit,MengskMarine,LifeMax" Value="20"/>
-        <EffectArray index="5" Reference="Unit,MengskMarine,LifeStart" Value="20"/>
+        <EffectArray index="4" Reference="Unit,WarPig,LifeMax" Value="20"/>
+        <EffectArray index="5" Reference="Unit,WarPig,LifeStart" Value="20"/>
+        <ScoreResult value="BuildOrder"/>
     </CUpgrade>
-    <CUpgrade id="Speed">
-        <EffectArray Reference="Abil,UpgradeSpeed,InfoArray[Research1].Resource[Minerals]" Value="25"/>
-        <EffectArray Reference="Abil,UpgradeSpeed,InfoArray[Research1].Charge.CountMax" Value="1"/>
-        <EffectArray Reference="Unit,Marine,Speed" Value="0.101500"/>
-        <EffectArray Reference="Unit,WarPig,Speed" Value="0.101500"/>
-        <EffectArray Reference="Unit,Reaper,Speed" Value="0.101500"/>
-        <EffectArray Reference="Unit,MercReaper,Speed" Value="0.101500"/>
-        <EffectArray Reference="Unit,Marauder,Speed" Value="0.101500"/>
-        <EffectArray Reference="Unit,HammerSecurity,Speed" Value="0.101500"/>
-        <EffectArray Reference="Unit,Ghost,Speed" Value="0.101500"/>
-        <EffectArray Reference="Unit,Spectre,Speed" Value="0.101500"/>
-        <AffectedUnitArray value="Marine"/>
-        <AffectedUnitArray value="WarPig"/>
-        <AffectedUnitArray value="Reaper"/>
-        <AffectedUnitArray value="MercReaper"/>
-        <AffectedUnitArray value="HammerSecurity"/>
-        <AffectedUnitArray value="Ghost"/>
-        <AffectedUnitArray value="Spectre"/>
-        <AffectedUnitArray value="EngineeringBay"/>
-        <MaxLevel value="20"/>
+    <CUpgrade id="MarineArmor" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineArmor"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Unit,Marine,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Marine,LifeArmor[0]" Value="1"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research29].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,WarPig,LifeArmor[0]" Value="1"/>
+        <EffectArray index="4" Reference="Unit,WarPig,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="5" Reference="Unit,SCV,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="6" Reference="Unit,SCV,LifeArmor[0]" Value="1"/>
+        <EffectArray index="7" Reference="Unit,Reaper,LifeArmor[0]" Value="1"/>
+        <EffectArray index="8" Reference="Unit,Reaper,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="9" Reference="Unit,MercReaper,LifeArmor[0]" Value="1"/>
+        <EffectArray index="10" Reference="Unit,MercReaper,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="11" Reference="Unit,Marauder,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,Marauder,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,HammerSecurity,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,HammerSecurity,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,Ghost,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,Ghost,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,Spectre,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,Spectre,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,AutoTurret,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,AutoTurret,LifeArmorLevel" Value="1"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
     </CUpgrade>
-    <CUpgrade id="BuildingArmor">
-        <EffectArray Reference="Abil,UpgradeBuildingArmor,InfoArray[Research1].Resource[Minerals]" Value="25"/>
-        <EffectArray Reference="Abil,UpgradeBuildingArmor,InfoArray[Research1].Charge.CountMax" Value="1"/>
-        <AffectedUnitArray value="EngineeringBay"/>
-        <MaxLevel value="20"/>
+    <CUpgrade id="MarineAttackRange" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineAttackRange"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-tips-terran-penetrator.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Weapon,GuassRifle2,Level[0]" Value="1"/>
+        <EffectArray index="1" Reference="Weapon,GuassRifle,Range[0]" Value="0.08"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research28].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Weapon,KelmorianMinerGaussRifle,Range[0]" Value="0.08"/>
+        <EffectArray index="4" Reference="Weapon,HammerSecurity,Range[0]" Value="0.08"/>
+        <EffectArray index="5" Reference="Weapon,PunisherGrenades,Range[0]" Value="0.08"/>
+        <EffectArray index="6" Reference="Weapon,P38ScytheGuassPistol,Range[0]" Value="0.08"/>
+        <EffectArray index="7" Reference="Weapon,MercReaperP38ScytheGuassPistol,Range[0]" Value="0.08"/>
+        <EffectArray index="8" Reference="Weapon,D8Charge,Range[0]" Value="0.08"/>
+        <EffectArray index="9" Reference="Weapon,MercReaperD8Charge,Range[0]" Value="0.08"/>
+        <EffectArray index="10" Reference="Weapon,C10CanisterRifle,Range[0]" Value="0.08"/>
+        <EffectArray index="11" Reference="Weapon,Specter,Range[0]" Value="0.08"/>
+        <EffectArray Reference="Weapon,AutoTurret,Range" Value="0.08"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
     </CUpgrade>
-    <CUpgrade id="BuildingRegen">
-        <EffectArray Reference="Unit,Marine,LifeArmor" Value="1"/>
-        <EffectArray Reference="Abil,UpgradeBuildingRegen,InfoArray[Research1].Resource[Minerals]" Value="25"/>
-        <EffectArray Reference="Abil,UpgradeBuildingRegen,InfoArray[Research1].Charge.CountMax" Value="1"/>
-        <AffectedUnitArray value="EngineeringBay"/>
-        <MaxLevel value="20"/>
+    <CUpgrade id="MarineLifeRegeneration" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineLifeRegeneration"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-ability-terran-heal-color.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Weapon,GuassRifle222,Level[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Marine,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research27].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,WarPig,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="4" Reference="Unit,Reaper,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="5" Reference="Unit,MercReaper,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="6" Reference="Unit,Marauder,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="7" Reference="Unit,HammerSecurity,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="8" Reference="Unit,Ghost,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="9" Reference="Unit,Spectre,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="10" Reference="Unit,SCV,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="11" removed="1"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
     </CUpgrade>
-    <CUpgrade id="BunkerSlots">
-        <EffectArray Reference="Unit,Marine,LifeArmor" Value="1"/>
-        <EffectArray Reference="Abil,UpgradeBunkerSlots,InfoArray[Research1].Resource[Minerals]" Value="25"/>
-        <EffectArray Reference="Abil,UpgradeBunkerSlots,InfoArray[Research1].Charge.CountMax" Value="1"/>
-        <AffectedUnitArray value="EngineeringBay"/>
-        <MaxLevel value="20"/>
+    <CUpgrade id="MarineMovespeed" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineMovespeed"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-ability-protoss-charge-color.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Weapon,GuassRifle22,Level[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Marine,Speed[0]" Value="0.101500"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research26].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,WarPig,Speed[0]" Value="0.101500"/>
+        <EffectArray index="4" Reference="Unit,Reaper,Speed[0]" Value="0.101500"/>
+        <EffectArray index="5" Reference="Unit,MercReaper,Speed[0]" Value="0.101500"/>
+        <EffectArray index="6" Reference="Unit,Marauder,Speed[0]" Value="0.101500"/>
+        <EffectArray index="7" Reference="Unit,HammerSecurity,Speed[0]" Value="0.101500"/>
+        <EffectArray index="8" Reference="Unit,Ghost,Speed[0]" Value="0.101500"/>
+        <EffectArray index="9" Reference="Unit,Spectre,Speed[0]" Value="0.101500"/>
+        <EffectArray index="10" Reference="Unit,SCV,Speed[0]" Value="0.101500"/>
+        <EffectArray index="11" removed="1"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
     </CUpgrade>
-    <CUpgrade id="FortifiedBunkerCarapace">
-        <EffectArray index="0" Operation="Set" Reference="Unit,Bunker,ReviveInfoLevel.Cooldown.TimeUse" Value="0"/>
+    <CUpgrade id="MarineWeapons" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineWeapons"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-infantryweaponslevel0.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research30].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Effect,KelmorianMinerDamage,Amount[0]" Value="1"/>
+        <EffectArray index="4" Reference="Weapon,KelmorianMinerGaussRifle,Level[0]" Value="1"/>
+        <EffectArray index="5" Reference="Weapon,P38ScytheGuassPistol,Level[0]" Value="1"/>
+        <EffectArray index="6" Reference="Effect,P38ScytheGuassPistol,Amount[0]" Value="1"/>
+        <EffectArray index="7" Reference="Weapon,D8Charge,Level[0]" Value="1"/>
+        <EffectArray index="8" Reference="Effect,D8ChargeDamage,Amount[0]" Value="1"/>
+        <EffectArray index="9" Reference="Effect,MercReaperD8ChargeDamage,Amount[0]" Value="1"/>
+        <EffectArray index="10" Reference="Weapon,MercReaperD8Charge,Level[0]" Value="1"/>
+        <EffectArray index="11" Reference="Weapon,PunisherGrenades,Level[0]" Value="1"/>
+        <EffectArray Reference="Effect,PunisherGrenadesU,Amount[0]" Value="1"/>
+        <EffectArray Reference="Weapon,HammerSecurity,Level[0]" Value="1"/>
+        <EffectArray Reference="Effect,HammerSecurityDamage,Amount[0]" Value="1"/>
+        <EffectArray Reference="Weapon,C10CanisterRifle,Level[0]" Value="1"/>
+        <EffectArray Reference="Effect,C10CanisterRifle,Amount[0]" Value="1"/>
+        <EffectArray Reference="Weapon,Specter,Level[0]" Value="1"/>
+        <EffectArray Reference="Effect,SpecterU,Amount[0]" Value="1"/>
+        <EffectArray Reference="Effect,MercReaperP38ScytheGuassPistol,Amount[0]" Value="1"/>
+        <EffectArray Reference="Weapon,MercReaperP38ScytheGuassPistol,Level[0]" Value="1"/>
+        <EffectArray Reference="Weapon,AutoTurret,Level" Value="1"/>
+        <EffectArray Reference="Effect,AutoTurret,Amount" Value="1"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
+    </CUpgrade>
+    <CUpgrade id="ReaperSpeed">
+        <EffectArray index="0" Reference="Unit,Reaper,Speed" Value="0.750000"/>
+        <EffectArray Reference="Unit,MercReaper,Speed[0]" Value="0.750000"/>
+    </CUpgrade>
+    <CUpgrade id="ResearchSiegeBreakerArcliteCannon">
+        <Icon value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel0.dds"/>
+        <Alert value="ResearchComplete"/>
+        <ScoreAmount value="1500"/>
+        <ScoreResult value="BuildOrder"/>
+        <EffectArray Operation="Set" Reference="Weapon,SiegeBreaker,MinimumRange" Value="0"/>
+        <EffectArray Operation="Set" Reference="Weapon,SiegeBreaker,Icon" Value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel0.dds"/>
+        <EffectArray Reference="Weapon,SiegeBreaker,Level" Value="1"/>
+    </CUpgrade>
+    <CUpgrade id="ResearchPlasmaCapacitors">
+        <Icon value="Assets\Textures\btn-upgrade-terran-corvidreactor.dds"/>
+        <Alert value="ResearchComplete"/>
+        <ScoreAmount value="350"/>
+        <ScoreResult value="BuildOrder"/>
+        <EffectArray Reference="Behavior,AutoTurretTimedLife,Duration" Value="120.000000"/>
+    </CUpgrade>
+    <CUpgrade id="SiegeTurretArea" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/SiegeTurretArea"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-l2d-techupgrade-terran-bearclawnozzles.dds"/>
+        <ScoreAmount value="750"/>
+        <EffectArray index="0" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[0].Radius[0]" Value="2"/>
+        <EffectArray index="1" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[1].Radius[0]" Value="2"/>
+        <EffectArray index="2" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[2].Radius[0]" Value="2"/>
+        <EffectArray index="3" Reference="Weapon,CrucioShockCannon,Level[0]" Value="1"/>
+        <EffectArray index="4" Operation="Set" Reference="Weapon,CrucioShockCannon,Icon[0]" Value="Assets\Textures\btn-l2d-techupgrade-terran-bearclawnozzles.dds"/>
+        <EffectArray index="5" removed="1"/>
+        <EffectArray index="6" removed="1"/>
+        <EffectArray index="7" removed="1"/>
+        <EffectArray index="8" removed="1"/>
+        <EffectArray index="9" removed="1"/>
+        <EffectArray index="10" removed="1"/>
+        <EffectArray index="11" removed="1"/>
+        <AffectedUnitArray index="0" removed="1"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
     </CUpgrade>
 </Catalog>

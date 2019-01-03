@@ -1,27 +1,68 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
-    <CRequirement id="AttackNotFullyUpgraded">
-        <NodeArray index="Show" Link="LTCountUpgradeAttackCompleteOnly20"/>
+    <CRequirement id="HaveMercenaryBunker">
+        <NodeArray index="Use" Link="CountUnitInfestedBunkerCompleteOnly4084108369"/>
     </CRequirement>
-    <CRequirement id="ArmorNotFullyUpgraded">
-        <NodeArray index="Show" Link="LTCountUpgradeArmorCompleteOnly20"/>
+    <CRequirement id="HaveNuke">
+        <NodeArray index="Use" Link="CountUnitNukeCompleteOnly1541890172"/>
     </CRequirement>
-    <CRequirement id="RangeNotFullyUpgraded">
-        <NodeArray index="Show" Link="LTCountUpgradeRangeCompleteOnly20"/>
+    <CRequirement id="HaveOrbitalRelay">
+        <NodeArray index="Show" Link=""/>
     </CRequirement>
-    <CRequirement id="RegenNotFullyUpgraded">
-        <NodeArray index="Show" Link="LTCountUpgradeRegenCompleteOnly20"/>
+    <CRequirement id="LearnPlasmaCapacitorsPassive">
+        <NodeArray index="Show" Link="AndCountUpgradeResearchPlasmaCapacitorsQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="SpeedNotFullyUpgraded">
-        <NodeArray index="Show" Link="LTCountUpgradeSpeedCompleteOnly20"/>
+    <CRequirement id="LearnPlasmaCapacitors">
+        <NodeArray index="Show" Link="NotCountUpgradeResearchPlasmaCapacitorsQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="BuildingArmorNotFullyUpgraded">
-        <NodeArray index="Show" Link="LTCountUpgradeBuildingArmorCompleteOnly20"/>
+    <CRequirement id="LearnCombatShield">
+        <EditorCategories value="Race:Terran,TechType:Ability"/>
+        <NodeArray index="Show" Link="AndAllowUnitMarineNotCountUpgradeCombatShieldQueuedOrBetterAllowUnitWarPig"/>
     </CRequirement>
-    <CRequirement id="BuildingRegenNotFullyUpgraded">
-        <NodeArray index="Show" Link="LTCountUpgradeBuildingRegenCompleteOnly20"/>
+    <CRequirement id="LearnNitroPacks">
+        <NodeArray index="Show" Link="NotCountUpgradeReaperSpeedQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="BunkerSlotsNotFullyUpgraded">
-        <NodeArray index="Show" Link="LTCountUpgradeBunkerSlotsCompleteOnly20"/>
+    <CRequirement id="LearnNitroPacks2">
+        <NodeArray index="Show" Link="AndCountUpgradeReaperSpeedQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="LearnArcliteCannon">
+        <NodeArray index="Show" Link="NotCountUpgradeResearchSiegeBreakerArcliteCannonQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="LearnPunisherGrenades">
+        <EditorCategories value="Race:Terran,TechType:Upgrade"/>
+        <NodeArray index="Show" Link="NotCountUpgradeJackhammerConcussionGrenadesQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="LearnObliterationOrdnance" parent="LearnPunisherGrenades">
+        <NodeArray index="Show" Link="NotCountUpgradeSiegeTurretAreaQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="LearnStimpack">
+        <NodeArray index="Show" Link="NotCountUpgradeStimpackQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="MaxLevelBunkerArmor">
+        <NodeArray index="Show" Link="LTCountUpgradeBunkerArmorQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="MaxLevelBunkerRegen">
+        <NodeArray index="Show" Link="LTCountUpgradeBunkerLifeRegenerationQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="MaxLevelBunkerCapacity">
+        <NodeArray index="Show" Link="LTCountUpgradeBunkerCapacityQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="MaxLevelInfantryArmor">
+        <NodeArray index="Show" Link="LTCountUpgradeMarineArmorQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="MaxLevelInfantryRegen">
+        <NodeArray index="Show" Link="LTCountUpgradeMarineLifeRegenerationQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="MaxLevelInfantryMovespeed">
+        <NodeArray index="Show" Link="LTCountUpgradeMarineMovespeedQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="MaxLevelInfantryWeapons">
+        <NodeArray index="Show" Link="LTCountUpgradeMarineWeaponsQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="MaxLevelInfantryRange">
+        <NodeArray index="Show" Link="LTCountUpgradeMarineAttackRangeQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="UseStimpackSM">
+        <NodeArray index="Show" Link="CountUpgradeStimpackCompleteOnly"/>
     </CRequirement>
 </Catalog>

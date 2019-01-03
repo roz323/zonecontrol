@@ -1,101 +1,286 @@
-﻿Abil/Name/MorphtoMercenaryBunker=Morph to Mercenary Bunker
-Abil/Name/UpgradeArmor=UpgradeArmor
-Abil/Name/UpgradeAttack=UpgradeAttack
-Abil/Name/UpgradeBuildingArmor=UpgradeBuildingArmor
-Abil/Name/UpgradeBuildingRegen=UpgradeBuildingRegen
-Abil/Name/UpgradeBunkerSlots=UpgradeBunkerSlots
-Abil/Name/UpgradeRange=UpgradeRange
-Abil/Name/UpgradeRegen=UpgradeRegen
-Abil/Name/UpgradeSpeed=UpgradeSpeed
-Attribute001/Name=Mode
-Attribute001/Value001/Name=2v2v2v2
-Attribute001/Value002/Name=4v4
-Attribute001/Value003/Name=2v2
-Attribute001/Value004/Name=1v1
-Attribute002/Name=Placement
-Attribute002/Value001/Name=Fixed
-Attribute002/Value002/Name=Random
-Button/Name/BunkerFortified=Upgrade To Mercenary Bunker
-Button/Name/Charge=Upgrade Infantry Movement Speed
-Button/Name/Grapple=Upgrade Infantry Attack Range
-Button/Name/Heal=Upgrade Infantry Health Regeneration
+﻿Abil/Name/BarracksTechLabResearch=Tech Lab Research (Barracks)
+Abil/Name/CalldownMULE=Calldown SCV
+Abil/Name/GhostAcademyResearch=GhostAcademyResearch
+Abil/Name/RetireStructure=Retire Structure
+Abil/Name/SalvageBunkerRefund=Self-Destruct
+Abil/Name/SupplyDropInstant=Supply Drop Instant
+Abil/Name/UnretireStructure=Unretire Structure
+Abil/Name/UpgradeToMercenaryBunker=Upgrade to Mercenary Bunker
+Behavior/Name/RetireStructure=Retired Structure
+Behavior/Tooltip/GuardianShield=Damage reduced by <d ref="-(Behavior,GuardianShield,DamageResponse[0].ModifyAmount[0])"/>.
+Behavior/Tooltip/RetireStructure=This structure cannot produce units.<n/><n/><c val="FFFFAE">Provides an additional <d ref="(Behavior,RetireStructure,Modification.Food)"/> supply.</c>
+Behavior/Tooltip/SupplyDrop=This Supply Depot is providing an additional 5 supply.
+Button/Name/AutoTurret=Place Sentry Turret
+Button/Name/BunkerArmor=Building Armor
+Button/Name/BunkerCapacity=Bunker Capacity
+Button/Name/BunkerLifeRegeneration=Building Life Regeneration
+Button/Name/CalldownMULE=Calldown: SCV
+Button/Name/HireSiegeBreakers=Build Siege Breaker
 Button/Name/HiveMindEmulator=Build Shield Tower
-Button/Name/TerranInfantryArmorLevel1=Upgrade Infantry Armor
-Button/Name/TerranInfantryWeaponsLevel1=Upgrade Infantry Weapons
-Button/Tooltip/Attack2=Orders selected units to move to the target point, fighting nearby enemies along the way. Targeting a unit with the Attack command orders that it be attacked until it is destroyed.
-Button/Tooltip/AttackRedirect2=Targets and attacks the target unit until it is destroyed or moves out of range.
-Button/Tooltip/Bunker2=Defensive structure. <n/>Infantry fights from inside. <n/><n/><c val="#ColorAttackInfo">Bonus: +1 range to units inside.</c>
-Button/Tooltip/BunkerFortified=Mercenary Bunkers have higher armor and spawn stronger units.
-Button/Tooltip/BunkerFortified2=Defensive structure. Able to protect up to <d ref="Abil,BunkerTransport,TotalCargoSpace"/> infantry unit slots. Units inside the Bunker have +1 range to their attacks. Bunkers can be salvaged.
-Button/Tooltip/BunkerLoad2=Loads infantry into Bunker.
-Button/Tooltip/BunkerUnloadAll2=Unloads all units.
-Button/Tooltip/Cancel2=Drops the current order without performing it, and allows you to select a different order.
-Button/Tooltip/CancelBuilding2=Cancels construction of this structure, destroying the structure and giving a partial refund.
-Button/Tooltip/Charge=Increases movement speed by 0.1.
-Button/Tooltip/Egg2=Zerg units morph in the safety of these cocoons.
-Button/Tooltip/Grapple=Upgrades unit range by 0.08
-Button/Tooltip/Halt2=Halts construction of this structure. The partial construction will remain.
-Button/Tooltip/Heal=Upgrades infantry health regeneration rate by 1.66
+Button/Name/InfantryArmor=Infantry Armor
+Button/Name/InfantryAttackRange=Infantry Attack Range
+Button/Name/InfantryLifeRegeneration=Infantry Life Regeneration
+Button/Name/InfantryMovespeed=Infantry Movespeed
+Button/Name/InfantryWeapons=Infantry Weapons
+Button/Name/OrbitalCommand=Upgrade to Mercenary Bunker
+Button/Name/PickupMinerals100=Collect (+5 Minerals)
+Button/Name/ResearchArcliteCannon=Research Arclite Cannon
+Button/Name/ResearchObliterationOrdnance=Research Obliteration Ordnance
+Button/Name/ResearchPlasmaCapacitors=Research Plasma Capacitors
+Button/Name/RetireStructure=Retire Structure
+Button/Name/SelfDestruct=Self-Destruct
+Button/Name/ShieldTowerPassive=Shield Tower Passive
+Button/Name/UnretireStructure=Unretire Structure
+Button/Tooltip/AutoTurret=Support turret, ideal for bolstering your army in important battles.<n/><n/><c val="FFFFAE">Timed-life: <d ref="Behavior,AutoTurretTimedLife,Duration"/> s</c>
+Button/Tooltip/Bunker=Defensive structure and spawns infantry. Able to protect up to <d ref="Abil,BunkerTransport,TotalCargoSpace"/> infantry unit slots. Units inside the Bunker have +1 range to their attacks. Build in Zones closer to center for stronger units.<n/><n/><c val="FFFFAE">Provides <d ref="Unit,Bunker,Food[0]"/> supply.</c>
+Button/Tooltip/BunkerArmor=Buildings - increased armor by 1.
+Button/Tooltip/BunkerCapacity=Bunkers - increased capacity by 1.
+Button/Tooltip/BunkerLifeRegeneration=Buildings - increased life regeneration by 35.
+Button/Tooltip/CalldownMULE=Calls down an additional SCV to join your ranks.
+Button/Tooltip/CombatShield=Increases Marine life by 20.
+Button/Tooltip/ConcussiveGrenade=Units hit by the Marauder are temporarily slowed.
+Button/Tooltip/ConstructionCancelTextTerranBunker=<s val="Kicker_Minerals">750</s> <IMG path="Assets\Textures\icon-mineral-terran.dds" height="28" width="28"/>
+Button/Tooltip/ConstructionCancelTextTerranSensorTower=<s val="Kicker_Minerals">94</s> <IMG path="Assets\Textures\icon-mineral-terran.dds" height="28" width="28"/>
+Button/Tooltip/ConstructionCancelTextTerranSupplyDepot=<s val="Kicker_Minerals">300</s> <IMG path="Assets\Textures\icon-mineral-terran.dds" height="28" width="28"/>
+Button/Tooltip/GhostAcademy=Can build Nukes that SCVs can call down.
 Button/Tooltip/HiveMindEmulator=Defensive structure. Provides additional armor to nearby units.
-Button/Tooltip/HotSNoxious2=Heavy assault beast. Has an area-damage cleave attack. Poisons enemies.<n/><n/><c val="ffff8a">Can attack ground units.</c>
-Button/Tooltip/HotSRaptor2=Fast melee unit. Leaps over obstacles and onto targets from range. Deals increased damage. Can morph into a Baneling.<n/><n/><c val="FFFF8A">Can attack ground units.</c>
-Button/Tooltip/HotSSwarmling2=Fast melee unit. Spawns in groups of three. Morphs almost instantly. Can morph into a Baneling.<n/><n/><c val="FFFF8A">Can attack ground units.</c>
-Button/Tooltip/HotSTorrasque2=Heavy assault beast. Has an area-damage cleave attack. When killed, can be revived.<n/><n/><c val="ffff8a">Can attack ground units.</c>
-Button/Tooltip/HydraliskImpaler2=High-damage ranged unit. Can morph into an Impaler.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/HydraliskLurker2=High-damage ranged unit. Can morph into a Lurker.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/InfestedAbomination2=Aberrations are durable units that deal heavy damage.<n/><n/><c val="FFFF8A">Can attack ground units.</c>
-Button/Tooltip/Lurker2=Area-damage ambusher. Must burrow to attack. <n/><n/><c val="ffff8a">Can attack ground units.</c>
-Button/Tooltip/MercenaryBunker=Defensive structure. <n/>Infantry fights from inside. <n/><n/><c val="#ColorAttackInfo">Bonus: +1 range to units inside.</c>
-Button/Tooltip/MutaliskBroodlord2=Air unit. Bounces its shot to strike multiple targets. Can morph into a Brood Lord.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/MutaliskViper2=Air unit. Bounces its shot to strike multiple targets. Can morph into a Viper.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/RoachCorpser2=Assault unit. Regenerates life quickly while burrowed. Can infest the enemy with Roachlings. <n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
-Button/Tooltip/RoachVile2=Assault unit. Regenerates life quickly while burrowed. Attacks debilitate the target, slowing its attack and movement speeds.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
-Button/Tooltip/SelectBuilder2=Selects the unit constructing this structure.
-Button/Tooltip/SetBunkerRallyPoint2=Sends unloaded infantry units to designated point.
-Button/Tooltip/StimRedirect2=Orders Marines and Marauders inside of the Bunker to use Stimpacks. They will take damage and have increased attack speed as normal.
-Button/Tooltip/Stop2=Orders selected units to cancel all orders and stop moving.
-Button/Tooltip/StopBunker2=Orders selected Bunkers to stop firing.
-Button/Tooltip/SwarmHostSplitA2=Siege unit that attacks while rooted or burrowed by spawning flying Locusts. Flying Locusts are faster and deal more damage, but have less life than ground Locusts.<n/><n/><c val="ffff8a">Locusts can attack ground units.</c>
-Button/Tooltip/SwarmHostSplitB2=Siege unit that attacks while rooted or burrowed by spawning Locusts. Can use the Deep Tunnel ability and generate creep while burrowed.<n/><n/><c val="ffff8a">Locusts can attack ground units.</c>
-DocInfo/DescLong=very very beta
-DocInfo/DescShort=Any
-DocInfo/Name=Zone Control 5
-MapInfo/Player00/Name=Neutral
-MapInfo/Player01/Name=Player 1
-MapInfo/Player02/Name=Player 2
+Button/Tooltip/InfantryArmor=Infantry - increased armor by 1.
+Button/Tooltip/InfantryAttackRange=Infantry - increased attack range by 0.08
+Button/Tooltip/InfantryLifeRegeneration=Infantry - increased life regeneration by 1.66
+Button/Tooltip/InfantryMovespeed=Infantry - increased movespeed by 0.1
+Button/Tooltip/InfantryWeapons=Infantry - increased damage by 1.
+Button/Tooltip/MineralCrystal=
+Button/Tooltip/NukeArm=Arms the Silo with a Tactical Nuke.
+Button/Tooltip/NukeCalldown=Instantly calls down a Nuke. Each player starts the game with 1.
+Button/Tooltip/OrbitalCommand=Upgrades to a Mercenary Bunker and spawns the next tier unit. Mercenaries have increased life and damage. In addition, Mercenary Bunkers have increased life and armor.
+Button/Tooltip/PalletMinerals=
+Button/Tooltip/PickupMinerals100Text=<s val="Kicker_Minerals">+<d ref="Effect,PickupMinerals100,Resources[Minerals]"/> </s><IMG path="Assets\Textures\icon-mineral-terran.dds" height="28" width="28"/>
+Button/Tooltip/ResearchArcliteCannon=Unlock the tank-mode weapons of the Siege Breaker.
+Button/Tooltip/ResearchNeosteelFrame=Increases the cargo space of Bunkers by 2.
+Button/Tooltip/ResearchObliterationOrdnance=Increases the splash area of the Siege Breaker.
+Button/Tooltip/ResearchPlasmaCapacitors=Increase the timed-life of the Sentry Turret by 120 s.
+Button/Tooltip/ResearchShieldWall=Marines gain +20 life.
+Button/Tooltip/RetireStructure=Retired structure will no longer produce units, and instead will provide an additional 5 supply.
+Button/Tooltip/SelfDestruct=Selected building destroys itself. Cannot be undone or cancelled. No mineral refund.<n/><n/>Requires:<n/><c val="FF0000">- No cargo<n/>- Unit at full life
+Button/Tooltip/ShieldTowerPassive=Units within shield take reduced damage.<n/><n/><c val="FFFFAE">Damage modified by <d ref="Behavior,GuardianShield,DamageResponse.ModifyAmount"/>.</c>
+Button/Tooltip/SiegeBreaker=Heavy tank. Long-range artillery in Siege Mode, excellent for dealing with large groups of enemies and knocking down structures.
+Button/Tooltip/Stim=Self-inflicts 70 damage. Fires and moves 30% faster for 8 seconds.
+Button/Tooltip/Stimpack=Enables Marines and Marauders to use Stimpack. Stimpacks self-inflict damage, but increase attack and movement speeds for a short time.
+Button/Tooltip/SupplyDepot=Increases unit cap. Can be upgraded once to provide additional supply.<n/><n/><c val="FFFFAE">Provides <d ref="Unit,SupplyDepot,Food[0]"/> supply.</c>
+Button/Tooltip/SupplyDrop=Upgrade Supply Depot to provide additional supply, and increase armor and life.<n/><n/><c val="FFFFAE">Increases supplies by another <d ref="Behavior,SupplyDrop,Modification.Food"/>.</c>
+Button/Tooltip/UnretireStructure=Structure will produce units again, and will no longer produce additional supply.
+Button/Tooltip/UpgradeBuildingArmorLevel1=Upgrades the armor of Bunkers by 2.
+CasterLifeFull=Unit must have full life.
+Cobalt Rounds=Cobalt Rounds
+DocInfo/Author=Swagblanket
+DocInfo/DescLong=Bunkers spawn Infantry. Fight to earn minerals to buy Upgrades, Bunkers, & more. Zones correspond to Unit Types, with the strongest towards the middle. Be the last team standing to win!<n/><n/>Zone Control 3, 4, & Classic creator:<n/>Swagblanket@gmail.com
+DocInfo/DescShort=4+
+DocInfo/HowToPlayAdvanced00=Hotkeys: [1 - Army] [2 - Bunkers] [3 - SCV] [4 - Upgrades] [5 - Tanks]
+DocInfo/HowToPlayAdvanced01=Add an AI on your team to start with an extra Bunker.
+DocInfo/HowToPlayBasic00=Bunkers Spawn Infantry
+DocInfo/HowToPlayBasic01=Fight for Minerals
+DocInfo/HowToPlayBasic02=Buy Upgrades and Bunkers
+DocInfo/HowToPlayWinning00=Destroy All Enemy Bunkers
+DocInfo/Name=Zone Control 4
+DocInfo/PatchNote001=- New texture scheme.
+DocInfo/PatchNote002=- Bunker supplies decreased from 50 to 10.
+DocInfo/PatchNote003=- Bunker armor decreased by 10.
+DocInfo/PatchNote004=- Supply Depot supplies decreased from 25 to 5.
+DocInfo/PatchNote005=- Shield Tower damage reduction increased from 4 to 6.
+DocInfo/PatchNote006=- New: win condition - control all 4 middle zones.
+DocInfo/PatchNote007=- Major unit balancing to allow longer game play.
+DocInfo/PatchNote008=- Mercenary Bunker build time reduced by 5s.
+DocInfo/PatchNote009=- SCV now affected by movespeed upgrade.
+DocInfo/PatchNote010=- Siege Turret deals 2x dmg to structures.
+DocInfo/PatchNote011=- Reaper pistol attack range decreased.
+DocInfo/PatchNote012=- Terrain environment changed.
+DocInfo/PatchNote013=- Costs: Bunker - 1000. Mercenary Bunker - 500. Siege Turret - 1250.
+DocInfo/PatchNote014=- Supply Limit added. Bunkers are worth 50 supply each.
+DocInfo/PatchNote015=- Win/Loss career tracking added.
+DocInfo/PatchNote016=- Bug fix: winning team of holding center bunkers.
+DocInfo/PatchNote017=- Bug fix: text tag of cancelled buildings.
+DocInfo/PatchNote018=- Stimpack now subtracts correct amount of life.
+DocInfo/PatchNote019=- Combat Shields now add correct amount of life.
+DocInfo/PatchNote020=- Siege Turret cost doubled.
+DocInfo/PatchNote021=- Obliteration Ordnance cost doubled.
+DocInfo/PatchNote022=- Stimpack buff decreased to 30% and lasts 8 seconds.
+DocInfo/PatchNote023=- Bug fix: Losses weren't displaying in Leaderboard correctly.
+DocInfo/PatchNote024=- Infantry life regeneration upgrade decreased to 5 hp/s.
+DocInfo/PatchNote025=- Bunker life regeneration upgrade decreased to 75 hp/s.
+DocInfo/PatchNote026=- Bug fix: supply cap wouldn't increase after an SCV was killed during bunker construction.
+DocInfo/PatchNote027=- General:
+DocInfo/PatchNote028=- New building added: Supply Depot.
+DocInfo/PatchNote029=- Bug fix: if a player's last bunker was under construction and then cancelled, Game Over would not occur.
+DocInfo/PatchNote030=- -
+DocInfo/PatchNote031=- Balancing:
+DocInfo/PatchNote032=- Reaper attack damage decreased.
+DocInfo/PatchNote033=- Infantry Range upgrade increased.
+DocInfo/PatchNote034=- Infantry and Bunker Regeneration upgrade decreased.
+DocInfo/PatchNote035=- Siege Turret attack damage vs. structures increased, vs. Infantry decreased.
+DocInfo/PatchNote036=- Obliteration Ordnance upgrade cost increased.
+DocInfo/PatchNote037=- Stim upgrade cost increased.
+DocInfo/PatchNote038=- Shield Tower added.
+DocInfo/PatchNote039=- Bug fix: win condition couldn't fire properly under certain conditions.
+DocInfo/PatchNote040=- Periodic income added to all players, 100 minerals/minute.
+DocInfo/PatchNote041=- Bunker build time increased from 40 to 60s
+DocInfo/PatchNote042=- Mercenary Bunker armor decreased from 25 to 20.
+DocInfo/PatchNote043=- Mercenary Bunker life decreased from 60,000 to 55,000.
+DocInfo/PatchNote044=- Various Bugs caused by SC2 patch 2.0.4 fixed.
+DocInfo/PatchNote045=- Fixed Marauder Stimpack bug.
+DocInfo/PatchNote046=- New Reaper Speed upgrade added
+DocInfo/PatchNote047=- Siege Turret damage reduced from 400 to 320.
+DocInfo/PatchNote048=- Bunker armor decreased by 5.
+DocInfo/PatchNote049=- Sensor and Shield Towers life and armor adjusted.
+DocInfo/PatchNote050=- Building repair times adjusted.
+DocInfo/PatchNote051=- Bunker unload control group bug fixed.
+DocInfo/PatchNote052=- Load screen updated.
+DocInfo/PatchNote053=- Minor hotkey fixed.
+DocInfo/PatchNote054=- Siege Turret armor reduced from 30 to 20.
+DocInfo/PatchNote055=- Building balancing: health, armor, repair time, and mineral bounty.
+DocInfo/PatchNote056=- Leavers now give their Units and Minerals to their ally.
+DocInfo/PatchNote057=- Star Zones deleted.
+DocInfo/PatchNote058=- Hotkey tip at game start added.
+DocInfo/PatchNote059=- Bug fix: win condition wasn't firing correctly if a player left the game.
+DocInfo/PatchNote060=- Bunker Regeneration now affects other structures.
+DocInfo/PatchNote061=- Decreased Siege Turret damage from 320 to 280.
+DocInfo/PatchNote062=- Supply Depot footprint increased from 2x2 to 3x2.
+DocInfo/PatchNote063=- Bug fix: Zone pathing areas.
+DocInfo/PatchNote064=- Bug fix: Shield Tower now displays shield through Fog of War.
+DocInfo/PatchNote065=- Siege Turret replaced with Siege Breaker - an SCV constructable end-game mobile unit.
+DocInfo/PatchNote066=- Upgrade balancing: cost decreased from 50 to 25. Max upgrade level: 20.
+DocInfo/PatchNote067=- Stim self-inflict damage increased from 50 to 70.
+DocInfo/PatchNote068=- Bunkers no longer provide supply, decreased from 10 to 0.
+DocInfo/PatchNote069=- Supply Depot cost changed from 400 to 350, and Supply Drop from 350 to 450.
+DocInfo/PatchNote070=- Bunker supply changed from 0 to 5.
+DocInfo/PatchNote071=- Supply Depot armor and life now increase with Supply Drop.
+DocInfo/PatchNote072=- When an ally leaves, the remaining teammate no longer receives their Engineering Bay (which provides 45 supply).
+DocInfo/PatchNote073=- Engineering Bay now has 0 sight radius.
+DocInfo/PatchNote074=- War Pig weapon damage decreased from 45 to 40.
+DocInfo/PatchNote075=- Nukes added: each player has 1 Nuke deployable by their SCV. Kills with Nukes award double minerals.
+DocInfo/PatchNote076=- Mineral Powerups: mineral bonuses will randomly spawn throughout the map.
+DocInfo/PatchNote077=- War Pig weapon damage decreased from 40 to 35.
+DocInfo/PatchNote078=- Siege Breaker cost and splash upgrade cost decreased.
+DocInfo/PatchNote079=- Reaper damage vs light units increased by 2.
+DocInfo/PatchNote080=- Bug fix: Nuke cooldown removed.
+DocInfo/PatchNote081=- Siege Breakers now require a Mercenary Bunker.
+DocInfo/PatchNote082=- Hammer Security armor increased from 5 to 8.
+DocInfo/PatchNote083=- Mineral spawning frequency increased.
+DocInfo/PatchNote084=- War Pig health reduced from 300 to 270.
+DocInfo/PatchNote085=- Bug fix: SCV would sometimes respawn in top-left Engineering Bay area.
+DocInfo/PatchNote086=- Marine health reduce from 225 to 200.
+DocInfo/PatchNote087=- SCV ability added: Call down SCV.
+DocInfo/PatchNote088=- Bug fix: if you're defeated, then your teammate leaves, you will no longer recieve their buildings.
+DocInfo/PatchNote089=- Bug fix: if your ally left the game while their SCV was dead, it wouldn't respawn.
+DocInfo/PatchNote090=- New - Siege Breaker Arclite Cannon
+DocInfo/PatchNote091=- New - SCV ability: Sentry Turret
+DocInfo/PatchNote092=- New - Purchaseable Nukes.
+DocInfo/PatchNote093=- In lobby, you may place an AI on your team to spawn with an additional Bunker.
+DocInfo/PatchNote094=- If a player quits and has no ally remaining, mineral pickups replace their buildings.
+DocInfo/PatchNote095=- Siege Breaker Armor now affected by the Bunker Armor upgrade.
+DocInfo/PatchNote096=- 4v4 mode now places your allies at cross-spawn locations.
+DocInfo/PatchNote097=- New - Retire Structure: a Bunker may now be Retired, no longer producing units, but provides an additional 5 supply.
+DocInfo/PatchNote098=- Infantry Range upgrade increased from 0.075 to 0.08.
+DocInfo/PatchNote099=- Sentry Turret and Arclite Cannon balancing.
+DocInfo/PatchNote100=- Mineral pick-up text updated.
+DocInfo/PatchNote101=- Building pathing fixed.
+DocInfo/PatchNote102=- Sentry Turret ability now has a 15 second cooldown.
+DocInfo/PatchNote103=- Nuke no longer awards double minerals.
+DocInfo/PatchNote104=- When a partner quits, their ally no longer receives their Nuke or SCV.
+DocInfo/PatchNote105=- Elo rating system introduced. Players begin with a rating of 1000; wins increase points, while loses decrease points.
+DocInfo/PatchNote106=- Retire Structure hotkey removed.
+DocInfo/PatchNote107=- When a player leaves the game, their remaining Bunkers now become Retired.
+DocInfo/PatchNote108=- A Retired Bunker may now be Unretired for 500 minerals.
+DocInfo/PatchNote109=- Arclite Cannon Upgrade decreased from 1000 to 350 minerals.
+DocInfo/PatchNote110=- Sentry Turret decreased from 250 to 225 minerals.
+DocInfo/PatchNote111=- Bug fix: Sentry Turrets now place correctly within other units.
+DocInfo/Screenshot01=by: Swagblanket
+DocInfo/Screenshot02=Drop Nukes to gain a boost of minerals!
+DocInfo/Screenshot03=Hunker down and protect your Bunkers!
+DocInfo/Screenshot04=Engage in huge battles!
+DocInfo/Screenshot05=Upgrade your infantry to dominate your opponents.
+DocInfo/ScreenshotHowToPlay01=You and an ally each start with one Bunker that produces Marines.
+DocInfo/ScreenshotHowToPlay02=Kills award minerals. Use your micro to gain an edge in each battle.
+DocInfo/ScreenshotHowToPlay03=Spend your minerals on Upgrades to make your Infantry and Bunkers stronger.
+DocInfo/ScreenshotHowToPlay04=Spend your minerals on Bunkers to spawn units faster.
+DocInfo/ScreenshotHowToPlay05=Many tools exist to aid you in victory. Stronger units, like Ghosts, are available by placing Bunkers closer to the center of the map.
+DocInfo/Website=https://www.reddit.com/r/zonecontrol
+Effect/Name/UnretireStructure=Unretire Structure
+Guass Rifle range: <d ref="Weapon,GuassRifle,Range[0]"/>=Guass Rifle range: <d ref="Weapon,GuassRifle,Range[0]"/>
+LoadingScreen/Tip= 
+MapInfo/Player00/Name=
+MapInfo/Player01/Name=
+MapInfo/Player02/Name=
 MapInfo/Player03/Name=Player 3
 MapInfo/Player04/Name=Player 4
 MapInfo/Player05/Name=Player 5
 MapInfo/Player06/Name=Player 6
 MapInfo/Player07/Name=Player 7
 MapInfo/Player08/Name=Player 8
-MapInfo/Player09/Name=Hostile
-SimpleDisplay/Attack2=<s val="@@SimpleCommandRow">%hotkey</c> then</s> <IMG path="Assets\Textures\tutorialmouseleftbuttondown.dds" alignment="absolutemiddle"/> <s val="@@SimpleCommandRow">ground to Auto-attack</s>
+MapInfo/Player09/Name=Zerg
+Param/Value/09C7D2D3=Scoreboard
+Param/Value/0F21282C=+
+Param/Value/15229CAF=<s val="BoardWarAppraiseMid"><c val="D8D8D8">(type <c val="FFFFFF">-records</c> to view W-L stats)</c></s>
+Param/Value/1CB9AF72= W, 
+Param/Value/1FF53BC7=)
+Param/Value/22292F1D=<s val="BoardWarAppraiseBig1"><c val="8000FF">+</c><c val="9F00DF">2</c><c val="BF00BF">0</c><c val="DE00A0">0</c>
+Param/Value/312A6E35= (team Elo)  - Vs - 
+Param/Value/54674B9B=">+
+Param/Value/70EDA249=0
+Param/Value/75A0334C=<s val="BoardWarAppraiseBig1"><c val="FF8000">+</c><c val="FF9F00">1</c><c val="FFBF00">0</c><c val="FFDE00">0</c>
+Param/Value/7A4B289B= Elo
+Param/Value/7A6AD867=: 
+Param/Value/7C3E8FE0=Score
+Param/Value/95B92D04= (enemy Elo)
+Param/Value/97853DA3=<s val="BoardWarAppraiseBig1"><c val="
+Param/Value/B3C976A8=<s val="BoardWarAppraiseMid">
+Param/Value/B75EFE4C= (
+Param/Value/B80DF5EE=<s val="BoardWarAppraiseMid"><c val="
+Param/Value/B9484BC1=</c>, Loss <c val="FF0000">-
+Param/Value/BDC6300B= L, 
+Param/Value/CE0871DE=<s val="BoardWarAppraiseMid">Win <c val="00FF00">+
+Param/Value/D6B9972F=Player (Elo Rating)
+Param/Value/F1B2F557= has been defeated!
+Param/Value/FEEA8607=">+
+Param/Value/FEF10A99=<s val="BoardWarAppraiseBig1"><c val="0080FF">+</c><c val="0055FF">5</c><c val="002BFF">0</c>
+RequirementNode/Tooltip/204156726092=Max upgrade level.
+RequirementNode/Tooltip/CountUnitInfestedBunkerCompleteOnly4084108369=Have Mercenary Bunker.
+RequirementNode/Tooltip/CountUnitNukeCompleteOnly1541890172=No Nukes remaining.
+Structure already retired.=Structure already retired.
+Structure not retired.=Structure not retired.
+Unit/InfoText/MineralCrystal=Collect 50 minerals.
+Unit/InfoText/NaturalMinerals=Collect 200 minerals.
+Unit/InfoText/PalletMinerals=Collect 100 minerals.
+Unit/Name/AutoTurret=Sentry Turret
 Unit/Name/Bunker2=Bunker
-Unit/Name/Bunker3=Bunker
-Unit/Name/Bunker4=Bunker
-Unit/Name/Bunker5=Bunker
+Unit/Name/GhostAcademy=Nuke Silo
 Unit/Name/HiveMindEmulator=Shield Tower
-Unit/Name/MercenaryBunker=Mercenary Bunker
-UnitSubtitle/HotSNoxious2=Noxious Strain
-UnitSubtitle/HotSRaptor2=Raptor Strain
-UnitSubtitle/HotSSwarmling2=Swarmling Strain
-UnitSubtitle/HotSTorrasque2=Torrasque Strain
-UnitSubtitle/HydraliskImpaler2=Impaler Strain
-UnitSubtitle/HydraliskLurker2=Lurker Strain
-UnitSubtitle/MutaliskBroodlord2=Brood Lord Strain
-UnitSubtitle/MutaliskViper2=Viper Strain
-UnitSubtitle/RoachCorpser2=Corpser Strain
-UnitSubtitle/RoachVile2=Vile Strain
-UnitSubtitle/SwarmHostSplitA2=Carrion Strain
-UnitSubtitle/SwarmHostSplitB2=Creeper Strain
-Upgrade/Name/Armor=Armor
-Upgrade/Name/Attack=Attack
-Upgrade/Name/BuildingArmor=BuildingArmor
-Upgrade/Name/Range=Range
-Upgrade/Name/Regen=Regen
-Upgrade/Name/Speed=Speed
-Variant001/ModeDesc=All settings may be customized.
+Unit/Name/InfestedBunker=Mercenary Bunker
+Unit/Name/MineralCrystal=Mineral Crystal
+Unit/Name/NaturalMineralsRed=Mineral Shards
+Unit/Name/PalletMinerals=Mineral Cluster
+Upgrade/Name/BunkerArmor=Bunker Armor
+Upgrade/Name/BunkerCapacity=Bunker Capacity
+Upgrade/Name/BunkerLifeRegeneration=Bunker Life Regeneration
+Upgrade/Name/MarineArmor=Marine Armor
+Upgrade/Name/MarineAttackRange=Marine Attack Range
+Upgrade/Name/MarineLifeRegeneration=Marine Life Regeneration
+Upgrade/Name/MarineMovespeed=Marine Movespeed
+Upgrade/Name/MarineWeapons=Marine Weapons
+Upgrade/Name/ResearchPlasmaCapacitors=Research Plasma Capacitors
+Upgrade/Name/ResearchSiegeBreakerArcliteCannon=Research Siege Breaker - Arclite Cannon
+Upgrade/Name/SiegeTurretArea=Siege Turret Area
+Variant001/ModeDesc=Free for All
 Variant001/ModeName=2v2v2v2
-Variant002/ModeDesc=All settings may be customized.
+Variant002/ModeDesc=Allies at cross spawn locations.
 Variant002/ModeName=4v4
+Weapon/Name/GuassRifle2=Range
+Weapon/Name/GuassRifle22=Movespeed
+Weapon/Name/GuassRifle222=Regeneration
+Weapon/Name/GuassRifle23=Regeneration
+Weapon/Name/GuassRifle232=Capacity
+Weapon/Name/SiegeBreaker=Arclite Cannon
+Weapon/Tip/GuassRifle2=
+Weapon/Tip/GuassRifle22=
+Weapon/Tip/GuassRifle222=
+Weapon/Tip/GuassRifle23=
+Weapon/Tip/GuassRifle232=
