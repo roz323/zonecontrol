@@ -2,7 +2,7 @@
 // 
 // Generated Map Script
 // 
-// Name:   Zone Control 5
+// Name:   Zone Control 4
 // 
 //==================================================================================================
 include "TriggerLibs/NativeLib"
@@ -28,8 +28,14 @@ string[65] gv_bunker_base_unit_type;
 int[9] gv_position_players;
 int[65] gv_bunker_owners;
 point[65] gv_bunker_locations;
+unitgroup[9] gv_structuresGroup;
 
 void InitGlobals () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 8; init_i += 1) {
+        gv_structuresGroup[init_i] = UnitGroupEmpty();
+    }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -38,6 +44,7 @@ void InitGlobals () {
 bool gf_SpawnPlayers ();
 int gf_GetBunkerIndex (unit lp_bunker);
 bool gf_OnBunkerCreated (int lp_player, unit lp_bunker);
+bool gf_OnBunkerCreated2 (unit lp_worker);
 bool gf_OnBunkerRemoved (int lp_player, unit lp_bunker);
 
 //--------------------------------------------------------------------------------------------------
@@ -49,6 +56,7 @@ trigger gt_OnRallyChange;
 trigger gt_OnUpgrade;
 trigger gt_BunkerBuild;
 trigger gt_BunkerDestoryed;
+trigger gt_ScvDied;
 trigger gt_ShardSpawn;
 trigger gt_MineralTrickle;
 
@@ -236,7 +244,9 @@ bool gf_SpawnPlayers () {
             }
 
             UnitCreate(1, "SCV", 0, gv_position_players[lv_position], gv_initial_bunker_positions[lv_position], 270.0);
-            UnitControlGroupAddUnit(gv_position_players[lv_position], 3, UnitLastCreated());
+            if ((gf_OnBunkerCreated2(UnitLastCreated()) == true)) {
+            }
+
         }
     }
     return true;
@@ -267,8 +277,22 @@ bool gf_OnBunkerCreated (int lp_player, unit lp_bunker) {
     gv_bunker_owners[lv_bunker_index] = lp_player;
     gv_bunkers[lv_bunker_index] = lp_bunker;
     UnitControlGroupAddUnit(lp_player, 2, lp_bunker);
+    UnitGroupAdd(gv_structuresGroup[lp_player], lp_bunker);
     TriggerAddEventUnitDied(gt_BunkerDestoryed, UnitRefFromUnit(lp_bunker));
      TriggerAddEventUnitOrder(gt_OnRallyChange, UnitRefFromUnit(lp_bunker), AbilityCommand("Rally", 0));
+    return true;
+}
+
+bool gf_OnBunkerCreated2 (unit lp_worker) {
+    // Variable Declarations
+    int lv_bunker_index;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    UnitControlGroupAddUnit(gv_position_players[UnitGetOwner(UnitLastCreated())], 3, UnitLastCreated());
+    TriggerAddEventUnitDied(gt_ScvDied, UnitRefFromUnit(lp_worker));
     return true;
 }
 
@@ -424,7 +448,7 @@ bool gt_OnUpgrade_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_OnUpgrade_Init () {
     gt_OnUpgrade = TriggerCreate("gt_OnUpgrade_Func");
-    TriggerAddEventUnitAbility(gt_OnUpgrade, null, AbilityCommand("MorphtoMercenaryBunker", 0), c_unitAbilStageAll, false);
+    TriggerAddEventUnitAbility(gt_OnUpgrade, null, AbilityCommand("UpgradeToOrbital", 0), c_unitAbilStageAll, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -490,6 +514,44 @@ void gt_BunkerDestoryed_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: OnScvDied
+//--------------------------------------------------------------------------------------------------
+bool gt_ScvDied_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    point lv_spawnPosition;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(EventUnit()) == "SCV"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_player = UnitGetOwner(EventUnit());
+    lv_spawnPosition = UnitGetPosition(EventUnit());
+    Wait(2.0, c_timeGame);
+    UnitCreate(1, "SCV", 0, lv_player, UnitGetPosition(UnitGroupClosestToPoint(gv_structuresGroup[lv_player], lv_spawnPosition)), 270.0);
+    if ((gf_OnBunkerCreated2(UnitLastCreated()) == true)) {
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ScvDied_Init () {
+    gt_ScvDied = TriggerCreate("gt_ScvDied_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: ShardSpawn
 //--------------------------------------------------------------------------------------------------
 bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
@@ -552,6 +614,7 @@ void InitTriggers () {
     gt_OnUpgrade_Init();
     gt_BunkerBuild_Init();
     gt_BunkerDestoryed_Init();
+    gt_ScvDied_Init();
     gt_ShardSpawn_Init();
     gt_MineralTrickle_Init();
 }
