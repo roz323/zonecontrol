@@ -61,7 +61,6 @@ trigger gt_OnUpgrade;
 trigger gt_BunkerBuild;
 trigger gt_BunkerDestoryed;
 trigger gt_ScvDied;
-trigger gt_UntitledTrigger001;
 trigger gt_ShardSpawn;
 trigger gt_MineralTrickle;
 
@@ -643,26 +642,6 @@ void gt_ScvDied_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Untitled Trigger 001
-//--------------------------------------------------------------------------------------------------
-bool gt_UntitledTrigger001_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, ((((IntToText(0) + StringToText("")) + FixedToText(PlayerScoreValueGetAsInt(1, "MineralsSpent"), c_fixedPrecisionAny)) + StringExternal("Param/Value/5F96CF26")) + FormatNumber(PlayerGetPropertyInt(1, c_playerPropMinerals))));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_UntitledTrigger001_Init () {
-    gt_UntitledTrigger001 = TriggerCreate("gt_UntitledTrigger001_Func");
-    TriggerAddEventTimePeriodic(gt_UntitledTrigger001, 0.5, c_timeGame);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: ShardSpawn
 //--------------------------------------------------------------------------------------------------
 bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
@@ -726,7 +705,6 @@ void InitTriggers () {
     gt_BunkerBuild_Init();
     gt_BunkerDestoryed_Init();
     gt_ScvDied_Init();
-    gt_UntitledTrigger001_Init();
     gt_ShardSpawn_Init();
     gt_MineralTrickle_Init();
 }
