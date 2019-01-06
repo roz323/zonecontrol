@@ -17,6 +17,8 @@ void InitLibs () {
 //--------------------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------------------
+int[9] gv_player_team;
+bool[9] gv_player_alive;
 point[9] gv_engineering_bay_positions;
 point[9] gv_initial_bunker_positions;
 point[9] gv_nuke_silo_positions;
@@ -46,6 +48,8 @@ int gf_GetBunkerIndex (unit lp_bunker);
 bool gf_OnBunkerCreated (int lp_player, unit lp_bunker);
 bool gf_OnBunkerCreated2 (unit lp_worker);
 bool gf_OnBunkerRemoved (int lp_player, unit lp_bunker);
+bool gf_TestPlayerDead (int lp_player);
+bool gf_TestVictoryCondition ();
 
 //--------------------------------------------------------------------------------------------------
 // Trigger Variables
@@ -57,6 +61,7 @@ trigger gt_OnUpgrade;
 trigger gt_BunkerBuild;
 trigger gt_BunkerDestoryed;
 trigger gt_ScvDied;
+trigger gt_UntitledTrigger001;
 trigger gt_ShardSpawn;
 trigger gt_MineralTrickle;
 
@@ -230,9 +235,18 @@ bool gf_SpawnPlayers () {
     gv_initial_bunker_positions[5] = Point(81.5, 18.5);
     gv_initial_bunker_positions[6] = Point(20.5, 28.5);
     gv_initial_bunker_positions[7] = Point(30.5, 18.5);
+    gv_player_team[0] = 0;
+    gv_player_team[1] = 0;
+    gv_player_team[2] = 1;
+    gv_player_team[3] = 1;
+    gv_player_team[4] = 2;
+    gv_player_team[5] = 2;
+    gv_player_team[6] = 3;
+    gv_player_team[7] = 3;
     lv_position = 0;
     for ( ; ( (auto5A7C1BEA_ai >= 0 && lv_position <= auto5A7C1BEA_ae) || (auto5A7C1BEA_ai < 0 && lv_position >= auto5A7C1BEA_ae) ) ; lv_position += auto5A7C1BEA_ai ) {
         if (((PlayerType(gv_position_players[lv_position]) == c_playerTypeUser) || (PlayerType(gv_position_players[lv_position]) == c_playerTypeComputer))) {
+            gv_player_alive[lv_position] = true;
             VisRevealArea(gv_position_players[lv_position], RegionEntireMap(), 0.1, false);
             UnitCreate(1, "GhostAcademy", c_unitCreateIgnorePlacement, gv_position_players[lv_position], gv_nuke_silo_positions[lv_position], 270.0);
             UnitControlGroupAddUnit(gv_position_players[lv_position], 4, UnitLastCreated());
@@ -291,7 +305,7 @@ bool gf_OnBunkerCreated2 (unit lp_worker) {
     // Variable Initialization
 
     // Implementation
-    UnitControlGroupAddUnit(gv_position_players[UnitGetOwner(UnitLastCreated())], 3, UnitLastCreated());
+    UnitControlGroupAddUnit(UnitGetOwner(lp_worker), 3, lp_worker);
     TriggerAddEventUnitDied(gt_ScvDied, UnitRefFromUnit(lp_worker));
     return true;
 }
@@ -307,6 +321,83 @@ bool gf_OnBunkerRemoved (int lp_player, unit lp_bunker) {
     lv_bunker_index = gf_GetBunkerIndex(lp_bunker);
     gv_bunker_owners[lv_bunker_index] = 0;
     gv_bunker_merc_status[lv_bunker_index] = false;
+    if ((gf_TestPlayerDead(lp_player) == true)) {
+    }
+
+    return true;
+}
+
+bool gf_TestPlayerDead (int lp_player) {
+    // Variable Declarations
+    unit lv_unit;
+    int lv_slot;
+
+    // Automatic Variable Declarations
+    const int autoA6BAEF31_ae = 63;
+    const int autoA6BAEF31_ai = 1;
+    unitgroup autoF739310F_g;
+    int autoF739310F_u;
+
+    // Variable Initialization
+
+    // Implementation
+    lv_slot = 1;
+    for ( ; ( (autoA6BAEF31_ai >= 0 && lv_slot <= autoA6BAEF31_ae) || (autoA6BAEF31_ai < 0 && lv_slot >= autoA6BAEF31_ae) ) ; lv_slot += autoA6BAEF31_ai ) {
+        if ((gv_bunker_owners[lv_slot] == lp_player)) {
+            return false;
+        }
+
+    }
+    VisRevealArea(lp_player, RegionEntireMap(), 0.0, false);
+    gv_player_alive[lp_player] = false;
+    autoF739310F_g = UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoF739310F_u = UnitGroupCount(autoF739310F_g, c_unitCountAll);
+    for (;; autoF739310F_u -= 1) {
+        lv_unit = UnitGroupUnitFromEnd(autoF739310F_g, autoF739310F_u);
+        if (lv_unit == null) { break; }
+        UnitRemove(lv_unit);
+    }
+    if ((gf_TestVictoryCondition() == true)) {
+    }
+
+    return true;
+}
+
+bool gf_TestVictoryCondition () {
+    // Variable Declarations
+    int lv_player;
+    int lv_alive_team;
+
+    // Automatic Variable Declarations
+    const int autoE750AFA0_ae = 8;
+    const int autoE750AFA0_ai = 1;
+    const int auto09869863_ae = 8;
+    const int auto09869863_ai = 1;
+
+    // Variable Initialization
+    lv_alive_team = -1;
+
+    // Implementation
+    lv_player = 0;
+    for ( ; ( (autoE750AFA0_ai >= 0 && lv_player <= autoE750AFA0_ae) || (autoE750AFA0_ai < 0 && lv_player >= autoE750AFA0_ae) ) ; lv_player += autoE750AFA0_ai ) {
+        if ((gv_player_alive[lv_player] == true)) {
+            if (((lv_alive_team == gv_player_team[lv_player]) || (lv_alive_team == -1))) {
+                lv_alive_team = gv_player_team[lv_player];
+            }
+            else {
+                return false;
+            }
+        }
+
+    }
+    lv_player = 0;
+    for ( ; ( (auto09869863_ai >= 0 && lv_player <= auto09869863_ae) || (auto09869863_ai < 0 && lv_player >= auto09869863_ae) ) ; lv_player += auto09869863_ai ) {
+        if ((lv_player == lv_alive_team)) {
+            GameOver(lv_player, c_gameOverVictory, false, true);
+            GameOver(lv_player, c_gameOverDefeat, false, true);
+        }
+
+    }
     return true;
 }
 
@@ -538,7 +629,7 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
 
     lv_player = UnitGetOwner(EventUnit());
     lv_spawnPosition = UnitGetPosition(EventUnit());
-    Wait(2.0, c_timeGame);
+    Wait(5.0, c_timeGame);
     UnitCreate(1, "SCV", 0, lv_player, UnitGetPosition(UnitGroupClosestToPoint(gv_structuresGroup[lv_player], lv_spawnPosition)), 270.0);
     if ((gf_OnBunkerCreated2(UnitLastCreated()) == true)) {
     }
@@ -549,6 +640,26 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ScvDied_Init () {
     gt_ScvDied = TriggerCreate("gt_ScvDied_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Untitled Trigger 001
+//--------------------------------------------------------------------------------------------------
+bool gt_UntitledTrigger001_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, ((((IntToText(0) + StringToText("")) + FixedToText(PlayerScoreValueGetAsInt(1, "MineralsSpent"), c_fixedPrecisionAny)) + StringExternal("Param/Value/5F96CF26")) + FormatNumber(PlayerGetPropertyInt(1, c_playerPropMinerals))));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_UntitledTrigger001_Init () {
+    gt_UntitledTrigger001 = TriggerCreate("gt_UntitledTrigger001_Func");
+    TriggerAddEventTimePeriodic(gt_UntitledTrigger001, 0.5, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -615,6 +726,7 @@ void InitTriggers () {
     gt_BunkerBuild_Init();
     gt_BunkerDestoryed_Init();
     gt_ScvDied_Init();
+    gt_UntitledTrigger001_Init();
     gt_ShardSpawn_Init();
     gt_MineralTrickle_Init();
 }
