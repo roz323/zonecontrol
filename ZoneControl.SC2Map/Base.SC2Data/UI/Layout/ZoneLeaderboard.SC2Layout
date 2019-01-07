@@ -1,31 +1,59 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Desc>
-	<Frame type="Frame" name="GameUI/UIContainer" file="GameUI">
 
-<Frame type="Label" name="LeaderboardTitle">
-			
-				<Anchor side="Top" relative="$parent" pos="Min" offset="20"/>
-        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-				
-				<Style val="TutorialMenuTitle"/>
-				<Width val="600"/>
-				<Text val="Leaderboard"/>
-			</Frame>
+   <Frame type="Frame" name="TeamFrame">
+        <Width val="300"/>
+        <Height val="120"/>
 
 
+        <Frame type="Label" name="TeamName">
+            <Style val="LeaderboardTeamName"/>
+            <Height val="25"/>
+            <Width val="150"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Text val="Team 1" />
+        </Frame>
+ 
+       <Frame type="Label" name="TeamScore">
+            <Style val="LeaderboardScore"/>
+            <Height val="25"/>
+            <Width val="120"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Text val="200" />
+        </Frame>
+ 
 
 
-<Frame type="Label" name="Team1">
-			
-				<Anchor side="Top" relative="$parent/LeaderboardTitle" pos="Max" offset="20"/>
-        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-				
-				<Style val="TutorialMenuTitle"/>
-				<Width val="600"/>
-				<Text val="Team 1"/>
-			</Frame>
+    </Frame>
 
 
-	</Frame>
+  <Frame type="Frame" name="PlayerFrame">
+            <Height val="25"/>
+            <Width val="280"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="25"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+   
+       <Frame type="Label" name="Player1Name">
+            <Style val="LeaderboardTeamName"/>
+            <Height val="25"/>
+            <Width val="160"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Text val="Player1" />
+        </Frame>
+ 
+       <Frame type="Label" name="Player1Score">
+            <Style val="LeaderboardScore"/>
+            <Height val="25"/>
+            <Width val="120"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Text val="200" />
+        </Frame>
+      </Frame>
+
+
 
 </Desc>
