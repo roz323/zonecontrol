@@ -105,28 +105,60 @@ trigger gt_MineralTrickle;
 // Global Functions
 //--------------------------------------------------------------------------------------------------
 void gf_AssignTeamLocations () {
+    int init_i;
+
     // Variable Declarations
-    int lv_position;
+    playergroup[5] lv_teams;
+    int lv_player2;
+    string lv_attribute_value;
+    int lv_player;
 
     // Automatic Variable Declarations
-    const int auto90D2DB3B_ae = 7;
+    const int auto90D2DB3B_ae = 8;
     const int auto90D2DB3B_ai = 1;
+    const int auto1BDBC6C7_ae = 8;
+    const int auto1BDBC6C7_ai = 1;
+    const int auto3389CE10_ae = 8;
+    const int auto3389CE10_ai = 1;
 
     // Variable Initialization
+    for (init_i = 0; init_i <= 4; init_i += 1) {
+        lv_teams[init_i] = PlayerGroupEmpty();
+    }
 
     // Implementation
     gv_num_teams = 4;
-    gv_position_players[0] = 1;
-    gv_position_players[1] = 2;
-    gv_position_players[2] = 3;
-    gv_position_players[3] = 4;
-    gv_position_players[4] = 5;
-    gv_position_players[5] = 6;
-    gv_position_players[6] = 7;
-    gv_position_players[7] = 8;
-    lv_position = 0;
-    for ( ; ( (auto90D2DB3B_ai >= 0 && lv_position <= auto90D2DB3B_ae) || (auto90D2DB3B_ai < 0 && lv_position >= auto90D2DB3B_ae) ) ; lv_position += auto90D2DB3B_ai ) {
-        gv_player_positions[gv_position_players[lv_position]] = lv_position;
+    lv_player = 0;
+    for ( ; ( (auto90D2DB3B_ai >= 0 && lv_player <= auto90D2DB3B_ae) || (auto90D2DB3B_ai < 0 && lv_player >= auto90D2DB3B_ae) ) ; lv_player += auto90D2DB3B_ai ) {
+        if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+            PlayerGroupAdd(lv_teams[gv_player_team[lv_player]], lv_player);
+            lv_attribute_value = GameAttributePlayerValue("1", lv_player);
+            if ((lv_attribute_value == "0005")) {
+                gv_position_players[0] = lv_player;
+            }
+            else if ((lv_attribute_value == "0006")) {
+                gv_position_players[1] = lv_player;
+            }
+            else if ((lv_attribute_value == "0009")) {
+                gv_position_players[2] = lv_player;
+            }
+            else if ((lv_attribute_value == "0003")) {
+                gv_position_players[3] = lv_player;
+            }
+            else if ((lv_attribute_value == "0002")) {
+                gv_position_players[4] = lv_player;
+            }
+            else if ((lv_attribute_value == "0001")) {
+                gv_position_players[5] = lv_player;
+            }
+            else if ((lv_attribute_value == "0007")) {
+                gv_position_players[6] = lv_player;
+            }
+            else if ((lv_attribute_value == "0008")) {
+                gv_position_players[7] = lv_player;
+            }
+            gv_player_positions[gv_position_players[lv_player]] = lv_player;
+        }
     }
     gv_player_team[1] = 0;
     gv_player_team[2] = 0;
@@ -136,6 +168,25 @@ void gf_AssignTeamLocations () {
     gv_player_team[6] = 2;
     gv_player_team[7] = 3;
     gv_player_team[8] = 3;
+    UISetResourceTradingAllowed(c_resourceTypeMinerals, true);
+    UISetResourceTradingAllowed(c_resourceTypeVespene, false);
+    UISetResourceTradeCountdownTime(10);
+    UISetResourceTradeCountdownTime(10);
+    lv_player = 0;
+    for ( ; ( (auto1BDBC6C7_ai >= 0 && lv_player <= auto1BDBC6C7_ae) || (auto1BDBC6C7_ai < 0 && lv_player >= auto1BDBC6C7_ae) ) ; lv_player += auto1BDBC6C7_ai ) {
+        if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+            lv_player2 = 0;
+            for ( ; ( (auto3389CE10_ai >= 0 && lv_player2 <= auto3389CE10_ae) || (auto3389CE10_ai < 0 && lv_player2 >= auto3389CE10_ae) ) ; lv_player2 += auto3389CE10_ai ) {
+                if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+                    if (((lv_player2 != lv_player) && (gv_player_team[lv_player] == gv_player_team[lv_player2]))) {
+                        libNtve_gf_SetAlliance(lv_player, lv_player2, libNtve_ge_AllianceSetting_Ally);
+                        PlayerSetAlliance(lv_player, c_allianceIdVision, lv_player2, true);
+                    }
+
+                }
+            }
+        }
+    }
 }
 
 void gf_SpawnPlayers () {
@@ -299,10 +350,10 @@ void gf_SpawnPlayers () {
     gv_initial_bunker_positions[5] = Point(81.5, 18.5);
     gv_initial_bunker_positions[6] = Point(20.5, 28.5);
     gv_initial_bunker_positions[7] = Point(30.5, 18.5);
-    lv_position = 0;
-    for ( ; ( (auto5A7C1BEA_ai >= 0 && lv_position <= auto5A7C1BEA_ae) || (auto5A7C1BEA_ai < 0 && lv_position >= auto5A7C1BEA_ae) ) ; lv_position += auto5A7C1BEA_ai ) {
-        if (((PlayerType(gv_position_players[lv_position]) == c_playerTypeUser) || (PlayerType(gv_position_players[lv_position]) == c_playerTypeComputer))) {
-            lv_player = gv_position_players[lv_position];
+    lv_player = 0;
+    for ( ; ( (auto5A7C1BEA_ai >= 0 && lv_player <= auto5A7C1BEA_ae) || (auto5A7C1BEA_ai < 0 && lv_player >= auto5A7C1BEA_ae) ) ; lv_player += auto5A7C1BEA_ai ) {
+        if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+            lv_position = gv_player_positions[lv_player];
             gv_player_alive[lv_player] = true;
             gv_team_alive[gv_player_team[lv_player]] = true;
             VisRevealArea(gv_position_players[lv_position], RegionEntireMap(), 0.1, false);
@@ -416,6 +467,8 @@ void gf_UpdateLeaderboard () {
 
 int gf_GetBunkerIndex (unit lp_bunker) {
     // Variable Declarations
+    int lv_y;
+    int lv_x;
     point lv_point;
 
     // Automatic Variable Declarations
@@ -423,7 +476,9 @@ int gf_GetBunkerIndex (unit lp_bunker) {
 
     // Implementation
     lv_point = UnitGetPosition(lp_bunker);
-    return (RoundI(Round(((PointGetX(lv_point) - 21.0) / 10.0))) + RoundI((((90.0 - PointGetY(lv_point)) / 10.0) * 8.0)));
+    lv_x = RoundI(((PointGetX(lv_point) - 20.5) / 10.0));
+    lv_y = RoundI(((90.0 - PointGetY(lv_point)) / 10.0));
+    return (lv_x + RoundI((lv_y * 8.0)));
 }
 
 void gf_OnBunkerCreated (int lp_player, unit lp_bunker) {
@@ -883,7 +938,7 @@ bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ShardSpawn_Init () {
     gt_ShardSpawn = TriggerCreate("gt_ShardSpawn_Func");
-    TriggerAddEventTimePeriodic(gt_ShardSpawn, 5.0, c_timeGame);
+    TriggerAddEventTimePeriodic(gt_ShardSpawn, 15.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
