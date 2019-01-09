@@ -105,21 +105,33 @@ trigger gt_MineralTrickle;
 // Global Functions
 //--------------------------------------------------------------------------------------------------
 void gf_AssignTeamLocations () {
+    int init_i;
+
     // Variable Declarations
+    playergroup[5] lv_teams;
+    int lv_player2;
     string lv_attribute_value;
     int lv_player;
 
     // Automatic Variable Declarations
     const int auto90D2DB3B_ae = 8;
     const int auto90D2DB3B_ai = 1;
+    const int auto1BDBC6C7_ae = 8;
+    const int auto1BDBC6C7_ai = 1;
+    const int auto3389CE10_ae = 8;
+    const int auto3389CE10_ai = 1;
 
     // Variable Initialization
+    for (init_i = 0; init_i <= 4; init_i += 1) {
+        lv_teams[init_i] = PlayerGroupEmpty();
+    }
 
     // Implementation
     gv_num_teams = 4;
     lv_player = 0;
     for ( ; ( (auto90D2DB3B_ai >= 0 && lv_player <= auto90D2DB3B_ae) || (auto90D2DB3B_ai < 0 && lv_player >= auto90D2DB3B_ae) ) ; lv_player += auto90D2DB3B_ai ) {
         if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+            PlayerGroupAdd(lv_teams[gv_player_team[lv_player]], lv_player);
             lv_attribute_value = GameAttributePlayerValue("1", lv_player);
             if ((lv_attribute_value == "0005")) {
                 gv_position_players[0] = lv_player;
@@ -156,6 +168,25 @@ void gf_AssignTeamLocations () {
     gv_player_team[6] = 2;
     gv_player_team[7] = 3;
     gv_player_team[8] = 3;
+    UISetResourceTradingAllowed(c_resourceTypeMinerals, true);
+    UISetResourceTradingAllowed(c_resourceTypeVespene, false);
+    UISetResourceTradeCountdownTime(10);
+    UISetResourceTradeCountdownTime(10);
+    lv_player = 0;
+    for ( ; ( (auto1BDBC6C7_ai >= 0 && lv_player <= auto1BDBC6C7_ae) || (auto1BDBC6C7_ai < 0 && lv_player >= auto1BDBC6C7_ae) ) ; lv_player += auto1BDBC6C7_ai ) {
+        if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+            lv_player2 = 0;
+            for ( ; ( (auto3389CE10_ai >= 0 && lv_player2 <= auto3389CE10_ae) || (auto3389CE10_ai < 0 && lv_player2 >= auto3389CE10_ae) ) ; lv_player2 += auto3389CE10_ai ) {
+                if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+                    if (((lv_player2 != lv_player) && (gv_player_team[lv_player] == gv_player_team[lv_player2]))) {
+                        libNtve_gf_SetAlliance(lv_player, lv_player2, libNtve_ge_AllianceSetting_Ally);
+                        PlayerSetAlliance(lv_player, c_allianceIdVision, lv_player2, true);
+                    }
+
+                }
+            }
+        }
+    }
 }
 
 void gf_SpawnPlayers () {
@@ -447,7 +478,6 @@ int gf_GetBunkerIndex (unit lp_bunker) {
     lv_point = UnitGetPosition(lp_bunker);
     lv_x = RoundI(((PointGetX(lv_point) - 20.5) / 10.0));
     lv_y = RoundI(((90.0 - PointGetY(lv_point)) / 10.0));
-    TriggerDebugOutput(1, ((IntToText(lv_x) + StringExternal("Param/Value/91605D0A")) + IntToText(lv_y)), true);
     return (lv_x + RoundI((lv_y * 8.0)));
 }
 
@@ -460,7 +490,6 @@ void gf_OnBunkerCreated (int lp_player, unit lp_bunker) {
 
     // Implementation
     lv_bunker_index = gf_GetBunkerIndex(lp_bunker);
-    TriggerDebugOutput(1, IntToText(lv_bunker_index), true);
     gv_bunker_locations[lv_bunker_index] = UnitGetPosition(lp_bunker);
     gv_bunker_owners[lv_bunker_index] = lp_player;
     gv_bunkers[lv_bunker_index] = lp_bunker;
@@ -909,7 +938,7 @@ bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ShardSpawn_Init () {
     gt_ShardSpawn = TriggerCreate("gt_ShardSpawn_Func");
-    TriggerAddEventTimePeriodic(gt_ShardSpawn, 5.0, c_timeGame);
+    TriggerAddEventTimePeriodic(gt_ShardSpawn, 15.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
