@@ -19,6 +19,7 @@
         <CardLayouts index="0">
             <LayoutButtons Face="ResearchPlasmaCapacitors" Type="Passive" Requirements="LearnPlasmaCapacitorsPassive" Row="1" Column="0"/>
         </CardLayouts>
+        <KillResource index="Minerals" value="100"/>
     </CUnit>
     <CUnit id="Bunker">
         <LifeStart value="50000"/>
@@ -76,6 +77,7 @@
         <ScoreMake value="1000"/>
         <ScoreKill value="500"/>
         <Food value="5"/>
+        <KillResource index="Minerals" value="500"/>
     </CUnit>
     <CUnit id="CommandCenter">
         <AbilArray index="7" Link="ScannerSweep"/>
@@ -132,6 +134,7 @@
         <CostResource index="Minerals" value="15"/>
         <CostResource index="Vespene" value="0"/>
         <CargoSize value="1"/>
+        <KillResource index="Minerals" value="15"/>
     </CUnit>
     <CUnit id="GhostAcademy">
         <FlagArray index="Invulnerable" value="1"/>
@@ -182,6 +185,7 @@
         <CostResource index="Vespene" value="0"/>
         <CargoSize value="1"/>
         <LifeArmor value="8"/>
+        <KillResource index="Minerals" value="15"/>
     </CUnit>
     <CUnit id="HiveMindEmulator">
         <CostResource index="Minerals" value="125"/>
@@ -193,7 +197,14 @@
             <LayoutButtons index="0" Face="SelectBuilder" Type="SelectBuilder" AbilCmd="" Row="1" Column="3"/>
             <LayoutButtons index="1" Face="Halt" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="1" Column="4"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
-            <LayoutButtons Face="ShieldTowerPassive" Type="Passive" Row="1" Column="0"/>
+            <LayoutButtons>
+                <Face value="ShieldTowerPassive"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="GuardianShield,Execute"/>
+                <Behavior value="GuardianShield"/>
+                <Row value="1"/>
+                <Column value="0"/>
+            </LayoutButtons>
         </CardLayouts>
         <CardLayouts CardId="0002">
             <LayoutButtons Face="SelfDestruct" Type="AbilCmd" AbilCmd="SalvageBunkerRefund,Execute" Row="0" Column="0"/>
@@ -210,6 +221,7 @@
         <RepairTime value="20"/>
         <FogVisibility value="Dimmed"/>
         <EquipmentArray Weapon="GuassRifle23"/>
+        <AddedOnArray/>
     </CUnit>
     <CUnit id="InfestedBunker">
         <LifeStart value="55000"/>
@@ -248,6 +260,7 @@
         <ScoreKill value="650"/>
         <Food value="5"/>
         <Description value="Button/Tooltip/OrbitalCommand"/>
+        <KillResource index="Minerals" value="650"/>
     </CUnit>
     <CUnit id="Marauder">
         <LifeStart value="300"/>
@@ -269,6 +282,7 @@
         <CargoSize value="1"/>
         <LifeArmor value="5"/>
         <Radius value="0.5"/>
+        <KillResource index="Minerals" value="10"/>
     </CUnit>
     <CUnit id="Marine">
         <CostResource index="Minerals" value="5"/>
@@ -310,6 +324,7 @@
         <CostResource index="Minerals" value="15"/>
         <CostResource index="Vespene" value="0"/>
         <CargoSize value="1"/>
+        <KillResource index="Minerals" value="15"/>
     </CUnit>
     <CUnit id="MineralCrystal">
         <Speed value="0.1328"/>
@@ -344,6 +359,7 @@
         <CostResource index="Vespene" value="0"/>
         <LifeStart value="250"/>
         <LifeMax value="250"/>
+        <KillResource index="Minerals" value="10"/>
     </CUnit>
     <CUnit id="SCV">
         <Food value="0"/>
@@ -358,7 +374,7 @@
             <LayoutButtons index="8">
                 <Face value="HiveMindEmulator"/>
                 <Type value="AbilCmd"/>
-                <AbilCmd value="TerranBuild,Build22"/>
+                <AbilCmd value="TerranBuild,Build8"/>
                 <SubmenuCardId value=""/>
                 <Row value="2"/>
                 <Column value="3"/>
@@ -385,6 +401,7 @@
         <AbilArray Link="TacNukeStrike"/>
         <AbilArray Link="CalldownMULE"/>
         <AbilArray Link="BuildAutoTurret"/>
+        <KillResource index="Minerals" value="35"/>
     </CUnit>
     <CUnit id="SensorTower">
         <CostResource index="Vespene" value="0"/>
@@ -508,6 +525,7 @@
         <CargoSize value="1"/>
         <LifeStart value="400"/>
         <LifeMax value="400"/>
+        <KillResource index="Minerals" value="25"/>
     </CUnit>
     <CUnit id="SupplyDepot">
         <LifeStart value="20000"/>
@@ -567,5 +585,6 @@
         <Speed value="2"/>
         <Sight value="9"/>
         <SubgroupPriority value="28"/>
+        <KillResource index="Minerals" value="10"/>
     </CUnit>
 </Catalog>

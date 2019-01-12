@@ -6,15 +6,16 @@
     <CBehaviorBuff id="GuardianShield">
         <DamageResponse ModifyAmount="-6"/>
         <InfoIcon value="Assets\Textures\btn-tips-terran-psishield.dds"/>
+        <Modification>
+            <AbilLinkEnableArray value="GuardianShield"/>
+        </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="RetireStructure">
         <InfoIcon value="Assets\Textures\btn-techupgrade-terran-dualfusionwelders.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Modification Food="5"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="SensorTowerRadar">
-        <Modification Radar="30"/>
-    </CBehaviorBuff>
+    <CBehaviorBuff id="SensorTowerRadar"/>
     <CBehaviorBuff id="Stimpack">
         <Duration value="8"/>
         <Modification MoveSpeedMultiplier="1.3" AttackSpeedMultiplier="1.3"/>

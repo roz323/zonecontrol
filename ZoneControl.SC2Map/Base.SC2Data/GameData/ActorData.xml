@@ -57,7 +57,18 @@
         <On index="94" removed="1"/>
         <On index="95" removed="1"/>
         <On index="96" removed="1"/>
-        <Model value="Bunker2"/>
+        <On index="97" removed="1"/>
+        <On index="98" removed="1"/>
+        <On index="99" removed="1"/>
+        <On index="100" removed="1"/>
+        <On index="101" removed="1"/>
+        <On index="102" removed="1"/>
+        <On index="103" removed="1"/>
+        <On index="104" removed="1"/>
+        <On index="105" removed="1"/>
+        <On index="106" removed="1"/>
+        <On index="107" removed="1"/>
+        <Model value="JumboBunker"/>
         <BuildModel value="Bunker2"/>
         <HighlightTooltip value="Unit/Name/Bunker2"/>
     </CActorUnit>
@@ -75,6 +86,7 @@
     <CActorUnit id="HiveMindEmulator">
         <BarOffset value="130"/>
         <BarWidth value="60"/>
+        <On index="80" Terms="Abil.GuardianShield" Send="AnimPlay Attack Attack"/>
     </CActorUnit>
     <!--                                                                                         -->
     <!-- Infested Bunker ....................................................................... -->
@@ -87,8 +99,8 @@
         <On index="4" Terms="StatusOff.*.PreTargetingModel" Target="ModelPretargetGround" Send="Destroy"/>
         <On index="5" Terms="StatusOn.*.PreTargetingModel; ValidateUnit IsFlying" Send="Create GroundPreSelection"/>
         <On index="6" Terms="StatusOff.*.PreTargetingModel" Target="GroundPreSelection"/>
-        <On index="7" Terms="PreTargetingUpdate.*.Start" Send="SetTintColorBlendPair 255,192,192 255,128,128 0.15 Bounce Pretarget"/>
-        <On index="8" Terms="PreTargetingUpdate.*.Stop" Send="ClearTintColor 0.1 Pretarget"/>
+        <On index="7" Terms="PreTargetingUpdate.*.Start" Send="SetTintColorBlendPair 255,192,192 255,128,128 0.150000 Bounce Pretarget"/>
+        <On index="8" Terms="PreTargetingUpdate.*.Stop" Send="ClearTintColor 0.100000 Pretarget"/>
         <On index="9" Terms="StatusOn.*.PreTargetingTint" Send="PreTargetingUpdate Start"/>
         <On index="10" Terms="StatusOff.*.PreTargetingTint" Target="" Send="PreTargetingUpdate Stop"/>
         <On index="11" Terms="CursorUpdate.*.Start; ValidateUnit IsFlying" Send="StatusIncrement FlyerHelper"/>
@@ -106,18 +118,18 @@
         <On index="23" Terms="FlyerHelperChange; FlyerHelper None" Target="FlyerHelperSplat" Send="Destroy"/>
         <On index="24" Terms="FlyerHelperChange; FlyerHelper Selected; HasStatus FlyerHelper; !ScopeContains FlyerHelperSplat"/>
         <On index="25" Terms="FlyerHelperChange; FlyerHelper Selected; !HasStatus FlyerHelper" Target="FlyerHelperSplat" Send="Destroy"/>
-        <On index="26" Terms="FlyerHelperChange; FlyerHelper All; ValidateUnit IsFlying; !ScopeContains FlyerHelperSplat" Target="" Send="Create FlyerHelperSplat"/>
-        <On index="27" Terms="UnitBirth.*.Normal" Send="$Birth 0 0"/>
+        <On index="26" Terms="FlyerHelperChange; FlyerHelper All; ValidateUnit IsFlying; !ScopeContains FlyerHelperSplat"/>
+        <On index="27" Terms="UnitBirth.*.Normal" Send="$Birth 0 0.000000"/>
         <On index="28" Terms="UnitFidget" Target="" Send="AnimPlay Fidget Fidget"/>
-        <On index="29" Terms="UnitMovementUpdate.*.Walk" Target="" Send="AnimClear Fidget"/>
+        <On index="29" Terms="UnitMovementUpdate.*.Walk" Send="AnimClear Fidget"/>
         <On index="30" Terms="UnitDetectedByViewer.*.On; ValidateUnit IsHallucination" Target="_HallucinationTinter" Send="Signal HallucinationTintOn"/>
         <On index="31" Terms="UnitDetectedByViewer.*.Off; ValidateUnit IsHallucination" Target="_HallucinationTinter" Send="Signal HallucinationTintOff"/>
         <On index="32" Terms="UnitDeathCustomize; ValidateUnit HasEitherAntiGrav" Send="DeathCustomize AntiGravGeneric"/>
         <On index="33" Terms="UnitDeathCustomize; ValidateUnit HasAntiGravProtoss" Send="DeathCustomize AntiGravProtoss"/>
         <On index="34" Terms="UnitDeathCustomize; ValidateUnit HasAntiGravTerran" Send="DeathCustomize AntiGravTerran"/>
         <On index="35" Terms="UnitDeathCustomize; ValidateUnit HasAntiGravZerg" Send="DeathCustomize AntiGravZerg"/>
-        <On index="36" Terms="Behavior.PhoenixAntiGrav.On" Target="" Send="ModelSuddenMotionStart"/>
-        <On index="37" Terms="Behavior.PhoenixAntiGrav.Off" Target="" Send="ModelSuddenMotionStop"/>
+        <On index="36" Terms="Behavior.PhoenixAntiGrav.On" Send="ModelSuddenMotionStart"/>
+        <On index="37" Terms="Behavior.PhoenixAntiGrav.Off" Send="ModelSuddenMotionStop"/>
         <On index="38" Terms="UnitTaunt.*.Start; Taunt" Send="AnimPlay Cheer Stand,Victory"/>
         <On index="39" Terms="UnitTaunt.*.Stop; Taunt" Send="AnimClear Cheer"/>
         <On index="40" Terms="UnitTaunt.*.Start; Taunt Dance" Send="AnimPlay Dance Stand,Dance"/>
@@ -147,15 +159,21 @@
         <On index="64" removed="1"/>
         <On index="65" removed="1"/>
         <On index="66" removed="1"/>
+        <On index="67" removed="1"/>
+        <On index="68" removed="1"/>
+        <On index="69" removed="1"/>
+        <On index="70" removed="1"/>
+        <On index="71" removed="1"/>
+        <On index="72" removed="1"/>
+        <On index="73" removed="1"/>
+        <On index="74" removed="1"/>
     </CActorUnit>
     <CActorUnit id="PalletMinerals">
         <Wireframe>
             <Image index="0" value="Assets\Textures\icon-highyieldmineral-nobg.dds"/>
         </Wireframe>
     </CActorUnit>
-    <CActorRange id="SensorTowerRadar">
-        <Range value="30.000000"/>
-    </CActorRange>
+    <CActorRange id="SensorTowerRadar"/>
     <!--                                                                                         -->
     <!-- Siege Breaker ......................................................................... -->
     <!--                                                                                         -->
@@ -169,5 +187,10 @@
         <On index="0" removed="1"/>
         <On index="1" removed="1"/>
         <On index="2" removed="1"/>
+        <On index="3" removed="1"/>
+        <On index="4" removed="1"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+        <On index="7" removed="1"/>
     </CActorSound>
 </Catalog>
