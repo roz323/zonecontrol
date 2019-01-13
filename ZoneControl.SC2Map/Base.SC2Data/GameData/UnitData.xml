@@ -188,40 +188,22 @@
         <KillResource index="Minerals" value="15"/>
     </CUnit>
     <CUnit id="HiveMindEmulator">
+        <LifeStart value="10000"/>
+        <LifeMax value="10000"/>
         <CostResource index="Minerals" value="125"/>
         <CostResource index="Vespene" value="0"/>
-        <AbilArray index="1" Link="GuardianShield"/>
-        <AbilArray Link="SalvageBunkerRefund"/>
-        <WeaponArray index="0" removed="1"/>
+        <KillResource index="Minerals" value="50"/>
+        <BehaviorArray Link="GuardianShieldPermanent"/>
         <CardLayouts index="0">
-            <LayoutButtons index="0" Face="SelectBuilder" Type="SelectBuilder" AbilCmd="" Row="1" Column="3"/>
-            <LayoutButtons index="1" Face="Halt" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="1" Column="4"/>
-            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
-            <LayoutButtons>
-                <Face value="ShieldTowerPassive"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="GuardianShield,Execute"/>
-                <Behavior value="GuardianShield"/>
-                <Row value="1"/>
-                <Column value="0"/>
-            </LayoutButtons>
-        </CardLayouts>
-        <CardLayouts CardId="0002">
-            <LayoutButtons Face="SelfDestruct" Type="AbilCmd" AbilCmd="SalvageBunkerRefund,Execute" Row="0" Column="0"/>
-            <LayoutButtons Face="Cancel" Type="Submenu" Row="2" Column="4"/>
+            <LayoutButtons index="1" removed="1"/>
         </CardLayouts>
         <Footprint value="Footprint1x1Contour"/>
         <PlacementFootprint value="Footprint1x1"/>
-        <ScoreKill value="50"/>
-        <LifeStart value="10000"/>
-        <LifeMax value="10000"/>
-        <EnergyStart value="0"/>
         <EnergyMax value="0"/>
         <EnergyRegenRate value="0"/>
+        <AbilArray index="1" removed="1"/>
         <RepairTime value="20"/>
         <FogVisibility value="Dimmed"/>
-        <EquipmentArray Weapon="GuassRifle23"/>
-        <AddedOnArray/>
     </CUnit>
     <CUnit id="InfestedBunker">
         <LifeStart value="55000"/>
