@@ -185,13 +185,14 @@ void gf_AssignTeamLocations () {
         if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
             lv_player2 = 0;
             for ( ; ( (auto3389CE10_ai >= 0 && lv_player2 <= auto3389CE10_ae) || (auto3389CE10_ai < 0 && lv_player2 >= auto3389CE10_ae) ) ; lv_player2 += auto3389CE10_ai ) {
-                if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
-                    if (((lv_player2 != lv_player) && (gv_player_team[lv_player] == gv_player_team[lv_player2]))) {
+                if (((lv_player2 != lv_player) || (PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+                    if (((gv_player_team[lv_player] == gv_player_team[lv_player2]))) {
                         libNtve_gf_SetAlliance(lv_player, lv_player2, libNtve_ge_AllianceSetting_Ally);
                         PlayerSetAlliance(lv_player, c_allianceIdVision, lv_player2, true);
                         PlayerSetAlliance(lv_player2, c_allianceIdVision, lv_player, true);
                     }
                     else {
+                        PlayerSetAlliance(lv_player, c_allianceIdVision, lv_player2, false);
                         libNtve_gf_SetAlliance(lv_player, lv_player2, libNtve_ge_AllianceSetting_Enemy);
                     }
                 }
@@ -417,7 +418,7 @@ void gf_LeaderboardInit () {
             gv_leaderboard_team_score_dialog_item[lv_team] = DialogControlLastCreated();
             DialogControlHookup(lv_teamFrame, c_triggerControlTypeLabel, "TeamName");
             gv_leaderboard_team_name_dialog_item[lv_team] = DialogControlLastCreated();
-            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (StringExternal("Param/Value/7A6AC653") + IntToText(lv_team)), PlayerGroupAll());
+            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (StringExternal("Param/Value/7A6AC653") + IntToText((lv_team + 1))), PlayerGroupAll());
             DialogControlSetPosition(lv_teamFrame, PlayerGroupAll(), c_anchorTopLeft, 0, (80 * lv_team));
         }
 
