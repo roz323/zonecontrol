@@ -23,6 +23,7 @@ int gv_untitledVariable001;
 point[9] gv_engineering_bay_positions;
 point[9] gv_initial_bunker_positions;
 point[9] gv_nuke_silo_positions;
+timer gv_game_timer;
 bool[10] gv_player_alive;
 bool[10] gv_team_alive;
 int[61] gv_spawn_scan_order;
@@ -48,6 +49,7 @@ unitgroup[9] gv_structuresGroup;
 void InitGlobals () {
     int init_i;
 
+    gv_game_timer = TimerCreate();
     for (init_i = 0; init_i <= 9; init_i += 1) {
         gv_leaderboard_player_frames[init_i] = c_invalidDialogControlId;
     }
@@ -108,12 +110,20 @@ void gf_AssignTeamLocations () {
     int init_i;
 
     // Variable Declarations
+    int lv_current_slot;
+    int lv_team;
+    playergroup[5] lv_lobby_teams;
     playergroup[5] lv_teams;
     int lv_player2;
     string lv_attribute_value;
     int lv_player;
 
     // Automatic Variable Declarations
+    int autoC5AE96C9_ae;
+    const int autoC5AE96C9_ai = 1;
+    int auto085798E8_ae;
+    const int auto085798E8_ai = 1;
+    playergroup auto1F51A688_g;
     const int auto90D2DB3B_ae = 8;
     const int auto90D2DB3B_ai = 1;
     const int auto1BDBC6C7_ae = 8;
@@ -123,40 +133,38 @@ void gf_AssignTeamLocations () {
 
     // Variable Initialization
     for (init_i = 0; init_i <= 4; init_i += 1) {
+        lv_lobby_teams[init_i] = PlayerGroupEmpty();
+    }
+    for (init_i = 0; init_i <= 4; init_i += 1) {
         lv_teams[init_i] = PlayerGroupEmpty();
     }
 
     // Implementation
     gv_num_teams = 4;
+    gv_players_per_team = 2;
+    autoC5AE96C9_ae = gv_num_teams;
+    lv_team = 1;
+    for ( ; ( (autoC5AE96C9_ai >= 0 && lv_team <= autoC5AE96C9_ae) || (autoC5AE96C9_ai < 0 && lv_team >= autoC5AE96C9_ae) ) ; lv_team += autoC5AE96C9_ai ) {
+        lv_lobby_teams[lv_team] = GameAttributePlayersForTeam(lv_team);
+    }
+    auto085798E8_ae = gv_num_teams;
+    lv_team = 0;
+    for ( ; ( (auto085798E8_ai >= 0 && lv_team <= auto085798E8_ae) || (auto085798E8_ai < 0 && lv_team >= auto085798E8_ae) ) ; lv_team += auto085798E8_ai ) {
+        lv_current_slot = ((lv_team - 1) * gv_players_per_team);
+        auto1F51A688_g = lv_lobby_teams[lv_team];
+        lv_player = -1;
+        while (true) {
+            lv_player = PlayerGroupNextPlayer(auto1F51A688_g, lv_player);
+            if (lv_player < 0) { break; }
+            gv_position_players[lv_current_slot] = lv_player;
+            lv_current_slot = (lv_current_slot + 1);
+        }
+    }
     lv_player = 0;
     for ( ; ( (auto90D2DB3B_ai >= 0 && lv_player <= auto90D2DB3B_ae) || (auto90D2DB3B_ai < 0 && lv_player >= auto90D2DB3B_ae) ) ; lv_player += auto90D2DB3B_ai ) {
         if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
             PlayerGroupAdd(lv_teams[gv_player_team[lv_player]], lv_player);
             lv_attribute_value = GameAttributePlayerValue("1", lv_player);
-            if ((lv_attribute_value == "0005")) {
-                gv_position_players[0] = lv_player;
-            }
-            else if ((lv_attribute_value == "0006")) {
-                gv_position_players[1] = lv_player;
-            }
-            else if ((lv_attribute_value == "0009")) {
-                gv_position_players[2] = lv_player;
-            }
-            else if ((lv_attribute_value == "0003")) {
-                gv_position_players[3] = lv_player;
-            }
-            else if ((lv_attribute_value == "0002")) {
-                gv_position_players[4] = lv_player;
-            }
-            else if ((lv_attribute_value == "0001")) {
-                gv_position_players[5] = lv_player;
-            }
-            else if ((lv_attribute_value == "0007")) {
-                gv_position_players[6] = lv_player;
-            }
-            else if ((lv_attribute_value == "0008")) {
-                gv_position_players[7] = lv_player;
-            }
             gv_player_positions[gv_position_players[lv_player]] = lv_player;
         }
     }
@@ -181,8 +189,11 @@ void gf_AssignTeamLocations () {
                     if (((lv_player2 != lv_player) && (gv_player_team[lv_player] == gv_player_team[lv_player2]))) {
                         libNtve_gf_SetAlliance(lv_player, lv_player2, libNtve_ge_AllianceSetting_Ally);
                         PlayerSetAlliance(lv_player, c_allianceIdVision, lv_player2, true);
+                        PlayerSetAlliance(lv_player2, c_allianceIdVision, lv_player, true);
                     }
-
+                    else {
+                        libNtve_gf_SetAlliance(lv_player, lv_player2, libNtve_ge_AllianceSetting_Enemy);
+                    }
                 }
             }
         }
@@ -623,6 +634,7 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TimerStart(gv_game_timer, 50000.0, false, c_timeGame);
     autoD61BCB46_g = PlayerGroupAll();
     lv_player = -1;
     while (true) {
@@ -925,20 +937,34 @@ void gt_PlayerLeaveGame_Init () {
 // Trigger: ShardSpawn
 //--------------------------------------------------------------------------------------------------
 bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    fixed lv_elapsed_seconds;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+
     // Actions
     if (!runActions) {
         return true;
     }
 
-    UnitCreate(1, "MineralCrystal", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+    lv_elapsed_seconds = TimerGetElapsed(gv_game_timer);
+    if ((lv_elapsed_seconds < 50.0)) {
+        UnitCreate(1, "MineralCrystal", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+    }
+    else if ((lv_elapsed_seconds < 300.0)) {
+        UnitCreate(1, "PalletMinerals", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+    }
+    else if ((lv_elapsed_seconds >= 600.0)) {
+        UnitCreate(1, "NaturalMineralsRed", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+    }
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void gt_ShardSpawn_Init () {
     gt_ShardSpawn = TriggerCreate("gt_ShardSpawn_Func");
-    TriggerAddEventTimePeriodic(gt_ShardSpawn, 15.0, c_timeGame);
+    TriggerAddEventTimePeriodic(gt_ShardSpawn, 40.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
