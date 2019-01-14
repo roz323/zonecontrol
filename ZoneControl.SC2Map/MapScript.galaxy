@@ -23,6 +23,7 @@ int gv_untitledVariable001;
 point[9] gv_engineering_bay_positions;
 point[9] gv_initial_bunker_positions;
 point[9] gv_nuke_silo_positions;
+timer gv_game_timer;
 bool[10] gv_player_alive;
 bool[10] gv_team_alive;
 int[61] gv_spawn_scan_order;
@@ -36,6 +37,7 @@ int[10] gv_player_positions;
 int[65] gv_bunker_owners;
 point[65] gv_bunker_locations;
 int[5][5] gv_player_team_rank;
+int[9] gv_player_scores;
 int[10] gv_leaderboard_player_frames;
 int[10] gv_leaderboard_player_scores;
 int[5] gv_leaderboard_team_score_dialog_item;
@@ -48,6 +50,7 @@ unitgroup[9] gv_structuresGroup;
 void InitGlobals () {
     int init_i;
 
+    gv_game_timer = TimerCreate();
     for (init_i = 0; init_i <= 9; init_i += 1) {
         gv_leaderboard_player_frames[init_i] = c_invalidDialogControlId;
     }
@@ -78,6 +81,7 @@ void gf_AssignTeamLocations ();
 void gf_SpawnPlayers ();
 void gf_LeaderboardInit ();
 void gf_UpdateLeaderboard ();
+void gf_UpdateLeaderboardSortOrder ();
 int gf_GetBunkerIndex (unit lp_bunker);
 void gf_OnBunkerCreated (int lp_player, unit lp_bunker);
 void gf_OnBunkerCreated2 (unit lp_worker);
@@ -108,12 +112,23 @@ void gf_AssignTeamLocations () {
     int init_i;
 
     // Variable Declarations
+    int lv_slot_on_team;
+    int[6][5] lv_team_placement;
+    string lv_mode;
+    int lv_current_slot;
+    int lv_team;
+    playergroup[5] lv_lobby_teams;
     playergroup[5] lv_teams;
     int lv_player2;
     string lv_attribute_value;
     int lv_player;
 
     // Automatic Variable Declarations
+    int autoC5AE96C9_ae;
+    const int autoC5AE96C9_ai = 1;
+    int auto085798E8_ae;
+    const int auto085798E8_ai = 1;
+    playergroup auto1F51A688_g;
     const int auto90D2DB3B_ae = 8;
     const int auto90D2DB3B_ai = 1;
     const int auto1BDBC6C7_ae = 8;
@@ -123,66 +138,106 @@ void gf_AssignTeamLocations () {
 
     // Variable Initialization
     for (init_i = 0; init_i <= 4; init_i += 1) {
+        lv_lobby_teams[init_i] = PlayerGroupEmpty();
+    }
+    for (init_i = 0; init_i <= 4; init_i += 1) {
         lv_teams[init_i] = PlayerGroupEmpty();
     }
 
     // Implementation
-    gv_num_teams = 4;
+    lv_mode = GameAttributeGameValue("1");
+    if ((lv_mode == "0001")) {
+        gv_num_teams = 4;
+        gv_players_per_team = 2;
+        lv_team_placement[1][0] = 0;
+        lv_team_placement[1][1] = 1;
+        lv_team_placement[2][0] = 2;
+        lv_team_placement[2][1] = 3;
+        lv_team_placement[3][0] = 4;
+        lv_team_placement[3][1] = 5;
+        lv_team_placement[4][0] = 6;
+        lv_team_placement[4][1] = 7;
+    }
+    else if ((lv_mode == "0002")) {
+        gv_num_teams = 2;
+        gv_players_per_team = 4;
+        lv_team_placement[1][0] = 0;
+        lv_team_placement[1][1] = 1;
+        lv_team_placement[1][2] = 4;
+        lv_team_placement[1][3] = 5;
+        lv_team_placement[2][0] = 2;
+        lv_team_placement[2][1] = 3;
+        lv_team_placement[2][2] = 6;
+        lv_team_placement[2][3] = 7;
+    }
+    else if ((lv_mode == "0003")) {
+        gv_num_teams = 4;
+        gv_players_per_team = 1;
+        lv_team_placement[1][0] = 0;
+        lv_team_placement[2][0] = 2;
+        lv_team_placement[3][0] = 4;
+        lv_team_placement[4][0] = 6;
+    }
+    else if ((lv_mode == "0004")) {
+        gv_num_teams = 2;
+        gv_players_per_team = 2;
+        lv_team_placement[1][0] = 0;
+        lv_team_placement[1][1] = 4;
+        lv_team_placement[2][0] = 2;
+        lv_team_placement[2][1] = 6;
+    }
+    else if ((lv_mode == "0005")) {
+        gv_num_teams = 2;
+        gv_players_per_team = 1;
+        lv_team_placement[1][0] = 1;
+        lv_team_placement[2][0] = 2;
+    }
+    autoC5AE96C9_ae = gv_num_teams;
+    lv_team = 1;
+    for ( ; ( (autoC5AE96C9_ai >= 0 && lv_team <= autoC5AE96C9_ae) || (autoC5AE96C9_ai < 0 && lv_team >= autoC5AE96C9_ae) ) ; lv_team += autoC5AE96C9_ai ) {
+        lv_lobby_teams[lv_team] = GameAttributePlayersForTeam(lv_team);
+    }
+    auto085798E8_ae = gv_num_teams;
+    lv_team = 0;
+    for ( ; ( (auto085798E8_ai >= 0 && lv_team <= auto085798E8_ae) || (auto085798E8_ai < 0 && lv_team >= auto085798E8_ae) ) ; lv_team += auto085798E8_ai ) {
+        lv_current_slot = 0;
+        auto1F51A688_g = lv_lobby_teams[lv_team];
+        lv_player = -1;
+        while (true) {
+            lv_player = PlayerGroupNextPlayer(auto1F51A688_g, lv_player);
+            if (lv_player < 0) { break; }
+            gv_position_players[lv_team_placement[lv_team][lv_current_slot]] = lv_player;
+            lv_current_slot = (lv_current_slot + 1);
+            gv_player_team[lv_player] = (lv_team - 1);
+        }
+    }
     lv_player = 0;
     for ( ; ( (auto90D2DB3B_ai >= 0 && lv_player <= auto90D2DB3B_ae) || (auto90D2DB3B_ai < 0 && lv_player >= auto90D2DB3B_ae) ) ; lv_player += auto90D2DB3B_ai ) {
         if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
             PlayerGroupAdd(lv_teams[gv_player_team[lv_player]], lv_player);
             lv_attribute_value = GameAttributePlayerValue("1", lv_player);
-            if ((lv_attribute_value == "0005")) {
-                gv_position_players[0] = lv_player;
-            }
-            else if ((lv_attribute_value == "0006")) {
-                gv_position_players[1] = lv_player;
-            }
-            else if ((lv_attribute_value == "0009")) {
-                gv_position_players[2] = lv_player;
-            }
-            else if ((lv_attribute_value == "0003")) {
-                gv_position_players[3] = lv_player;
-            }
-            else if ((lv_attribute_value == "0002")) {
-                gv_position_players[4] = lv_player;
-            }
-            else if ((lv_attribute_value == "0001")) {
-                gv_position_players[5] = lv_player;
-            }
-            else if ((lv_attribute_value == "0007")) {
-                gv_position_players[6] = lv_player;
-            }
-            else if ((lv_attribute_value == "0008")) {
-                gv_position_players[7] = lv_player;
-            }
             gv_player_positions[gv_position_players[lv_player]] = lv_player;
         }
     }
-    gv_player_team[1] = 0;
-    gv_player_team[2] = 0;
-    gv_player_team[3] = 1;
-    gv_player_team[4] = 1;
-    gv_player_team[5] = 2;
-    gv_player_team[6] = 2;
-    gv_player_team[7] = 3;
-    gv_player_team[8] = 3;
     UISetResourceTradingAllowed(c_resourceTypeMinerals, true);
     UISetResourceTradingAllowed(c_resourceTypeVespene, false);
     UISetResourceTradeCountdownTime(10);
     UISetResourceTradeCountdownTime(10);
-    lv_player = 0;
+    lv_player = 1;
     for ( ; ( (auto1BDBC6C7_ai >= 0 && lv_player <= auto1BDBC6C7_ae) || (auto1BDBC6C7_ai < 0 && lv_player >= auto1BDBC6C7_ae) ) ; lv_player += auto1BDBC6C7_ai ) {
         if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
-            lv_player2 = 0;
+            lv_player2 = 1;
             for ( ; ( (auto3389CE10_ai >= 0 && lv_player2 <= auto3389CE10_ae) || (auto3389CE10_ai < 0 && lv_player2 >= auto3389CE10_ae) ) ; lv_player2 += auto3389CE10_ai ) {
-                if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
-                    if (((lv_player2 != lv_player) && (gv_player_team[lv_player] == gv_player_team[lv_player2]))) {
+                if ((((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer)) && (lv_player2 != lv_player))) {
+                    if (((gv_player_team[lv_player] == gv_player_team[lv_player2]))) {
                         libNtve_gf_SetAlliance(lv_player, lv_player2, libNtve_ge_AllianceSetting_Ally);
                         PlayerSetAlliance(lv_player, c_allianceIdVision, lv_player2, true);
+                        PlayerSetAlliance(lv_player2, c_allianceIdVision, lv_player, true);
                     }
-
+                    else {
+                        PlayerSetAlliance(lv_player, c_allianceIdVision, lv_player2, false);
+                        libNtve_gf_SetAlliance(lv_player, lv_player2, libNtve_ge_AllianceSetting_Enemy);
+                    }
                 }
             }
         }
@@ -326,31 +381,31 @@ void gf_SpawnPlayers () {
     gv_spawn_scan_order[57] = 28;
     gv_spawn_scan_order[58] = 36;
     gv_spawn_scan_order[59] = 35;
-    gv_engineering_bay_positions[0] = Point(21.5, 92.5);
-    gv_engineering_bay_positions[1] = Point(18.5, 88.5);
+    gv_engineering_bay_positions[0] = Point(18.5, 88.5);
+    gv_engineering_bay_positions[1] = Point(21.5, 92.5);
     gv_engineering_bay_positions[2] = Point(90.5, 90.5);
     gv_engineering_bay_positions[3] = Point(93.5, 88.5);
     gv_engineering_bay_positions[4] = Point(93.5, 19.5);
     gv_engineering_bay_positions[5] = Point(90.5, 17.5);
-    gv_engineering_bay_positions[6] = Point(18.5, 19.5);
-    gv_engineering_bay_positions[7] = Point(21.5, 17.5);
-    gv_nuke_silo_positions[0] = Point(19.5, 93.5);
-    gv_nuke_silo_positions[1] = Point(16.5, 91.5);
+    gv_engineering_bay_positions[6] = Point(21.5, 17.5);
+    gv_engineering_bay_positions[7] = Point(18.5, 19.5);
+    gv_nuke_silo_positions[0] = Point(16.5, 91.5);
+    gv_nuke_silo_positions[1] = Point(19.5, 93.5);
     gv_nuke_silo_positions[2] = Point(92.5, 93.5);
     gv_nuke_silo_positions[3] = Point(95.5, 91.5);
     gv_nuke_silo_positions[4] = Point(95.5, 16.5);
     gv_nuke_silo_positions[5] = Point(92.5, 14.5);
-    gv_nuke_silo_positions[6] = Point(18.5, 19.5);
-    gv_nuke_silo_positions[7] = Point(21.5, 17.5);
-    gv_initial_bunker_positions[0] = Point(30.5, 89.5);
-    gv_initial_bunker_positions[1] = Point(20.5, 79.5);
+    gv_nuke_silo_positions[6] = Point(21.5, 17.5);
+    gv_nuke_silo_positions[7] = Point(18.5, 19.5);
+    gv_initial_bunker_positions[0] = Point(20.5, 79.5);
+    gv_initial_bunker_positions[1] = Point(30.5, 89.5);
     gv_initial_bunker_positions[2] = Point(81.5, 89.5);
     gv_initial_bunker_positions[3] = Point(91.5, 79.5);
     gv_initial_bunker_positions[4] = Point(91.5, 28.5);
     gv_initial_bunker_positions[5] = Point(81.5, 18.5);
-    gv_initial_bunker_positions[6] = Point(20.5, 28.5);
-    gv_initial_bunker_positions[7] = Point(30.5, 18.5);
-    lv_player = 0;
+    gv_initial_bunker_positions[6] = Point(30.5, 18.5);
+    gv_initial_bunker_positions[7] = Point(20.5, 28.5);
+    lv_player = 1;
     for ( ; ( (auto5A7C1BEA_ai >= 0 && lv_player <= auto5A7C1BEA_ae) || (auto5A7C1BEA_ai < 0 && lv_player >= auto5A7C1BEA_ae) ) ; lv_player += auto5A7C1BEA_ai ) {
         if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
             lv_position = gv_player_positions[lv_player];
@@ -391,7 +446,7 @@ void gf_LeaderboardInit () {
     lv_playerFrame = c_invalidDialogControlId;
 
     // Implementation
-    DialogCreate(300, 400, c_anchorTopRight, 0, 70, true);
+    DialogCreate(300, 400, c_anchorTopRight, 10, 70, true);
     lv_globalDialog = DialogLastCreated();
     DialogSetImageVisible(lv_globalDialog, false);
     DialogSetVisible(lv_globalDialog, PlayerGroupAll(), true);
@@ -406,7 +461,7 @@ void gf_LeaderboardInit () {
             gv_leaderboard_team_score_dialog_item[lv_team] = DialogControlLastCreated();
             DialogControlHookup(lv_teamFrame, c_triggerControlTypeLabel, "TeamName");
             gv_leaderboard_team_name_dialog_item[lv_team] = DialogControlLastCreated();
-            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (StringExternal("Param/Value/7A6AC653") + IntToText(lv_team)), PlayerGroupAll());
+            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (StringExternal("Param/Value/7A6AC653") + IntToText((lv_team + 1))), PlayerGroupAll());
             DialogControlSetPosition(lv_teamFrame, PlayerGroupAll(), c_anchorTopLeft, 0, (80 * lv_team));
         }
 
@@ -419,7 +474,6 @@ void gf_LeaderboardInit () {
             lv_current_team_rank[lv_team] = (lv_current_team_rank[lv_team] + 1);
             DialogControlCreateInPanelFromTemplate(gv_leaderboard_team_frames[gv_player_team[lv_player]], c_triggerControlTypePanel, "ZoneLeaderboard/PlayerFrame");
             lv_playerFrame = DialogControlLastCreated();
-            DialogControlSetPosition(lv_playerFrame, PlayerGroupAll(), c_anchorTopLeft, 20, (lv_current_team_rank[lv_team] * 25));
             gv_leaderboard_player_frames[lv_player] = lv_playerFrame;
             DialogControlHookup(lv_playerFrame, c_triggerControlTypeLabel, "Player1Score");
             gv_leaderboard_player_scores[lv_player] = DialogControlLastCreated();
@@ -429,10 +483,14 @@ void gf_LeaderboardInit () {
             libNtve_gf_SetDialogItemText(DialogControlLastCreated(), PlayerName(lv_player), PlayerGroupAll());
         }
     }
+    gf_UpdateLeaderboardSortOrder();
 }
 
 void gf_UpdateLeaderboard () {
     // Variable Declarations
+    bool lv_player_sort_order_modified;
+    int lv_swap;
+    int lv_sort_index;
     int lv_team;
     int[5] lv_team_scores;
     int lv_player;
@@ -443,6 +501,10 @@ void gf_UpdateLeaderboard () {
     const int auto06AA6D40_ai = 1;
     const int autoA680138D_ae = 3;
     const int autoA680138D_ai = 1;
+    const int auto18456ECE_ae = 3;
+    const int auto18456ECE_ai = 1;
+    int auto4173BE6B_ae;
+    const int auto4173BE6B_ai = 1;
 
     // Variable Initialization
 
@@ -451,6 +513,7 @@ void gf_UpdateLeaderboard () {
     for ( ; ( (auto06AA6D40_ai >= 0 && lv_player <= auto06AA6D40_ae) || (auto06AA6D40_ai < 0 && lv_player >= auto06AA6D40_ae) ) ; lv_player += auto06AA6D40_ai ) {
         if ((gv_player_alive[lv_player] == true)) {
             lv_player_score = (PlayerScoreValueGetAsInt(lv_player, "MineralsSpent") + PlayerGetPropertyInt(lv_player, c_playerPropMinerals));
+            gv_player_scores[lv_player] = lv_player_score;
             lv_team_scores[gv_player_team[lv_player]] = (lv_player_score + lv_team_scores[gv_player_team[lv_player]]);
             libNtve_gf_SetDialogItemText(gv_leaderboard_player_scores[lv_player], IntToText(lv_player_score), PlayerGroupAll());
         }
@@ -462,6 +525,61 @@ void gf_UpdateLeaderboard () {
             libNtve_gf_SetDialogItemText(gv_leaderboard_team_score_dialog_item[lv_team], IntToText(lv_team_scores[lv_team]), PlayerGroupAll());
         }
 
+    }
+    lv_team = 0;
+    for ( ; ( (auto18456ECE_ai >= 0 && lv_team <= auto18456ECE_ae) || (auto18456ECE_ai < 0 && lv_team >= auto18456ECE_ae) ) ; lv_team += auto18456ECE_ai ) {
+        auto4173BE6B_ae = (gv_players_per_team - 2);
+        lv_sort_index = 0;
+        for ( ; ( (auto4173BE6B_ai >= 0 && lv_sort_index <= auto4173BE6B_ae) || (auto4173BE6B_ai < 0 && lv_sort_index >= auto4173BE6B_ae) ) ; lv_sort_index += auto4173BE6B_ai ) {
+            if ((gv_player_scores[gv_player_team_rank[lv_team][lv_sort_index]] < gv_player_scores[gv_player_team_rank[lv_team][(lv_sort_index + 1)]])) {
+                lv_swap = gv_player_team_rank[lv_team][lv_sort_index];
+                gv_player_team_rank[lv_team][lv_sort_index] = gv_player_team_rank[lv_team][(lv_sort_index + 1)];
+                gv_player_team_rank[lv_team][(lv_sort_index + 1)] = lv_swap;
+                lv_player_sort_order_modified = true;
+            }
+        }
+    }
+    if ((lv_player_sort_order_modified == true)) {
+        gf_UpdateLeaderboardSortOrder();
+    }
+
+}
+
+void gf_UpdateLeaderboardSortOrder () {
+    // Variable Declarations
+    color lv_team_color;
+    int lv_player_rank;
+    int lv_team;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    int auto6A520955_ae;
+    const int auto6A520955_ai = 1;
+    int auto37397ADC_ae;
+    const int auto37397ADC_ai = 1;
+
+    // Variable Initialization
+    lv_team_color = Color(0,0,0);
+
+    // Implementation
+    auto6A520955_ae = (gv_num_teams - 1);
+    lv_team = 0;
+    for ( ; ( (auto6A520955_ai >= 0 && lv_team <= auto6A520955_ae) || (auto6A520955_ai < 0 && lv_team >= auto6A520955_ae) ) ; lv_team += auto6A520955_ai ) {
+        if ((gv_team_alive[lv_team] == true)) {
+            lv_team_color = libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(gv_player_team_rank[lv_team][0], false));
+            libNtve_gf_SetDialogItemColor(gv_leaderboard_team_name_dialog_item[lv_team], lv_team_color, PlayerGroupAll());
+            libNtve_gf_SetDialogItemColor(gv_leaderboard_team_score_dialog_item[lv_team], lv_team_color, PlayerGroupAll());
+        }
+
+        auto37397ADC_ae = (gv_players_per_team - 1);
+        lv_player_rank = 0;
+        for ( ; ( (auto37397ADC_ai >= 0 && lv_player_rank <= auto37397ADC_ae) || (auto37397ADC_ai < 0 && lv_player_rank >= auto37397ADC_ae) ) ; lv_player_rank += auto37397ADC_ai ) {
+            lv_player = gv_player_team_rank[lv_team][lv_player_rank];
+            if ((lv_player > 0)) {
+                DialogControlSetPosition(gv_leaderboard_player_frames[lv_player], PlayerGroupAll(), c_anchorTopLeft, 20, ((lv_player_rank + 1) * 25));
+            }
+
+        }
     }
 }
 
@@ -554,11 +672,12 @@ void gf_TestVictory () {
     }
     lv_player = 1;
     for ( ; ( (auto09869863_ai >= 0 && lv_player <= auto09869863_ae) || (auto09869863_ai < 0 && lv_player >= auto09869863_ae) ) ; lv_player += auto09869863_ai ) {
-        if ((lv_player == lv_alive_team)) {
+        if ((gv_player_team[lv_player] == lv_alive_team)) {
             GameOver(lv_player, c_gameOverVictory, false, true);
+        }
+        else {
             GameOver(lv_player, c_gameOverDefeat, false, true);
         }
-
     }
 }
 
@@ -623,6 +742,7 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TimerStart(gv_game_timer, 50000.0, false, c_timeGame);
     autoD61BCB46_g = PlayerGroupAll();
     lv_player = -1;
     while (true) {
@@ -925,20 +1045,34 @@ void gt_PlayerLeaveGame_Init () {
 // Trigger: ShardSpawn
 //--------------------------------------------------------------------------------------------------
 bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    fixed lv_elapsed_seconds;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+
     // Actions
     if (!runActions) {
         return true;
     }
 
-    UnitCreate(1, "MineralCrystal", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+    lv_elapsed_seconds = TimerGetElapsed(gv_game_timer);
+    if ((lv_elapsed_seconds < 50.0)) {
+        UnitCreate(1, "MineralCrystal", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+    }
+    else if ((lv_elapsed_seconds < 300.0)) {
+        UnitCreate(1, "PalletMinerals", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+    }
+    else if ((lv_elapsed_seconds >= 600.0)) {
+        UnitCreate(1, "NaturalMineralsRed", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+    }
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void gt_ShardSpawn_Init () {
     gt_ShardSpawn = TriggerCreate("gt_ShardSpawn_Func");
-    TriggerAddEventTimePeriodic(gt_ShardSpawn, 15.0, c_timeGame);
+    TriggerAddEventTimePeriodic(gt_ShardSpawn, 40.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -971,7 +1105,7 @@ bool gt_MineralTrickle_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_MineralTrickle_Init () {
     gt_MineralTrickle = TriggerCreate("gt_MineralTrickle_Func");
-    TriggerAddEventTimePeriodic(gt_MineralTrickle, 15.0, c_timeGame);
+    TriggerAddEventTimePeriodic(gt_MineralTrickle, 10.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
