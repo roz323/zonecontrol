@@ -159,10 +159,10 @@
         <AbilArray index="3" Link="Stimpack"/>
         <CardLayouts index="0">
             <LayoutButtons index="5">
-                <Face value="JackhammerConcussionGrenade"/>
+                <Face value="ConcussiveGrenade"/>
                 <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="UseJackhammerConcussiveGrenade"/>
+                <AbilCmd value="255,255"/>
+                <Requirements value="JackhammerConcussionGrenadesResearched"/>
                 <Row value="2"/>
                 <Column value="1"/>
             </LayoutButtons>
@@ -251,6 +251,7 @@
         <Food value="-1"/>
         <AbilArray Link="Stimpack"/>
         <CardLayouts index="0">
+            <LayoutButtons index="5" AbilCmd="255,255" Requirements="JackhammerConcussionGrenadesResearched"/>
             <LayoutButtons index="6" Face="Stim" AbilCmd="Stimpack,Execute"/>
         </CardLayouts>
         <ScoreMake value="0"/>
