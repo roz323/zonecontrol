@@ -131,6 +131,7 @@ void gf_AssignTeamLocations () {
     int init_i;
 
     // Variable Declarations
+    int lv_position;
     int lv_slot_on_team;
     int[6][5] lv_team_placement;
     string lv_mode;
@@ -148,8 +149,6 @@ void gf_AssignTeamLocations () {
     int auto085798E8_ae;
     const int auto085798E8_ai = 1;
     playergroup auto1F51A688_g;
-    const int auto90D2DB3B_ae = 8;
-    const int auto90D2DB3B_ai = 1;
     const int auto1BDBC6C7_ae = 8;
     const int auto1BDBC6C7_ai = 1;
     const int auto3389CE10_ae = 8;
@@ -225,17 +224,15 @@ void gf_AssignTeamLocations () {
         while (true) {
             lv_player = PlayerGroupNextPlayer(auto1F51A688_g, lv_player);
             if (lv_player < 0) { break; }
-            gv_position_players[lv_team_placement[lv_team][lv_current_slot]] = lv_player;
-            lv_current_slot = (lv_current_slot + 1);
-            gv_player_team[lv_player] = (lv_team - 1);
-        }
-    }
-    lv_player = 0;
-    for ( ; ( (auto90D2DB3B_ai >= 0 && lv_player <= auto90D2DB3B_ae) || (auto90D2DB3B_ai < 0 && lv_player >= auto90D2DB3B_ae) ) ; lv_player += auto90D2DB3B_ai ) {
-        if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
-            PlayerGroupAdd(lv_teams[gv_player_team[lv_player]], lv_player);
-            lv_attribute_value = GameAttributePlayerValue("1", lv_player);
-            gv_player_positions[gv_position_players[lv_player]] = lv_player;
+            if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+                lv_position = lv_team_placement[lv_team][lv_current_slot];
+                gv_position_players[lv_position] = lv_player;
+                gv_player_positions[lv_player] = lv_position;
+                lv_current_slot = (lv_current_slot + 1);
+                gv_player_team[lv_player] = (lv_team - 1);
+                PlayerGroupAdd(lv_teams[gv_player_team[lv_player]], lv_player);
+            }
+
         }
     }
     UISetResourceTradingAllowed(c_resourceTypeMinerals, true);
@@ -275,7 +272,6 @@ void gf_SpawnPlayers () {
     // Variable Initialization
 
     // Implementation
-    gf_AssignTeamLocations();
     gv_bunker_base_unit_type[0] = "Marine";
     gv_bunker_base_unit_type[1] = "Marine";
     gv_bunker_base_unit_type[2] = "Marine";
@@ -431,15 +427,15 @@ void gf_SpawnPlayers () {
             gv_player_alive[lv_player] = true;
             gv_team_alive[gv_player_team[lv_player]] = true;
             VisRevealArea(gv_position_players[lv_position], RegionEntireMap(), 0.1, false);
-            UnitCreate(1, "GhostAcademy", c_unitCreateIgnorePlacement, gv_position_players[lv_position], gv_nuke_silo_positions[lv_position], 270.0);
-            UnitControlGroupAddUnit(gv_position_players[lv_position], 4, UnitLastCreated());
+            UnitCreate(1, "GhostAcademy", c_unitCreateIgnorePlacement, lv_player, gv_nuke_silo_positions[lv_position], 270.0);
+            UnitControlGroupAddUnit(lv_player, 4, UnitLastCreated());
             gv_ghost_academies[lv_player] = UnitLastCreated();
-            UnitCreate(1, "EngineeringBay", c_unitCreateIgnorePlacement, gv_position_players[lv_position], gv_engineering_bay_positions[lv_position], 270.0);
-            UnitControlGroupAddUnit(gv_position_players[lv_position], 4, UnitLastCreated());
-            UnitCreate(1, "Bunker", c_unitCreateIgnorePlacement, gv_position_players[lv_position], gv_initial_bunker_positions[lv_position], 270.0);
-            CameraPan(gv_position_players[lv_position], gv_initial_bunker_positions[lv_position], 0.01, -1, 10.0, false);
-            gf_OnBunkerCreated(gv_position_players[lv_position], UnitLastCreated());
-            UnitCreate(1, "SCV", 0, gv_position_players[lv_position], gv_initial_bunker_positions[lv_position], 270.0);
+            UnitCreate(1, "EngineeringBay", c_unitCreateIgnorePlacement, lv_player, gv_engineering_bay_positions[lv_position], 270.0);
+            UnitControlGroupAddUnit(lv_player, 4, UnitLastCreated());
+            UnitCreate(1, "Bunker", c_unitCreateIgnorePlacement, lv_player, gv_initial_bunker_positions[lv_position], 270.0);
+            CameraPan(lv_player, gv_initial_bunker_positions[lv_position], 0.01, -1, 10.0, false);
+            gf_OnBunkerCreated(lv_player, UnitLastCreated());
+            UnitCreate(1, "SCV", 0, lv_player, gv_initial_bunker_positions[lv_position], 270.0);
             gf_OnBunkerCreated2(UnitLastCreated());
             libNtve_gf_AttachModelToUnit(UnitLastCreated(), "SS_PowerupStrongerMissiles", "Ref_Hardpoint");
             libHots_gf_StoreActorForUnit(UnitLastCreated(), 1, libNtve_gf_ActorLastCreated());
