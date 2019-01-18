@@ -54,6 +54,9 @@ int[5] gv_leaderboard_team_frames;
 int[5] gv_leaderboard_team_name_dialog_item;
 int[5] gv_leaderboard_team_dialog_item;
 int[5] gv_leaderboard_team_scores;
+bool gv_message_lock;
+int gv_num_messages;
+text[51] gv_messages;
 unitgroup[9] gv_structuresGroup;
 
 void InitGlobals () {
@@ -98,6 +101,10 @@ void gf_UpdatePlayerColor (int lp_player);
 void gf_LeaderboardInit ();
 void gf_UpdateLeaderboardSortOrder ();
 void gf_UpdateLeaderboard (bool lp_force_update_sort);
+void gf_RedrawDeathNotifications ();
+void gf_NotifyPlayerDied (int lp_palyer);
+void gf_NotifyPlayerLeave (int lp_palyer);
+void gf_AddMessage (text lp_message);
 int gf_GetBunkerIndex (unit lp_bunker);
 void gf_OnBunkerCreated (int lp_player, unit lp_bunker);
 void gf_OnBunkerCreated2 (unit lp_worker);
@@ -477,8 +484,8 @@ void gf_SpawnPlayers () {
     gv_nuke_silo_positions[3] = Point(95.5, 91.5);
     gv_nuke_silo_positions[4] = Point(95.5, 16.5);
     gv_nuke_silo_positions[5] = Point(92.5, 14.5);
-    gv_nuke_silo_positions[6] = Point(21.5, 17.5);
-    gv_nuke_silo_positions[7] = Point(18.5, 19.5);
+    gv_nuke_silo_positions[6] = Point(19.5, 14.5);
+    gv_nuke_silo_positions[7] = Point(16.5, 16.5);
     gv_initial_bunker_positions[0] = Point(20.5, 79.5);
     gv_initial_bunker_positions[1] = Point(30.5, 89.5);
     gv_initial_bunker_positions[2] = Point(81.5, 89.5);
@@ -739,6 +746,72 @@ void gf_UpdateLeaderboard (bool lp_force_update_sort) {
 
 }
 
+void gf_RedrawDeathNotifications () {
+    // Variable Declarations
+    int lv_index;
+    int lv_player;
+    text lv_string;
+
+    // Automatic Variable Declarations
+    int auto7DBB0B2B_ae;
+    const int auto7DBB0B2B_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    while ((gv_num_messages >= 1)) {
+        lv_string = gv_messages[0];
+        UIDisplayMessage(PlayerGroupAll(), c_messageAreaDirective, lv_string);
+        Wait(8.0, c_timeGame);
+        while (gv_message_lock) {
+            Wait(1.0, c_timeGame);
+        }
+        gv_message_lock = true;
+        auto7DBB0B2B_ae = gv_num_messages;
+        lv_index = 0;
+        for ( ; ( (auto7DBB0B2B_ai >= 0 && lv_index <= auto7DBB0B2B_ae) || (auto7DBB0B2B_ai < 0 && lv_index >= auto7DBB0B2B_ae) ) ; lv_index += auto7DBB0B2B_ai ) {
+            gv_messages[lv_index] = gv_messages[(lv_index + 1)];
+        }
+        gv_num_messages = (gv_num_messages - 1);
+        gv_message_lock = false;
+    }
+    UIClearMessages(PlayerGroupAll(), c_messageAreaDirective);
+}
+
+void gf_NotifyPlayerDied (int lp_palyer) {
+    // Automatic Variable Declarations
+    // Implementation
+    gf_AddMessage((TextWithColor(PlayerName(lp_palyer), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lp_palyer, false))) + StringExternal("Param/Value/90E4AD59")));
+}
+
+void gf_NotifyPlayerLeave (int lp_palyer) {
+    // Automatic Variable Declarations
+    // Implementation
+    gf_AddMessage((TextWithColor(PlayerName(lp_palyer), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lp_palyer, false))) + StringExternal("Param/Value/8D5E846C")));
+}
+
+void gf_AddMessage (text lp_message) {
+    // Variable Declarations
+    bool lv_process_needed;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    while (gv_message_lock) {
+        Wait(1.0, c_timeGame);
+    }
+    gv_message_lock = true;
+    lv_process_needed = (gv_num_messages == 0);
+    gv_messages[gv_num_messages] = lp_message;
+    gv_num_messages = (gv_num_messages + 1);
+    gv_message_lock = false;
+    if ((lv_process_needed == true)) {
+        gf_RedrawDeathNotifications();
+    }
+
+}
+
 int gf_GetBunkerIndex (unit lp_bunker) {
     // Variable Declarations
     int lv_y;
@@ -904,11 +977,13 @@ void gf_OnPlayerDead (int lp_player) {
 
 void gf_TestPlayerDead (int lp_player) {
     // Variable Declarations
+    int lv_teammate;
     int lv_slot;
 
     // Automatic Variable Declarations
     const int autoA6BAEF31_ae = 63;
     const int autoA6BAEF31_ai = 1;
+    playergroup auto4A0D2F01_g;
 
     // Variable Initialization
 
@@ -920,8 +995,16 @@ void gf_TestPlayerDead (int lp_player) {
         }
 
     }
+    auto4A0D2F01_g = PlayerGroupAlliance(c_playerGroupAlly, lp_player);
+    lv_teammate = -1;
+    while (true) {
+        lv_teammate = PlayerGroupNextPlayer(auto4A0D2F01_g, lv_teammate);
+        if (lv_teammate < 0) { break; }
+        PlayerSetAlliance(lp_player, c_allianceIdVision, lv_teammate, false);
+    }
     VisRevealArea(lp_player, RegionEntireMap(), 0.0, false);
     gf_OnPlayerDead(lp_player);
+    gf_NotifyPlayerDied(lp_player);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -941,6 +1024,7 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    UISetResourceVisible(PlayerGroupAll(), c_resourceTypeVespene, false);
     TimerStart(gv_game_timer, 50000.0, false, c_timeGame);
     autoD61BCB46_g = PlayerGroupAll();
     lv_player = -1;
@@ -1392,6 +1476,7 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
             UnitSetOwner(EventUnit(), lv_teammate, true);
         }
     }
+    gf_NotifyPlayerLeave(EventPlayer());
     return true;
 }
 
