@@ -98,10 +98,33 @@
         <Amount value="14"/>
         <AttributeBonus index="Light" value="7"/>
     </CEffectDamage>
+    <CEffectModifyPlayer id="PickupEX2Gas50">
+        <Resources index="Minerals" value="50"/>
+        <Resources index="Vespene" value="0"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="PickupGas25">
+        <Resources index="Minerals" value="50"/>
+        <Resources index="Vespene" value="0"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="PickupMinerals100">
+        <Resources index="Minerals" value="0"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="PickupMinerals106">
+        <EditorCategories value=""/>
+        <Resources index="Minerals" value="50"/>
+    </CEffectModifyPlayer>
     <CEffectSet id="PickupMinerals100Set">
         <EffectArray index="0" value="PickupRemoveDelay"/>
-        <EffectArray index="1" removed="1"/>
+        <EffectArray index="1" value="PickupMinerals100"/>
     </CEffectSet>
+    <CEffectSet id="PickupMinerals100Set2">
+        <EditorCategories value=""/>
+        <EffectArray value="PickupRemoveDelay"/>
+        <EffectArray value="PickupMinerals106"/>
+    </CEffectSet>
+    <CEffectModifyPlayer id="PickupMinerals250">
+        <Resources index="Minerals" value="200"/>
+    </CEffectModifyPlayer>
     <CEffectDamage id="PunisherGrenadesU">
         <AttributeBonus index="Armored" value="25"/>
         <Amount value="50"/>
