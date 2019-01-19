@@ -157,23 +157,17 @@
         <Speed value="1.75"/>
         <Food value="-1"/>
         <AbilArray index="3" Link="Stimpack"/>
+        <AbilArray Link="StimpackMarauder"/>
         <CardLayouts index="0">
             <LayoutButtons index="5">
-                <Face value="ConcussiveGrenade"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255,255"/>
-                <Requirements value="JackhammerConcussionGrenadesResearched"/>
-                <Row value="2"/>
-                <Column value="1"/>
-            </LayoutButtons>
-            <LayoutButtons index="6">
                 <Face value="Stim"/>
                 <Type value="AbilCmd"/>
-                <AbilCmd value="Stimpack,Execute"/>
+                <AbilCmd value="StimpackMarauder,Execute"/>
                 <Requirements value=""/>
                 <Row value="2"/>
                 <Column value="0"/>
             </LayoutButtons>
+            <LayoutButtons index="6" removed="1"/>
         </CardLayouts>
         <ScoreMake value="0"/>
         <EquipmentArray Weapon="GuassRifle2"/>
@@ -252,8 +246,8 @@
         <Food value="-1"/>
         <AbilArray Link="Stimpack"/>
         <CardLayouts index="0">
-            <LayoutButtons index="5" AbilCmd="255,255" Requirements="JackhammerConcussionGrenadesResearched"/>
-            <LayoutButtons index="6" Face="Stim" AbilCmd="Stimpack,Execute"/>
+            <LayoutButtons index="5" Face="Stim" Type="AbilCmd" AbilCmd="StimpackMarauder,Execute" Requirements="" Column="0"/>
+            <LayoutButtons index="6" removed="1"/>
         </CardLayouts>
         <ScoreMake value="0"/>
         <EquipmentArray Weapon="GuassRifle2"/>

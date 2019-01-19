@@ -9,6 +9,10 @@
     <CRequirement id="HaveOrbitalRelay">
         <NodeArray index="Show" Link=""/>
     </CRequirement>
+    <CRequirement id="JackhammerConcussionGrenadesResearched">
+        <NodeArray index="Use" Link=""/>
+        <NodeArray index="Show" Link="NotCountUpgradePunisherGrenadesQueuedOrBetter"/>
+    </CRequirement>
     <CRequirement id="LearnPlasmaCapacitorsPassive">
         <NodeArray index="Show" Link="AndCountUpgradeResearchPlasmaCapacitorsQueuedOrBetter"/>
     </CRequirement>
@@ -30,7 +34,6 @@
     </CRequirement>
     <CRequirement id="LearnPunisherGrenades">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
-        <NodeArray index="Show" Link="NotCountUpgradeJackhammerConcussionGrenadesQueuedOrBetter"/>
     </CRequirement>
     <CRequirement id="LearnObliterationOrdnance" parent="LearnPunisherGrenades">
         <NodeArray index="Show" Link="NotCountUpgradeSiegeTurretAreaQueuedOrBetter"/>
