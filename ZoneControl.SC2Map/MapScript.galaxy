@@ -1547,6 +1547,8 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     const int auto0C76BC50_ae = 8;
     const int auto0C76BC50_ai = 1;
+    unitgroup auto78359B8E_g;
+    int auto78359B8E_u;
     const int auto356FEFDF_ae = 63;
     const int auto356FEFDF_ai = 1;
     unitgroup auto3DD62C4A_g;
@@ -1596,7 +1598,27 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
             }
         }
     }
+    else {
+        auto78359B8E_g = UnitGroup(null, lv_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        auto78359B8E_u = UnitGroupCount(auto78359B8E_g, c_unitCountAll);
+        for (;; auto78359B8E_u -= 1) {
+            lv_unit = UnitGroupUnitFromEnd(auto78359B8E_g, auto78359B8E_u);
+            if (lv_unit == null) { break; }
+            if (((UnitGetType(lv_unit) == "Bunker") || (UnitGetType(lv_unit) == "InfestedBunker"))) {
+                UnitCreate(1, "NaturalMineralsRed", 0, 0, UnitGetPosition(lv_unit), 270.0);
+            }
 
+            if (((UnitGetType(lv_unit) == "SupplyDepot") || (UnitGetType(lv_unit) == "SupplyDepotLowered"))) {
+                UnitCreate(1, "PalletMinerals", 0, 0, UnitGetPosition(lv_unit), 270.0);
+            }
+
+            if (((UnitGetType(lv_unit) == "SensorTower") || (UnitGetType(lv_unit) == "HiveMindEmulator"))) {
+                UnitCreate(1, "MineralCrystal", 0, 0, UnitGetPosition(lv_unit), 270.0);
+            }
+
+        }
+        UnitRemove(lv_unit);
+    }
     gf_OnPlayerDead(lv_player);
     gf_NotifyPlayerLeave(lv_player);
     return true;
