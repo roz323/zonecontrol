@@ -54,6 +54,8 @@ int[5] gv_leaderboard_team_frames;
 int[5] gv_leaderboard_team_name_dialog_item;
 int[5] gv_leaderboard_team_dialog_item;
 int[5] gv_leaderboard_team_scores;
+int gv_untitledVariable002;
+int gv_untitledVariable003;
 bool gv_message_lock;
 int gv_num_messages;
 text[51] gv_messages;
@@ -87,6 +89,7 @@ void InitGlobals () {
     for (init_i = 0; init_i <= 4; init_i += 1) {
         gv_leaderboard_team_dialog_item[init_i] = c_invalidDialogControlId;
     }
+    gv_untitledVariable002 = 100;
     for (init_i = 0; init_i <= 8; init_i += 1) {
         gv_structuresGroup[init_i] = UnitGroupEmpty();
     }
@@ -107,6 +110,7 @@ void gf_NotifyPlayerLeave (int lp_palyer);
 void gf_AddMessage (text lp_message);
 int gf_GetBunkerIndex (unit lp_bunker);
 void gf_OnBunkerCreated (int lp_player, unit lp_bunker);
+void gf_OnBunkerCreated3 (unit lp_bunker);
 void gf_OnBunkerCreated2 (unit lp_worker);
 void gf_OnBunkerRemoved (int lp_player, unit lp_bunker);
 void gf_UpdateAllWorkers (int lp_player);
@@ -126,10 +130,12 @@ trigger gt_SpawnUnit;
 trigger gt_OnRallyChange;
 trigger gt_OnUpgrade;
 trigger gt_BunkerBuild;
+trigger gt_BunkerBuild2;
 trigger gt_BunkerDestoryed;
 trigger gt_ScvDied;
 trigger gt_OnRetire;
 trigger gt_OnUnretire;
+trigger gt_ScvCalldown;
 trigger gt_ArmNuke;
 trigger gt_PlayerLeaveGame;
 trigger gt_MineralTrickle;
@@ -335,6 +341,7 @@ void gf_AssignTeamLocations () {
 
 void gf_SpawnPlayers () {
     // Variable Declarations
+    unit lv_unit;
     fixed[9][3] lv_position_spawn_offsets;
     int lv_player;
     int lv_position;
@@ -526,10 +533,13 @@ void gf_SpawnPlayers () {
             UnitControlGroupAddUnit(lv_player, 4, UnitLastCreated());
             UnitCreate(1, "Bunker", c_unitCreateIgnorePlacement, lv_player, gv_initial_bunker_positions[lv_position], 270.0);
             CameraPan(lv_player, gv_initial_bunker_positions[lv_position], 0.01, -1, 10.0, false);
-            gf_OnBunkerCreated(lv_player, UnitLastCreated());
+            lv_unit = UnitLastCreated();
+            gf_OnBunkerCreated3(lv_unit);
+            gf_OnBunkerCreated(lv_player, lv_unit);
             UnitCreate(1, "SCV", 0, lv_player, PointWithOffset(gv_initial_bunker_positions[lv_position], (-4.0 * lv_position_spawn_offsets[lv_position][0]), (-4.0 * lv_position_spawn_offsets[lv_position][1])), 270.0);
             UnitIssueOrder(UnitLastCreated(), Order(AbilityCommand("move", 2)), c_orderQueueReplace);
-            gf_OnBunkerCreated2(UnitLastCreated());
+            lv_unit = UnitLastCreated();
+            gf_OnBunkerCreated2(lv_unit);
             libNtve_gf_AttachModelToUnit(UnitLastCreated(), "SS_PowerupStrongerMissiles", "Ref_Hardpoint");
             libHots_gf_StoreActorForUnit(UnitLastCreated(), 1, libNtve_gf_ActorLastCreated());
         }
@@ -841,9 +851,21 @@ void gf_OnBunkerCreated (int lp_player, unit lp_bunker) {
     gv_bunker_owners[lv_bunker_index] = lp_player;
     gv_bunker_retire_status[lv_bunker_index] = false;
     gv_bunkers[lv_bunker_index] = lp_bunker;
-    UnitControlGroupAddUnit(lp_player, 2, lp_bunker);
     UnitGroupAdd(gv_structuresGroup[lp_player], lp_bunker);
+    UnitControlGroupAddUnit(UnitGetOwner(lp_bunker), 2, lp_bunker);
     TriggerAddEventUnitDied(gt_BunkerDestoryed, UnitRefFromUnit(lp_bunker));
+}
+
+void gf_OnBunkerCreated3 (unit lp_bunker) {
+    // Variable Declarations
+    int lv_bunker_index;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    UnitGroupAdd(gv_structuresGroup[UnitGetOwner(lp_bunker)], lp_bunker);
+    UnitControlGroupAddUnit(UnitGetOwner(lp_bunker), 2, lp_bunker);
      TriggerAddEventUnitOrder(gt_OnRallyChange, UnitRefFromUnit(lp_bunker), AbilityCommand("Rally", 0));
 }
 
@@ -858,6 +880,7 @@ void gf_OnBunkerCreated2 (unit lp_worker) {
     // Implementation
     if ((gf_PlayerHasNuke(UnitGetOwner(lp_worker)) == true)) {
         libNtve_gf_AttachModelToUnit(lp_worker, "SS_PowerupStrongerMissiles", "Ref_Hardpoint");
+        libHots_gf_StoreActorForUnit(lp_worker, 1, libNtve_gf_ActorLastCreated());
     }
 
     UnitControlGroupAddUnit(UnitGetOwner(lp_worker), 3, lp_worker);
@@ -1128,6 +1151,8 @@ void gt_ShardCollected_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    string lv_spawn_type;
+    int lv_p;
     unit lv_shard;
     fixed lv_elapsed_seconds;
 
@@ -1140,24 +1165,43 @@ bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
     }
 
     lv_elapsed_seconds = TimerGetElapsed(gv_game_timer);
-    if ((lv_elapsed_seconds < 50.0)) {
-        UnitCreate(1, "MineralCrystal", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+    if ((lv_elapsed_seconds < 90.0)) {
+        return true;
     }
-    else if ((lv_elapsed_seconds < 300.0)) {
-        UnitCreate(1, "PalletMinerals", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+
+    if ((RandomInt(0, 100) < 50)) {
+        lv_p = RandomInt(0, 100);
+        if ((lv_p < gv_untitledVariable002)) {
+            lv_spawn_type = "MineralCrystal";
+        }
+        else if ((lv_p < (gv_untitledVariable002 + gv_untitledVariable003))) {
+            lv_spawn_type = "PalletMinerals";
+        }
+        else if ((lv_p < 1000)) {
+            lv_spawn_type = "NaturalMineralsRed";
+        }
+        UnitCreate(1, lv_spawn_type, 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+        lv_shard = UnitLastCreated();
+        TriggerAddEventUnitDied(gt_ShardCollected, UnitRefFromUnit(lv_shard));
     }
-    else if ((lv_elapsed_seconds >= 600.0)) {
-        UnitCreate(1, "NaturalMineralsRed", 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
+
+    if ((lv_elapsed_seconds > 180.0)) {
+        if ((gv_untitledVariable002 > 0)) {
+            gv_untitledVariable002 = (gv_untitledVariable002 - 2);
+            gv_untitledVariable003 = (gv_untitledVariable003 + 2);
+        }
+        else {
+            gv_untitledVariable003 = (gv_untitledVariable003 - 2);
+        }
     }
-    lv_shard = UnitLastCreated();
-    TriggerAddEventUnitDied(gt_ShardCollected, UnitRefFromUnit(lv_shard));
+
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void gt_ShardSpawn_Init () {
     gt_ShardSpawn = TriggerCreate("gt_ShardSpawn_Func");
-    TriggerAddEventTimePeriodic(gt_ShardSpawn, 40.0, c_timeGame);
+    TriggerAddEventTimePeriodic(gt_ShardSpawn, 20.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1272,7 +1316,7 @@ void gt_OnUpgrade_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: BunkerConstructionCompleted
+// Trigger: ConstructionCompleted
 //--------------------------------------------------------------------------------------------------
 bool gt_BunkerBuild_Func (bool testConds, bool runActions) {
     // Variable Declarations
@@ -1289,9 +1333,6 @@ bool gt_BunkerBuild_Func (bool testConds, bool runActions) {
     if ((UnitGetType(EventUnitProgressUnit()) == "Bunker")) {
         gf_OnBunkerCreated(EventPlayer(), EventUnitProgressUnit());
     }
-    else if ((UnitGetType(EventUnitProgressUnit()) == "SiegeBreakerSieged")) {
-        UnitControlGroupAddUnit(UnitGetOwner(EventUnit()), 5, EventUnitProgressUnit());
-    }
     return true;
 }
 
@@ -1299,6 +1340,37 @@ bool gt_BunkerBuild_Func (bool testConds, bool runActions) {
 void gt_BunkerBuild_Init () {
     gt_BunkerBuild = TriggerCreate("gt_BunkerBuild_Func");
     TriggerAddEventUnitConstructProgress(gt_BunkerBuild, null, c_unitProgressStageComplete);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ConstructionStarted
+//--------------------------------------------------------------------------------------------------
+bool gt_BunkerBuild2_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_structure;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_structure = EventUnitProgressUnit();
+    if ((UnitGetType(EventUnitProgressUnit()) == "Bunker")) {
+        gf_OnBunkerCreated3(EventUnitProgressUnit());
+    }
+    else if ((UnitGetType(EventUnitProgressUnit()) == "SiegeBreakerSieged")) {
+        UnitControlGroupAddUnit(UnitGetOwner(EventUnit()), 5, EventUnitProgressUnit());
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_BunkerBuild2_Init () {
+    gt_BunkerBuild2 = TriggerCreate("gt_BunkerBuild2_Func");
+    TriggerAddEventUnitConstructProgress(gt_BunkerBuild2, null, c_unitProgressStageStart);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1406,6 +1478,41 @@ void gt_OnUnretire_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: ScvCalldown
+//--------------------------------------------------------------------------------------------------
+bool gt_ScvCalldown_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    unitgroup autoC83EDAA1_g;
+    int autoC83EDAA1_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    Wait(5.0, c_timeGame);
+    autoC83EDAA1_g = UnitGroup("SCV", UnitGetOwner(EventUnit()), RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoC83EDAA1_u = UnitGroupCount(autoC83EDAA1_g, c_unitCountAll);
+    for (;; autoC83EDAA1_u -= 1) {
+        lv_unit = UnitGroupUnitFromEnd(autoC83EDAA1_g, autoC83EDAA1_u);
+        if (lv_unit == null) { break; }
+        gf_OnBunkerCreated2(lv_unit);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ScvCalldown_Init () {
+    gt_ScvCalldown = TriggerCreate("gt_ScvCalldown_Func");
+    TriggerAddEventUnitAbility(gt_ScvCalldown, null, AbilityCommand("CalldownMULE", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: ArmNuke
 //--------------------------------------------------------------------------------------------------
 bool gt_ArmNuke_Func (bool testConds, bool runActions) {
@@ -1431,6 +1538,8 @@ void gt_ArmNuke_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    int lv_player;
+    int lv_bunker_slot;
     int lv_teammate;
     int lv_possible_teammate;
     unit lv_unit;
@@ -1438,6 +1547,8 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     const int auto0C76BC50_ae = 8;
     const int auto0C76BC50_ai = 1;
+    const int auto356FEFDF_ae = 63;
+    const int auto356FEFDF_ai = 1;
     unitgroup auto3DD62C4A_g;
     int auto3DD62C4A_u;
 
@@ -1445,38 +1556,49 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
     lv_teammate = -1;
     lv_possible_teammate = -1;
 
-    // Conditions
-    if (testConds) {
-        if (!((gv_player_alive[EventPlayer()] == true))) {
-            return false;
-        }
-    }
-
     // Actions
     if (!runActions) {
         return true;
     }
 
+    lv_player = EventPlayer();
+    if ((gv_player_alive[lv_player] == true)) {
+    }
+    else {
+        return true;
+    }
     lv_possible_teammate = 0;
     for ( ; ( (auto0C76BC50_ai >= 0 && lv_possible_teammate <= auto0C76BC50_ae) || (auto0C76BC50_ai < 0 && lv_possible_teammate >= auto0C76BC50_ae) ) ; lv_possible_teammate += auto0C76BC50_ai ) {
-        if ((gv_player_team[lv_possible_teammate] == gv_player_team[EventPlayer()])) {
+        if (((gv_player_team[lv_possible_teammate] == gv_player_team[lv_player]) && (gv_player_alive[lv_possible_teammate] == true))) {
             lv_teammate = lv_possible_teammate;
         }
 
     }
-    if ((lv_teammate == -1)) {
-        gf_OnPlayerDead(EventPlayer());
-    }
-    else {
-        auto3DD62C4A_g = UnitGroup(null, EventPlayer(), RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    if ((lv_teammate >= 1)) {
+        UnitGroupAddUnitGroup(gv_structuresGroup[lv_teammate], gv_structuresGroup[lv_player]);
+        lv_bunker_slot = 1;
+        for ( ; ( (auto356FEFDF_ai >= 0 && lv_bunker_slot <= auto356FEFDF_ae) || (auto356FEFDF_ai < 0 && lv_bunker_slot >= auto356FEFDF_ae) ) ; lv_bunker_slot += auto356FEFDF_ai ) {
+            if ((gv_bunker_owners[lv_bunker_slot] == lv_player)) {
+                gv_bunker_owners[lv_bunker_slot] = lv_teammate;
+            }
+
+        }
+        auto3DD62C4A_g = UnitGroup(null, lv_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
         auto3DD62C4A_u = UnitGroupCount(auto3DD62C4A_g, c_unitCountAll);
         for (;; auto3DD62C4A_u -= 1) {
             lv_unit = UnitGroupUnitFromEnd(auto3DD62C4A_g, auto3DD62C4A_u);
             if (lv_unit == null) { break; }
-            UnitSetOwner(EventUnit(), lv_teammate, true);
+            if (((UnitGetType(lv_unit) == "SCV") || (UnitGetType(lv_unit) == "EngineeringBay") || (UnitGetType(lv_unit) == "GhostAcademy"))) {
+                UnitRemove(lv_unit);
+            }
+            else {
+                UnitSetOwner(lv_unit, lv_teammate, true);
+            }
         }
     }
-    gf_NotifyPlayerLeave(EventPlayer());
+
+    gf_OnPlayerDead(lv_player);
+    gf_NotifyPlayerLeave(lv_player);
     return true;
 }
 
@@ -1531,10 +1653,12 @@ void InitTriggers () {
     gt_OnRallyChange_Init();
     gt_OnUpgrade_Init();
     gt_BunkerBuild_Init();
+    gt_BunkerBuild2_Init();
     gt_BunkerDestoryed_Init();
     gt_ScvDied_Init();
     gt_OnRetire_Init();
     gt_OnUnretire_Init();
+    gt_ScvCalldown_Init();
     gt_ArmNuke_Init();
     gt_PlayerLeaveGame_Init();
     gt_MineralTrickle_Init();
