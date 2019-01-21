@@ -9,11 +9,775 @@ include "TriggerLibs/NativeLib"
 include "TriggerLibs/SwarmLib"
 
 //--------------------------------------------------------------------------------------------------
+// Library: MD5_Hash
+//--------------------------------------------------------------------------------------------------
+// Function Declarations
+void lib1_gf_InitializeHashInput ();
+void lib1_gf_AddBooleanToHashInput (bool lp_boolean);
+void lib1_gf_AddByteToHashInput (byte lp_byte);
+void lib1_gf_AddBytesToHashInput (byte lp_byte, int lp_amount);
+void lib1_gf_AddIntegerToHashInput (int lp_integer);
+void lib1_gf_AddIntegersToHashInput (int lp_integer, int lp_amount);
+void lib1_gf_AddRealToHashInput (fixed lp_real);
+void lib1_gf_AddStringToHashInput (string lp_string);
+void lib1_gf_AddUnitToHashInput (unit lp_unit);
+string lib1_gf_GenerateMD5HashCode ();
+string lib1_gf_GenerateSHA256HashCode ();
+
+//--------------------------------------------------------------------------------------------------
+// Library: MD5_Hash
+//--------------------------------------------------------------------------------------------------
+// External Library Initialization
+void lib1_InitLibraries () {
+    libNtve_InitVariables();
+}
+
+// Custom Script
+//--------------------------------------------------------------------------------------------------
+// Custom Script: Global Script
+//--------------------------------------------------------------------------------------------------
+// Copyright (C) 2011 by Danny de Jong
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+// Hash Input
+byte[1024] HashInputData;
+int HashInputSize = 0;
+int GetHashInputLittleEndianInt( int position )
+{
+    int temp;
+    int result;
+    position *= 4;
+    result = HashInputData[position];
+    temp = HashInputData[position + 1];
+    result |= temp << 8;
+    temp = HashInputData[position + 2];
+    result |= temp << 16;
+    temp = HashInputData[position + 3];
+    result |= temp << 24;
+    return result;
+}
+int GetHashInputBigEndianInt( int position )
+{
+    int temp;
+    int result;
+    position *= 4;
+    temp = HashInputData[position];
+    result = temp << 24;
+    temp = HashInputData[position + 1];
+    result |= temp << 16;
+    temp = HashInputData[position + 2];
+    result |= temp << 8;
+    temp = HashInputData[position + 3];
+    result |= temp;
+    return result;
+}
+// ASCII conversion
+string asciiTable = "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f\x20\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3a\x3b\x3c\x3d\x3e\x3f\x40\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4a\x4b\x4c\x4d\x4e\x4f\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f\x60\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6a\x6b\x6c\x6d\x6e\x6f\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7a\x7b\x7c\x7d\x7e\x7f\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff";
+byte CharToAsciiCode(string charContainingString, int charPosition)
+{
+    return StringFind( asciiTable, StringSub( charContainingString, charPosition + 1, charPosition + 1), c_stringCase );
+}
+//  Hex Conversion
+string[16] HexTable;
+string GetHexChar( int number )
+{
+    return HexTable[number];
+}
+string GetUnsignedLittleEndianHexRepresentation( int unsignedInt )
+{
+    string representation = "";
+    representation += GetHexChar( ( unsignedInt & 0x000000F0 ) >> 4 );
+    representation += GetHexChar( ( unsignedInt & 0x0000000F ) );
+    representation += GetHexChar( ( unsignedInt & 0x0000F000 ) >> 12 );
+    representation += GetHexChar( ( unsignedInt & 0x00000F00) >> 8 );
+    representation += GetHexChar( ( unsignedInt & 0x00F00000 ) >> 20 );
+    representation += GetHexChar( ( unsignedInt & 0x000F0000) >> 16 );
+    if ( unsignedInt >= 0 )
+    {
+        representation += GetHexChar( unsignedInt >> 28 );
+    }
+    else
+    {
+        unsignedInt += 0x7FFFFFFF + 1;
+        representation += GetHexChar( 0x8 + ( unsignedInt >> 28 ) );
+    }
+    representation += GetHexChar( ( unsignedInt & 0x0F000000) >> 24 );
+    return representation;
+}
+string GetUnsignedHexRepresentation( int unsignedInt )
+{   
+    string representation = "";
+    
+    if ( unsignedInt >= 0 )
+    {
+        representation += GetHexChar( unsignedInt >> 28 );
+    }
+    else
+    {
+        unsignedInt += 0x7FFFFFFF + 1;
+        representation += GetHexChar( 0x8 + ( unsignedInt >> 28 ) );
+    }
+    representation += GetHexChar( ( unsignedInt & 0x0F000000) >> 24 );
+    representation += GetHexChar( ( unsignedInt & 0x00F00000 ) >> 20 );
+    representation += GetHexChar( ( unsignedInt & 0x000F0000) >> 16 );
+    representation += GetHexChar( ( unsignedInt & 0x0000F000 ) >> 12 );
+    representation += GetHexChar( ( unsignedInt & 0x00000F00) >> 8 );
+    representation += GetHexChar( ( unsignedInt & 0x000000F0 ) >> 4 );
+    representation += GetHexChar( ( unsignedInt & 0x0000000F ) );
+    return representation;
+}
+// Resolve data function
+int GetFixedDataAsInt(fixed fixedVar)
+{
+    int data;
+    data= ( FixedToInt(fixedVar) << 12 );
+    fixedVar -= data;
+    data|= FixedToInt( fixedVar* Pow2(12) );
+    return data;
+}
+//  Operations
+int UnsignedRightShift( int input, int shift )  // Right shift pads bit 1's when the value is under zero for signed integers. So this is the work-around.
+{
+    return input >> shift & ~( -1 << ( 32 - shift  ) );
+}
+int UnsignedLeftRotate( int input, int rotation )
+{
+    rotation = ModI( rotation, 32 );
+    return ( input << rotation ) | UnsignedRightShift (input,  32 - rotation );
+}
+int UnsignedRightRotate( int input, int rotation )
+{
+    rotation = ModI( rotation, 32 );
+    return UnsignedRightShift( input, rotation ) | ( input << ( 32 - rotation ) ); 
+}
+int UnsignedLeftRotate32( int input, int rotation ) // Optimized version for rotation within range 0 =< x =< 32
+{
+    return ( input << rotation ) | UnsignedRightShift (input,  32 - rotation );
+}
+int UnsignedRightRotate32( int input, int rotation ) // Optimized version for rotation within range 0 =< x =< 32
+{
+    return UnsignedRightShift( input, rotation ) | ( input << ( 32 - rotation ) ); 
+}
+
+//--------------------------------------------------------------------------------------------------
+// Custom Script: MD5 Script
+//--------------------------------------------------------------------------------------------------
+// Copyright (C) 2011 by Danny de Jong
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+int Md5F( int b, int c, int d )
+{
+    return d ^ ( b & ( c ^ d ) );
+}
+int Md5G( int b, int c, int d )
+{
+    return c ^ ( d & ( b ^ c ) );
+}
+int Md5H( int b, int c, int d )
+{
+    return b ^ c ^ d;
+}
+int Md5I( int b, int c, int d )
+{
+    return c ^ (b | (~d));
+}
+int Md5FF( int a, int b, int c, int d, int w, int r, int k )
+{
+    return UnsignedLeftRotate32( ( a + Md5F( b, c, d ) + k + w ), r ) + b;
+}
+int Md5GG( int a, int b, int c, int d, int w, int r, int k )
+{
+    return UnsignedLeftRotate32( ( a + Md5G( b, c, d ) + k + w ), r ) + b;
+}
+int Md5HH( int a, int b, int c, int d, int w, int r, int k )
+{
+    return UnsignedLeftRotate32( ( a + Md5H( b, c, d ) + k + w ), r ) + b;
+}
+int Md5II( int a, int b, int c, int d, int w, int r, int k )
+{
+    return UnsignedLeftRotate32( ( a + Md5I( b, c, d ) + k + w ), r ) + b;
+}
+string GenerateMd5HashCode()
+{    
+    //  Variables
+    int h0 = 0x67452301;
+    int h1 = 0x0E000000 << 4 | 0x0FCDAB89;
+    int h2 = 0x09000000 << 4 | 0x08BADCFE;
+    int h3 = 0x10325476;
+    int a; int b; int c; int d;
+    int i = 0; int j = 0;
+    int messageNBits;
+    int paddingLength;
+    //  Prepare message
+    messageNBits = HashInputSize * 8;
+    HashInputData[HashInputSize] = 0x80;
+    HashInputSize += 1;
+    paddingLength =  56 - ModI( HashInputSize, 64 );
+    if ( paddingLength < 0 )
+    {
+        paddingLength += 64;
+    }
+    while ( i < paddingLength )
+    {
+        HashInputData[HashInputSize] = 0;
+        HashInputSize += 1;
+        i += 1;
+    }
+    //Note: You might want to change this when the hash input increases in size.
+    HashInputData[HashInputSize] = messageNBits;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = messageNBits >> 8;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    //  Loop
+    i = 0;
+    while ( i < ( HashInputSize - 1 ) )
+    {
+        a = h0;
+        b = h1;
+        c = h2;
+        d = h3;
+        a = Md5FF( a, b, c, d, GetHashInputLittleEndianInt( j ), 7, 0x0d000000 << 4 | 0x076aa478 );
+        d = Md5FF( d, a, b, c, GetHashInputLittleEndianInt( j + 1 ), 12, 0x0e000000 << 4 | 0x08c7b756 );
+        c = Md5FF( c, d, a, b, GetHashInputLittleEndianInt( j + 2 ), 17, 0x242070db );
+        b = Md5FF( b, c, d, a, GetHashInputLittleEndianInt( j + 3 ), 22, 0x0c000000 << 4 | 0x01bdceee );
+        a = Md5FF( a, b, c, d, GetHashInputLittleEndianInt( j + 4 ), 7, 0x0f000000 << 4 | 0x057c0faf );
+        d = Md5FF( d, a, b, c, GetHashInputLittleEndianInt( j + 5 ), 12, 0x4787c62a );
+        c = Md5FF( c, d, a, b, GetHashInputLittleEndianInt( j + 6 ), 17, 0x0a000000 << 4 | 0x08304613 );
+        b = Md5FF( b, c, d, a, GetHashInputLittleEndianInt( j + 7 ), 22, 0x0f000000 << 4 | 0x0d469501 );
+        a = Md5FF( a, b, c, d, GetHashInputLittleEndianInt( j + 8 ), 7, 0x698098d8 );
+        d = Md5FF( d, a, b, c, GetHashInputLittleEndianInt( j + 9 ), 12, 0x08000000 << 4 | 0x0b44f7af );
+        c = Md5FF( c, d, a, b, GetHashInputLittleEndianInt( j + 10 ), 17, 0x0f000000 << 4 | 0x0fff5bb1 );
+        b = Md5FF( b, c, d, a, GetHashInputLittleEndianInt( j + 11 ), 22, 0x08000000 << 4 | 0x095cd7be );
+        a = Md5FF( a, b, c, d, GetHashInputLittleEndianInt( j + 12 ), 7, 0x6b901122 );
+        d = Md5FF( d, a, b, c, GetHashInputLittleEndianInt( j + 13 ), 12, 0x0f000000 << 4 | 0x0d987193 );
+        c = Md5FF( c, d, a, b, GetHashInputLittleEndianInt( j+ 14 ), 17, 0x0a000000 << 4 | 0x0679438e );
+        b = Md5FF( b, c, d, a, GetHashInputLittleEndianInt( j + 15 ), 22, 0x49b40821 );
+        a = Md5GG( a, b, c, d, GetHashInputLittleEndianInt( j + 1 ), 5, 0x0f000000 << 4 | 0x061e2562 );
+        d = Md5GG( d, a, b, c, GetHashInputLittleEndianInt( j + 6 ), 9, 0x0c000000 << 4 | 0x0040b340 );
+        c = Md5GG( c, d, a, b, GetHashInputLittleEndianInt( j + 11 ), 14, 0x265e5a51 );
+        b = Md5GG( b, c, d, a, GetHashInputLittleEndianInt( j ), 20, 0x0e000000 << 4 | 0x09b6c7aa );
+        a = Md5GG( a, b, c, d, GetHashInputLittleEndianInt( j + 5 ), 5, 0x0d000000 << 4 | 0x062f105d );
+        d = Md5GG( d, a, b, c, GetHashInputLittleEndianInt( j + 10 ), 9, 0x02441453 );
+        c = Md5GG( c, d, a, b, GetHashInputLittleEndianInt( j + 15 ), 14, 0x0d000000 << 4 | 0x08a1e681 );
+        b = Md5GG( b, c, d, a, GetHashInputLittleEndianInt( j + 4 ), 20, 0x0e000000 << 4 | 0x07d3fbc8 );
+        a = Md5GG( a, b, c, d, GetHashInputLittleEndianInt( j + 9 ), 5, 0x21e1cde6 );
+        d = Md5GG( d, a, b, c, GetHashInputLittleEndianInt( j + 14 ), 9, 0x0c000000 << 4 | 0x033707d6 );
+        c = Md5GG( c, d, a, b, GetHashInputLittleEndianInt( j + 3 ), 14, 0x0f000000 << 4 | 0x04d50d87 );
+        b = Md5GG( b, c, d, a, GetHashInputLittleEndianInt( j + 8 ), 20, 0x455a14ed );
+        a = Md5GG( a, b, c, d, GetHashInputLittleEndianInt( j + 13 ), 5, 0x0a000000 << 4 | 0x09e3e905 );
+        d = Md5GG( d, a, b, c, GetHashInputLittleEndianInt( j + 2 ), 9, 0x0f000000 << 4 | 0x0cefa3f8 );
+        c = Md5GG( c, d, a, b, GetHashInputLittleEndianInt( j + 7 ), 14,  0x676f02d9 );
+        b = Md5GG( b, c, d, a, GetHashInputLittleEndianInt( j + 12 ), 20, 0x08000000 << 4 | 0x0d2a4c8a );
+        a = Md5HH( a, b, c, d, GetHashInputLittleEndianInt( j + 5 ), 4, 0x0f000000 << 4 | 0x0ffa3942 );
+        d = Md5HH( d, a, b, c, GetHashInputLittleEndianInt( j + 8 ), 11, 0x08000000 << 4 | 0x0771f681 );
+        c = Md5HH( c, d, a, b, GetHashInputLittleEndianInt( j + 11 ), 16, 0x6d9d6122 );
+        b = Md5HH( b, c, d, a, GetHashInputLittleEndianInt( j + 14 ), 23, 0x0f000000 << 4 | 0x0de5380c );
+        a = Md5HH( a, b, c, d, GetHashInputLittleEndianInt( j + 1 ), 4, 0x0a000000 << 4 | 0x04beea44 );
+        d = Md5HH( d, a, b, c, GetHashInputLittleEndianInt( j + 4 ), 11, 0x4bdecfa9 );
+        c = Md5HH( c, d, a, b, GetHashInputLittleEndianInt( j + 7 ), 16, 0x0f000000 << 4 | 0x06bb4b60 );
+        b = Md5HH( b, c, d, a, GetHashInputLittleEndianInt( j + 10 ), 23, 0x0b000000 << 4 | 0x0ebfbc70 );
+        a = Md5HH( a, b, c, d, GetHashInputLittleEndianInt( j + 13 ), 4, 0x289b7ec6 );
+        d = Md5HH( d, a, b, c, GetHashInputLittleEndianInt( j + 0 ), 11, 0x0e000000 << 4 | 0x0aa127fa );
+        c = Md5HH( c, d, a, b, GetHashInputLittleEndianInt( j + 3 ), 16, 0x0d000000 << 4 | 0x04ef3085 );
+        b = Md5HH( b, c, d, a, GetHashInputLittleEndianInt( j + 6 ), 23, 0x04881d05 );
+        a = Md5HH( a, b, c, d, GetHashInputLittleEndianInt( j + 9 ), 4, 0x0d000000 << 4 | 0x09d4d039 );
+        d = Md5HH( d, a, b, c, GetHashInputLittleEndianInt( j + 12 ), 11, 0x0e000000 << 4 | 0x06db99e5 );
+        c = Md5HH( c, d, a, b, GetHashInputLittleEndianInt( j + 15 ), 16, 0x1fa27cf8 );
+        b = Md5HH( b, c, d, a, GetHashInputLittleEndianInt( j + 2 ), 23, 0x0c000000 << 4 | 0x04ac5665 );
+        a = Md5II( a, b, c, d, GetHashInputLittleEndianInt( j ), 6, 0x0f000000 << 4 | 0x04292244 );
+        d = Md5II( d, a, b, c, GetHashInputLittleEndianInt( j + 7 ), 10, 0x432aff97 );
+        c = Md5II( c, d, a, b, GetHashInputLittleEndianInt( j + 14 ), 15, 0x0a000000 << 4 | 0x0b9423a7 );
+        b = Md5II( b, c, d, a, GetHashInputLittleEndianInt( j + 5 ), 21, 0x0f000000 << 4 | 0x0c93a039 );
+        a = Md5II( a, b, c, d, GetHashInputLittleEndianInt( j + 12 ), 6, 0x655b59c3 );
+        d = Md5II( d, a, b, c, GetHashInputLittleEndianInt( j + 3 ), 10, 0x08000000 << 4 | 0x0f0ccc92 );
+        c = Md5II( c, d, a, b, GetHashInputLittleEndianInt( j + 10 ), 15, 0x0f000000 << 4 | 0x0feff47d );
+        b = Md5II( b, c, d, a, GetHashInputLittleEndianInt( j + 1 ), 21, 0x08000000 << 4 | 0x05845dd1 );
+        a = Md5II( a, b, c, d, GetHashInputLittleEndianInt( j + 8 ), 6, 0x6fa87e4f );
+        d = Md5II( d, a, b, c, GetHashInputLittleEndianInt( j + 15 ), 10, 0x0f000000 << 4 | 0x0e2ce6e0 );
+        c = Md5II( c, d, a, b, GetHashInputLittleEndianInt( j + 6 ), 15, 0x0a000000 << 4 | 0x03014314 );
+        b = Md5II( b, c, d, a, GetHashInputLittleEndianInt( j + 13 ), 21, 0x4e0811a1 );
+        a = Md5II( a, b, c, d, GetHashInputLittleEndianInt( j + 4 ), 6, 0x0f000000 << 4 | 0x07537e82 );
+        d = Md5II( d, a, b, c, GetHashInputLittleEndianInt( j + 11 ), 10, 0x0b000000 << 4 | 0x0d3af235 );
+        c = Md5II( c, d, a, b, GetHashInputLittleEndianInt( j + 2 ), 15, 0x2ad7d2bb );
+        b = Md5II( b, c, d, a, GetHashInputLittleEndianInt( j + 9 ), 21, 0x0e000000 << 4 | 0x0b86d391 );
+        h0 += a;
+        h1 += b;
+        h2 += c;
+        h3 += d;
+        i += 64;
+        j += 16;
+    }
+    
+    return GetUnsignedLittleEndianHexRepresentation( h0 ) + GetUnsignedLittleEndianHexRepresentation( h1 ) + GetUnsignedLittleEndianHexRepresentation( h2 ) + GetUnsignedLittleEndianHexRepresentation( h3 );
+}
+
+//--------------------------------------------------------------------------------------------------
+// Custom Script: SHA256 Script
+//--------------------------------------------------------------------------------------------------
+// Copyright (C) 2011 by Danny de Jong
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+int Sha256Ch( int x, int y, int z )
+{
+    return ( x & y ) ^ ( ~x & z );
+}
+int Sha256Maj( int x, int y, int z )
+{
+    return ( x & y ) ^ ( x & z ) ^ ( y & z );
+}
+int Sha256CapitalSigma0( int x )
+{
+    return UnsignedRightRotate32( x, 2 ) ^ UnsignedRightRotate32( x, 13 ) ^ UnsignedRightRotate32( x, 22 );
+}
+int Sha256CapitalSigma1( int x )
+{
+    return UnsignedRightRotate32( x, 6 ) ^ UnsignedRightRotate32( x, 11 ) ^ UnsignedRightRotate32( x, 25 );
+}
+int Sha256Sigma0( int x )
+{
+    return UnsignedRightRotate32( x, 7 ) ^ UnsignedRightRotate32( x, 18 ) ^ UnsignedRightShift( x, 3 );
+}
+int Sha256Sigma1( int x )
+{
+    return UnsignedRightRotate32( x, 17 ) ^ UnsignedRightRotate32( x, 19 ) ^ UnsignedRightShift( x, 10 );
+}
+int Sha256T0( int e, int f, int g, int h, int k, int w )
+{
+    return h + Sha256CapitalSigma1( e ) + Sha256Ch( e, f, g ) + k + w;
+}
+int Sha256T1( int a, int b, int c )
+{
+    return Sha256CapitalSigma0( a ) + Sha256Maj( a, b, c );
+}
+string GenerateSha256HashCode()
+{
+    //  Variables
+    int h0 = 0x6a09e667;
+    int h1 = 0x0b000000 << 4 | 0x0b67ae85;
+    int h2 = 0x3c6ef372;
+    int h3 = 0x0a000000 << 4 | 0x054ff53a;
+    int h4 = 0x510e527f;
+    int h5 = 0x09000000 << 4 | 0x0b05688c;
+    int h6 = 0x1f83d9ab;
+    int h7 = 0x5be0cd19;
+    int a; int b; int c; int d; int e; int f; int g; int h; int t0; int t1;
+    int[64] w;
+    int i = 0; int j = 0; int k = 0;
+    int messageNBits;
+    int paddingLength;
+    //  Prepare message
+    messageNBits = HashInputSize * 8;
+    HashInputData[HashInputSize] = 0x80;
+    HashInputSize += 1;
+    paddingLength =  56 - ModI( HashInputSize, 64 );
+    if ( paddingLength < 0 )
+    {
+        paddingLength += 64;
+    }
+    while ( i < paddingLength )
+    {
+        HashInputData[HashInputSize] = 0;
+        HashInputSize += 1;
+        i += 1;
+    }
+    //Note: You might want to change this when the hash input increases in size.
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = 0;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = messageNBits >> 8;
+    HashInputSize += 1;
+    HashInputData[HashInputSize] = messageNBits;
+    HashInputSize += 1;
+    //  Loop
+    i = 0;
+    while ( i < ( HashInputSize - 1 ) )
+    {   
+        //  Working Variables
+        a = h0;
+        b = h1;
+        c = h2;
+        d = h3;
+        e = h4;
+        f = h5;
+        g = h6;
+        h = h7;
+        //  Preparing Extra Message Schedule
+        j = 0;
+        while ( j < 16 )
+        {
+            w[j] = GetHashInputBigEndianInt( k );
+            j += 1;
+            k += 1;
+        }
+        while ( j < 64 )
+        {
+            w[j] =  Sha256Sigma1( w[j - 2] ) +
+            w[j - 7] +
+            Sha256Sigma0( w[j - 15] ) +
+            w[j - 16];
+            
+            j += 1;
+        }
+        // 0 to 15
+        t0 = Sha256T0( e, f, g, h, 0x428a2f98, w[0] ); t1 = Sha256T1( a, b, c );
+        h = t0 + t1; d += t0; i += 1;
+        t0 = Sha256T0( d, e, f, g, 0x71374491, w[1] ); t1 = Sha256T1( h, a, b );
+        g = t0 + t1; c += t0; i += 1;
+        t0 = Sha256T0( c, d, e, f, 0x0b000000 << 4 | 0x05c0fbcf, w[2] ); t1 = Sha256T1( g, h, a );
+        f = t0 + t1; b += t0; i += 1;
+        t0 = Sha256T0( b, c, d, e, 0x0e000000 << 4 | 0x09b5dba5, w[3] ); t1 = Sha256T1( f, g, h );
+        e = t0 + t1; a += t0; i += 1;
+        t0 = Sha256T0( a, b, c, d, 0x3956c25b, w[4] ); t1 = Sha256T1( e, f, g );
+        d = t0 + t1; h += t0; i += 1;
+        t0 = Sha256T0( h, a, b, c, 0x59f111f1, w[5] ); t1 = Sha256T1( d, e, f );
+        c = t0 + t1; g += t0; i += 1;
+        t0 = Sha256T0( g, h, a, b, 0x09000000 << 4 | 0x023f82a4, w[6] ); t1 = Sha256T1( c, d, e );
+        b = t0 + t1; f += t0; i += 1;
+        t0 = Sha256T0( f, g, h, a, 0x0a000000 << 4 | 0x0b1c5ed5, w[7] ); t1 = Sha256T1( b, c, d );
+        a = t0 + t1; e += t0; i += 1;
+        t0 = Sha256T0( e, f, g, h, 0x0d000000 << 4 | 0x0807aa98, w[8] ); t1 = Sha256T1( a, b, c );
+        h = t0 + t1; d += t0; i += 1;
+        t0 = Sha256T0( d, e, f, g, 0x12835b01, w[9] ); t1 = Sha256T1( h, a, b );
+        g = t0 + t1; c += t0; i += 1;
+        t0 = Sha256T0( c, d, e, f, 0x243185be, w[10] ); t1 = Sha256T1( g, h, a );
+        f = t0 + t1; b += t0; i += 1;
+        t0 = Sha256T0( b, c, d, e, 0x550c7dc3, w[11] ); t1 = Sha256T1( f, g, h );
+        e = t0 + t1; a += t0; i += 1;
+        t0 = Sha256T0( a, b, c, d, 0x72be5d74, w[12] ); t1 = Sha256T1( e, f, g );
+        d = t0 + t1; h += t0; i += 1;
+        t0 = Sha256T0( h, a, b, c, 0x08000000 << 4 | 0x00deb1fe, w[13] ); t1 = Sha256T1( d, e, f );
+        c = t0 + t1; g += t0; i += 1;
+        t0 = Sha256T0( g, h, a, b, 0x09000000 << 4 | 0x0bdc06a7, w[14] ); t1 = Sha256T1( c, d, e );
+        b = t0 + t1; f += t0; i += 1;
+        t0 = Sha256T0( f, g, h, a, 0x0c000000 << 4 | 0x019bf174, w[15] ); t1 = Sha256T1( b, c, d );
+        a = t0 + t1; e += t0;
+        // 16 to 31
+        t0 = Sha256T0( e, f, g, h, 0x0e000000 << 4 | 0x049b69c1, w[16] ); t1 = Sha256T1( a, b, c );
+        h = t0 + t1; d += t0;
+        t0 = Sha256T0( d, e, f, g, 0x0e000000 << 4 | 0x0fbe4786, w[17] ); t1 = Sha256T1( h, a, b );
+        g = t0 + t1; c += t0;
+        t0 = Sha256T0( c, d, e, f, 0x0fc19dc6, w[18] ); t1 = Sha256T1( g, h, a );
+        f = t0 + t1; b += t0;
+        t0 = Sha256T0( b, c, d, e, 0x240ca1cc, w[19] ); t1 = Sha256T1( f, g, h );
+        e = t0 + t1; a += t0;
+        t0 = Sha256T0( a, b, c, d, 0x2de92c6f, w[20] ); t1 = Sha256T1( e, f, g );
+        d = t0 + t1; h += t0;
+        t0 = Sha256T0( h, a, b, c, 0x4a7484aa, w[21] ); t1 = Sha256T1( d, e, f );
+        c = t0 + t1; g += t0;
+        t0 = Sha256T0( g, h, a, b, 0x5cb0a9dc, w[22] ); t1 = Sha256T1( c, d, e );
+        b = t0 + t1; f += t0;
+        t0 = Sha256T0( f, g, h, a, 0x76f988da, w[23] ); t1 = Sha256T1( b, c, d );
+        a = t0 + t1; e += t0;
+        t0 = Sha256T0( e, f, g, h, 0x09000000 << 4 | 0x083e5152, w[24] ); t1 = Sha256T1( a, b, c );
+        h = t0 + t1; d += t0;
+        t0 = Sha256T0( d, e, f, g, 0x0a000000 << 4 | 0x0831c66d, w[25] ); t1 = Sha256T1( h, a, b );
+        g = t0 + t1; c += t0;
+        t0 = Sha256T0( c, d, e, f, 0x0b000000 << 4 | 0x000327c8, w[26] ); t1 = Sha256T1( g, h, a );
+        f = t0 + t1; b += t0;
+        t0 = Sha256T0( b, c, d, e, 0x0b000000 << 4 | 0x0f597fc7, w[27] ); t1 = Sha256T1( f, g, h );
+        e = t0 + t1; a += t0;
+        t0 = Sha256T0( a, b, c, d, 0x0c000000 << 4 | 0x06e00bf3, w[28] ); t1 = Sha256T1( e, f, g );
+        d = t0 + t1; h += t0;
+        t0 = Sha256T0( h, a, b, c, 0x0d000000 << 4 | 0x05a79147, w[29] ); t1 = Sha256T1( d, e, f );
+        c = t0 + t1; g += t0;
+        t0 = Sha256T0( g, h, a, b, 0x06ca6351, w[30] ); t1 = Sha256T1( c, d, e );
+        b = t0 + t1; f += t0;
+        t0 = Sha256T0( f, g, h, a, 0x14292967, w[31] ); t1 = Sha256T1( b, c, d );
+        a = t0 + t1; e += t0;
+        // 32 to 47
+        t0 = Sha256T0( e, f, g, h, 0x27b70a85, w[32] ); t1 = Sha256T1( a, b, c );
+        h = t0 + t1; d += t0;
+        t0 = Sha256T0( d, e, f, g, 0x2e1b2138, w[33] ); t1 = Sha256T1( h, a, b );
+        g = t0 + t1; c += t0;
+        t0 = Sha256T0( c, d, e, f, 0x4d2c6dfc, w[34] ); t1 = Sha256T1( g, h, a );
+        f = t0 + t1; b += t0;
+        t0 = Sha256T0( b, c, d, e, 0x53380d13, w[35] ); t1 = Sha256T1( f, g, h );
+        e = t0 + t1; a += t0;
+        t0 = Sha256T0( a, b, c, d, 0x650a7354, w[36] ); t1 = Sha256T1( e, f, g );
+        d = t0 + t1; h += t0;
+        t0 = Sha256T0( h, a, b, c, 0x766a0abb, w[37] ); t1 = Sha256T1( d, e, f );
+        c = t0 + t1; g += t0;
+        t0 = Sha256T0( g, h, a, b, 0x08000000 << 4 | 0x01c2c92e, w[38] ); t1 = Sha256T1( c, d, e );
+        b = t0 + t1; f += t0;
+        t0 = Sha256T0( f, g, h, a, 0x09000000 << 4 | 0x02722c85, w[39] ); t1 = Sha256T1( b, c, d );
+        a = t0 + t1; e += t0;
+        t0 = Sha256T0( e, f, g, h, 0x0a000000 << 4 | 0x02bfe8a1, w[40] ); t1 = Sha256T1( a, b, c );
+        h = t0 + t1; d += t0;
+        t0 = Sha256T0( d, e, f, g, 0x0a000000 << 4 | 0x081a664b, w[41] ); t1 = Sha256T1( h, a, b );
+        g = t0 + t1; c += t0;
+        t0 = Sha256T0( c, d, e, f, 0x0c000000 << 4 | 0x024b8b70, w[42] ); t1 = Sha256T1( g, h, a );
+        f = t0 + t1; b += t0;
+        t0 = Sha256T0( b, c, d, e, 0x0c000000 << 4 | 0x076c51a3, w[43] ); t1 = Sha256T1( f, g, h );
+        e = t0 + t1; a += t0;
+        t0 = Sha256T0( a, b, c, d, 0x0d000000 << 4 | 0x0192e819, w[44] ); t1 = Sha256T1( e, f, g );
+        d = t0 + t1; h += t0;
+        t0 = Sha256T0( h, a, b, c, 0x0d000000 << 4 | 0x06990624, w[45] ); t1 = Sha256T1( d, e, f );
+        c = t0 + t1; g += t0;
+        t0 = Sha256T0( g, h, a, b, 0x0f000000 << 4 | 0x040e3585, w[46] ); t1 = Sha256T1( c, d, e );
+        b = t0 + t1; f += t0;
+        t0 = Sha256T0( f, g, h, a, 0x106aa070, w[47] ); t1 = Sha256T1( b, c, d );
+        a = t0 + t1; e += t0;
+        // 48 to 63
+        t0 = Sha256T0( e, f, g, h, 0x19a4c116, w[48] ); t1 = Sha256T1( a, b, c );
+        h = t0 + t1; d += t0;
+        t0 = Sha256T0( d, e, f, g, 0x1e376c08, w[49] ); t1 = Sha256T1( h, a, b );
+        g = t0 + t1; c += t0;
+        t0 = Sha256T0( c, d, e, f, 0x2748774c, w[50] ); t1 = Sha256T1( g, h, a );
+        f = t0 + t1; b += t0;
+        t0 = Sha256T0( b, c, d, e, 0x34b0bcb5, w[51] ); t1 = Sha256T1( f, g, h );
+        e = t0 + t1; a += t0;
+        t0 = Sha256T0( a, b, c, d, 0x391c0cb3, w[52] ); t1 = Sha256T1( e, f, g );
+        d = t0 + t1; h += t0;
+        t0 = Sha256T0( h, a, b, c, 0x4ed8aa4a, w[53] ); t1 = Sha256T1( d, e, f );
+        c = t0 + t1; g += t0;
+        t0 = Sha256T0( g, h, a, b, 0x5b9cca4f, w[54] ); t1 = Sha256T1( c, d, e );
+        b = t0 + t1; f += t0;
+        t0 = Sha256T0( f, g, h, a, 0x682e6ff3, w[55] ); t1 = Sha256T1( b, c, d );
+        a = t0 + t1; e += t0;
+        t0 = Sha256T0( e, f, g, h, 0x748f82ee, w[56] ); t1 = Sha256T1( a, b, c );
+        h = t0 + t1; d += t0;
+        t0 = Sha256T0( d, e, f, g, 0x78a5636f, w[57] ); t1 = Sha256T1( h, a, b );
+        g = t0 + t1; c += t0;
+        t0 = Sha256T0( c, d, e, f, 0x08000000 << 4 | 0x04c87814, w[58] ); t1 = Sha256T1( g, h, a );
+        f = t0 + t1; b += t0;
+        t0 = Sha256T0( b, c, d, e, 0x08000000 << 4 | 0x0cc70208, w[59] ); t1 = Sha256T1( f, g, h );
+        e = t0 + t1; a += t0;
+        t0 = Sha256T0( a, b, c, d, 0x09000000 << 4 | 0x00befffa, w[60] ); t1 = Sha256T1( e, f, g );
+        d = t0 + t1; h += t0;
+        t0 = Sha256T0( h, a, b, c, 0x0a000000 << 4 | 0x04506ceb, w[61] ); t1 = Sha256T1( d, e, f );
+        c = t0 + t1; g += t0;
+        t0 = Sha256T0( g, h, a, b, 0x0b000000 << 4 | 0x0ef9a3f7, w[62] ); t1 = Sha256T1( c, d, e );
+        b = t0 + t1; f += t0;
+        t0 = Sha256T0( f, g, h, a, 0x0c000000 << 4 | 0x067178f2, w[63] ); t1 = Sha256T1( b, c, d );
+        a = t0 + t1; e += t0;
+        h0 += a;
+        h1 += b;
+        h2 += c;
+        h3 += d;
+        h4 += e;
+        h5 += f;
+        h6 += g;
+        h7 += h;
+        i += 49;
+    }
+    return  GetUnsignedHexRepresentation(h0) + 
+            GetUnsignedHexRepresentation(h1) + 
+            GetUnsignedHexRepresentation(h2) + 
+            GetUnsignedHexRepresentation(h3) + 
+            GetUnsignedHexRepresentation(h4) + 
+            GetUnsignedHexRepresentation(h5) + 
+            GetUnsignedHexRepresentation(h6) + 
+            GetUnsignedHexRepresentation(h7);
+}
+
+void lib1_InitCustomScript () {
+}
+
+// Functions
+void lib1_gf_InitializeHashInput () {
+    // Variable Declarations
+    string lv_emptyString;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_emptyString = "";
+
+    // Implementation
+    HashInputSize = 0;
+    if ( HexTable[0] == "" )
+    {
+        HexTable[0] = "0"; HexTable[1] = "1"; HexTable[2] = "2"; HexTable[3] = "3";
+        HexTable[4] = "4"; HexTable[5] = "5"; HexTable[6] = "6"; HexTable[7] = "7";
+        HexTable[8] = "8"; HexTable[9] = "9"; HexTable[10] = "a"; HexTable[11] = "b";
+        HexTable[12] = "c"; HexTable[13] = "d"; HexTable[14] = "e"; HexTable[15] = "f";
+    }
+}
+
+void lib1_gf_AddBooleanToHashInput (bool lp_boolean) {
+    // Automatic Variable Declarations
+    // Implementation
+    lib1_gf_AddByteToHashInput(BoolToInt( lp_boolean ));
+}
+
+void lib1_gf_AddByteToHashInput (byte lp_byte) {
+    // Automatic Variable Declarations
+    // Implementation
+    HashInputData[HashInputSize] = lp_byte;
+    HashInputSize += 1;
+}
+
+void lib1_gf_AddBytesToHashInput (byte lp_byte, int lp_amount) {
+    // Automatic Variable Declarations
+    int auto16027E3F_ae;
+    int auto16027E3F_var;
+
+    // Implementation
+    auto16027E3F_ae = lp_amount;
+    auto16027E3F_var = 1;
+    for ( ; auto16027E3F_var <= auto16027E3F_ae; auto16027E3F_var += 1 ) {
+        lib1_gf_AddByteToHashInput(lp_byte);
+    }
+}
+
+void lib1_gf_AddIntegerToHashInput (int lp_integer) {
+    // Automatic Variable Declarations
+    // Implementation
+    lib1_gf_AddByteToHashInput(lp_integer);
+    lib1_gf_AddByteToHashInput(lp_integer >> 8);
+    lib1_gf_AddByteToHashInput(lp_integer >> 16);
+    lib1_gf_AddByteToHashInput(lp_integer >> 24);
+}
+
+void lib1_gf_AddIntegersToHashInput (int lp_integer, int lp_amount) {
+    // Automatic Variable Declarations
+    int autoB1E99E46_ae;
+    int autoB1E99E46_var;
+
+    // Implementation
+    autoB1E99E46_ae = lp_amount;
+    autoB1E99E46_var = 1;
+    for ( ; autoB1E99E46_var <= autoB1E99E46_ae; autoB1E99E46_var += 1 ) {
+        lib1_gf_AddIntegerToHashInput(lp_integer);
+    }
+}
+
+void lib1_gf_AddRealToHashInput (fixed lp_real) {
+    // Automatic Variable Declarations
+    // Implementation
+    lib1_gf_AddIntegerToHashInput(GetFixedDataAsInt( lp_real ));
+}
+
+void lib1_gf_AddStringToHashInput (string lp_string) {
+    // Variable Declarations
+    int lv_integer;
+
+    // Automatic Variable Declarations
+    int auto55AD67C6_ae;
+    const int auto55AD67C6_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    auto55AD67C6_ae = (StringLength(lp_string) - 1);
+    lv_integer = 0;
+    for ( ; ( (auto55AD67C6_ai >= 0 && lv_integer <= auto55AD67C6_ae) || (auto55AD67C6_ai < 0 && lv_integer >= auto55AD67C6_ae) ) ; lv_integer += auto55AD67C6_ai ) {
+        lib1_gf_AddByteToHashInput(CharToAsciiCode( lp_string, lv_integer ));
+    }
+}
+
+void lib1_gf_AddUnitToHashInput (unit lp_unit) {
+    // Automatic Variable Declarations
+    // Implementation
+    lib1_gf_AddStringToHashInput((UnitGetType(lp_unit)));
+    lib1_gf_AddRealToHashInput(UnitGetPropertyFixed(lp_unit, c_unitPropLife, c_unitPropCurrent));
+    lib1_gf_AddRealToHashInput(UnitGetPropertyFixed(lp_unit, c_unitPropShields, c_unitPropCurrent));
+    lib1_gf_AddRealToHashInput(UnitGetPropertyFixed(lp_unit, c_unitPropEnergy, c_unitPropCurrent));
+}
+
+string lib1_gf_GenerateMD5HashCode () {
+    // Automatic Variable Declarations
+    // Implementation
+    return GenerateMd5HashCode();
+}
+
+string lib1_gf_GenerateSHA256HashCode () {
+    // Automatic Variable Declarations
+    // Implementation
+    return GenerateSha256HashCode();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Library Initialization
+//--------------------------------------------------------------------------------------------------
+bool lib1_InitLib_completed = false;
+
+void lib1_InitLib () {
+    if (lib1_InitLib_completed) {
+        return;
+    }
+
+    lib1_InitLib_completed = true;
+
+    lib1_InitLibraries();
+    lib1_InitCustomScript();
+}
+
+//--------------------------------------------------------------------------------------------------
 // Library Initialization
 //--------------------------------------------------------------------------------------------------
 void InitLibs () {
     libNtve_InitLib();
     libHots_InitLib();
+    lib1_InitLib();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -27,6 +791,7 @@ point[9] gv_engineering_bay_positions;
 unit[10] gv_ghost_academies;
 point[9] gv_initial_bunker_positions;
 point[9] gv_nuke_silo_positions;
+string gv_magic;
 fixed gv_total_wagers;
 fixed[10] gv_player_elos;
 int[10] gv_player_wins;
@@ -78,6 +843,7 @@ void InitGlobals () {
     int init_i;
 
     gv_all_players = PlayerGroupEmpty();
+    gv_magic = "";
     for (init_i = 0; init_i <= 9; init_i += 1) {
         gv_player_elos[init_i] = 1000.0;
     }
@@ -118,6 +884,9 @@ void InitGlobals () {
 //--------------------------------------------------------------------------------------------------
 void gf_AssignTeamLocations ();
 void gf_SpawnPlayers ();
+void gf_SignBank (bank lp_bank);
+bool gf_VerifyBank (bank lp_bank);
+string gf_ComputeChecksum (bank lp_bank);
 void gf_SaveBankIfFullGame (int lp_player);
 void gf_RecordUpdateGameStart ();
 void gf_RecordUpdateGameVictory (int lp_player);
@@ -584,10 +1353,110 @@ void gf_SpawnPlayers () {
     }
 }
 
+void gf_SignBank (bank lp_bank) {
+    // Automatic Variable Declarations
+    // Implementation
+    BankValueSetFromString(lp_bank, "Unsigned", "signature", gf_ComputeChecksum(lp_bank));
+}
+
+bool gf_VerifyBank (bank lp_bank) {
+    // Variable Declarations
+    int lv_string;
+    int lv_section_number;
+    string lv_section_name;
+    int lv_key;
+    string lv_key_name;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_section_name = "";
+    lv_key_name = "";
+
+    // Implementation
+    return (BankValueGetAsString(BankLastCreated(), "Unsigned", "signature") == gf_ComputeChecksum(lp_bank));
+}
+
+string gf_ComputeChecksum (bank lp_bank) {
+    // Variable Declarations
+    string lv_attr2;
+    string lv_attr;
+    int lv_string;
+    int lv_section_number;
+    string lv_section_name;
+    int lv_key;
+    string lv_key_name;
+
+    // Automatic Variable Declarations
+    int autoADA9B3E7_ae;
+    const int autoADA9B3E7_ai = 1;
+    int autoD053C6EB_ae;
+    const int autoD053C6EB_ai = 1;
+
+    // Variable Initialization
+    lv_attr2 = "";
+    lv_section_name = "";
+    lv_key_name = "";
+
+    // Implementation
+    lib1_gf_InitializeHashInput();
+    lib1_gf_AddStringToHashInput("nice");
+    lv_attr = GameAttributeGameValue("4");
+    lv_attr2 = lv_attr;
+    lib1_gf_AddStringToHashInput(lv_attr2);
+    lv_attr = GameAttributeGameValue("5");
+    lv_attr2 = lv_attr;
+    lib1_gf_AddStringToHashInput(lv_attr2);
+    lv_attr = GameAttributeGameValue("6");
+    lv_attr2 = lv_attr;
+    lib1_gf_AddStringToHashInput(lv_attr2);
+    lv_attr = GameAttributeGameValue("7");
+    lv_attr2 = lv_attr;
+    lib1_gf_AddStringToHashInput(lv_attr2);
+    autoADA9B3E7_ae = (BankSectionCount(lp_bank) - 1);
+    lv_section_number = 0;
+    for ( ; ( (autoADA9B3E7_ai >= 0 && lv_section_number <= autoADA9B3E7_ae) || (autoADA9B3E7_ai < 0 && lv_section_number >= autoADA9B3E7_ae) ) ; lv_section_number += autoADA9B3E7_ai ) {
+        lv_section_name = BankSectionName(lp_bank, lv_section_number);
+        if ((lv_section_name == "Unsigned")) {
+        }
+        else {
+            autoD053C6EB_ae = (BankKeyCount(lp_bank, lv_section_name) - 1);
+            lv_key = 0;
+            for ( ; ( (autoD053C6EB_ai >= 0 && lv_key <= autoD053C6EB_ae) || (autoD053C6EB_ai < 0 && lv_key >= autoD053C6EB_ae) ) ; lv_key += autoD053C6EB_ai ) {
+                lv_key_name = BankKeyName(lp_bank, lv_section_name, lv_key);
+                lib1_gf_AddStringToHashInput(lv_section_name);
+                lib1_gf_AddStringToHashInput(",");
+                lib1_gf_AddStringToHashInput(lv_key_name);
+                lib1_gf_AddStringToHashInput(",");
+                if ((BankValueIsType(lp_bank, lv_section_name, lv_key_name, c_bankTypeString) == true)) {
+                    lib1_gf_AddStringToHashInput(BankValueGetAsString(lp_bank, lv_section_name, lv_key_name));
+                }
+                else if ((BankValueIsType(lp_bank, lv_section_name, lv_key_name, c_bankTypeInt) == true)) {
+                    lib1_gf_AddIntegerToHashInput(BankValueGetAsInt(lp_bank, lv_section_name, lv_key_name));
+                }
+                else if ((BankValueIsType(lp_bank, lv_section_name, lv_key_name, c_bankTypePoint) == true)) {
+                    lib1_gf_AddStringToHashInput(libNtve_gf_ConvertPointToString(BankValueGetAsPoint(lp_bank, lv_section_name, lv_key_name)));
+                }
+                else if ((BankValueIsType(lp_bank, lv_section_name, lv_key_name, c_bankTypeFixed) == true)) {
+                    lib1_gf_AddRealToHashInput(BankValueGetAsFixed(lp_bank, lv_section_name, lv_key_name));
+                }
+                else if ((BankValueIsType(lp_bank, lv_section_name, lv_key_name, c_bankTypeFlag) == true)) {
+                    lib1_gf_AddBooleanToHashInput(BankValueGetAsFlag(lp_bank, lv_section_name, lv_key_name));
+                }
+                else if ((BankValueIsType(lp_bank, lv_section_name, lv_key_name, c_bankTypeUnit) == true)) {
+                    TriggerDebugOutput(1, StringExternal("Param/Value/63C0F234"), true);
+                }
+                lib1_gf_AddStringToHashInput("\\n");
+            }
+        }
+    }
+    return lib1_gf_GenerateSHA256HashCode();
+}
+
 void gf_SaveBankIfFullGame (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
     if ((gv_full_game == true)) {
+        gf_SignBank(gv_banks[lp_player]);
         BankSave(gv_banks[lp_player]);
     }
 
@@ -623,11 +1492,11 @@ void gf_RecordUpdateGameStart () {
         }
 
     }
-    if ((lv_real_player_count != (gv_num_teams * gv_players_per_team))) {
-        UIDisplayMessage(PlayerGroupAll(), c_messageAreaChat, StringExternal("Param/Value/CFE0085C"));
+    if (((lv_real_player_count == (gv_num_teams * gv_players_per_team)))) {
+        gv_full_game = true;
     }
     else {
-        gv_full_game = true;
+        UIDisplayMessage(PlayerGroupAll(), c_messageAreaChat, StringExternal("Param/Value/CFE0085C"));
     }
     autoB2E70265_g = gv_all_players;
     lv_player = -1;
@@ -637,7 +1506,7 @@ void gf_RecordUpdateGameStart () {
         lv_team = gv_player_team[lv_player];
         BankLoad("ZoneControlCE", lv_player);
         BankOptionSet(BankLastCreated(), c_bankOptionSignature, true);
-        if ((BankVerify(BankLastCreated()) == true)) {
+        if (((BankVerify(BankLastCreated()) == true) && (gf_VerifyBank(BankLastCreated()) == true))) {
         }
         else {
             BankSectionRemove(BankLastCreated(), "Player");
@@ -724,7 +1593,7 @@ void gf_LeaderboardInit () {
     lv_playerFrame = c_invalidDialogControlId;
 
     // Implementation
-    DialogCreate(350, 400, c_anchorTopRight, 10, 70, true);
+    DialogCreate(400, 400, c_anchorTopRight, 10, 70, true);
     lv_globalDialog = DialogLastCreated();
     DialogSetImageVisible(lv_globalDialog, false);
     DialogSetVisible(lv_globalDialog, PlayerGroupAll(), true);
@@ -1120,7 +1989,7 @@ void gf_TestVictory () {
         }
 
     }
-    Wait(2.0, c_timeGame);
+    Wait(1.0, c_timeGame);
     lv_player = 1;
     for ( ; ( (auto40A4F1D1_ai >= 0 && lv_player <= auto40A4F1D1_ae) || (auto40A4F1D1_ai < 0 && lv_player >= auto40A4F1D1_ae) ) ; lv_player += auto40A4F1D1_ai ) {
         if ((gv_player_team[lv_player] == lv_alive_team)) {
@@ -1794,7 +2663,13 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
                 UnitRemove(lv_unit);
             }
             else {
-                UnitSetOwner(lv_unit, lv_teammate, true);
+                if (((UnitGetType(lv_unit) == "Bunker") || (UnitGetType(lv_unit) == "InfestedBunker"))) {
+                    PlayerModifyPropertyInt(UnitGetOwner(lv_unit), c_playerPropMinerals, c_playerPropOperAdd, 550);
+                    UnitIssueOrder(lv_unit, Order(AbilityCommand("RetireStructure", 0)), c_orderQueueReplace);
+                }
+                else {
+                    UnitSetOwner(lv_unit, lv_teammate, true);
+                }
             }
         }
     }
