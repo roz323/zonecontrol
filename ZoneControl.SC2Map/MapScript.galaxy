@@ -2192,7 +2192,7 @@ bool gt_CheckForAfkPlayer2_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (auto87336824_ai >= 0 && lv_player <= auto87336824_ae) || (auto87336824_ai < 0 && lv_player >= auto87336824_ae) ) ; lv_player += auto87336824_ai ) {
-        autoE7451016_g = UnitControlGroup(1, 1);
+        autoE7451016_g = UnitControlGroup(lv_player, 1);
         autoE7451016_u = UnitGroupCount(autoE7451016_g, c_unitCountAll);
         for (;; autoE7451016_u -= 1) {
             lv_unit = UnitGroupUnitFromEnd(autoE7451016_g, autoE7451016_u);
