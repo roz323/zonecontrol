@@ -2166,7 +2166,7 @@ bool gt_CheckForAfkPlayer_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_CheckForAfkPlayer_Init () {
     gt_CheckForAfkPlayer = TriggerCreate("gt_CheckForAfkPlayer_Func");
-    TriggerAddEventTimeElapsed(gt_CheckForAfkPlayer, 30.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_CheckForAfkPlayer, 40.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
