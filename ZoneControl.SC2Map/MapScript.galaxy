@@ -805,6 +805,7 @@ fixed[6] gv_team_elo_averages;
 string gv_game_mode_string;
 bool gv_full_game;
 bank[10] gv_banks;
+bool[10] gv_player_left_game;
 fixed[10][3] gv_player_spawn_offsets;
 int[10] gv_player_shards_collected;
 timer gv_game_timer;
@@ -926,6 +927,7 @@ trigger gt_OnRallyChange;
 trigger gt_OnUpgrade;
 trigger gt_BunkerBuild;
 trigger gt_BunkerBuild2;
+trigger gt_ConstructionCancelled;
 trigger gt_BunkerDestoryed;
 trigger gt_ScvDied;
 trigger gt_OnRetire;
@@ -2015,12 +2017,19 @@ void gf_OnPlayerDead (int lp_player) {
     // Automatic Variable Declarations
     unitgroup autoF739310F_g;
     int autoF739310F_u;
+    unitgroup auto5C8128CE_g;
+    int auto5C8128CE_u;
 
     // Variable Initialization
 
     // Implementation
     gv_player_alive[lp_player] = false;
-    gv_player_colors[lp_player] = Color(0.00, 0.00, 0.00);
+    if ((gv_player_left_game[lp_player] == true)) {
+        gv_player_colors[lp_player] = Color(0.00, 0.00, 0.00);
+    }
+    else {
+        gv_player_colors[lp_player] = Color(25.49, 25.49, 25.49);
+    }
     gf_UpdatePlayerColor(lp_player);
     gf_UpdateLeaderboard(true);
     autoF739310F_g = UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
@@ -2030,17 +2039,27 @@ void gf_OnPlayerDead (int lp_player) {
         if (lv_unit == null) { break; }
         UnitRemove(lv_unit);
     }
+    auto5C8128CE_g = UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto5C8128CE_u = UnitGroupCount(auto5C8128CE_g, c_unitCountAll);
+    for (;; auto5C8128CE_u -= 1) {
+        lv_unit = UnitGroupUnitFromEnd(auto5C8128CE_g, auto5C8128CE_u);
+        if (lv_unit == null) { break; }
+        UnitRemove(lv_unit);
+    }
     gf_TestVictory();
 }
 
 void gf_TestPlayerDead (int lp_player) {
     // Variable Declarations
+    unit lv_possible_bunker;
     int lv_teammate;
     int lv_slot;
 
     // Automatic Variable Declarations
     const int autoA6BAEF31_ae = 63;
     const int autoA6BAEF31_ai = 1;
+    unitgroup auto6E6881B1_g;
+    int auto6E6881B1_u;
     playergroup auto4A0D2F01_g;
 
     // Variable Initialization
@@ -2049,6 +2068,16 @@ void gf_TestPlayerDead (int lp_player) {
     lv_slot = 1;
     for ( ; ( (autoA6BAEF31_ai >= 0 && lv_slot <= autoA6BAEF31_ae) || (autoA6BAEF31_ai < 0 && lv_slot >= autoA6BAEF31_ae) ) ; lv_slot += autoA6BAEF31_ai ) {
         if ((gv_bunker_owners[lv_slot] == lp_player)) {
+            return ;
+        }
+
+    }
+    auto6E6881B1_g = UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto6E6881B1_u = UnitGroupCount(auto6E6881B1_g, c_unitCountAll);
+    for (;; auto6E6881B1_u -= 1) {
+        lv_possible_bunker = UnitGroupUnitFromEnd(auto6E6881B1_g, auto6E6881B1_u);
+        if (lv_possible_bunker == null) { break; }
+        if ((UnitGetType(lv_possible_bunker) == "Bunker")) {
             return ;
         }
 
@@ -2540,6 +2569,7 @@ bool gt_BunkerBuild2_Func (bool testConds, bool runActions) {
     }
 
     lv_structure = EventUnitProgressUnit();
+    UnitGroupAdd(gv_structuresGroup[UnitGetOwner(lv_structure)], lv_structure);
     if ((UnitGetType(EventUnitProgressUnit()) == "Bunker")) {
         gf_OnBunkerCreated3(EventUnitProgressUnit());
     }
@@ -2553,6 +2583,26 @@ bool gt_BunkerBuild2_Func (bool testConds, bool runActions) {
 void gt_BunkerBuild2_Init () {
     gt_BunkerBuild2 = TriggerCreate("gt_BunkerBuild2_Func");
     TriggerAddEventUnitConstructProgress(gt_BunkerBuild2, null, c_unitProgressStageStart);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ConstructionCancelled
+//--------------------------------------------------------------------------------------------------
+bool gt_ConstructionCancelled_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_TestPlayerDead(UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ConstructionCancelled_Init () {
+    gt_ConstructionCancelled = TriggerCreate("gt_ConstructionCancelled_Func");
+    TriggerAddEventUnitConstructProgress(gt_ConstructionCancelled, null, c_unitProgressStageCancel);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2609,8 +2659,11 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
     lv_spawnPosition = UnitGetPosition(EventUnit());
     Wait(5.0, c_timeGame);
     lv_structure_to_spawn_at = UnitGroupClosestToPoint(gv_structuresGroup[lv_player], lv_spawnPosition);
-    UnitCreate(1, "SCV", 0, lv_player, PointWithOffset(UnitGetPosition(lv_structure_to_spawn_at), (0.0 - gv_player_spawn_offsets[lv_player][0]), (0.0 - gv_player_spawn_offsets[lv_player][1])), 270.0);
-    gf_OnBunkerCreated2(UnitLastCreated());
+    if ((gv_player_alive[lv_player] == true)) {
+        UnitCreate(1, "SCV", 0, lv_player, PointWithOffset(UnitGetPosition(lv_structure_to_spawn_at), (0.0 - gv_player_spawn_offsets[lv_player][0]), (0.0 - gv_player_spawn_offsets[lv_player][1])), 270.0);
+        gf_OnBunkerCreated2(UnitLastCreated());
+    }
+
     return true;
 }
 
@@ -2745,6 +2798,7 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    gv_player_left_game[lv_player] = true;
     lv_player = EventPlayer();
     if ((gv_player_alive[lv_player] == true)) {
     }
@@ -2778,10 +2832,19 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
             else {
                 if (((UnitGetType(lv_unit) == "Bunker") || (UnitGetType(lv_unit) == "InfestedBunker"))) {
                     UnitSetOwner(lv_unit, lv_teammate, true);
+                    UnitControlGroupAddUnit(lv_teammate, 2, lv_unit);
                     PlayerModifyPropertyInt(UnitGetOwner(lv_unit), c_playerPropMinerals, c_playerPropOperAdd, 550);
                     UnitIssueOrder(lv_unit, Order(AbilityCommand("RetireStructure", 0)), c_orderQueueReplace);
                 }
                 else {
+                    if (((UnitGetType(lv_unit) == "SiegeBreakerSieged") || (UnitGetType(lv_unit) == "SiegeBreaker"))) {
+                        UnitControlGroupAddUnit(lv_teammate, 5, lv_unit);
+                    }
+
+                    if (((UnitGetType(lv_unit) == "Marine") || (UnitGetType(lv_unit) == "WarPig") || (UnitGetType(lv_unit) == "Reaper") || (UnitGetType(lv_unit) == "MercReaper") || (UnitGetType(lv_unit) == "Marauder") || (UnitGetType(lv_unit) == "HammerSecurity") || (UnitGetType(lv_unit) == "Ghost") || (UnitGetType(lv_unit) == "Spectre"))) {
+                        UnitControlGroupAddUnit(lv_teammate, 1, lv_unit);
+                    }
+
                     UnitSetOwner(lv_unit, lv_teammate, true);
                 }
             }
@@ -2872,6 +2935,7 @@ void InitTriggers () {
     gt_OnUpgrade_Init();
     gt_BunkerBuild_Init();
     gt_BunkerBuild2_Init();
+    gt_ConstructionCancelled_Init();
     gt_BunkerDestoryed_Init();
     gt_ScvDied_Init();
     gt_OnRetire_Init();
