@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectDamage id="AutoTurret">
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CEffectCreateUnit id="AutoTurretRelease">
+        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
+    </CEffectCreateUnit>
+    <CEffectDamage id="C10CanisterRifle">
+        <AttributeBonus index="Armored" value="10"/>
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CEffectCreateUnit id="CalldownMULECreateUnit">
+        <SpawnUnit value="SCV"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="CalldownMULEFinalSet">
+        <EffectArray index="1" value="CalldownMULEIssueOrder"/>
+        <EffectArray index="2" removed="1"/>
+    </CEffectSet>
+    <CEffectDamage id="CrucioShockCannonBlast">
+        <AttributeBonus index="Armored" value="0"/>
+        <AttributeBonus index="Mechanical" value="5220"/>
+        <AttributeBonus index="Structure" value="5220"/>
+        <Amount value="280"/>
+    </CEffectDamage>
+    <CEffectDamage id="CrucioShockCannonDirected">
+        <AttributeBonus index="Armored" value="0"/>
+        <AttributeBonus index="Mechanical" value="5220"/>
+        <AttributeBonus index="Structure" value="5220"/>
+        <Amount value="280"/>
+    </CEffectDamage>
+    <CEffectDamage id="CrucioShockCannonDummy">
+        <AttributeBonus index="Armored" value="0"/>
+        <AttributeBonus index="Mechanical" value="5220"/>
+        <AttributeBonus index="Structure" value="5220"/>
+        <Amount value="280"/>
+    </CEffectDamage>
+    <CEffectDamage id="D8ChargeDamage">
+        <Amount value="125"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="GuardianShieldPersistent">
+        <PeriodCount value="65535"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="GuardianShieldSearch">
+        <AreaArray index="0" Radius="10.5" Effect="GuardianShieldApplyBehavior"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="GuassRifle">
+        <Amount value="30"/>
+    </CEffectDamage>
+    <CEffectDamage id="HammerSecurityDamage">
+        <AttributeBonus index="Armored" value="30"/>
+        <Amount value="55"/>
+    </CEffectDamage>
+    <!--    <CEffectLaunchMissile id="HammerSecurityLMOne">-->
+    <!--        <EditorCategories value="Race:Terran"/>-->
+    <!--        <ImpactEffect value="HammerSecuritySet"/>-->
+    <!--        <Movers Link="MarauderWeapon"/>-->
+    <!--        <AmmoUnit value="HammerSecurityLMWeapon"/>-->
+    <!--    </CEffectLaunchMissile>-->
+    <!--    <CEffectLaunchMissile id="HammerSecurityLMTwo">-->
+    <!--        <EditorCategories value="Race:Terran"/>-->
+    <!--        <ImpactEffect value="HammerSecuritySet"/>-->
+    <!--        <Movers Link="MarauderWeapon"/>-->
+    <!--        <AmmoUnit value="HammerSecurityLMWeapon"/>-->
+    <!--    </CEffectLaunchMissile> -->
+    <!--    <CEffectSet id="HammerSecuritySet">-->
+    <!--        <EditorCategories value="Race:Terran"/>-->
+    <!--        <EffectArray value="PunisherGrenadesSlow"/>-->
+    <!--        <EffectArray value="HammerSecuritySlowAOE"/>-->
+    <!--        <EffectArray value="HammerSecurityDamage"/>-->
+    <!--    </CEffectSet> -->
+    <!--    <CEffectEnumArea id="HammerSecuritySlowAOE">-->
+    <!--        <EditorCategories value="Race:Terran"/>-->
+    <!--        <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+    <!--        <AreaArray Radius="1" Effect="PunisherGrenadesSlow"/>-->
+    <!--        <ExcludeArray Value="Target"/>-->
+    <!--        <ValidatorArray value="JackhammerConcussionGrenadesPurchased"/>-->
+    <!--    </CEffectEnumArea> -->
+    <CEffectDamage id="KelmorianMinerDamage">
+        <Amount value="35"/>
+    </CEffectDamage>
+    <CEffectDamage id="MercReaperD8ChargeDamage">
+        <Amount value="150"/>
+    </CEffectDamage>
+    <CEffectDamage id="MercReaperP38ScytheGuassPistol">
+        <AttributeBonus index="Light" value="10"/>
+        <Amount value="16"/>
+    </CEffectDamage>
+    <CEffectDamage id="NukeDamage">
+        <AttributeBonus index="Structure" value="2500"/>
+        <Amount value="5000"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="NukePersistent">
+        <InitialDelay value="0"/>
+        <PeriodCount value="0"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="P38ScytheGuassPistol">
+        <Amount value="14"/>
+        <AttributeBonus index="Light" value="7"/>
+    </CEffectDamage>
+    <CEffectModifyPlayer id="PickupEX2Gas50">
+        <Resources index="Minerals" value="50"/>
+        <Resources index="Vespene" value="0"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="PickupGas25">
+        <Resources index="Minerals" value="50"/>
+        <Resources index="Vespene" value="0"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="PickupMinerals100">
+        <Resources index="Minerals" value="0"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="PickupMinerals106">
+        <EditorCategories value=""/>
+        <Resources index="Minerals" value="50"/>
+    </CEffectModifyPlayer>
+    <CEffectSet id="PickupMinerals100Set">
+        <EffectArray index="0" value="PickupRemoveDelay"/>
+        <EffectArray index="1" value="PickupMinerals100"/>
+    </CEffectSet>
+    <CEffectSet id="PickupMinerals100Set2">
+        <EditorCategories value=""/>
+        <EffectArray value="PickupRemoveDelay"/>
+        <EffectArray value="PickupMinerals106"/>
+    </CEffectSet>
+    <CEffectModifyPlayer id="PickupMinerals250">
+        <Resources index="Minerals" value="200"/>
+    </CEffectModifyPlayer>
+    <CEffectDamage id="PunisherGrenadesU">
+        <AttributeBonus index="Armored" value="25"/>
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="RetireStructure">
+        <ValidatorArray index="0" value="RetireStructure"/>
+        <EditorCategories value=""/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="SalvageDeath">
+        <ValidatorArray value="HasNoCargo"/>
+        <ValidatorArray value="CasterLifeFull"/>
+    </CEffectDamage>
+    <CEffectDamage id="SiegeBreakerDamage">
+        <AttributeBonus index="Armored" value="0"/>
+        <Amount value="420"/>
+    </CEffectDamage>
+    <CEffectDamage id="SpecterU">
+        <AttributeBonus index="Light" value="15"/>
+        <AttributeBonus index="Armored" value="15"/>
+        <Amount value="60"/>
+    </CEffectDamage>
+    <CEffectRemoveBehavior id="UnretireStructure">
+        <ValidatorArray index="0" value="UnretireStructure"/>
+        <EditorCategories value=""/>
+        <BehaviorLink value="RetireStructure"/>
+    </CEffectRemoveBehavior>
+</Catalog>
