@@ -805,6 +805,7 @@ fixed[6] gv_team_elo_averages;
 string gv_game_mode_string;
 bool gv_full_game;
 bank[10] gv_banks;
+revealer[10] gv_player_revealers;
 point[65] gv_bunker_spawn_points;
 bool[10] gv_player_left_game;
 fixed[10][3] gv_player_spawn_offsets;
@@ -2303,7 +2304,8 @@ void gf_TestPlayerDead (int lp_player) {
         if (lv_teammate < 0) { break; }
         PlayerSetAlliance(lp_player, c_allianceIdVision, lv_teammate, false);
     }
-    VisRevealArea(lp_player, RegionEntireMap(), 0.0, false);
+    VisRevealerCreate(lp_player, RegionEntireMap());
+    gv_player_revealers[lp_player] = VisRevealerLastCreated();
     gf_OnPlayerDead(lp_player);
     gf_NotifyPlayerDied(lp_player);
 }
@@ -3111,6 +3113,10 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
 
     lv_player = EventPlayer();
     gv_player_left_game[lv_player] = true;
+    if ((gv_player_revealers[lv_player] != null)) {
+        VisRevealerDestroy(gv_player_revealers[lv_player]);
+    }
+
     if ((gv_player_alive[lv_player] == true)) {
     }
     else {
