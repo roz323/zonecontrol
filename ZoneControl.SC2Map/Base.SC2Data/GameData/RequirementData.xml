@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CRequirement id="HaveDarkTemplar">
+        <NodeArray index="Use" Link="SumCountUnitMarineCompleteOnlyCountUnitWarPigCompleteOnly"/>
+        <NodeArray index="Show" Link="NotCountUpgradeCombatShieldQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="HaveDarkTemplar2">
+        <EditorCategories value="Race:Protoss,TechType:Ability"/>
+        <NodeArray index="Use" Link="SumCountUnitReaperCompleteOnlyCountUnitMercReaperCompleteOnly"/>
+        <NodeArray index="Show" Link="NotCountUpgradeReaperSpeedQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="HaveDarkTemplar22">
+        <EditorCategories value="Race:Protoss,TechType:Ability"/>
+        <NodeArray index="Use" Link="SumCountUnitMarauderCompleteOnlyCountUnitHammerSecurityCompleteOnly"/>
+        <NodeArray index="Show" Link="NotCountUpgradePunisherGrenadesQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="HaveDarkTemplar222">
+        <EditorCategories value="Race:Protoss,TechType:Ability"/>
+        <NodeArray index="Use" Link="SumCountUnitMarauderCompleteOnlyCountUnitMarineCompleteOnlyCountUnitHammerSecurityCompleteOnlyCountUnitWarPigCompleteOnly"/>
+        <NodeArray index="Show" Link="NotCountUpgradeStimpackQueuedOrBetter"/>
+    </CRequirement>
     <CRequirement id="HaveMercenaryBunker">
         <NodeArray index="Use" Link="CountUnitInfestedBunkerCompleteOnly4084108369"/>
     </CRequirement>
@@ -36,6 +55,7 @@
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
     </CRequirement>
     <CRequirement id="LearnObliterationOrdnance" parent="LearnPunisherGrenades">
+        <NodeArray index="Use" Link="SumCountUnitSiegeBreakerSiegedInProgressOrBetterCountUnitSiegeBreakerInProgressOrBetter"/>
         <NodeArray index="Show" Link="NotCountUpgradeSiegeTurretAreaQueuedOrBetter"/>
     </CRequirement>
     <CRequirement id="LearnStimpack">
