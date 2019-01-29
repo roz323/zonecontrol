@@ -861,6 +861,7 @@ int gv_untitledVariable003;
 bool gv_message_lock;
 int gv_num_messages;
 text[51] gv_messages;
+int gv_last_player_checked;
 unitgroup[9] gv_structuresGroup;
 
 void InitGlobals () {
@@ -931,6 +932,7 @@ void InitGlobals () {
         gv_team_info_player_speed[init_i] = c_invalidDialogControlId;
     }
     gv_untitledVariable002 = 100;
+    gv_last_player_checked = 1;
     for (init_i = 0; init_i <= 8; init_i += 1) {
         gv_structuresGroup[init_i] = UnitGroupEmpty();
     }
@@ -944,6 +946,7 @@ void gf_SpawnPlayers ();
 void gf_SignBank (bank lp_bank);
 bool gf_VerifyBank (bank lp_bank);
 string gf_ComputeChecksum (bank lp_bank);
+void gf_DisplayElo (playergroup lp_players);
 void gf_SaveBankIfFullGame (int lp_player);
 void gf_RecordUpdateGameStart ();
 void gf_RecordUpdateGameVictory (int lp_player);
@@ -972,11 +975,13 @@ void gf_TestPlayerDead (int lp_player);
 //--------------------------------------------------------------------------------------------------
 // Trigger Variables
 //--------------------------------------------------------------------------------------------------
+trigger gt_Help;
 trigger gt_MeleeInitialization;
 trigger gt_DetectMovement;
 trigger gt_CheckForAfkPlayer;
 trigger gt_CheckForAfkPlayer2;
 trigger gt_Records;
+trigger gt_Elo;
 trigger gt_ToggleLeaderboard;
 trigger gt_LeaderboardPeriodicRefresh;
 trigger gt_TeamInfoTrackUpgrades;
@@ -995,6 +1000,7 @@ trigger gt_OnRetire;
 trigger gt_OnUnretire;
 trigger gt_ScvCalldown;
 trigger gt_ArmNuke;
+trigger gt_PeriodicCheckDeath;
 trigger gt_PlayerLeaveGame;
 trigger gt_MineralTrickle;
 
@@ -1519,6 +1525,30 @@ string gf_ComputeChecksum (bank lp_bank) {
     return lib1_gf_GenerateSHA256HashCode();
 }
 
+void gf_DisplayElo (playergroup lp_players) {
+    // Variable Declarations
+    int lv_player;
+    text lv_message;
+
+    // Automatic Variable Declarations
+    playergroup auto11B949D1_g;
+
+    // Variable Initialization
+
+    // Implementation
+    auto11B949D1_g = lp_players;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto11B949D1_g, lv_player);
+        if (lv_player < 0) { break; }
+        lv_message = (StringToText("") + StringExternal("Param/Value/AD714ED6"));
+        lv_message = (lv_message + TextWithColor(FixedToTextAdvanced(((gv_total_wagers / gv_players_per_team) - gv_player_elos_wagers[lv_player]), c_formatNumberStyleNormal, true, 2, 2), libNtve_gf_ConvertPlayerColorToColor(13)));
+        lv_message = (lv_message + StringExternal("Param/Value/911BE273"));
+        lv_message = (lv_message + TextWithColor(FixedToTextAdvanced(gv_player_elos_wagers[lv_player], c_formatNumberStyleNormal, true, 2, 2), libNtve_gf_ConvertPlayerColorToColor(1)));
+        UIDisplayMessage(PlayerGroupSingle(lv_player), c_messageAreaChat, lv_message);
+    }
+}
+
 void gf_SaveBankIfFullGame (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
@@ -1547,7 +1577,6 @@ void gf_RecordUpdateGameStart () {
     const int auto32B0AE78_ai = 1;
     playergroup autoB2E70265_g;
     playergroup auto63DE3FB6_g;
-    playergroup auto11B949D1_g;
 
     // Variable Initialization
 
@@ -1612,17 +1641,7 @@ void gf_RecordUpdateGameStart () {
         BankValueSetFromFixed(gv_banks[lv_player], "Player", ("elo" + gv_game_mode_string), (gv_player_elos[lv_player] - gv_player_elos_wagers[lv_player]));
         gf_SaveBankIfFullGame(lv_player);
     }
-    auto11B949D1_g = gv_all_players;
-    lv_player = -1;
-    while (true) {
-        lv_player = PlayerGroupNextPlayer(auto11B949D1_g, lv_player);
-        if (lv_player < 0) { break; }
-        lv_message = (StringToText("") + StringExternal("Param/Value/AD714ED6"));
-        lv_message = (lv_message + TextWithColor(FixedToTextAdvanced(((gv_total_wagers / gv_players_per_team) - gv_player_elos_wagers[lv_player]), c_formatNumberStyleNormal, true, 2, 2), libNtve_gf_ConvertPlayerColorToColor(13)));
-        lv_message = (lv_message + StringExternal("Param/Value/911BE273"));
-        lv_message = (lv_message + TextWithColor(FixedToTextAdvanced(gv_player_elos_wagers[lv_player], c_formatNumberStyleNormal, true, 2, 2), libNtve_gf_ConvertPlayerColorToColor(1)));
-        UIDisplayMessage(PlayerGroupSingle(lv_player), c_messageAreaChat, lv_message);
-    }
+    gf_DisplayElo(gv_all_players);
 }
 
 void gf_RecordUpdateGameVictory (int lp_player) {
@@ -1932,6 +1951,7 @@ void gf_TeamInfoInit () {
     int init_i;
 
     // Variable Declarations
+    int lv_header;
     int[10] lv_player_slot_counts;
     int lv_player;
     int lv_teammate;
@@ -1947,21 +1967,37 @@ void gf_TeamInfoInit () {
     const int auto4EE12F88_ai = 1;
 
     // Variable Initialization
+    lv_header = c_invalidDialogControlId;
     for (init_i = 0; init_i <= 9; init_i += 1) {
         lv_player_slot_counts[init_i] = 1;
     }
     lv_mainDialog = c_invalidDialogId;
 
     // Implementation
-    DialogCreate(1200, 40, c_anchorTopRight, 355, 22, true);
+    DialogCreate(600, 200, c_anchorTopLeft, 15, 15, true);
     lv_mainDialog = DialogLastCreated();
     DialogSetImageVisible(lv_mainDialog, false);
     DialogSetVisible(lv_mainDialog, PlayerGroupAll(), true);
     lv_player = 1;
     for ( ; ( (autoBA15EF43_ai >= 0 && lv_player <= autoBA15EF43_ae) || (autoBA15EF43_ai < 0 && lv_player >= autoBA15EF43_ae) ) ; lv_player += autoBA15EF43_ai ) {
+        DialogControlCreateFromTemplate(lv_mainDialog, c_triggerControlTypePanel, "ZoneTeammateStats/TeammateStateIcons");
+        DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupSingle(lv_player), c_anchorTopLeft, 0, 0);
+        lv_header = DialogControlLastCreated();
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "PlayerMineralIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\icon-mineral.dds", PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "SpeedIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-ability-protoss-charge-color.dds", PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "RegenIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-ability-terran-heal-color.dds", PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "RangeIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-tips-terran-penetrator.dds", PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "AttackIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-upgrade-terran-infantryweaponslevel0.dds", PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "ArmorIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-upgrade-terran-infantryarmorlevel0.dds", PlayerGroupAll());
         DialogControlCreateFromTemplate(lv_mainDialog, c_triggerControlTypePanel, "ZoneTeammateStats/TeammateState");
         gv_team_info_player_dialogs[lv_player] = DialogControlLastCreated();
-        DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupAll(), c_anchorTopRight, ((0 * 300) + 0), 0);
+        DialogControlSetPosition(gv_team_info_player_dialogs[lv_player], PlayerGroupSingle(lv_player), c_anchorTopLeft, 0, ((0 * 30) + 30));
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "PlayerMinerals");
         gv_team_info_player_mineral[lv_player] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "AttackUp");
@@ -1987,7 +2023,7 @@ void gf_TeamInfoInit () {
                 DialogControlSetVisible(gv_team_info_player_dialogs[lv_teammate], PlayerGroupSingle(lv_player), false);
             }
             if (((lv_player != lv_teammate) && (gv_player_team[lv_player] == gv_player_team[lv_teammate]))) {
-                DialogControlSetPosition(gv_team_info_player_dialogs[lv_teammate], PlayerGroupSingle(lv_player), c_anchorTopRight, ((lv_player_slot_counts[lv_player] * 300) + 0), 0);
+                DialogControlSetPosition(gv_team_info_player_dialogs[lv_teammate], PlayerGroupSingle(lv_player), c_anchorTopLeft, 0, ((lv_player_slot_counts[lv_player] * 30) + 30));
                 lv_player_slot_counts[lv_player] = (lv_player_slot_counts[lv_player] + 1);
             }
 
@@ -2311,6 +2347,27 @@ void gf_TestPlayerDead (int lp_player) {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Help
+//--------------------------------------------------------------------------------------------------
+bool gt_Help_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UIDisplayMessage(PlayerGroupSingle(EventPlayer()), c_messageAreaSubtitle, StringExternal("Param/Value/42164AEC"));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Help_Init () {
+    gt_Help = TriggerCreate("gt_Help_Func");
+    TriggerAddEventChatMessage(gt_Help, c_playerAny, "-help", true);
+    TriggerAddEventChatMessage(gt_Help, c_playerAny, "-h", true);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Melee Initialization
 //--------------------------------------------------------------------------------------------------
 bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
@@ -2465,7 +2522,7 @@ bool gt_Records_Func (bool testConds, bool runActions) {
     int lv_player;
 
     // Automatic Variable Declarations
-    playergroup auto59F71AF3_g;
+    playergroup auto22277244_g;
 
     // Variable Initialization
 
@@ -2474,10 +2531,10 @@ bool gt_Records_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    auto59F71AF3_g = gv_all_players;
+    auto22277244_g = gv_all_players;
     lv_player = -1;
     while (true) {
-        lv_player = PlayerGroupNextPlayer(auto59F71AF3_g, lv_player);
+        lv_player = PlayerGroupNextPlayer(auto22277244_g, lv_player);
         if (lv_player < 0) { break; }
         lv_message = (StringToText("") + TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))));
         lv_message = (lv_message + StringExternal("Param/Value/E66400FB"));
@@ -2485,7 +2542,7 @@ bool gt_Records_Func (bool testConds, bool runActions) {
         lv_message = (lv_message + StringExternal("Param/Value/77531E47"));
         lv_message = (lv_message + IntToText((gv_player_mode_games[lv_player] + gv_player_mode_wins[lv_player])));
         lv_message = (lv_message + StringExternal("Param/Value/3AC4D29A"));
-        UIDisplayMessage(PlayerGroupAll(), c_messageAreaChat, lv_message);
+        UIDisplayMessage(PlayerGroupSingle(EventPlayer()), c_messageAreaChat, lv_message);
     }
     return true;
 }
@@ -2495,6 +2552,27 @@ void gt_Records_Init () {
     gt_Records = TriggerCreate("gt_Records_Func");
     TriggerAddEventChatMessage(gt_Records, c_playerAny, "-records", true);
     TriggerAddEventChatMessage(gt_Records, c_playerAny, "-r", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Elo
+//--------------------------------------------------------------------------------------------------
+bool gt_Elo_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_DisplayElo(PlayerGroupSingle(EventPlayer()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Elo_Init () {
+    gt_Elo = TriggerCreate("gt_Elo_Func");
+    TriggerAddEventChatMessage(gt_Elo, c_playerAny, "-elo", true);
+    TriggerAddEventChatMessage(gt_Elo, c_playerAny, "-e", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2802,6 +2880,7 @@ bool gt_OnRallyChange_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerDebugOutput(1, StringExternal("Param/Value/D1EC69D9"), true);
     lv_bunker_index = gf_GetBunkerIndex(EventUnit());
     gv_bunker_rally_points[lv_bunker_index] = UnitRallyPointTargetPoint(EventUnit(), 1, 1);
     gv_bunker_spawn_points[lv_bunker_index] = libNtve_gf_PointOffsetTowardsPoint(gv_bunker_locations[lv_bunker_index], 1.414, gv_bunker_rally_points[lv_bunker_index]);
@@ -2908,7 +2987,7 @@ bool gt_ConstructionCancelled_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    gf_TestPlayerDead(UnitGetOwner(EventUnit()));
+    gf_TestPlayerDead(UnitGetOwner(EventUnitProgressUnit()));
     return true;
 }
 
@@ -3082,6 +3161,46 @@ void gt_ArmNuke_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: PeriodicCheckPlayerDeath
+//--------------------------------------------------------------------------------------------------
+bool gt_PeriodicCheckDeath_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_loop;
+
+    // Automatic Variable Declarations
+    const int auto684E1F6A_ae = 10;
+    const int auto684E1F6A_ai = 1;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_loop = 1;
+    for ( ; ( (auto684E1F6A_ai >= 0 && lv_loop <= auto684E1F6A_ae) || (auto684E1F6A_ai < 0 && lv_loop >= auto684E1F6A_ae) ) ; lv_loop += auto684E1F6A_ai ) {
+        if ((gv_player_alive[gv_last_player_checked] == false)) {
+            gv_last_player_checked += 1;
+        }
+
+        if ((gv_last_player_checked == 9)) {
+            gv_last_player_checked = 1;
+        }
+
+    }
+    gf_TestPlayerDead(gv_last_player_checked);
+    gv_last_player_checked += 1;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PeriodicCheckDeath_Init () {
+    gt_PeriodicCheckDeath = TriggerCreate("gt_PeriodicCheckDeath_Func");
+    TriggerAddEventTimePeriodic(gt_PeriodicCheckDeath, 20.0, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: PlayerLeaveGame
 //--------------------------------------------------------------------------------------------------
 bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
@@ -3239,11 +3358,13 @@ void gt_MineralTrickle_Init () {
 // Trigger Initialization
 //--------------------------------------------------------------------------------------------------
 void InitTriggers () {
+    gt_Help_Init();
     gt_MeleeInitialization_Init();
     gt_DetectMovement_Init();
     gt_CheckForAfkPlayer_Init();
     gt_CheckForAfkPlayer2_Init();
     gt_Records_Init();
+    gt_Elo_Init();
     gt_ToggleLeaderboard_Init();
     gt_LeaderboardPeriodicRefresh_Init();
     gt_TeamInfoTrackUpgrades_Init();
@@ -3262,6 +3383,7 @@ void InitTriggers () {
     gt_OnUnretire_Init();
     gt_ScvCalldown_Init();
     gt_ArmNuke_Init();
+    gt_PeriodicCheckDeath_Init();
     gt_PlayerLeaveGame_Init();
     gt_MineralTrickle_Init();
 }
