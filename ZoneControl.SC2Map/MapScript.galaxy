@@ -816,6 +816,7 @@ bool[10] gv_team_alive;
 int[61] gv_spawn_scan_order;
 unit[65] gv_bunkers;
 point[65] gv_bunker_rally_points;
+unit[65] gv_bunker_rally_units;
 bool[65] gv_bunker_merc_status;
 bool[65] gv_bunker_retire_status;
 string[65] gv_bunker_base_unit_type;
@@ -2843,10 +2844,15 @@ bool gt_SpawnUnit_Func (bool testConds, bool runActions) {
 
             UnitCreate(1, lv_unit_type, 0, lv_bunker_owner, gv_bunker_spawn_points[lv_bunker_index], 270.0);
             UnitControlGroupAddUnit(lv_bunker_owner, 1, UnitLastCreated());
-            if ((gv_bunker_rally_points[lv_bunker_index] != null)) {
-                UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("attack", 0), gv_bunker_rally_points[lv_bunker_index]), c_orderQueueReplace);
+            if ((gv_bunker_rally_units[lv_bunker_index] != null)) {
+                UnitIssueOrder(UnitLastCreated(), OrderTargetingUnit(AbilityCommand("move", 0), gv_bunker_rally_units[lv_bunker_index]), c_orderQueueReplace);
             }
+            else {
+                if ((gv_bunker_rally_points[lv_bunker_index] != null)) {
+                    UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("attack", 0), gv_bunker_rally_points[lv_bunker_index]), c_orderQueueReplace);
+                }
 
+            }
         }
     }
     return true;
@@ -2880,9 +2886,15 @@ bool gt_OnRallyChange_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    TriggerDebugOutput(1, StringExternal("Param/Value/D1EC69D9"), true);
+    if ((UnitRallyPointTargetUnit(EventUnit(), 1, 1) == null)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/D1EC69D9"), true);
+    }
+    else {
+        TriggerDebugOutput(1, StringExternal("Param/Value/77C32961"), true);
+    }
     lv_bunker_index = gf_GetBunkerIndex(EventUnit());
     gv_bunker_rally_points[lv_bunker_index] = UnitRallyPointTargetPoint(EventUnit(), 1, 1);
+    gv_bunker_rally_units[lv_bunker_index] = UnitRallyPointTargetUnit(EventUnit(), 1, 1);
     gv_bunker_spawn_points[lv_bunker_index] = libNtve_gf_PointOffsetTowardsPoint(gv_bunker_locations[lv_bunker_index], 1.414, gv_bunker_rally_points[lv_bunker_index]);
     return true;
 }
