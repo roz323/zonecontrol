@@ -792,6 +792,8 @@ point[9] gv_engineering_bay_positions;
 unit[10] gv_ghost_academies;
 point[9] gv_initial_bunker_positions;
 point[9] gv_nuke_silo_positions;
+unit[10] gv_nuke_silos;
+bool gv_player_draw;
 string gv_magic;
 fixed gv_total_wagers;
 fixed[10] gv_player_elos;
@@ -864,6 +866,8 @@ int gv_num_messages;
 text[51] gv_messages;
 int gv_last_player_checked;
 unitgroup[9] gv_structuresGroup;
+int[10] gv_num_nuke_used;
+int[10] gv_num_nukes_detected;
 
 void InitGlobals () {
     int init_i;
@@ -979,9 +983,10 @@ void gf_TestPlayerDead (int lp_player);
 trigger gt_Help;
 trigger gt_MeleeInitialization;
 trigger gt_DetectMovement;
-trigger gt_CheckForAfkPlayer;
 trigger gt_CheckForAfkPlayer2;
+trigger gt_CheckForAfkPlayer;
 trigger gt_Records;
+trigger gt_Draw;
 trigger gt_Elo;
 trigger gt_ToggleLeaderboard;
 trigger gt_LeaderboardPeriodicRefresh;
@@ -1004,6 +1009,8 @@ trigger gt_ArmNuke;
 trigger gt_PeriodicCheckDeath;
 trigger gt_PlayerLeaveGame;
 trigger gt_MineralTrickle;
+trigger gt_DetectNukeEffect;
+trigger gt_DetectNukeAction;
 
 //--------------------------------------------------------------------------------------------------
 // Global Functions
@@ -1408,6 +1415,7 @@ void gf_SpawnPlayers () {
             gv_team_alive[gv_player_team[lv_player]] = true;
             VisRevealArea(gv_position_players[lv_position], RegionEntireMap(), 0.1, false);
             UnitCreate(1, "GhostAcademy", c_unitCreateIgnorePlacement, lv_player, gv_nuke_silo_positions[lv_position], 270.0);
+            gv_nuke_silos[lv_player] = UnitLastCreated();
             UnitControlGroupAddUnit(lv_player, 4, UnitLastCreated());
             gv_ghost_academies[lv_player] = UnitLastCreated();
             UnitCreate(1, "EngineeringBay", c_unitCreateIgnorePlacement, lv_player, gv_engineering_bay_positions[lv_position], 270.0);
@@ -2433,53 +2441,6 @@ void gt_DetectMovement_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: CheckForAfkPlayer
-//--------------------------------------------------------------------------------------------------
-bool gt_CheckForAfkPlayer_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_player;
-    int lv_ally;
-
-    // Automatic Variable Declarations
-    const int auto99716D69_ae = 8;
-    const int auto99716D69_ai = 1;
-    playergroup auto035062F2_g;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_player = 1;
-    for ( ; ( (auto99716D69_ai >= 0 && lv_player <= auto99716D69_ae) || (auto99716D69_ai < 0 && lv_player >= auto99716D69_ae) ) ; lv_player += auto99716D69_ai ) {
-        if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
-            UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
-            lv_ally = -1;
-            while (true) {
-                lv_ally = PlayerGroupNextPlayer(auto035062F2_g, lv_ally);
-                if (lv_ally < 0) { break; }
-                if ((lv_player != lv_ally)) {
-                    PlayerSetAlliance(lv_player, c_allianceIdControl, lv_ally, true);
-                    PlayerSetAlliance(lv_player, c_allianceIdSpend, lv_ally, true);
-                }
-
-            }
-        }
-
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_CheckForAfkPlayer_Init () {
-    gt_CheckForAfkPlayer = TriggerCreate("gt_CheckForAfkPlayer_Func");
-    TriggerAddEventTimeElapsed(gt_CheckForAfkPlayer, 40.0, c_timeGame);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: CheckForAfkPlayer 2
 //--------------------------------------------------------------------------------------------------
 bool gt_CheckForAfkPlayer2_Func (bool testConds, bool runActions) {
@@ -2521,6 +2482,52 @@ void gt_CheckForAfkPlayer2_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: CheckForAfkPlayer
+//--------------------------------------------------------------------------------------------------
+bool gt_CheckForAfkPlayer_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+    int lv_ally;
+
+    // Automatic Variable Declarations
+    const int auto99716D69_ae = 8;
+    const int auto99716D69_ai = 1;
+    playergroup auto035062F2_g;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_player = 1;
+    for ( ; ( (auto99716D69_ai >= 0 && lv_player <= auto99716D69_ae) || (auto99716D69_ai < 0 && lv_player >= auto99716D69_ae) ) ; lv_player += auto99716D69_ai ) {
+        if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
+            UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
+            auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
+            lv_ally = -1;
+            while (true) {
+                lv_ally = PlayerGroupNextPlayer(auto035062F2_g, lv_ally);
+                if (lv_ally < 0) { break; }
+                if ((lv_player != lv_ally)) {
+                    PlayerSetAlliance(lv_player, c_allianceIdControl, lv_ally, true);
+                }
+
+            }
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CheckForAfkPlayer_Init () {
+    gt_CheckForAfkPlayer = TriggerCreate("gt_CheckForAfkPlayer_Func");
+    TriggerAddEventTimeElapsed(gt_CheckForAfkPlayer, 60.0, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Records
 //--------------------------------------------------------------------------------------------------
 bool gt_Records_Func (bool testConds, bool runActions) {
@@ -2559,6 +2566,33 @@ void gt_Records_Init () {
     gt_Records = TriggerCreate("gt_Records_Func");
     TriggerAddEventChatMessage(gt_Records, c_playerAny, "-records", true);
     TriggerAddEventChatMessage(gt_Records, c_playerAny, "-r", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Draw
+//--------------------------------------------------------------------------------------------------
+bool gt_Draw_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    text lv_message;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_player_draw = true;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Draw_Init () {
+    gt_Draw = TriggerCreate("gt_Draw_Func");
+    TriggerAddEventChatMessage(gt_Draw, c_playerAny, "-draw", true);
+    TriggerAddEventChatMessage(gt_Draw, c_playerAny, "-d", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2875,6 +2909,7 @@ void gt_SpawnUnit_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_OnRallyChange_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    unit lv_unit;
     int lv_bunker_index;
 
     // Automatic Variable Declarations
@@ -2893,8 +2928,19 @@ bool gt_OnRallyChange_Func (bool testConds, bool runActions) {
     }
 
     lv_bunker_index = gf_GetBunkerIndex(EventUnit());
+    lv_unit = UnitRallyPointTargetUnit(EventUnit(), 1, 1);
     gv_bunker_rally_points[lv_bunker_index] = UnitRallyPointTargetPoint(EventUnit(), 1, 1);
-    gv_bunker_rally_units[lv_bunker_index] = UnitRallyPointTargetUnit(EventUnit(), 1, 1);
+    if ((lv_unit != null)) {
+        if (((lv_unit == UnitFromId(2058176399)) || (lv_unit == EventUnit()))) {
+            gv_bunker_rally_units[lv_bunker_index] = null;
+        }
+        else {
+            gv_bunker_rally_units[lv_bunker_index] = UnitRallyPointTargetUnit(EventUnit(), 1, 1);
+        }
+    }
+    else {
+        gv_bunker_rally_units[lv_bunker_index] = null;
+    }
     gv_bunker_spawn_points[lv_bunker_index] = libNtve_gf_PointOffsetTowardsPoint(gv_bunker_locations[lv_bunker_index], 1.414, gv_bunker_rally_points[lv_bunker_index]);
     return true;
 }
@@ -3367,15 +3413,71 @@ void gt_MineralTrickle_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: DetectNukeEffect
+//--------------------------------------------------------------------------------------------------
+bool gt_DetectNukeEffect_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_num_nukes_detected[EventPlayer()] += 1;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DetectNukeEffect_Init () {
+    gt_DetectNukeEffect = TriggerCreate("gt_DetectNukeEffect_Func");
+    TriggerAddEventPlayerEffectUsed(gt_DetectNukeEffect, c_playerAny, "NukeDamage");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DetectNukeAction
+//--------------------------------------------------------------------------------------------------
+bool gt_DetectNukeAction_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_num_used;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_player = EventPlayer();
+    gv_num_nuke_used[lv_player] += 1;
+    lv_num_used = gv_num_nuke_used[lv_player];
+    Wait(3.0, c_timeGame);
+    if (((gv_num_nuke_used[lv_player] == lv_num_used) && (gv_num_nukes_detected[lv_player] < gv_num_nuke_used[lv_player]))) {
+        gv_num_nuke_used[lv_player] -= 1;
+        UnitMagazineArm(gv_nuke_silos[lv_player], AbilityCommand("ArmSiloWithNuke", 0), 1);
+        TriggerDebugOutput(1, StringExternal("Param/Value/2CB32ECF"), true);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_DetectNukeAction_Init () {
+    gt_DetectNukeAction = TriggerCreate("gt_DetectNukeAction_Func");
+    TriggerAddEventUnitAbility(gt_DetectNukeAction, null, AbilityCommand("TacNukeStrike", 0), c_abilEffectStageCast, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger Initialization
 //--------------------------------------------------------------------------------------------------
 void InitTriggers () {
     gt_Help_Init();
     gt_MeleeInitialization_Init();
     gt_DetectMovement_Init();
-    gt_CheckForAfkPlayer_Init();
     gt_CheckForAfkPlayer2_Init();
+    gt_CheckForAfkPlayer_Init();
     gt_Records_Init();
+    gt_Draw_Init();
     gt_Elo_Init();
     gt_ToggleLeaderboard_Init();
     gt_LeaderboardPeriodicRefresh_Init();
@@ -3398,6 +3500,8 @@ void InitTriggers () {
     gt_PeriodicCheckDeath_Init();
     gt_PlayerLeaveGame_Init();
     gt_MineralTrickle_Init();
+    gt_DetectNukeEffect_Init();
+    gt_DetectNukeAction_Init();
 }
 
 //--------------------------------------------------------------------------------------------------
