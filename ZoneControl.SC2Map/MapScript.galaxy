@@ -850,6 +850,9 @@ int[10] gv_team_info_player_attack_level;
 int[10] gv_team_info_player_range_level;
 int[10] gv_team_info_player_regen_level;
 int[10] gv_team_info_player_speed_level;
+int[10] gv_team_info_player_bunker_armor_level;
+int[10] gv_team_info_player_bunker_regen_level;
+int[10] gv_team_info_player_bunker_slots_level;
 int gv_team_info_current_player;
 int[10][5] gv_team_info_palyer_slot_map;
 int[10] gv_team_info_player_dialogs;
@@ -859,6 +862,9 @@ int[10] gv_team_info_player_attack;
 int[10] gv_team_info_player_range;
 int[10] gv_team_info_player_regen;
 int[10] gv_team_info_player_speed;
+int[10] gv_team_info_player_bunker_armor;
+int[10] gv_team_info_player_bunker_regen;
+int[10] gv_team_info_player_bunker_slots;
 int gv_untitledVariable002;
 int gv_untitledVariable003;
 bool gv_message_lock;
@@ -935,6 +941,15 @@ void InitGlobals () {
     }
     for (init_i = 0; init_i <= 9; init_i += 1) {
         gv_team_info_player_speed[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= 9; init_i += 1) {
+        gv_team_info_player_bunker_armor[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= 9; init_i += 1) {
+        gv_team_info_player_bunker_regen[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= 9; init_i += 1) {
+        gv_team_info_player_bunker_slots[init_i] = c_invalidDialogControlId;
     }
     gv_untitledVariable002 = 100;
     gv_last_player_checked = 1;
@@ -1198,6 +1213,8 @@ void gf_AssignTeamLocations () {
         lv_player = PlayerGroupNextPlayer(auto49CACD5C_g, lv_player);
         if (lv_player < 0) { break; }
         if (((PlayerType(lv_player) == c_playerTypeUser) || (PlayerType(lv_player) == c_playerTypeComputer))) {
+            PlayerOptionOverride(lv_player, "controlgroupmode", "3");
+            PlayerOptionOverride(lv_player, "selectuncontrolable", "1");
             PlayerGroupAdd(gv_all_players, lv_player);
         }
 
@@ -1954,6 +1971,9 @@ void gf_UpdateTeamInfoColor (int lp_player) {
     libNtve_gf_SetDialogItemColor(gv_team_info_player_range[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
     libNtve_gf_SetDialogItemColor(gv_team_info_player_regen[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
     libNtve_gf_SetDialogItemColor(gv_team_info_player_speed[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
+    libNtve_gf_SetDialogItemColor(gv_team_info_player_bunker_armor[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
+    libNtve_gf_SetDialogItemColor(gv_team_info_player_bunker_regen[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
+    libNtve_gf_SetDialogItemColor(gv_team_info_player_bunker_slots[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
 }
 
 void gf_TeamInfoInit () {
@@ -1983,7 +2003,7 @@ void gf_TeamInfoInit () {
     lv_mainDialog = c_invalidDialogId;
 
     // Implementation
-    DialogCreate(600, 200, c_anchorTopLeft, 15, 15, true);
+    DialogCreate(900, 200, c_anchorTopLeft, 110, 15, true);
     lv_mainDialog = DialogLastCreated();
     DialogSetImageVisible(lv_mainDialog, false);
     DialogSetVisible(lv_mainDialog, PlayerGroupAll(), true);
@@ -2004,6 +2024,12 @@ void gf_TeamInfoInit () {
         libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-upgrade-terran-infantryweaponslevel0.dds", PlayerGroupAll());
         DialogControlHookup(lv_header, c_triggerControlTypeImage, "ArmorIcon");
         libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-upgrade-terran-infantryarmorlevel0.dds", PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "BunkerArmorIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-upgrade-terran-buildingarmor.dds", PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "BunkerRegenIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-upgrade-swann-regenerativebiosteel.dds", PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "BunkerSlotsIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\btn-upgrade-terran-neosteelframe.dds", PlayerGroupAll());
         DialogControlCreateFromTemplate(lv_mainDialog, c_triggerControlTypePanel, "ZoneTeammateStats/TeammateState");
         gv_team_info_player_dialogs[lv_player] = DialogControlLastCreated();
         DialogControlSetPosition(gv_team_info_player_dialogs[lv_player], PlayerGroupSingle(lv_player), c_anchorTopLeft, 0, ((0 * 30) + 30));
@@ -2019,6 +2045,12 @@ void gf_TeamInfoInit () {
         gv_team_info_player_regen[lv_player] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "SpeedUp");
         gv_team_info_player_speed[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "BunkerArmorUp");
+        gv_team_info_player_bunker_armor[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "BunkerRegenUp");
+        gv_team_info_player_bunker_regen[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "BunkerSlotsUp");
+        gv_team_info_player_bunker_slots[lv_player] = DialogControlLastCreated();
         gf_UpdateTeamInfoColor(lv_player);
     }
     lv_player = 1;
@@ -2680,6 +2712,9 @@ bool gt_TeamInfoTrackUpgrades_Func (bool testConds, bool runActions) {
     gv_team_info_player_range_level[lv_player] = TechTreeUpgradeCount(lv_player, "MarineAttackRange", c_techCountQueuedOrBetter);
     gv_team_info_player_regen_level[lv_player] = TechTreeUpgradeCount(lv_player, "MarineLifeRegeneration", c_techCountQueuedOrBetter);
     gv_team_info_player_speed_level[lv_player] = TechTreeUpgradeCount(lv_player, "MarineMovespeed", c_techCountQueuedOrBetter);
+    gv_team_info_player_bunker_armor_level[lv_player] = TechTreeUpgradeCount(lv_player, "BunkerArmor", c_techCountQueuedOrBetter);
+    gv_team_info_player_bunker_regen_level[lv_player] = TechTreeUpgradeCount(lv_player, "BunkerLifeRegeneration", c_techCountQueuedOrBetter);
+    gv_team_info_player_bunker_slots_level[lv_player] = TechTreeUpgradeCount(lv_player, "BunkerCapacity", c_techCountQueuedOrBetter);
     return true;
 }
 
@@ -2712,6 +2747,9 @@ bool gt_UpdateTeamInfo_Func (bool testConds, bool runActions) {
         libNtve_gf_SetDialogItemText(gv_team_info_player_range[gv_team_info_current_player], IntToText(gv_team_info_player_range_level[gv_team_info_current_player]), PlayerGroupAll());
         libNtve_gf_SetDialogItemText(gv_team_info_player_regen[gv_team_info_current_player], IntToText(gv_team_info_player_regen_level[gv_team_info_current_player]), PlayerGroupAll());
         libNtve_gf_SetDialogItemText(gv_team_info_player_speed[gv_team_info_current_player], IntToText(gv_team_info_player_speed_level[gv_team_info_current_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_armor[gv_team_info_current_player], IntToText(gv_team_info_player_bunker_armor_level[gv_team_info_current_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_regen[gv_team_info_current_player], IntToText(gv_team_info_player_bunker_regen_level[gv_team_info_current_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_slots[gv_team_info_current_player], IntToText(gv_team_info_player_bunker_slots_level[gv_team_info_current_player]), PlayerGroupAll());
     }
 
     return true;

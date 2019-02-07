@@ -3,14 +3,34 @@
 <Desc>
 
 <Frame type="Frame" name="TeammateStateIcons">
-        <Width val="270"/>
+        <Width val="400"/>
         <Height val="40"/>
+
+
+  <Frame type="Image" name="BunkerSlotsIcon">
+            <Height val="20"/>
+            <Width val="20"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="338"/>
+        </Frame>
+  <Frame type="Image" name="BunkerRegenIcon">
+            <Height val="20"/>
+            <Width val="20"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="304"/>
+        </Frame>
+  <Frame type="Image" name="BunkerArmorIcon">
+            <Height val="20"/>
+            <Width val="20"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="270"/>
+        </Frame>
 
   <Frame type="Image" name="PlayerMineralIcon">
             <Height val="20"/>
             <Width val="20"/>
           <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Right" relative="$parent" pos="Max" offset="-40"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="208"/>
         </Frame>
 
   <Frame type="Image" name="SpeedIcon">
@@ -56,15 +76,45 @@
 
 
   <Frame type="Frame" name="TeammateState">
-        <Width val="270"/>
+        <Width val="400"/>
         <Height val="40"/>
+
+  <Frame type="Label" name="BunkerSlotsUp">
+            <Style val="TeamStats"/>
+            <Height val="40"/>
+            <Width val="40"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="328"/>
+            <Text val="0"/>
+        </Frame>
+
+
+  <Frame type="Label" name="BunkerRegenUp">
+            <Style val="TeamStats"/>
+            <Height val="40"/>
+            <Width val="40"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="294"/>
+            <Text val="0"/>
+        </Frame>
+
+
+  <Frame type="Label" name="BunkerArmorUp">
+            <Style val="TeamStats"/>
+            <Height val="40"/>
+            <Width val="40"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="260"/>
+            <Text val="0"/>
+        </Frame>
+
 
         <Frame type="Label" name="PlayerMinerals">
             <Style val="TeamStats"/>
             <Height val="40"/>
             <Width val="90"/>
-           <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+  <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="175"/>
             <Text val="50"/> 
         </Frame>
 
