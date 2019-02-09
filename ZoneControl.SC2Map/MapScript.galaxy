@@ -783,6 +783,12 @@ void InitLibs () {
 //--------------------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------------------
+fixed[9][3] gv_position_spawn_offsets;
+int[10] gv_player_race_index;
+string[4][5][3] gv_race_spawn_unit_types;
+string[4][3] gv_race_spawner_types;
+string[4] gv_race_worker_types;
+string[4] gv_race_research_facility_types;
 bool[10] gv_movement_detected;
 playergroup gv_all_players;
 int gv_num_teams;
@@ -820,8 +826,9 @@ unit[65] gv_bunkers;
 point[65] gv_bunker_rally_points;
 unit[65] gv_bunker_rally_units;
 bool[65] gv_bunker_merc_status;
+int[65] gv_spawner_upgrade_status;
 bool[65] gv_bunker_retire_status;
-string[65] gv_bunker_base_unit_type;
+int[65] gv_spawner_tier;
 int[10] gv_player_team;
 int[9] gv_position_players;
 int[10] gv_player_positions;
@@ -961,6 +968,7 @@ void InitGlobals () {
 //--------------------------------------------------------------------------------------------------
 // Global Function Declarations
 //--------------------------------------------------------------------------------------------------
+void gf_ConfigureConstants ();
 void gf_AssignTeamLocations ();
 void gf_SpawnPlayers ();
 void gf_SignBank (bank lp_bank);
@@ -1030,6 +1038,171 @@ trigger gt_MineralTrickle;
 //--------------------------------------------------------------------------------------------------
 // Global Functions
 //--------------------------------------------------------------------------------------------------
+void gf_ConfigureConstants () {
+    // Automatic Variable Declarations
+    // Implementation
+    gv_race_spawn_unit_types[0][0][0] = "Marine";
+    gv_race_spawn_unit_types[0][1][0] = "Reaper";
+    gv_race_spawn_unit_types[0][2][0] = "Marauder";
+    gv_race_spawn_unit_types[0][3][0] = "Ghost";
+    gv_race_spawn_unit_types[0][0][1] = "WarPig";
+    gv_race_spawn_unit_types[0][1][1] = "MercReaper";
+    gv_race_spawn_unit_types[0][2][1] = "HammerSecurity";
+    gv_race_spawn_unit_types[0][3][1] = "Spectre";
+    gv_race_spawn_unit_types[1][0][0] = "Zealot";
+    gv_race_spawn_unit_types[1][1][0] = "Stalker";
+    gv_race_spawn_unit_types[1][2][0] = "Immortal";
+    gv_race_spawn_unit_types[1][3][0] = "Carrier";
+    gv_race_spawn_unit_types[1][0][1] = "WarPig";
+    gv_race_spawn_unit_types[1][1][1] = "MercReaper";
+    gv_race_spawn_unit_types[1][2][1] = "HammerSecurity";
+    gv_race_spawn_unit_types[1][3][1] = "Spectre";
+    gv_race_spawner_types[0][0] = "Bunker";
+    gv_race_spawner_types[0][1] = "InfestedBunker";
+    gv_race_spawner_types[1][0] = "Gateway";
+    gv_race_spawner_types[1][1] = "Gateway";
+    gv_race_worker_types[0] = "SCV";
+    gv_race_worker_types[1] = "Probe";
+    gv_race_research_facility_types[0] = "EngineeringBay";
+    gv_race_research_facility_types[1] = "Forge";
+    gv_spawner_tier[9] = 1;
+    gv_spawner_tier[10] = 1;
+    gv_spawner_tier[11] = 1;
+    gv_spawner_tier[12] = 1;
+    gv_spawner_tier[13] = 1;
+    gv_spawner_tier[14] = 1;
+    gv_spawner_tier[17] = 1;
+    gv_spawner_tier[18] = 2;
+    gv_spawner_tier[19] = 2;
+    gv_spawner_tier[20] = 2;
+    gv_spawner_tier[21] = 2;
+    gv_spawner_tier[22] = 1;
+    gv_spawner_tier[25] = 1;
+    gv_spawner_tier[26] = 2;
+    gv_spawner_tier[27] = 3;
+    gv_spawner_tier[28] = 3;
+    gv_spawner_tier[29] = 2;
+    gv_spawner_tier[30] = 1;
+    gv_spawner_tier[33] = 1;
+    gv_spawner_tier[34] = 2;
+    gv_spawner_tier[35] = 3;
+    gv_spawner_tier[36] = 3;
+    gv_spawner_tier[37] = 2;
+    gv_spawner_tier[38] = 1;
+    gv_spawner_tier[41] = 1;
+    gv_spawner_tier[42] = 2;
+    gv_spawner_tier[43] = 2;
+    gv_spawner_tier[44] = 2;
+    gv_spawner_tier[45] = 2;
+    gv_spawner_tier[46] = 1;
+    gv_spawner_tier[49] = 1;
+    gv_spawner_tier[50] = 1;
+    gv_spawner_tier[51] = 1;
+    gv_spawner_tier[52] = 1;
+    gv_spawner_tier[53] = 1;
+    gv_spawner_tier[54] = 1;
+    gv_spawn_scan_order[0] = 1;
+    gv_spawn_scan_order[1] = 6;
+    gv_spawn_scan_order[2] = 15;
+    gv_spawn_scan_order[3] = 55;
+    gv_spawn_scan_order[4] = 62;
+    gv_spawn_scan_order[5] = 57;
+    gv_spawn_scan_order[6] = 48;
+    gv_spawn_scan_order[7] = 8;
+    gv_spawn_scan_order[8] = 2;
+    gv_spawn_scan_order[9] = 5;
+    gv_spawn_scan_order[10] = 23;
+    gv_spawn_scan_order[11] = 47;
+    gv_spawn_scan_order[12] = 61;
+    gv_spawn_scan_order[13] = 58;
+    gv_spawn_scan_order[14] = 40;
+    gv_spawn_scan_order[15] = 16;
+    gv_spawn_scan_order[16] = 3;
+    gv_spawn_scan_order[17] = 4;
+    gv_spawn_scan_order[18] = 31;
+    gv_spawn_scan_order[19] = 39;
+    gv_spawn_scan_order[20] = 59;
+    gv_spawn_scan_order[21] = 60;
+    gv_spawn_scan_order[22] = 32;
+    gv_spawn_scan_order[23] = 24;
+    gv_spawn_scan_order[24] = 9;
+    gv_spawn_scan_order[25] = 14;
+    gv_spawn_scan_order[26] = 54;
+    gv_spawn_scan_order[27] = 49;
+    gv_spawn_scan_order[28] = 10;
+    gv_spawn_scan_order[29] = 13;
+    gv_spawn_scan_order[30] = 22;
+    gv_spawn_scan_order[31] = 46;
+    gv_spawn_scan_order[32] = 53;
+    gv_spawn_scan_order[33] = 50;
+    gv_spawn_scan_order[34] = 41;
+    gv_spawn_scan_order[35] = 17;
+    gv_spawn_scan_order[36] = 11;
+    gv_spawn_scan_order[37] = 12;
+    gv_spawn_scan_order[38] = 30;
+    gv_spawn_scan_order[39] = 38;
+    gv_spawn_scan_order[40] = 52;
+    gv_spawn_scan_order[41] = 51;
+    gv_spawn_scan_order[42] = 33;
+    gv_spawn_scan_order[43] = 25;
+    gv_spawn_scan_order[44] = 18;
+    gv_spawn_scan_order[45] = 21;
+    gv_spawn_scan_order[46] = 45;
+    gv_spawn_scan_order[47] = 42;
+    gv_spawn_scan_order[48] = 19;
+    gv_spawn_scan_order[49] = 20;
+    gv_spawn_scan_order[50] = 29;
+    gv_spawn_scan_order[51] = 37;
+    gv_spawn_scan_order[52] = 44;
+    gv_spawn_scan_order[53] = 43;
+    gv_spawn_scan_order[54] = 34;
+    gv_spawn_scan_order[55] = 26;
+    gv_spawn_scan_order[56] = 27;
+    gv_spawn_scan_order[57] = 28;
+    gv_spawn_scan_order[58] = 36;
+    gv_spawn_scan_order[59] = 35;
+    gv_engineering_bay_positions[0] = Point(18.5, 88.5);
+    gv_engineering_bay_positions[1] = Point(21.5, 92.5);
+    gv_engineering_bay_positions[2] = Point(90.5, 90.5);
+    gv_engineering_bay_positions[3] = Point(93.5, 88.5);
+    gv_engineering_bay_positions[4] = Point(93.5, 19.5);
+    gv_engineering_bay_positions[5] = Point(90.5, 17.5);
+    gv_engineering_bay_positions[6] = Point(21.5, 17.5);
+    gv_engineering_bay_positions[7] = Point(18.5, 19.5);
+    gv_nuke_silo_positions[0] = Point(16.5, 91.5);
+    gv_nuke_silo_positions[1] = Point(19.5, 93.5);
+    gv_nuke_silo_positions[2] = Point(92.5, 93.5);
+    gv_nuke_silo_positions[3] = Point(95.5, 91.5);
+    gv_nuke_silo_positions[4] = Point(95.5, 16.5);
+    gv_nuke_silo_positions[5] = Point(92.5, 14.5);
+    gv_nuke_silo_positions[6] = Point(19.5, 14.5);
+    gv_nuke_silo_positions[7] = Point(16.5, 16.5);
+    gv_initial_bunker_positions[0] = Point(20.5, 79.5);
+    gv_initial_bunker_positions[1] = Point(30.5, 89.5);
+    gv_initial_bunker_positions[2] = Point(81.5, 89.5);
+    gv_initial_bunker_positions[3] = Point(91.5, 79.5);
+    gv_initial_bunker_positions[4] = Point(91.5, 28.5);
+    gv_initial_bunker_positions[5] = Point(81.5, 18.5);
+    gv_initial_bunker_positions[6] = Point(30.5, 18.5);
+    gv_initial_bunker_positions[7] = Point(20.5, 28.5);
+    gv_position_spawn_offsets[0][0] = 1.0;
+    gv_position_spawn_offsets[1][0] = 1.0;
+    gv_position_spawn_offsets[2][0] = -1.0;
+    gv_position_spawn_offsets[3][0] = -1.0;
+    gv_position_spawn_offsets[4][0] = -1.0;
+    gv_position_spawn_offsets[5][0] = -1.0;
+    gv_position_spawn_offsets[6][0] = 1.0;
+    gv_position_spawn_offsets[7][0] = 1.0;
+    gv_position_spawn_offsets[0][1] = -1.0;
+    gv_position_spawn_offsets[1][1] = -1.0;
+    gv_position_spawn_offsets[2][1] = -1.0;
+    gv_position_spawn_offsets[3][1] = -1.0;
+    gv_position_spawn_offsets[4][1] = 1.0;
+    gv_position_spawn_offsets[5][1] = 1.0;
+    gv_position_spawn_offsets[6][1] = 1.0;
+    gv_position_spawn_offsets[7][1] = 1.0;
+}
+
 void gf_AssignTeamLocations () {
     int init_i;
 
@@ -1281,8 +1454,8 @@ void gf_AssignTeamLocations () {
 
 void gf_SpawnPlayers () {
     // Variable Declarations
+    int lv_player_race;
     unit lv_unit;
-    fixed[9][3] lv_position_spawn_offsets;
     int lv_player;
     int lv_position;
 
@@ -1292,170 +1465,6 @@ void gf_SpawnPlayers () {
     // Variable Initialization
 
     // Implementation
-    gv_bunker_base_unit_type[0] = "Marine";
-    gv_bunker_base_unit_type[1] = "Marine";
-    gv_bunker_base_unit_type[2] = "Marine";
-    gv_bunker_base_unit_type[3] = "Marine";
-    gv_bunker_base_unit_type[4] = "Marine";
-    gv_bunker_base_unit_type[5] = "Marine";
-    gv_bunker_base_unit_type[6] = "Marine";
-    gv_bunker_base_unit_type[7] = "Marine";
-    gv_bunker_base_unit_type[8] = "Marine";
-    gv_bunker_base_unit_type[9] = "Reaper";
-    gv_bunker_base_unit_type[10] = "Reaper";
-    gv_bunker_base_unit_type[11] = "Reaper";
-    gv_bunker_base_unit_type[12] = "Reaper";
-    gv_bunker_base_unit_type[13] = "Reaper";
-    gv_bunker_base_unit_type[14] = "Reaper";
-    gv_bunker_base_unit_type[15] = "Marine";
-    gv_bunker_base_unit_type[16] = "Marine";
-    gv_bunker_base_unit_type[17] = "Reaper";
-    gv_bunker_base_unit_type[18] = "Marauder";
-    gv_bunker_base_unit_type[19] = "Marauder";
-    gv_bunker_base_unit_type[20] = "Marauder";
-    gv_bunker_base_unit_type[21] = "Marauder";
-    gv_bunker_base_unit_type[22] = "Reaper";
-    gv_bunker_base_unit_type[23] = "Marine";
-    gv_bunker_base_unit_type[24] = "Marine";
-    gv_bunker_base_unit_type[25] = "Reaper";
-    gv_bunker_base_unit_type[26] = "Marauder";
-    gv_bunker_base_unit_type[27] = "Ghost";
-    gv_bunker_base_unit_type[28] = "Ghost";
-    gv_bunker_base_unit_type[29] = "Marauder";
-    gv_bunker_base_unit_type[30] = "Reaper";
-    gv_bunker_base_unit_type[31] = "Marine";
-    gv_bunker_base_unit_type[32] = "Marine";
-    gv_bunker_base_unit_type[33] = "Reaper";
-    gv_bunker_base_unit_type[34] = "Marauder";
-    gv_bunker_base_unit_type[35] = "Ghost";
-    gv_bunker_base_unit_type[36] = "Ghost";
-    gv_bunker_base_unit_type[37] = "Marauder";
-    gv_bunker_base_unit_type[38] = "Reaper";
-    gv_bunker_base_unit_type[39] = "Marine";
-    gv_bunker_base_unit_type[40] = "Marine";
-    gv_bunker_base_unit_type[41] = "Reaper";
-    gv_bunker_base_unit_type[42] = "Marauder";
-    gv_bunker_base_unit_type[43] = "Marauder";
-    gv_bunker_base_unit_type[44] = "Marauder";
-    gv_bunker_base_unit_type[45] = "Marauder";
-    gv_bunker_base_unit_type[46] = "Reaper";
-    gv_bunker_base_unit_type[47] = "Marine";
-    gv_bunker_base_unit_type[48] = "Marine";
-    gv_bunker_base_unit_type[49] = "Reaper";
-    gv_bunker_base_unit_type[50] = "Reaper";
-    gv_bunker_base_unit_type[51] = "Reaper";
-    gv_bunker_base_unit_type[52] = "Reaper";
-    gv_bunker_base_unit_type[53] = "Reaper";
-    gv_bunker_base_unit_type[54] = "Reaper";
-    gv_bunker_base_unit_type[55] = "Marine";
-    gv_bunker_base_unit_type[56] = "Marine";
-    gv_bunker_base_unit_type[57] = "Marine";
-    gv_bunker_base_unit_type[58] = "Marine";
-    gv_bunker_base_unit_type[59] = "Marine";
-    gv_bunker_base_unit_type[60] = "Marine";
-    gv_bunker_base_unit_type[61] = "Marine";
-    gv_bunker_base_unit_type[62] = "Marine";
-    gv_bunker_base_unit_type[63] = "Marine";
-    gv_spawn_scan_order[0] = 1;
-    gv_spawn_scan_order[1] = 6;
-    gv_spawn_scan_order[2] = 15;
-    gv_spawn_scan_order[3] = 55;
-    gv_spawn_scan_order[4] = 62;
-    gv_spawn_scan_order[5] = 57;
-    gv_spawn_scan_order[6] = 48;
-    gv_spawn_scan_order[7] = 8;
-    gv_spawn_scan_order[8] = 2;
-    gv_spawn_scan_order[9] = 5;
-    gv_spawn_scan_order[10] = 23;
-    gv_spawn_scan_order[11] = 47;
-    gv_spawn_scan_order[12] = 61;
-    gv_spawn_scan_order[13] = 58;
-    gv_spawn_scan_order[14] = 40;
-    gv_spawn_scan_order[15] = 16;
-    gv_spawn_scan_order[16] = 3;
-    gv_spawn_scan_order[17] = 4;
-    gv_spawn_scan_order[18] = 31;
-    gv_spawn_scan_order[19] = 39;
-    gv_spawn_scan_order[20] = 59;
-    gv_spawn_scan_order[21] = 60;
-    gv_spawn_scan_order[22] = 32;
-    gv_spawn_scan_order[23] = 24;
-    gv_spawn_scan_order[24] = 9;
-    gv_spawn_scan_order[25] = 14;
-    gv_spawn_scan_order[26] = 54;
-    gv_spawn_scan_order[27] = 49;
-    gv_spawn_scan_order[28] = 10;
-    gv_spawn_scan_order[29] = 13;
-    gv_spawn_scan_order[30] = 22;
-    gv_spawn_scan_order[31] = 46;
-    gv_spawn_scan_order[32] = 53;
-    gv_spawn_scan_order[33] = 50;
-    gv_spawn_scan_order[34] = 41;
-    gv_spawn_scan_order[35] = 17;
-    gv_spawn_scan_order[36] = 11;
-    gv_spawn_scan_order[37] = 12;
-    gv_spawn_scan_order[38] = 30;
-    gv_spawn_scan_order[39] = 38;
-    gv_spawn_scan_order[40] = 52;
-    gv_spawn_scan_order[41] = 51;
-    gv_spawn_scan_order[42] = 33;
-    gv_spawn_scan_order[43] = 25;
-    gv_spawn_scan_order[44] = 18;
-    gv_spawn_scan_order[45] = 21;
-    gv_spawn_scan_order[46] = 45;
-    gv_spawn_scan_order[47] = 42;
-    gv_spawn_scan_order[48] = 19;
-    gv_spawn_scan_order[49] = 20;
-    gv_spawn_scan_order[50] = 29;
-    gv_spawn_scan_order[51] = 37;
-    gv_spawn_scan_order[52] = 44;
-    gv_spawn_scan_order[53] = 43;
-    gv_spawn_scan_order[54] = 34;
-    gv_spawn_scan_order[55] = 26;
-    gv_spawn_scan_order[56] = 27;
-    gv_spawn_scan_order[57] = 28;
-    gv_spawn_scan_order[58] = 36;
-    gv_spawn_scan_order[59] = 35;
-    gv_engineering_bay_positions[0] = Point(18.5, 88.5);
-    gv_engineering_bay_positions[1] = Point(21.5, 92.5);
-    gv_engineering_bay_positions[2] = Point(90.5, 90.5);
-    gv_engineering_bay_positions[3] = Point(93.5, 88.5);
-    gv_engineering_bay_positions[4] = Point(93.5, 19.5);
-    gv_engineering_bay_positions[5] = Point(90.5, 17.5);
-    gv_engineering_bay_positions[6] = Point(21.5, 17.5);
-    gv_engineering_bay_positions[7] = Point(18.5, 19.5);
-    gv_nuke_silo_positions[0] = Point(16.5, 91.5);
-    gv_nuke_silo_positions[1] = Point(19.5, 93.5);
-    gv_nuke_silo_positions[2] = Point(92.5, 93.5);
-    gv_nuke_silo_positions[3] = Point(95.5, 91.5);
-    gv_nuke_silo_positions[4] = Point(95.5, 16.5);
-    gv_nuke_silo_positions[5] = Point(92.5, 14.5);
-    gv_nuke_silo_positions[6] = Point(19.5, 14.5);
-    gv_nuke_silo_positions[7] = Point(16.5, 16.5);
-    gv_initial_bunker_positions[0] = Point(20.5, 79.5);
-    gv_initial_bunker_positions[1] = Point(30.5, 89.5);
-    gv_initial_bunker_positions[2] = Point(81.5, 89.5);
-    gv_initial_bunker_positions[3] = Point(91.5, 79.5);
-    gv_initial_bunker_positions[4] = Point(91.5, 28.5);
-    gv_initial_bunker_positions[5] = Point(81.5, 18.5);
-    gv_initial_bunker_positions[6] = Point(30.5, 18.5);
-    gv_initial_bunker_positions[7] = Point(20.5, 28.5);
-    lv_position_spawn_offsets[0][0] = 1.0;
-    lv_position_spawn_offsets[1][0] = 1.0;
-    lv_position_spawn_offsets[2][0] = -1.0;
-    lv_position_spawn_offsets[3][0] = -1.0;
-    lv_position_spawn_offsets[4][0] = -1.0;
-    lv_position_spawn_offsets[5][0] = -1.0;
-    lv_position_spawn_offsets[6][0] = 1.0;
-    lv_position_spawn_offsets[7][0] = 1.0;
-    lv_position_spawn_offsets[0][1] = -1.0;
-    lv_position_spawn_offsets[1][1] = -1.0;
-    lv_position_spawn_offsets[2][1] = -1.0;
-    lv_position_spawn_offsets[3][1] = -1.0;
-    lv_position_spawn_offsets[4][1] = 1.0;
-    lv_position_spawn_offsets[5][1] = 1.0;
-    lv_position_spawn_offsets[6][1] = 1.0;
-    lv_position_spawn_offsets[7][1] = 1.0;
     autoF3930426_g = gv_all_players;
     lv_player = -1;
     while (true) {
@@ -1469,8 +1478,9 @@ void gf_SpawnPlayers () {
             PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, 50);
         }
         lv_position = gv_player_positions[lv_player];
-        gv_player_spawn_offsets[lv_player][0] = lv_position_spawn_offsets[lv_position][0];
-        gv_player_spawn_offsets[lv_player][1] = lv_position_spawn_offsets[lv_position][1];
+        lv_player_race = gv_player_race_index[lv_player];
+        gv_player_spawn_offsets[lv_player][0] = gv_position_spawn_offsets[lv_position][0];
+        gv_player_spawn_offsets[lv_player][1] = gv_position_spawn_offsets[lv_position][1];
         gv_player_alive[lv_player] = true;
         gv_team_alive[gv_player_team[lv_player]] = true;
         VisRevealArea(gv_position_players[lv_position], RegionEntireMap(), 0.1, false);
@@ -1478,14 +1488,14 @@ void gf_SpawnPlayers () {
         gv_nuke_silos[lv_player] = UnitLastCreated();
         UnitControlGroupAddUnit(lv_player, 4, UnitLastCreated());
         gv_ghost_academies[lv_player] = UnitLastCreated();
-        UnitCreate(1, "EngineeringBay", c_unitCreateIgnorePlacement, lv_player, gv_engineering_bay_positions[lv_position], 270.0);
+        UnitCreate(1, gv_race_research_facility_types[lv_player_race], c_unitCreateIgnorePlacement, lv_player, gv_engineering_bay_positions[lv_position], 270.0);
         UnitControlGroupAddUnit(lv_player, 4, UnitLastCreated());
-        UnitCreate(1, "Bunker", c_unitCreateIgnorePlacement, lv_player, gv_initial_bunker_positions[lv_position], 270.0);
+        UnitCreate(1, gv_race_spawner_types[lv_player_race][0], c_unitCreateIgnorePlacement, lv_player, gv_initial_bunker_positions[lv_position], 270.0);
         CameraPan(lv_player, gv_initial_bunker_positions[lv_position], 0.01, -1, 10.0, false);
         lv_unit = UnitLastCreated();
         gf_OnBunkerCreated3(lv_unit);
         gf_OnBunkerCreated(lv_player, lv_unit);
-        UnitCreate(1, "SCV", 0, lv_player, PointWithOffset(gv_initial_bunker_positions[lv_position], (-4.0 * lv_position_spawn_offsets[lv_position][0]), (-4.0 * lv_position_spawn_offsets[lv_position][1])), 270.0);
+        UnitCreate(1, gv_race_worker_types[lv_player_race], 0, lv_player, PointWithOffset(gv_initial_bunker_positions[lv_position], (-4.0 * gv_position_spawn_offsets[lv_position][0]), (-4.0 * gv_position_spawn_offsets[lv_position][1])), 270.0);
         UnitIssueOrder(UnitLastCreated(), Order(AbilityCommand("move", 2)), c_orderQueueReplace);
         lv_unit = UnitLastCreated();
         gf_OnBunkerCreated2(lv_unit);
@@ -2264,7 +2274,7 @@ void gf_OnBunkerRemoved (int lp_player, unit lp_bunker) {
     // Implementation
     lv_bunker_index = gf_GetBunkerIndex(lp_bunker);
     gv_bunker_owners[lv_bunker_index] = 0;
-    gv_bunker_merc_status[lv_bunker_index] = false;
+    gv_spawner_upgrade_status[lv_bunker_index] = 0;
     gf_TestPlayerDead(lp_player);
 }
 
@@ -2284,7 +2294,7 @@ void gf_UpdateAllWorkers (int lp_player) {
     for (;; autoDF5EA8CF_u -= 1) {
         lv_unit = UnitGroupUnitFromEnd(autoDF5EA8CF_g, autoDF5EA8CF_u);
         if (lv_unit == null) { break; }
-        if ((UnitGetType(lv_unit) == "SCV")) {
+        if (((UnitGetType(lv_unit) == "SCV") || (UnitGetType(lv_unit) == "Probe") || (UnitGetType(lv_unit) == "Drone"))) {
             libNtve_gf_KillModel(libHots_gf_ActorForUnit(lv_unit, 1));
             if ((gf_PlayerHasNuke(lp_player) == true)) {
                 libNtve_gf_AttachModelToUnit(lv_unit, "SS_PowerupStrongerMissiles", "Ref_Hardpoint");
@@ -2474,6 +2484,7 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
 
     UISetResourceVisible(PlayerGroupAll(), c_resourceTypeVespene, false);
     TimerStart(gv_game_timer, 50000.0, false, c_timeGame);
+    gf_ConfigureConstants();
     gf_AssignTeamLocations();
     gf_SpawnPlayers();
     gf_RecordUpdateGameStart();
@@ -2939,22 +2950,7 @@ bool gt_SpawnUnit_Func (bool testConds, bool runActions) {
         lv_bunker_index = gv_spawn_scan_order[lv_scan_index];
         lv_bunker_owner = gv_bunker_owners[lv_bunker_index];
         if ((lv_bunker_owner != 0) && (gv_bunker_retire_status[lv_bunker_index] == false) && (PlayerGetPropertyInt(lv_bunker_owner, c_playerPropSuppliesUsed) < PlayerGetPropertyInt(lv_bunker_owner, c_playerPropSuppliesMade))) {
-            lv_unit_type = gv_bunker_base_unit_type[lv_bunker_index];
-            if ((gv_bunker_merc_status[lv_bunker_index] == true)) {
-                if ((lv_unit_type == "Marine")) {
-                    lv_unit_type = "WarPig";
-                }
-                else if ((lv_unit_type == "Reaper")) {
-                    lv_unit_type = "MercReaper";
-                }
-                else if ((lv_unit_type == "Marauder")) {
-                    lv_unit_type = "HammerSecurity";
-                }
-                else if ((lv_unit_type == "Ghost")) {
-                    lv_unit_type = "Spectre";
-                }
-            }
-
+            lv_unit_type = gv_race_spawn_unit_types[gv_player_race_index[lv_bunker_owner]][gv_spawner_tier[lv_bunker_index]][gv_spawner_upgrade_status[lv_bunker_index]];
             UnitCreate(1, lv_unit_type, 0, lv_bunker_owner, gv_bunker_spawn_points[lv_bunker_index], 270.0);
             UnitControlGroupAddUnit(lv_bunker_owner, 1, UnitLastCreated());
             if ((gv_bunker_rally_units[lv_bunker_index] != null)) {
@@ -2987,13 +2983,6 @@ bool gt_OnRallyChange_Func (bool testConds, bool runActions) {
 
     // Automatic Variable Declarations
     // Variable Initialization
-
-    // Conditions
-    if (testConds) {
-        if (!(((UnitGetType(EventUnit()) == "Bunker") || (UnitGetType(EventUnit()) == "InfestedBunker")))) {
-            return false;
-        }
-    }
 
     // Actions
     if (!runActions) {
@@ -3039,7 +3028,7 @@ bool gt_OnUpgrade_Func (bool testConds, bool runActions) {
     }
 
     Wait(31.0, c_timeGame);
-    gv_bunker_merc_status[gf_GetBunkerIndex(EventUnit())] = true;
+    gv_spawner_upgrade_status[gf_GetBunkerIndex(EventUnit())] = 1;
     return true;
 }
 
@@ -3064,7 +3053,7 @@ bool gt_BunkerBuild_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((UnitGetType(EventUnitProgressUnit()) == "Bunker")) {
+    if ((UnitGetType(EventUnitProgressUnit()) == gv_race_spawner_types[gv_player_race_index[EventPlayer()]][0])) {
         gf_OnBunkerCreated(EventPlayer(), EventUnitProgressUnit());
     }
     return true;
@@ -3093,7 +3082,7 @@ bool gt_BunkerBuild2_Func (bool testConds, bool runActions) {
 
     lv_structure = EventUnitProgressUnit();
     UnitGroupAdd(gv_structuresGroup[UnitGetOwner(lv_structure)], lv_structure);
-    if ((UnitGetType(EventUnitProgressUnit()) == "Bunker")) {
+    if ((UnitGetType(EventUnitProgressUnit()) == gv_race_spawner_types[gv_player_race_index[UnitGetOwner(EventUnitProgressUnit())]][0])) {
         gf_OnBunkerCreated3(EventUnitProgressUnit());
     }
     else if ((UnitGetType(EventUnitProgressUnit()) == "SiegeBreakerSieged")) {
@@ -3133,13 +3122,6 @@ void gt_ConstructionCancelled_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_BunkerDestoryed_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!(((UnitGetType(EventUnit()) == "InfestedBunker") || (UnitGetType(EventUnit()) == "Bunker")))) {
-            return false;
-        }
-    }
-
     // Actions
     if (!runActions) {
         return true;
@@ -3168,7 +3150,7 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((UnitGetType(EventUnit()) == "SCV"))) {
+        if (!((UnitGetType(EventUnit()) == gv_race_worker_types[gv_player_race_index[lv_player]]))) {
             return false;
         }
     }
@@ -3183,7 +3165,7 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
     Wait(5.0, c_timeGame);
     lv_structure_to_spawn_at = UnitGroupClosestToPoint(gv_structuresGroup[lv_player], lv_spawnPosition);
     if ((gv_player_alive[lv_player] == true)) {
-        UnitCreate(1, "SCV", 0, lv_player, PointWithOffset(UnitGetPosition(lv_structure_to_spawn_at), (0.0 - gv_player_spawn_offsets[lv_player][0]), (0.0 - gv_player_spawn_offsets[lv_player][1])), 270.0);
+        UnitCreate(1, gv_race_worker_types[gv_player_race_index[lv_player]], 0, lv_player, PointWithOffset(UnitGetPosition(lv_structure_to_spawn_at), (0.0 - gv_player_spawn_offsets[lv_player][0]), (0.0 - gv_player_spawn_offsets[lv_player][1])), 270.0);
         gf_OnBunkerCreated2(UnitLastCreated());
     }
 
@@ -3398,6 +3380,7 @@ void gt_PeriodicCheckDeath_Init () {
 bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_player;
+    int lv_player_race;
     int lv_bunker_slot;
     int lv_teammate;
     int lv_possible_teammate;
@@ -3426,6 +3409,7 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
     }
 
     lv_player = EventPlayer();
+    lv_player_race = gv_player_race_index[lv_player];
     gv_player_left_game[lv_player] = true;
     if ((gv_player_revealers[lv_player] != null)) {
         VisRevealerDestroy(gv_player_revealers[lv_player]);
@@ -3457,17 +3441,17 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
         for (;; auto3DD62C4A_u -= 1) {
             lv_unit = UnitGroupUnitFromEnd(auto3DD62C4A_g, auto3DD62C4A_u);
             if (lv_unit == null) { break; }
-            if (((UnitGetType(lv_unit) == "SCV") || (UnitGetType(lv_unit) == "EngineeringBay") || (UnitGetType(lv_unit) == "GhostAcademy"))) {
+            if (((UnitGetType(lv_unit) == gv_race_worker_types[lv_player_race]) || (UnitGetType(lv_unit) == gv_race_research_facility_types[lv_player_race]) || (UnitGetType(lv_unit) == "GhostAcademy"))) {
                 UnitRemove(lv_unit);
             }
             else {
-                if (((UnitGetType(lv_unit) == "Bunker") || (UnitGetType(lv_unit) == "InfestedBunker"))) {
+                if (((UnitGetType(lv_unit) == gv_race_spawner_types[lv_player_race][0]) || (UnitGetType(lv_unit) == gv_race_spawner_types[lv_player_race][1]))) {
                     auto1DE84C8F_g = UnitCargoGroup(lv_unit);
                     auto1DE84C8F_u = UnitGroupCount(auto1DE84C8F_g, c_unitCountAll);
                     for (;; auto1DE84C8F_u -= 1) {
                         lv_unit2 = UnitGroupUnitFromEnd(auto1DE84C8F_g, auto1DE84C8F_u);
                         if (lv_unit2 == null) { break; }
-                        if ((UnitGetType(lv_unit2) == "SCV")) {
+                        if ((UnitGetType(lv_unit2) == gv_race_worker_types[lv_player_race])) {
                             UnitKill(lv_unit2);
                         }
 
@@ -3482,7 +3466,7 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
                         UnitControlGroupAddUnit(lv_teammate, 5, lv_unit);
                     }
 
-                    if (((UnitGetType(lv_unit) == "Marine") || (UnitGetType(lv_unit) == "WarPig") || (UnitGetType(lv_unit) == "Reaper") || (UnitGetType(lv_unit) == "MercReaper") || (UnitGetType(lv_unit) == "Marauder") || (UnitGetType(lv_unit) == "HammerSecurity") || (UnitGetType(lv_unit) == "Ghost") || (UnitGetType(lv_unit) == "Spectre"))) {
+                    if (((UnitGetType(lv_unit) == gv_race_spawn_unit_types[gv_player_race_index[lv_player]][0][0]) || (UnitGetType(lv_unit) == gv_race_spawn_unit_types[gv_player_race_index[lv_player]][0][1]) || (UnitGetType(lv_unit) == gv_race_spawn_unit_types[gv_player_race_index[lv_player]][1][0]) || (UnitGetType(lv_unit) == gv_race_spawn_unit_types[gv_player_race_index[lv_player]][1][1]) || (UnitGetType(lv_unit) == gv_race_spawn_unit_types[gv_player_race_index[lv_player]][2][0]) || (UnitGetType(lv_unit) == gv_race_spawn_unit_types[gv_player_race_index[lv_player]][2][1]) || (UnitGetType(lv_unit) == gv_race_spawn_unit_types[gv_player_race_index[lv_player]][3][0]) || (UnitGetType(lv_unit) == gv_race_spawn_unit_types[gv_player_race_index[lv_player]][3][1]))) {
                         UnitControlGroupAddUnit(lv_teammate, 1, lv_unit);
                     }
 
@@ -3497,7 +3481,7 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
         for (;; auto78359B8E_u -= 1) {
             lv_unit = UnitGroupUnitFromEnd(auto78359B8E_g, auto78359B8E_u);
             if (lv_unit == null) { break; }
-            if (((UnitGetType(lv_unit) == "Bunker") || (UnitGetType(lv_unit) == "InfestedBunker"))) {
+            if (((UnitGetType(lv_unit) == gv_race_spawner_types[lv_player_race][0]) || (UnitGetType(lv_unit) == gv_race_spawner_types[lv_player_race][1]))) {
                 UnitCreate(1, "NaturalMineralsRed", 0, 0, UnitGetPosition(lv_unit), 270.0);
                 TriggerAddEventUnitDied(gt_ShardCollected, UnitRefFromUnit(UnitLastCreated()));
             }
