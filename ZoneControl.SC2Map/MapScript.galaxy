@@ -995,7 +995,6 @@ void gf_TestPlayerDead (int lp_player);
 //--------------------------------------------------------------------------------------------------
 // Trigger Variables
 //--------------------------------------------------------------------------------------------------
-trigger gt_UntitledTrigger001;
 trigger gt_Help;
 trigger gt_MeleeInitialization;
 trigger gt_DetectMovement;
@@ -2438,43 +2437,6 @@ void gf_TestPlayerDead (int lp_player) {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Untitled Trigger 001
-//--------------------------------------------------------------------------------------------------
-bool gt_UntitledTrigger001_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit2;
-
-    // Automatic Variable Declarations
-    unitgroup autoC70B7A0C_g;
-    int autoC70B7A0C_u;
-
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoC70B7A0C_g = UnitCargoGroup(UnitGroupUnit(gv_structuresGroup[1], 1));
-    autoC70B7A0C_u = UnitGroupCount(autoC70B7A0C_g, c_unitCountAll);
-    for (;; autoC70B7A0C_u -= 1) {
-        lv_unit2 = UnitGroupUnitFromEnd(autoC70B7A0C_g, autoC70B7A0C_u);
-        if (lv_unit2 == null) { break; }
-        if ((UnitGetType(lv_unit2) == "SCV")) {
-            UnitKill(lv_unit2);
-        }
-
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_UntitledTrigger001_Init () {
-    gt_UntitledTrigger001 = TriggerCreate("gt_UntitledTrigger001_Func");
-    TriggerAddEventTimeElapsed(gt_UntitledTrigger001, 8.0, c_timeGame);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: Help
 //--------------------------------------------------------------------------------------------------
 bool gt_Help_Func (bool testConds, bool runActions) {
@@ -3601,7 +3563,6 @@ void gt_MineralTrickle_Init () {
 // Trigger Initialization
 //--------------------------------------------------------------------------------------------------
 void InitTriggers () {
-    gt_UntitledTrigger001_Init();
     gt_Help_Init();
     gt_MeleeInitialization_Init();
     gt_DetectMovement_Init();
