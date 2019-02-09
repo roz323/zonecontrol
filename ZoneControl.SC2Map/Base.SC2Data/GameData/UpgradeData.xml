@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CUpgrade id="AdeptPiercingAttack">
+        <EffectArray index="0" Reference="Weapon,Adept,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,PhaseDisruptors,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,ImmortalTaldarim,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,PsiBlades,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,SolariteReaper,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,ParticleDisruptors,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,Talis,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,Dragoon,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Abil,UnknownAbility2,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <AffectedUnitArray value="Immortal"/>
+        <AffectedUnitArray value="Talis"/>
+        <AffectedUnitArray value="Zealot"/>
+        <AffectedUnitArray value="ZealotAiur"/>
+        <AffectedUnitArray value="ImmortalTaldarim"/>
+        <AffectedUnitArray value="Stalker"/>
+        <AffectedUnitArray value="Dragoon"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
     <CUpgrade id="BunkerArmor" parent="TerranInfantryWeapons">
         <Name value="Upgrade/Name/BunkerArmor"/>
         <InfoTooltipPriority value="0"/>
@@ -215,6 +234,226 @@
         <AffectedUnitArray index="3" removed="1"/>
         <MaxLevel value="100"/>
     </CUpgrade>
+    <CUpgrade id="ProtossGroundArmorsLevel1">
+        <EffectArray index="73" Operation="Add" Reference="Unit,ZealotAiur,LifeArmorLevel" Value="1"/>
+        <EffectArray index="74" Reference="Unit,ZealotAiur,LifeArmor" Value="1"/>
+        <EffectArray index="75" Operation="Set" Reference="Actor,ZealotAiur,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="76" Operation="Add" Reference="Unit,ZealotShakuras,LifeArmorLevel" Value="1"/>
+        <EffectArray index="77" Reference="Unit,ZealotShakuras,LifeArmor" Value="1"/>
+        <EffectArray index="78" Operation="Set" Reference="Actor,ZealotShakuras,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="79" Operation="Add" Reference="Unit,ZealotPurifier,LifeArmorLevel" Value="1"/>
+        <EffectArray index="80" Reference="Unit,ZealotPurifier,LifeArmor" Value="1"/>
+        <EffectArray index="81" Operation="Set" Reference="Actor,ZealotPurifier,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="82" Operation="Add" Reference="Unit,StalkerShakuras,LifeArmorLevel" Value="1"/>
+        <EffectArray index="83" Reference="Unit,StalkerShakuras,LifeArmor" Value="1"/>
+        <EffectArray index="84" Operation="Set" Reference="Actor,StalkerShakuras,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="85" Operation="Add" Reference="Unit,StalkerPurifier,LifeArmorLevel" Value="1"/>
+        <EffectArray index="86" Reference="Unit,StalkerPurifier,LifeArmor" Value="1"/>
+        <EffectArray index="87" Operation="Set" Reference="Actor,StalkerPurifier,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="88" Operation="Add" Reference="Unit,Reaver,LifeArmorLevel" Value="1"/>
+        <EffectArray index="89" Reference="Unit,Reaver,LifeArmor" Value="1"/>
+        <EffectArray index="90" Operation="Set" Reference="Actor,Reaver,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="91" Operation="Add" Reference="Unit,Replicant,LifeArmorLevel" Value="1"/>
+        <EffectArray index="92" Reference="Unit,Replicant,LifeArmor" Value="1"/>
+        <EffectArray index="93" Operation="Set" Reference="Actor,Replicant,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="94" Operation="Add" Reference="Unit,Dragoon,LifeArmorLevel" Value="1"/>
+        <EffectArray index="95" Reference="Unit,Dragoon,LifeArmor" Value="1"/>
+        <EffectArray index="96" Operation="Set" Reference="Actor,Dragoon,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="97" Operation="Add" Reference="Unit,DarkArchon,LifeArmorLevel" Value="1"/>
+        <EffectArray index="98" Reference="Unit,DarkArchon,LifeArmor" Value="1"/>
+        <EffectArray index="99" Operation="Set" Reference="Actor,DarkArchon,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="100" Operation="Add" Reference="Unit,HighArchonTemplar,LifeArmorLevel" Value="1"/>
+        <EffectArray index="101" Reference="Unit,HighArchonTemplar,LifeArmor" Value="1"/>
+        <EffectArray index="102" Operation="Set" Reference="Actor,HighArchonTemplar,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="103" Operation="Add" Reference="Unit,ImmortalShakuras,LifeArmorLevel" Value="1"/>
+        <EffectArray index="104" Reference="Unit,ImmortalShakuras,LifeArmor" Value="1"/>
+        <EffectArray index="105" Operation="Set" Reference="Actor,ImmortalShakuras,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="106" Operation="Add" Reference="Unit,ImmortalTaldarim,LifeArmorLevel" Value="1"/>
+        <EffectArray index="107" Reference="Unit,ImmortalTaldarim,LifeArmor" Value="1"/>
+        <EffectArray index="108" Operation="Set" Reference="Actor,ImmortalTaldarim,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="109" Operation="Add" Reference="Unit,Monitor,LifeArmorLevel" Value="1"/>
+        <EffectArray index="110" Reference="Unit,Monitor,LifeArmor" Value="1"/>
+        <EffectArray index="111" Operation="Set" Reference="Actor,Monitor,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="112" Operation="Add" Reference="Abil,UnknownAbility,InfoArray[Research27].Resource[Minerals]" Value="25"/>
+        <EffectArray index="113" removed="1"/>
+        <EffectArray index="114" removed="1"/>
+        <EffectArray index="115" removed="1"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="ProtossGroundWeaponsLevel1">
+        <EffectArray Reference="Abil,ForgeResearch,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="ProtossShieldsLevel1">
+        <EffectArray index="128" Reference="Abil,1PShield,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray index="129" removed="1"/>
+        <EffectArray index="130" removed="1"/>
+        <EffectArray index="131" removed="1"/>
+        <EffectArray index="132" removed="1"/>
+        <EffectArray index="133" removed="1"/>
+        <EffectArray index="134" removed="1"/>
+        <EffectArray index="135" removed="1"/>
+        <EffectArray index="136" removed="1"/>
+        <EffectArray index="137" removed="1"/>
+        <EffectArray index="138" removed="1"/>
+        <EffectArray index="139" removed="1"/>
+        <EffectArray index="140" removed="1"/>
+        <EffectArray index="141" removed="1"/>
+        <EffectArray index="142" removed="1"/>
+        <EffectArray index="143" removed="1"/>
+        <EffectArray index="144" removed="1"/>
+        <EffectArray index="145" removed="1"/>
+        <EffectArray index="146" removed="1"/>
+        <EffectArray index="147" removed="1"/>
+        <EffectArray index="148" removed="1"/>
+        <EffectArray index="149" removed="1"/>
+        <EffectArray index="150" removed="1"/>
+        <EffectArray index="151" removed="1"/>
+        <EffectArray index="152" removed="1"/>
+        <EffectArray index="153" removed="1"/>
+        <EffectArray index="154" removed="1"/>
+        <EffectArray index="155" removed="1"/>
+        <EffectArray index="156" removed="1"/>
+        <EffectArray index="157" removed="1"/>
+        <EffectArray index="158" removed="1"/>
+        <EffectArray index="159" removed="1"/>
+        <EffectArray index="160" removed="1"/>
+        <EffectArray index="161" removed="1"/>
+        <EffectArray index="162" removed="1"/>
+        <EffectArray index="163" removed="1"/>
+        <EffectArray index="164" removed="1"/>
+        <EffectArray index="165" removed="1"/>
+        <EffectArray index="166" removed="1"/>
+        <EffectArray index="167" removed="1"/>
+        <EffectArray index="168" removed="1"/>
+        <EffectArray index="169" removed="1"/>
+        <EffectArray index="170" removed="1"/>
+        <EffectArray index="171" removed="1"/>
+        <EffectArray index="172" removed="1"/>
+        <EffectArray index="173" removed="1"/>
+        <EffectArray index="174" removed="1"/>
+        <EffectArray index="175" removed="1"/>
+        <EffectArray index="176" removed="1"/>
+        <EffectArray index="177" removed="1"/>
+        <EffectArray index="178" removed="1"/>
+        <EffectArray index="179" removed="1"/>
+        <EffectArray index="180" removed="1"/>
+        <EffectArray index="181" removed="1"/>
+        <EffectArray index="182" removed="1"/>
+        <EffectArray index="183" removed="1"/>
+        <EffectArray index="184" removed="1"/>
+        <EffectArray index="185" removed="1"/>
+        <EffectArray index="186" removed="1"/>
+        <EffectArray index="187" removed="1"/>
+        <EffectArray index="188" removed="1"/>
+        <EffectArray index="189" removed="1"/>
+        <EffectArray index="190" removed="1"/>
+        <EffectArray index="191" removed="1"/>
+        <EffectArray index="192" removed="1"/>
+        <EffectArray index="193" removed="1"/>
+        <EffectArray index="194" removed="1"/>
+        <EffectArray index="195" removed="1"/>
+        <EffectArray index="196" removed="1"/>
+        <EffectArray index="197" removed="1"/>
+        <EffectArray index="198" removed="1"/>
+        <EffectArray index="199" removed="1"/>
+        <EffectArray index="200" removed="1"/>
+        <EffectArray index="201" removed="1"/>
+        <EffectArray index="202" removed="1"/>
+        <EffectArray index="203" removed="1"/>
+        <EffectArray index="204" removed="1"/>
+        <EffectArray index="205" removed="1"/>
+        <EffectArray index="206" removed="1"/>
+        <EffectArray index="207" removed="1"/>
+        <EffectArray index="208" removed="1"/>
+        <EffectArray index="209" removed="1"/>
+        <EffectArray index="210" removed="1"/>
+        <EffectArray index="211" removed="1"/>
+        <EffectArray index="212" removed="1"/>
+        <EffectArray index="213" removed="1"/>
+        <EffectArray index="214" removed="1"/>
+        <EffectArray index="215" removed="1"/>
+        <EffectArray index="216" removed="1"/>
+        <EffectArray index="217" removed="1"/>
+        <EffectArray index="218" removed="1"/>
+        <EffectArray index="219" removed="1"/>
+        <EffectArray index="220" removed="1"/>
+        <EffectArray index="221" removed="1"/>
+        <EffectArray index="222" removed="1"/>
+        <EffectArray index="223" removed="1"/>
+        <EffectArray index="224" removed="1"/>
+        <EffectArray index="225" removed="1"/>
+        <EffectArray index="226" removed="1"/>
+        <EffectArray index="227" removed="1"/>
+        <EffectArray index="228" removed="1"/>
+        <EffectArray index="229" removed="1"/>
+        <EffectArray index="230" removed="1"/>
+        <EffectArray index="231" removed="1"/>
+        <EffectArray index="232" removed="1"/>
+        <EffectArray index="233" removed="1"/>
+        <EffectArray index="234" removed="1"/>
+        <EffectArray index="235" removed="1"/>
+        <EffectArray index="236" removed="1"/>
+        <EffectArray index="237" removed="1"/>
+        <EffectArray index="238" removed="1"/>
+        <EffectArray index="239" removed="1"/>
+        <EffectArray index="240" removed="1"/>
+        <EffectArray index="241" removed="1"/>
+        <EffectArray index="242" removed="1"/>
+        <EffectArray index="243" removed="1"/>
+        <EffectArray index="244" removed="1"/>
+        <EffectArray index="245" removed="1"/>
+        <EffectArray index="246" removed="1"/>
+        <EffectArray index="247" removed="1"/>
+        <EffectArray index="248" removed="1"/>
+        <EffectArray index="249" removed="1"/>
+        <EffectArray index="250" removed="1"/>
+        <EffectArray index="251" removed="1"/>
+        <EffectArray index="252" removed="1"/>
+        <EffectArray index="253" removed="1"/>
+        <EffectArray index="254" removed="1"/>
+        <EffectArray index="255" removed="1"/>
+        <EffectArray index="256" removed="1"/>
+        <EffectArray index="257" removed="1"/>
+        <EffectArray index="258" removed="1"/>
+        <EffectArray index="259" removed="1"/>
+        <EffectArray index="260" removed="1"/>
+        <EffectArray index="261" removed="1"/>
+        <EffectArray index="262" removed="1"/>
+        <EffectArray index="263" removed="1"/>
+        <EffectArray index="264" removed="1"/>
+        <EffectArray index="265" removed="1"/>
+        <EffectArray index="266" removed="1"/>
+        <EffectArray index="267" removed="1"/>
+        <EffectArray index="268" removed="1"/>
+        <EffectArray index="269" removed="1"/>
+        <EffectArray index="270" removed="1"/>
+        <EffectArray index="271" removed="1"/>
+        <EffectArray index="272" removed="1"/>
+        <EffectArray index="273" removed="1"/>
+        <EffectArray index="274" removed="1"/>
+        <EffectArray index="275" removed="1"/>
+        <EffectArray index="276" removed="1"/>
+        <EffectArray index="277" removed="1"/>
+        <EffectArray index="278" removed="1"/>
+        <EffectArray index="279" removed="1"/>
+        <EffectArray index="280" removed="1"/>
+        <EffectArray index="281" removed="1"/>
+        <EffectArray index="282" removed="1"/>
+        <EffectArray index="283" removed="1"/>
+        <EffectArray index="284" removed="1"/>
+        <EffectArray index="285" removed="1"/>
+        <EffectArray index="286" removed="1"/>
+        <EffectArray index="287" removed="1"/>
+        <EffectArray index="288" removed="1"/>
+        <EffectArray index="289" removed="1"/>
+        <EffectArray index="290" removed="1"/>
+        <EffectArray index="291" removed="1"/>
+        <EffectArray index="292" removed="1"/>
+        <EffectArray index="293" removed="1"/>
+        <MaxLevel value="20"/>
+        <!--EffectArray Operation="Set" Reference="Actor,PylonOvercharged,ShieldArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-shieldslevel1.dds"/-->
+    </CUpgrade>
     <CUpgrade id="PunisherGrenades">
         <AffectedUnitArray value="HammerSecurity"/>
     </CUpgrade>
@@ -243,9 +482,9 @@
         <InfoTooltipPriority value="0"/>
         <Icon value="Assets\Textures\btn-upgrade-raynor-improvedsiegemode.dds"/>
         <ScoreAmount value="750"/>
-        <EffectArray index="0" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[0].Radius[0]" Value="2"/>
-        <EffectArray index="1" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[1].Radius[0]" Value="2"/>
-        <EffectArray index="2" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[2].Radius[0]" Value="2"/>
+        <EffectArray index="0" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[0].Radius[0]" Value="1.8"/>
+        <EffectArray index="1" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[1].Radius[0]" Value="1.8"/>
+        <EffectArray index="2" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[2].Radius[0]" Value="1.8"/>
         <EffectArray index="3" Reference="Weapon,CrucioShockCannon,Level[0]" Value="1"/>
         <EffectArray index="4" Operation="Set" Reference="Weapon,CrucioShockCannon,Icon[0]" Value="Assets\Textures\btn-upgrade-raynor-improvedsiegemode.dds"/>
         <EffectArray index="5" removed="1"/>

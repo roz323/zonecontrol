@@ -19,7 +19,6 @@
     </CRequirementAnd>
     <CRequirementCountUnit id="CountUnitHammerSecurityCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="HammerSecurity" State="CompleteOnly"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitInfestedBunkerCompleteOnly4084108369">
@@ -28,17 +27,14 @@
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitMarauderCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="Marauder" State="CompleteOnly"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitMarineCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="Marine" State="CompleteOnly"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitMercReaperCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="MercReaper" State="CompleteOnly"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitNukeCompleteOnly1541890172">
@@ -47,24 +43,26 @@
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitReaperCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="Reaper" State="CompleteOnly"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitSiegeBreakerInProgressOrBetter">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="SiegeBreaker" State="InProgressOrBetter"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitSiegeBreakerSiegedInProgressOrBetter">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="SiegeBreakerSieged" State="InProgressOrBetter"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitWarPigCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="WarPig" State="CompleteOnly"/>
     </CRequirementCountUnit>
+    <CRequirementCountUpgrade id="CountUpgradeAdeptPiercingAttackCompleteOnly543136321">
+        <Count Link=""/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeAdeptPiercingAttackCompleteOnlyTechTreeCheat">
+        <Count Link=""/>
+    </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeBunkerArmorQueuedOrBetter">
         <Flags index="TechTreeCheat" value="0"/>
         <Tooltip value=""/>
@@ -83,6 +81,11 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Tooltip value=""/>
         <Count Link="BunkerLifeRegeneration" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeChargeCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="Charge" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeCombatShieldQueuedOrBetter">
         <Flags index="TechTreeCheat" value="0"/>
@@ -124,6 +127,10 @@
         <Tooltip value=""/>
         <Count Link="ResearchSiegeBreakerArcliteCannon" State="QueuedOrBetter"/>
     </CRequirementCountUpgrade>
+    <CRequirementLT id="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092">
+        <OperandArray index="0" value="CountUpgradeAdeptPiercingAttackQueuedOrBetter"/>
+        <OperandArray index="1" value="204156726092"/>
+    </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeBunkerArmorQueuedOrBetter204156726092">
         <Tooltip value=""/>
         <OperandArray index="0" value="CountUpgradeBunkerArmorQueuedOrBetter"/>
@@ -172,6 +179,18 @@
         <OperandArray index="0" value="CountUpgradeMarineWeaponsQueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeProtossGroundArmorsLevel1QueuedOrBetter20">
+        <OperandArray index="0" value="CountUpgradeProtossGroundArmorsLevel1QueuedOrBetter"/>
+        <OperandArray index="1" value="20"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeProtossGroundWeaponsLevel1QueuedOrBetter20">
+        <OperandArray index="0" value="CountUpgradeProtossGroundWeaponsLevel1QueuedOrBetter"/>
+        <OperandArray index="1" value="20"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeProtossShieldsLevel1QueuedOrBetter20">
+        <OperandArray index="0" value="CountUpgradeProtossShieldsLevel1QueuedOrBetter"/>
+        <OperandArray index="1" value="20"/>
+    </CRequirementLT>
     <CRequirementNot id="NotCountUpgradeResearchPlasmaCapacitorsQueuedOrBetter">
         <Tooltip value=""/>
         <OperandArray index="0" value="CountUpgradeResearchPlasmaCapacitorsQueuedOrBetter"/>
@@ -189,29 +208,24 @@
         <OperandArray index="0" value="CountUpgradeSiegeTurretAreaQueuedOrBetter"/>
     </CRequirementNot>
     <CRequirementSum id="SumCountUnitMarauderCompleteOnlyCountUnitHammerSecurityCompleteOnly">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray value="CountUnitMarauderCompleteOnly"/>
         <OperandArray value="CountUnitHammerSecurityCompleteOnly"/>
     </CRequirementSum>
     <CRequirementSum id="SumCountUnitMarauderCompleteOnlyCountUnitMarineCompleteOnlyCountUnitHammerSecurityCompleteOnlyCountUnitWarPigCompleteOnly">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray value="CountUnitMarauderCompleteOnly"/>
         <OperandArray value="CountUnitMarineCompleteOnly"/>
         <OperandArray value="CountUnitHammerSecurityCompleteOnly"/>
         <OperandArray value="CountUnitWarPigCompleteOnly"/>
     </CRequirementSum>
     <CRequirementSum id="SumCountUnitMarineCompleteOnlyCountUnitWarPigCompleteOnly">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray value="CountUnitMarineCompleteOnly"/>
         <OperandArray value="CountUnitWarPigCompleteOnly"/>
     </CRequirementSum>
     <CRequirementSum id="SumCountUnitReaperCompleteOnlyCountUnitMercReaperCompleteOnly">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray value="CountUnitReaperCompleteOnly"/>
         <OperandArray value="CountUnitMercReaperCompleteOnly"/>
     </CRequirementSum>
     <CRequirementSum id="SumCountUnitSiegeBreakerSiegedInProgressOrBetterCountUnitSiegeBreakerInProgressOrBetter">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray value="CountUnitSiegeBreakerSiegedInProgressOrBetter"/>
         <OperandArray value="CountUnitSiegeBreakerInProgressOrBetter"/>
     </CRequirementSum>

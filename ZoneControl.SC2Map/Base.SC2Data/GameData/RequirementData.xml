@@ -4,17 +4,24 @@
         <NodeArray index="Use" Link="SumCountUnitMarineCompleteOnlyCountUnitWarPigCompleteOnly"/>
         <NodeArray index="Show" Link="NotCountUpgradeCombatShieldQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="HaveDarkTemplar2">
+    <CRequirement id="HaveReaper">
         <EditorCategories value="Race:Protoss,TechType:Ability"/>
         <NodeArray index="Use" Link="SumCountUnitReaperCompleteOnlyCountUnitMercReaperCompleteOnly"/>
         <NodeArray index="Show" Link="NotCountUpgradeReaperSpeedQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="HaveDarkTemplar22">
+    <CRequirement id="HaveMarauder">
         <EditorCategories value="Race:Protoss,TechType:Ability"/>
         <NodeArray index="Use" Link="SumCountUnitMarauderCompleteOnlyCountUnitHammerSecurityCompleteOnly"/>
         <NodeArray index="Show" Link="NotCountUpgradePunisherGrenadesQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="HaveDarkTemplar222">
+    <CRequirement id="HaveVoidZealotCharge">
+        <NodeArray index="Use" Link="CountUpgradeChargeCompleteOnly"/>
+        <NodeArray index="Show" Link=""/>
+    </CRequirement>
+    <CRequirement id="LearnAdeptPiercingAttack">
+        <NodeArray index="Show" Link="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="MarineOrMarauder">
         <EditorCategories value="Race:Protoss,TechType:Ability"/>
         <NodeArray index="Use" Link="SumCountUnitMarauderCompleteOnlyCountUnitMarineCompleteOnlyCountUnitHammerSecurityCompleteOnlyCountUnitWarPigCompleteOnly"/>
         <NodeArray index="Show" Link="NotCountUpgradeStimpackQueuedOrBetter"/>
@@ -52,6 +59,15 @@
         <NodeArray index="Use" Link="SumCountUnitSiegeBreakerSiegedInProgressOrBetterCountUnitSiegeBreakerInProgressOrBetter"/>
         <NodeArray index="Show" Link="NotCountUpgradeResearchSiegeBreakerArcliteCannonQueuedOrBetter"/>
     </CRequirement>
+    <CRequirement id="LearnProtossGroundArmor1">
+        <NodeArray index="Show" Link="LTCountUpgradeProtossGroundArmorsLevel1QueuedOrBetter20"/>
+    </CRequirement>
+    <CRequirement id="LearnProtossGroundWeapon1">
+        <NodeArray index="Show" Link="LTCountUpgradeProtossGroundWeaponsLevel1QueuedOrBetter20"/>
+    </CRequirement>
+    <CRequirement id="LearnProtossShield1">
+        <NodeArray index="Show" Link="LTCountUpgradeProtossShieldsLevel1QueuedOrBetter20"/>
+    </CRequirement>
     <CRequirement id="LearnPunisherGrenades">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
     </CRequirement>
@@ -85,6 +101,9 @@
     </CRequirement>
     <CRequirement id="MaxLevelInfantryRange">
         <NodeArray index="Show" Link="LTCountUpgradeMarineAttackRangeQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="UnknownRequirement">
+        <NodeArray index="Show" Link="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092"/>
     </CRequirement>
     <CRequirement id="UseStimpackSM">
         <NodeArray index="Show" Link="CountUpgradeStimpackCompleteOnly"/>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CEffectDamage id="AdeptDamage">
+        <Amount value="30"/>
+    </CEffectDamage>
     <CEffectDamage id="AutoTurret">
         <Amount value="50"/>
     </CEffectDamage>
@@ -127,6 +130,9 @@
     <CEffectModifyPlayer id="PickupMinerals250">
         <Resources index="Minerals" value="200"/>
     </CEffectModifyPlayer>
+    <CEffectDamage id="PsiBlades">
+        <Amount value="18"/>
+    </CEffectDamage>
     <CEffectDamage id="PunisherGrenadesU">
         <AttributeBonus index="Armored" value="25"/>
         <Amount value="50"/>
@@ -148,9 +154,19 @@
         <AttributeBonus index="Armored" value="15"/>
         <Amount value="60"/>
     </CEffectDamage>
+    <CEffectDamage id="ThermalLancesMU">
+        <Amount value="80"/>
+    </CEffectDamage>
     <CEffectRemoveBehavior id="UnretireStructure">
         <ValidatorArray index="0" value="UnretireStructure"/>
         <EditorCategories value=""/>
         <BehaviorLink value="RetireStructure"/>
     </CEffectRemoveBehavior>
+    <CEffectDamage id="VoidZealotWhirlwindDamage">
+        <AttributeBonus index="Light" value="14"/>
+        <Amount value="12"/>
+    </CEffectDamage>
+    <CEffectDamage id="ZealotAiurWeapon">
+        <Amount value="44"/>
+    </CEffectDamage>
 </Catalog>
