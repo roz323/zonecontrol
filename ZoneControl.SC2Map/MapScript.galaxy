@@ -996,6 +996,7 @@ void gf_OnBunkerCreated2 (unit lp_worker);
 void gf_OnBunkerRemoved (int lp_player, unit lp_bunker);
 void gf_UpdateAllWorkers (int lp_player);
 bool gf_PlayerHasNuke (int lp_player);
+void gf_SetDeadPlayerColor (int lp_player);
 void gf_TestVictory ();
 void gf_OnPlayerDead (int lp_player);
 void gf_TestPlayerDead (int lp_player);
@@ -1050,13 +1051,13 @@ void gf_ConfigureConstants () {
     gv_race_spawn_unit_types[0][2][1] = "HammerSecurity";
     gv_race_spawn_unit_types[0][3][1] = "Spectre";
     gv_race_spawn_unit_types[1][0][0] = "Zealot";
-    gv_race_spawn_unit_types[1][1][0] = "Stalker";
-    gv_race_spawn_unit_types[1][2][0] = "Immortal";
-    gv_race_spawn_unit_types[1][3][0] = "Carrier";
-    gv_race_spawn_unit_types[1][0][1] = "WarPig";
-    gv_race_spawn_unit_types[1][1][1] = "MercReaper";
-    gv_race_spawn_unit_types[1][2][1] = "HammerSecurity";
-    gv_race_spawn_unit_types[1][3][1] = "Spectre";
+    gv_race_spawn_unit_types[1][1][0] = "Adept";
+    gv_race_spawn_unit_types[1][2][0] = "Stalker";
+    gv_race_spawn_unit_types[1][3][0] = "Immortal";
+    gv_race_spawn_unit_types[1][0][1] = "ZealotAiur";
+    gv_race_spawn_unit_types[1][1][1] = "Adept";
+    gv_race_spawn_unit_types[1][2][1] = "Dragoon";
+    gv_race_spawn_unit_types[1][3][1] = "ImmortalTaldarim";
     gv_race_spawner_types[0][0] = "Bunker";
     gv_race_spawner_types[0][1] = "InfestedBunker";
     gv_race_spawner_types[1][0] = "Gateway";
@@ -1429,8 +1430,7 @@ void gf_AssignTeamLocations () {
     }
     UISetResourceTradingAllowed(c_resourceTypeMinerals, true);
     UISetResourceTradingAllowed(c_resourceTypeVespene, false);
-    UISetResourceTradeCountdownTime(10);
-    UISetResourceTradeCountdownTime(10);
+    UISetResourceTradeCountdownTime(300);
     lv_player = 1;
     for ( ; ( (autoAED5DE55_ai >= 0 && lv_player <= autoAED5DE55_ae) || (autoAED5DE55_ai < 0 && lv_player >= autoAED5DE55_ae) ) ; lv_player += autoAED5DE55_ai ) {
         if (((lv_lobby_player_has_team[lv_player] == true))) {
@@ -2312,6 +2312,17 @@ bool gf_PlayerHasNuke (int lp_player) {
     return (UnitMagazineCount(gv_ghost_academies[lp_player], "ArmSiloWithNuke") >= 1);
 }
 
+void gf_SetDeadPlayerColor (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((gv_player_left_game[lp_player] == true)) {
+        gv_player_colors[lp_player] = Color(0.00, 0.00, 0.00);
+    }
+    else {
+        gv_player_colors[lp_player] = Color(25.49, 25.49, 25.49);
+    }
+}
+
 void gf_TestVictory () {
     // Variable Declarations
     int lv_player;
@@ -2374,12 +2385,7 @@ void gf_OnPlayerDead (int lp_player) {
 
     // Implementation
     gv_player_alive[lp_player] = false;
-    if ((gv_player_left_game[lp_player] == true)) {
-        gv_player_colors[lp_player] = Color(0.00, 0.00, 0.00);
-    }
-    else {
-        gv_player_colors[lp_player] = Color(25.49, 25.49, 25.49);
-    }
+    gf_SetDeadPlayerColor(lp_player);
     gf_UpdatePlayerColor(lp_player);
     gf_UpdateTeamInfoColor(lp_player);
     gf_UpdateLeaderboard(true);
@@ -3036,6 +3042,7 @@ bool gt_OnUpgrade_Func (bool testConds, bool runActions) {
 void gt_OnUpgrade_Init () {
     gt_OnUpgrade = TriggerCreate("gt_OnUpgrade_Func");
     TriggerAddEventUnitAbility(gt_OnUpgrade, null, AbilityCommand("UpgradeToOrbital", 0), c_unitAbilStageAll, false);
+    TriggerAddEventUnitAbility(gt_OnUpgrade, null, AbilityCommand("UpgradeToWarpGate", 0), c_unitAbilStageAll, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3418,6 +3425,7 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
     if ((gv_player_alive[lv_player] == true)) {
     }
     else {
+        gf_SetDeadPlayerColor(lv_player);
         return true;
     }
     lv_possible_teammate = 0;
