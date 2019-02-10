@@ -885,6 +885,9 @@ unitgroup[9] gv_structuresGroup;
 void InitGlobals () {
     int init_i;
 
+    for (init_i = 0; init_i <= 9; init_i += 1) {
+        gv_player_race_index[init_i] = 1;
+    }
     gv_all_players = PlayerGroupEmpty();
     gv_magic = "";
     for (init_i = 0; init_i <= 9; init_i += 1) {
@@ -3060,8 +3063,8 @@ bool gt_BunkerBuild_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((UnitGetType(EventUnitProgressUnit()) == gv_race_spawner_types[gv_player_race_index[EventPlayer()]][0])) {
-        gf_OnBunkerCreated(EventPlayer(), EventUnitProgressUnit());
+    if ((UnitGetType(EventUnitProgressUnit()) == gv_race_spawner_types[gv_player_race_index[UnitGetOwner(EventUnitProgressUnit())]][0])) {
+        gf_OnBunkerCreated(UnitGetOwner(EventUnitProgressUnit()), EventUnitProgressUnit());
     }
     return true;
 }
