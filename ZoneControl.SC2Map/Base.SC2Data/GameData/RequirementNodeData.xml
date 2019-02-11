@@ -84,7 +84,6 @@
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeChargeCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="Charge" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeCombatShieldQueuedOrBetter">
@@ -130,6 +129,11 @@
     <CRequirementCountUpgrade id="CountUpgradeSingularityChargeCompleteOnly2435624496">
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="SingularityCharge" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeVoidColossusFireBeamQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="VoidColossusFireBeam" State="QueuedOrBetter"/>
     </CRequirementCountUpgrade>
     <CRequirementLT id="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092">
         <OperandArray index="0" value="CountUpgradeAdeptPiercingAttackQueuedOrBetter"/>
@@ -196,9 +200,13 @@
         <OperandArray index="1" value="20"/>
     </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeProtossShieldsLevel2QueuedOrBetter204156726092">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeProtossShieldsLevel2QueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeProtossShieldsLevel3QueuedOrBetter20">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeProtossShieldsLevel3QueuedOrBetter"/>
+        <OperandArray index="1" value="20"/>
     </CRequirementLT>
     <CRequirementNot id="NotCountUpgradeResearchPlasmaCapacitorsQueuedOrBetter">
         <Tooltip value=""/>

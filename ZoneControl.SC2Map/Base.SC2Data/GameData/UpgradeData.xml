@@ -281,12 +281,13 @@
         <EffectArray index="110" Reference="Unit,Monitor,LifeArmor" Value="1"/>
         <EffectArray index="111" Operation="Set" Reference="Actor,Monitor,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
         <EffectArray index="112" Operation="Add" Reference="Abil,UnknownAbility,InfoArray[Research27].Resource[Minerals]" Value="25"/>
-        <EffectArray index="113" removed="1"/>
         <EffectArray index="114" removed="1"/>
         <EffectArray index="115" removed="1"/>
         <MaxLevel value="20"/>
     </CUpgrade>
     <CUpgrade id="ProtossGroundWeaponsLevel1">
+        <EffectArray index="1" Value="0.5"/>
+        <EffectArray index="74" Reference="Effect,ZealotAiurWeapon,Amount" Value="1"/>
         <EffectArray Reference="Abil,ForgeResearch,InfoArray[Research1].Resource[Minerals]" Value="25"/>
         <MaxLevel value="20"/>
     </CUpgrade>
@@ -675,6 +676,7 @@
     </CUpgrade>
     <CUpgrade id="ProtossShieldsLevel122" parent="ProtossShieldsLevel1">
         <Name value="Upgrade/Name/ProtossShieldsLevel122"/>
+        <ScoreAmount value="0"/>
         <EffectArray index="0" Reference="Unit,ImmortalTaldarim,ShieldRegenRate" Value="1.773400"/>
         <EffectArray index="1" Reference="Unit,Dragoon,ShieldRegenRate" Value="1.773400"/>
         <EffectArray index="2" Reference="Unit,Talis,ShieldRegenRate" Value="1.773400"/>
@@ -804,6 +806,7 @@
         <EffectArray index="126" removed="1"/>
         <EffectArray index="127" removed="1"/>
         <EffectArray index="128" removed="1"/>
+        <EditorCategories value="Race:Protoss,UpgradeType:AttackBonus"/>
         <AffectedUnitArray index="0" removed="1"/>
         <AffectedUnitArray index="1" removed="1"/>
         <AffectedUnitArray index="2" removed="1"/>
