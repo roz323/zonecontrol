@@ -888,9 +888,6 @@ unitgroup[9] gv_structuresGroup;
 void InitGlobals () {
     int init_i;
 
-    for (init_i = 0; init_i <= 9; init_i += 1) {
-        gv_player_race_index[init_i] = 1;
-    }
     gv_all_players = PlayerGroupEmpty();
     gv_magic = "";
     for (init_i = 0; init_i <= 9; init_i += 1) {
@@ -1510,6 +1507,7 @@ void gf_SpawnPlayers () {
     while (true) {
         lv_player = PlayerGroupNextPlayer(autoF3930426_g, lv_player);
         if (lv_player < 0) { break; }
+        PlayerModifyPropertyInt(lv_player, c_playerPropHandicap, c_playerPropOperSetTo, 100);
         if ((GameAttributeGameValue("8") == "0001")) {
             UIDisplayMessage(PlayerGroupSingle(lv_player), c_messageAreaChat, StringExternal("Param/Value/B9C32212"));
             PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, 1000000);
