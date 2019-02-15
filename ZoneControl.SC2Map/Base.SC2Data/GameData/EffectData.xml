@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
     <CEffectDamage id="AdeptDamage">
-        <Amount value="30"/>
+        <Amount value="50"/>
+        <AttributeBonus index="Light" value="25"/>
     </CEffectDamage>
     <CEffectDamage id="AutoTurret">
         <Amount value="50"/>
@@ -43,6 +44,10 @@
     <CEffectDamage id="D8ChargeDamage">
         <Amount value="125"/>
     </CEffectDamage>
+    <CEffectDamage id="DragoonDamage">
+        <AttributeBonus index="Armored" value="15"/>
+        <Amount value="55"/>
+    </CEffectDamage>
     <CEffectCreatePersistent id="GuardianShieldPersistent">
         <PeriodCount value="65535"/>
     </CEffectCreatePersistent>
@@ -56,6 +61,19 @@
         <AttributeBonus index="Armored" value="30"/>
         <Amount value="55"/>
     </CEffectDamage>
+    <CEffectDamage id="ImmortalSplashDamage">
+        <AttributeBonus index="Armored" value="0"/>
+        <Amount value="0"/>
+    </CEffectDamage>
+    <CEffectRemoveBehavior id="ImmortalTaldarimMissileSpeedStackRB">
+        <Count value="8"/>
+    </CEffectRemoveBehavior>
+    <CEffectDamage id="ImmortalTaldarimWeaponDamage">
+        <AttributeBonus index="Armored" value="0"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="ImmortalTaldarimWeaponSearch">
+        <AreaArray index="0" Radius="0.5" Effect="ImmortalTaldarimWeaponDamageSet"/>
+    </CEffectEnumArea>
     <!--    <CEffectLaunchMissile id="HammerSecurityLMOne">-->
     <!--        <EditorCategories value="Race:Terran"/>-->
     <!--        <ImpactEffect value="HammerSecuritySet"/>-->
@@ -91,6 +109,9 @@
         <AttributeBonus index="Light" value="10"/>
         <Amount value="16"/>
     </CEffectDamage>
+    <CEffectDamage id="MothershipCoreRepulsorCannonDamage">
+        <Amount value="60"/>
+    </CEffectDamage>
     <CEffectDamage id="NukeDamage">
         <AttributeBonus index="Structure" value="2500"/>
         <Amount value="5000"/>
@@ -102,6 +123,17 @@
     <CEffectDamage id="P38ScytheGuassPistol">
         <Amount value="14"/>
         <AttributeBonus index="Light" value="7"/>
+    </CEffectDamage>
+    <CEffectDamage id="ParticleDisruptorsU">
+        <AttributeBonus index="Armored" value="10"/>
+        <Amount value="45"/>
+    </CEffectDamage>
+    <CEffectDamage id="PhaseDisruptors">
+        <AttributeBonus index="Armored" value="0"/>
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CEffectDamage id="PhotonCannonU">
+        <Amount value="90"/>
     </CEffectDamage>
     <CEffectModifyPlayer id="PickupEX2Gas50">
         <Resources index="Minerals" value="50"/>
@@ -131,7 +163,12 @@
         <Resources index="Minerals" value="200"/>
     </CEffectModifyPlayer>
     <CEffectDamage id="PsiBlades">
-        <Amount value="30"/>
+        <Amount value="26"/>
+    </CEffectDamage>
+    <CEffectDamage id="PsionicShockwaveDamage">
+        <AttributeBonus index="Armored" value="30"/>
+        <AttributeBonus index="Biological" value="0"/>
+        <Amount value="100"/>
     </CEffectDamage>
     <CEffectDamage id="PunisherGrenadesU">
         <AttributeBonus index="Armored" value="25"/>
@@ -145,6 +182,9 @@
         <ValidatorArray value="HasNoCargo"/>
         <ValidatorArray value="CasterLifeFull"/>
     </CEffectDamage>
+    <CEffectCreateHealer id="ShieldBatteryRechargeChanneled">
+        <ValidatorArray value="NotStructureandNotDetector"/>
+    </CEffectCreateHealer>
     <CEffectDamage id="SiegeBreakerDamage">
         <AttributeBonus index="Armored" value="0"/>
         <Amount value="420"/>
@@ -154,8 +194,24 @@
         <AttributeBonus index="Armored" value="15"/>
         <Amount value="60"/>
     </CEffectDamage>
+    <!--CEffectDamage id="StalkerSecondaryDamage" parent="DU_WEAP_MISSILE">-->
+    <!--        <EditorCategories value="Race:Protoss"/>-->
+    <!--        <Amount value="3"/>-->
+    <!--        <AttributeBonus index="Armored" value="1"/>-->
+    <!--    </CEffectDamage-->
+    <CEffectDamage id="StalkerEntropyLanceSecondaryDamage">
+        <Amount value="10"/>
+    </CEffectDamage>
+    <CEffectDamage id="TalisDamage">
+        <Amount value="60"/>
+        <AttributeBonus index="Light" value="25"/>
+    </CEffectDamage>
+    <CEffectDamage id="TempestDamageGround">
+        <Amount value="90"/>
+    </CEffectDamage>
     <CEffectDamage id="ThermalLancesMU">
         <Amount value="80"/>
+        <AttributeBonus index="Structure" value="1000"/>
     </CEffectDamage>
     <CEffectRemoveBehavior id="UnretireStructure">
         <ValidatorArray index="0" value="UnretireStructure"/>
@@ -163,10 +219,19 @@
         <BehaviorLink value="RetireStructure"/>
     </CEffectRemoveBehavior>
     <CEffectDamage id="VoidZealotWhirlwindDamage">
-        <AttributeBonus index="Light" value="14"/>
-        <Amount value="12"/>
+        <AttributeBonus index="Armored" value="3"/>
+        <Amount value="6"/>
     </CEffectDamage>
+    <CEffectEnumArea id="VoidZealotWhirlwindMoveSearch">
+        <AreaArray index="0" MaxCount="1" Radius="2" Effect="VoidZealotWhirlwindMoveCP"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="VoidZealotWhirlwindSearch">
+        <AreaArray index="0" Radius="1" Effect="VoidZealotWhirlwindDamage"/>
+    </CEffectEnumArea>
     <CEffectDamage id="ZealotAiurWeapon">
-        <Amount value="70"/>
+        <Amount value="60"/>
     </CEffectDamage>
+    <CEffectCreateHealer id="heal">
+        <RechargeVitalRate value="11"/>
+    </CEffectCreateHealer>
 </Catalog>

@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CActorUnit id="Colossus">
+        <Model value="Colossus_Golden"/>
+        <Scale value="1.200000,1.170000,1.200000"/>
+        <GlossaryAnim value="Walk"/>
+        <!--On Terms="UnitBirth; PlayerHasReward ColossusCE" Send="StatusSet CE 1"/>
+        <On Terms="StatusSet.*.CE; IsStatus CE 1" Send="ModelSwap ColossusCE"/>
+        <On Terms="UnitDeathCustomize; IsStatus CE 1" Send="DeathCustomize Variation0"/>
+        <On Terms="UnitBirth; PlayerHasReward ColossusTal" Send="StatusSet TalCol 1"/>
+        <On Terms="StatusSet.*.TalCol; IsStatus TalCol 1" Send="ModelSwap Colossus_Taldarim_MP"/>
+        <On Terms="UnitDeathCustomize; IsStatus TalCol 1" Send="DeathCustomize Variation1"/>
+        <DeathCustoms ModelLink="ColossusCEDeath" Name="Variation0"/>
+        <DeathCustoms ModelLink="Colossus_Taldarim_MP_Death" Name="Variation1"/-->
+    </CActorUnit>
+    <CActorUnit id="Dragoon">
+        <Scale value="0.900000"/>
+    </CActorUnit>
     <CActorModel id="FloatingTextEX2Gas50" effectPickup="" actorCreate="">
         <On index="1" Terms="ActorCreation" Send="Create"/>
         <Scale value="1.100000,1.000000,1.000000"/>
@@ -190,6 +206,14 @@
             <Image index="0" value="Assets\Textures\icon-highyieldmineral-nobg.dds"/>
         </Wireframe>
     </CActorUnit>
+    <CActorPower id="Power">
+        <On index="0" Terms="Behavior.PowerSource.Create" Send="Create"/>
+        <On index="1" Terms="Behavior.PowerSource.Destroy" Send="Destroy"/>
+        <On index="2" Terms="Behavior.PowerSourceFast.Enable" Send="Destroy"/>
+        <On index="3" Terms="Behavior.PowerSourceFast.Disable" Send="Create"/>
+        <VisualArray index="0" removed="1"/>
+        <VisualArray index="1" removed="1"/>
+    </CActorPower>
     <CActorRange id="SensorTowerRadar"/>
     <CActorUnit id="ShieldBattery">
         <Scale value="0.400000"/>
@@ -203,6 +227,28 @@
     <CActorUnit id="SiegeBreakerSieged">
         <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
     </CActorUnit>
+    <CActorUnit id="Stalker">
+        <Scale value="0.870000"/>
+    </CActorUnit>
+    <CActorUnit id="Talis">
+        <Scale value="1.100000"/>
+    </CActorUnit>
+    <CActorAction id="TalisAttack">
+        <LaunchAssets Sound="Adept_AttackLaunch"/>
+        <ContainerAssets Sound="Adept_AttackLaunch"/>
+        <ImpactMap index="None" Sound="Adept_AttackImpact"/>
+        <ImpactMap index="Shield" Sound="Adept_AttackImpact"/>
+        <DamageMap index="None" Sound="Adept_Attack"/>
+    </CActorAction>
+    <CActorAction id="TempestAttack">
+        <Missile value="NexusShieldOverchargeModel"/>
+    </CActorAction>
+    <CActorAction id="TempestAttackGround">
+        <Missile value="MothershipCorePurifyLight"/>
+    </CActorAction>
+    <CActorMissile id="TempestAttackGroundMissile">
+        <Model value="MothershipCorePurifyLight"/>
+    </CActorMissile>
     <CActorSound id="UI_ResourcePickup">
         <On index="0" removed="1"/>
         <On index="1" removed="1"/>

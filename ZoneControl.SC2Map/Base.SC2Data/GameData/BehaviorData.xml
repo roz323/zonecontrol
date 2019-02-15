@@ -14,8 +14,13 @@
         </Modification>
     </CBehaviorBuff>
     <CBehaviorPowerSource id="PowerSource">
-        <Radius value="8"/>
+        <Radius value="500"/>
     </CBehaviorPowerSource>
+    <CBehaviorBuff id="Purify">
+        <BehaviorFlags index="Permanent" value="1"/>
+        <BuffFlags index="Countdown" value="0"/>
+        <Duration value="0"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="RetireStructure">
         <InfoIcon value="Assets\Textures\btn-techupgrade-terran-dualfusionwelders.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>

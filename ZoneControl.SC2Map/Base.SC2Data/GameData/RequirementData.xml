@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CRequirement id="AdeptCompleteRE">
+        <NodeArray index="Show" Link="NotCountUpgradeResearchPhaseTransferQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="BaseWeapMax">
+        <NodeArray index="Show" Link="LTCountUpgradeUpgradeBaseWeaponQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="CannonUpgradeMax">
+        <NodeArray index="Show" Link="LTCountUpgradeUnknownUpgrade2QueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="ColossusUpgrade">
+        <NodeArray index="Show" Link="NotCountUpgradeUpgradeFlameLanceQueuedOrBetter"/>
+    </CRequirement>
     <CRequirement id="HaveDarkTemplar">
         <NodeArray index="Use" Link="SumCountUnitMarineCompleteOnlyCountUnitWarPigCompleteOnly"/>
         <NodeArray index="Show" Link="NotCountUpgradeCombatShieldQueuedOrBetter"/>
@@ -24,6 +36,12 @@
         <NodeArray index="Use" Link="CountUpgradeChargeCompleteOnly"/>
         <NodeArray index="Show" Link=""/>
     </CRequirement>
+    <CRequirement id="HaveWhirlwind">
+        <NodeArray index="Show" Link="NotCountUpgradeUpgradeWhirlwindQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="LSArmorMax">
+        <NodeArray index="Show" Link="LTCountUpgradeStructureQueuedOrBetter204156726092"/>
+    </CRequirement>
     <CRequirement id="LearnAdeptPiercingAttack">
         <NodeArray index="Show" Link="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092"/>
     </CRequirement>
@@ -34,6 +52,9 @@
     <CRequirement id="LearnProtossShield3">
         <NodeArray index="Use" Link=""/>
         <NodeArray index="Show" Link="LTCountUpgradeProtossShieldsLevel3QueuedOrBetter20"/>
+    </CRequirement>
+    <CRequirement id="LearnWhirlwind">
+        <NodeArray index="Show" Link="CountUpgradeUpgradeWhirlwindCompleteOnly"/>
     </CRequirement>
     <CRequirement id="MarineOrMarauder">
         <EditorCategories value="Race:Protoss,TechType:Ability"/>
@@ -73,14 +94,8 @@
         <NodeArray index="Use" Link="SumCountUnitSiegeBreakerSiegedInProgressOrBetterCountUnitSiegeBreakerInProgressOrBetter"/>
         <NodeArray index="Show" Link="NotCountUpgradeResearchSiegeBreakerArcliteCannonQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="LearnProtossGroundArmor1">
-        <NodeArray index="Show" Link="LTCountUpgradeProtossGroundArmorsLevel1QueuedOrBetter20"/>
-    </CRequirement>
     <CRequirement id="LearnProtossGroundWeapon1">
         <NodeArray index="Show" Link="LTCountUpgradeProtossGroundWeaponsLevel1QueuedOrBetter20"/>
-    </CRequirement>
-    <CRequirement id="LearnProtossShield1">
-        <NodeArray index="Show" Link="LTCountUpgradeProtossShieldsLevel1QueuedOrBetter20"/>
     </CRequirement>
     <CRequirement id="LearnPunisherGrenades">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
@@ -116,8 +131,26 @@
     <CRequirement id="MaxLevelInfantryRange">
         <NodeArray index="Show" Link="LTCountUpgradeMarineAttackRangeQueuedOrBetter204156726092"/>
     </CRequirement>
+    <CRequirement id="MaxShieldRegen">
+        <NodeArray index="Show" Link="LTCountUpgradeUnknownUpgradeQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="ProtossArmorMax">
+        <NodeArray index="Show" Link="LTCountUpgradeUpgradeArmorQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="ProtossShieldMax">
+        <NodeArray index="Show" Link="LTCountUpgradeUpgradeShieldsQueuedOrBetter204156726092"/>
+    </CRequirement>
     <CRequirement id="UnknownRequirement">
         <NodeArray index="Show" Link="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092"/>
+    </CRequirement>
+    <CRequirement id="UnknownRequirement2">
+        <NodeArray index="Show" Link="NotCountUpgradeResearchBlinkQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="UnknownRequirement3">
+        <NodeArray index="Show" Link="CountUpgradeResearchBlinkCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="UnknownRequirement4">
+        <NodeArray index="Show" Link="CountUpgradeResearchPhaseTransferCompleteOnly"/>
     </CRequirement>
     <CRequirement id="UseStimpackSM">
         <NodeArray index="Show" Link="CountUpgradeStimpackCompleteOnly"/>

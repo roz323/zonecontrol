@@ -116,6 +116,26 @@
         <Tooltip value=""/>
         <Count Link="MarineWeapons" State="QueuedOrBetter"/>
     </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeResearchBlinkCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="ResearchBlink" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeResearchBlinkQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="ResearchBlink" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeResearchPhaseTransferCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="ResearchPhaseTransfer" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeResearchPhaseTransferQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="ResearchPhaseTransfer" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeResearchPlasmaCapacitorsQueuedOrBetter">
         <Flags index="TechTreeCheat" value="0"/>
         <Tooltip value=""/>
@@ -130,9 +150,48 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="SingularityCharge" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
-    <CRequirementCountUpgrade id="CountUpgradeVoidColossusFireBeamQueuedOrBetter">
+    <CRequirementCountUpgrade id="CountUpgradeStructureQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="Structure" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeUnknownUpgrade2QueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="UnknownUpgrade2" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeUnknownUpgradeQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="UnknownUpgrade" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeUpgradeArmorQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="UpgradeArmor" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeUpgradeBaseWeaponQueuedOrBetter">
         <Flags index="TechTreeCheat" value="0"/>
         <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="UpgradeBaseWeapon" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeUpgradeFlameLanceQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="UpgradeFlameLance" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeUpgradeShieldsQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="UpgradeShields" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeUpgradeWhirlwindCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="UpgradeWhirlwind" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeUpgradeWhirlwindQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="UpgradeWhirlwind" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeVoidColossusFireBeamQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
         <Count Link="VoidColossusFireBeam" State="QueuedOrBetter"/>
     </CRequirementCountUpgrade>
     <CRequirementLT id="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092">
@@ -159,9 +218,6 @@
         <OperandArray index="0" value="CountUpgradeBunkerLifeRegenerationQueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
-    <CRequirementCountUpgrade id="CountUpgradeStimpackCompleteOnly">
-        <Flags index="TechTreeCheat" value="0"/>
-    </CRequirementCountUpgrade>
     <CRequirementLT id="LTCountUpgradeMarineAttackRangeQueuedOrBetter204156726092">
         <Tooltip value=""/>
         <OperandArray index="0" value="CountUpgradeMarineAttackRangeQueuedOrBetter"/>
@@ -187,16 +243,8 @@
         <OperandArray index="0" value="CountUpgradeMarineWeaponsQueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
-    <CRequirementLT id="LTCountUpgradeProtossGroundArmorsLevel1QueuedOrBetter20">
-        <OperandArray index="0" value="CountUpgradeProtossGroundArmorsLevel1QueuedOrBetter"/>
-        <OperandArray index="1" value="20"/>
-    </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeProtossGroundWeaponsLevel1QueuedOrBetter20">
         <OperandArray index="0" value="CountUpgradeProtossGroundWeaponsLevel1QueuedOrBetter"/>
-        <OperandArray index="1" value="20"/>
-    </CRequirementLT>
-    <CRequirementLT id="LTCountUpgradeProtossShieldsLevel1QueuedOrBetter20">
-        <OperandArray index="0" value="CountUpgradeProtossShieldsLevel1QueuedOrBetter"/>
         <OperandArray index="1" value="20"/>
     </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeProtossShieldsLevel2QueuedOrBetter204156726092">
@@ -204,10 +252,42 @@
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeProtossShieldsLevel3QueuedOrBetter20">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeProtossShieldsLevel3QueuedOrBetter"/>
         <OperandArray index="1" value="20"/>
     </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeStructureQueuedOrBetter204156726092">
+        <OperandArray index="0" value="CountUpgradeStructureQueuedOrBetter"/>
+        <OperandArray index="1" value="204156726092"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeUnknownUpgrade2QueuedOrBetter204156726092">
+        <OperandArray index="0" value="CountUpgradeUnknownUpgrade2QueuedOrBetter"/>
+        <OperandArray index="1" value="204156726092"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeUnknownUpgradeQueuedOrBetter204156726092">
+        <OperandArray index="0" value="CountUpgradeUnknownUpgradeQueuedOrBetter"/>
+        <OperandArray index="1" value="204156726092"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeUpgradeArmorQueuedOrBetter204156726092">
+        <OperandArray index="0" value="CountUpgradeUpgradeArmorQueuedOrBetter"/>
+        <OperandArray index="1" value="204156726092"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeUpgradeBaseWeaponQueuedOrBetter204156726092">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeUpgradeBaseWeaponQueuedOrBetter"/>
+        <OperandArray index="1" value="204156726092"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeUpgradeShieldsQueuedOrBetter204156726092">
+        <OperandArray index="0" value="CountUpgradeUpgradeShieldsQueuedOrBetter"/>
+        <OperandArray index="1" value="204156726092"/>
+    </CRequirementLT>
+    <CRequirementNot id="NotCountUpgradeResearchBlinkQueuedOrBetter">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeResearchBlinkQueuedOrBetter"/>
+    </CRequirementNot>
+    <CRequirementNot id="NotCountUpgradeResearchPhaseTransferQueuedOrBetter">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeResearchPhaseTransferQueuedOrBetter"/>
+    </CRequirementNot>
     <CRequirementNot id="NotCountUpgradeResearchPlasmaCapacitorsQueuedOrBetter">
         <Tooltip value=""/>
         <OperandArray index="0" value="CountUpgradeResearchPlasmaCapacitorsQueuedOrBetter"/>
@@ -223,6 +303,14 @@
     <CRequirementNot id="NotCountUpgradeSiegeTurretAreaQueuedOrBetter">
         <Tooltip value=""/>
         <OperandArray index="0" value="CountUpgradeSiegeTurretAreaQueuedOrBetter"/>
+    </CRequirementNot>
+    <CRequirementNot id="NotCountUpgradeUpgradeFlameLanceQueuedOrBetter">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeUpgradeFlameLanceQueuedOrBetter"/>
+    </CRequirementNot>
+    <CRequirementNot id="NotCountUpgradeUpgradeWhirlwindQueuedOrBetter">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeUpgradeWhirlwindQueuedOrBetter"/>
     </CRequirementNot>
     <CRequirementSum id="SumCountUnitMarauderCompleteOnlyCountUnitHammerSecurityCompleteOnly">
         <OperandArray value="CountUnitMarauderCompleteOnly"/>
