@@ -1049,8 +1049,27 @@ trigger gt_MineralTrickle;
 // Global Functions
 //--------------------------------------------------------------------------------------------------
 void gf_ConfigureConstants () {
+    // Variable Declarations
+    int lv_index;
+
     // Automatic Variable Declarations
+    const int autoFACDB944_ae = 8;
+    const int autoFACDB944_ai = 1;
+
+    // Variable Initialization
+
     // Implementation
+    lv_index = 0;
+    for ( ; ( (autoFACDB944_ai >= 0 && lv_index <= autoFACDB944_ae) || (autoFACDB944_ai < 0 && lv_index >= autoFACDB944_ae) ) ; lv_index += autoFACDB944_ai ) {
+        if ((GameAttributeGameValue("9") == "0001")) {
+            gv_player_race_index[lv_index] = 0;
+        }
+
+        if ((GameAttributeGameValue("9") == "0002")) {
+            gv_player_race_index[lv_index] = 1;
+        }
+
+    }
     gv_race_spawn_unit_types[0][0][0] = "Marine";
     gv_race_spawn_unit_types[0][1][0] = "Reaper";
     gv_race_spawn_unit_types[0][2][0] = "Marauder";
@@ -2594,7 +2613,6 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    TriggerDebugOutput(1, StringExternal("Param/Value/31F316D1"), true);
     UnitIssueOrder(gv_research_facilities[2], Order(AbilityCommand("EngineeringBayResearch", 25)), c_orderQueueReplace);
     return true;
 }
