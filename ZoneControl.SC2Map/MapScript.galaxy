@@ -2,7 +2,7 @@
 // 
 // Generated Map Script
 // 
-// Name:   Zone Control CE Protoss Beta
+// Name:   Zone Control CE
 // 
 //==================================================================================================
 include "TriggerLibs/NativeLib"
@@ -793,6 +793,7 @@ string[4] gv_race_nuke_facility_types;
 string[4][9] gv_race_teaminfo_icons;
 string[4][9] gv_race_teaminfo_upgrades;
 bool[10] gv_movement_detected;
+bool[10] gv_player_is_afk;
 playergroup gv_all_players;
 int gv_num_teams;
 int gv_players_per_team;
@@ -802,6 +803,8 @@ unit[10] gv_ghost_academies;
 point[9] gv_initial_bunker_positions;
 point[9] gv_nuke_silo_positions;
 unit[10] gv_nuke_silos;
+unit[10] gv_research_facilities;
+unit[10] gv_initial_bunkers;
 bool gv_player_draw;
 string gv_magic;
 fixed gv_total_wagers;
@@ -1008,10 +1011,13 @@ void gf_TestPlayerDead (int lp_player);
 // Trigger Variables
 //--------------------------------------------------------------------------------------------------
 trigger gt_Help;
+trigger gt_Control;
+trigger gt_ButtonPress;
 trigger gt_MeleeInitialization;
 trigger gt_DetectMovement;
-trigger gt_CheckForAfkPlayer2;
-trigger gt_CheckForAfkPlayer;
+trigger gt_TrackUnitMovement;
+trigger gt_TrackRallyChange;
+trigger gt_ShareControlForAfkPlayer;
 trigger gt_Records;
 trigger gt_Draw;
 trigger gt_Elo;
@@ -1527,12 +1533,14 @@ void gf_SpawnPlayers () {
         UnitControlGroupAddUnit(lv_player, 4, UnitLastCreated());
         gv_ghost_academies[lv_player] = UnitLastCreated();
         UnitCreate(1, gv_race_research_facility_types[lv_player_race], c_unitCreateIgnorePlacement, lv_player, gv_engineering_bay_positions[lv_position], 270.0);
+        gv_research_facilities[lv_player] = UnitLastCreated();
         UnitControlGroupAddUnit(lv_player, 4, UnitLastCreated());
         UnitCreate(1, gv_race_spawner_types[lv_player_race][0], c_unitCreateIgnorePlacement, lv_player, gv_initial_bunker_positions[lv_position], 270.0);
         CameraPan(lv_player, gv_initial_bunker_positions[lv_position], 0.01, -1, 10.0, false);
         lv_unit = UnitLastCreated();
         gf_OnBunkerCreated3(lv_unit);
         gf_OnBunkerCreated(lv_player, lv_unit);
+        gv_initial_bunkers[lv_player] = lv_unit;
         UnitCreate(1, gv_race_worker_types[lv_player_race], 0, lv_player, PointWithOffset(gv_initial_bunker_positions[lv_position], (-4.0 * gv_position_spawn_offsets[lv_position][0]), (-4.0 * gv_position_spawn_offsets[lv_position][1])), 270.0);
         UnitIssueOrder(UnitLastCreated(), Order(AbilityCommand("move", 2)), c_orderQueueReplace);
         lv_unit = UnitLastCreated();
@@ -2144,6 +2152,8 @@ void gf_TeamInfoInit () {
         gv_team_info_player_bunker_regen[lv_player] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "BunkerSlotsUp");
         gv_team_info_player_bunker_slots[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "SendButton");
+        TriggerAddEventDialogControl(gt_ButtonPress, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
         gf_UpdateTeamInfoColor(lv_player);
     }
     auto530E5BC5_g = gv_all_players;
@@ -2512,6 +2522,89 @@ void gt_Help_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Control
+//--------------------------------------------------------------------------------------------------
+bool gt_Control_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    bool lv_has_control_shared;
+    int lv_player;
+    int lv_ally;
+
+    // Automatic Variable Declarations
+    playergroup autoAC7F0913_g;
+    playergroup auto0C64208D_g;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_player = EventPlayer();
+    autoAC7F0913_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
+    lv_ally = -1;
+    while (true) {
+        lv_ally = PlayerGroupNextPlayer(autoAC7F0913_g, lv_ally);
+        if (lv_ally < 0) { break; }
+        if (((PlayerGetAlliance(lv_player, c_allianceIdControl, lv_ally) == true) && (lv_player != lv_ally))) {
+            lv_has_control_shared = true;
+        }
+
+    }
+    auto0C64208D_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
+    lv_ally = -1;
+    while (true) {
+        lv_ally = PlayerGroupNextPlayer(auto0C64208D_g, lv_ally);
+        if (lv_ally < 0) { break; }
+        if ((lv_player != lv_ally)) {
+            if ((lv_has_control_shared == true)) {
+                PlayerSetAlliance(lv_player, c_allianceIdControl, lv_ally, false);
+            }
+            else {
+                PlayerSetAlliance(lv_player, c_allianceIdControl, lv_ally, true);
+            }
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Control_Init () {
+    gt_Control = TriggerCreate("gt_Control_Func");
+    TriggerAddEventChatMessage(gt_Control, c_playerAny, "-control", true);
+    TriggerAddEventChatMessage(gt_Control, c_playerAny, "-c", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ButtonPress
+//--------------------------------------------------------------------------------------------------
+bool gt_ButtonPress_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    bool lv_has_control_shared;
+    int lv_player;
+    int lv_ally;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/31F316D1"), true);
+    UnitIssueOrder(gv_research_facilities[2], Order(AbilityCommand("EngineeringBayResearch", 25)), c_orderQueueReplace);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ButtonPress_Init () {
+    gt_ButtonPress = TriggerCreate("gt_ButtonPress_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Melee Initialization
 //--------------------------------------------------------------------------------------------------
 bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
@@ -2563,16 +2656,15 @@ void gt_DetectMovement_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: CheckForAfkPlayer 2
+// Trigger: TrackUnitMovement
 //--------------------------------------------------------------------------------------------------
-bool gt_CheckForAfkPlayer2_Func (bool testConds, bool runActions) {
+bool gt_TrackUnitMovement_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_player;
     unit lv_unit;
 
     // Automatic Variable Declarations
-    const int auto87336824_ae = 8;
-    const int auto87336824_ai = 1;
+    playergroup auto40E7B021_g;
     unitgroup autoE7451016_g;
     int autoE7451016_u;
 
@@ -2583,30 +2675,74 @@ bool gt_CheckForAfkPlayer2_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    lv_player = 1;
-    for ( ; ( (auto87336824_ai >= 0 && lv_player <= auto87336824_ae) || (auto87336824_ai < 0 && lv_player >= auto87336824_ae) ) ; lv_player += auto87336824_ai ) {
-        autoE7451016_g = UnitControlGroup(lv_player, 1);
-        autoE7451016_u = UnitGroupCount(autoE7451016_g, c_unitCountAll);
-        for (;; autoE7451016_u -= 1) {
-            lv_unit = UnitGroupUnitFromEnd(autoE7451016_g, autoE7451016_u);
-            if (lv_unit == null) { break; }
-            TriggerAddEventUnitOrder(gt_DetectMovement, UnitRefFromUnit(lv_unit), AbilityCommand("move", 0));
-            TriggerAddEventUnitOrder(gt_DetectMovement, UnitRefFromUnit(lv_unit), AbilityCommand("attack", 0));
+    auto40E7B021_g = gv_all_players;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto40E7B021_g, lv_player);
+        if (lv_player < 0) { break; }
+        if ((gv_movement_detected[lv_player] == false)) {
+            autoE7451016_g = UnitControlGroup(lv_player, 1);
+            autoE7451016_u = UnitGroupCount(autoE7451016_g, c_unitCountAll);
+            for (;; autoE7451016_u -= 1) {
+                lv_unit = UnitGroupUnitFromEnd(autoE7451016_g, autoE7451016_u);
+                if (lv_unit == null) { break; }
+                TriggerAddEventUnitOrder(gt_DetectMovement, UnitRefFromUnit(lv_unit), AbilityCommand("move", 0));
+                TriggerAddEventUnitOrder(gt_DetectMovement, UnitRefFromUnit(lv_unit), AbilityCommand("attack", 0));
+            }
         }
+
     }
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_CheckForAfkPlayer2_Init () {
-    gt_CheckForAfkPlayer2 = TriggerCreate("gt_CheckForAfkPlayer2_Func");
-    TriggerAddEventTimeElapsed(gt_CheckForAfkPlayer2, 3.0, c_timeGame);
+void gt_TrackUnitMovement_Init () {
+    gt_TrackUnitMovement = TriggerCreate("gt_TrackUnitMovement_Func");
+    TriggerAddEventTimeElapsed(gt_TrackUnitMovement, 1.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_TrackUnitMovement, 5.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_TrackUnitMovement, 15.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: CheckForAfkPlayer
+// Trigger: TrackRallyChange
 //--------------------------------------------------------------------------------------------------
-bool gt_CheckForAfkPlayer_Func (bool testConds, bool runActions) {
+bool gt_TrackRallyChange_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_bunker;
+    int lv_player;
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    playergroup autoE911CA37_g;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoE911CA37_g = gv_all_players;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(autoE911CA37_g, lv_player);
+        if (lv_player < 0) { break; }
+        lv_bunker = gv_initial_bunkers[lv_player];
+         TriggerAddEventUnitOrder(gt_DetectMovement, UnitRefFromUnit(lv_bunker), AbilityCommand("Rally", 0));
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_TrackRallyChange_Init () {
+    gt_TrackRallyChange = TriggerCreate("gt_TrackRallyChange_Func");
+    TriggerAddEventTimeElapsed(gt_TrackRallyChange, 1.0, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ShareControlForAfkPlayer
+//--------------------------------------------------------------------------------------------------
+bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_player;
     int lv_ally;
@@ -2644,9 +2780,9 @@ bool gt_CheckForAfkPlayer_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_CheckForAfkPlayer_Init () {
-    gt_CheckForAfkPlayer = TriggerCreate("gt_CheckForAfkPlayer_Func");
-    TriggerAddEventTimeElapsed(gt_CheckForAfkPlayer, 60.0, c_timeGame);
+void gt_ShareControlForAfkPlayer_Init () {
+    gt_ShareControlForAfkPlayer = TriggerCreate("gt_ShareControlForAfkPlayer_Func");
+    TriggerAddEventTimeElapsed(gt_ShareControlForAfkPlayer, 60.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2851,6 +2987,7 @@ bool gt_UpdateTeamInfo_Func (bool testConds, bool runActions) {
 void gt_UpdateTeamInfo_Init () {
     gt_UpdateTeamInfo = TriggerCreate("gt_UpdateTeamInfo_Func");
     TriggerAddEventTimePeriodic(gt_UpdateTeamInfo, 0.2, c_timeGame);
+    TriggerAddEventDialogControl(gt_UpdateTeamInfo, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2975,6 +3112,7 @@ void gt_ShardSpawn_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_SpawnUnit_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    unit lv_unit;
     int lv_scan_index;
     string lv_unit_type;
     int lv_bunker_owner;
@@ -2998,13 +3136,14 @@ bool gt_SpawnUnit_Func (bool testConds, bool runActions) {
         if ((lv_bunker_owner != 0) && (gv_bunker_retire_status[lv_bunker_index] == false) && (PlayerGetPropertyInt(lv_bunker_owner, c_playerPropSuppliesUsed) < PlayerGetPropertyInt(lv_bunker_owner, c_playerPropSuppliesMade))) {
             lv_unit_type = gv_race_spawn_unit_types[gv_player_race_index[lv_bunker_owner]][gv_spawner_tier[lv_bunker_index]][gv_spawner_upgrade_status[lv_bunker_index]];
             UnitCreate(1, lv_unit_type, 0, lv_bunker_owner, gv_bunker_spawn_points[lv_bunker_index], 270.0);
-            UnitControlGroupAddUnit(lv_bunker_owner, 1, UnitLastCreated());
+            lv_unit = UnitLastCreated();
+            UnitControlGroupAddUnit(lv_bunker_owner, 1, lv_unit);
             if ((gv_bunker_rally_units[lv_bunker_index] != null)) {
-                UnitIssueOrder(UnitLastCreated(), OrderTargetingUnit(AbilityCommand("move", 0), gv_bunker_rally_units[lv_bunker_index]), c_orderQueueReplace);
+                UnitIssueOrder(lv_unit, OrderTargetingUnit(AbilityCommand("move", 0), gv_bunker_rally_units[lv_bunker_index]), c_orderQueueReplace);
             }
             else {
                 if ((gv_bunker_rally_points[lv_bunker_index] != null)) {
-                    UnitIssueOrder(UnitLastCreated(), OrderTargetingPoint(AbilityCommand("attack", 0), gv_bunker_rally_points[lv_bunker_index]), c_orderQueueReplace);
+                    UnitIssueOrder(lv_unit, OrderTargetingPoint(AbilityCommand("attack", 0), gv_bunker_rally_points[lv_bunker_index]), c_orderQueueReplace);
                 }
 
             }
@@ -3596,10 +3735,13 @@ void gt_MineralTrickle_Init () {
 //--------------------------------------------------------------------------------------------------
 void InitTriggers () {
     gt_Help_Init();
+    gt_Control_Init();
+    gt_ButtonPress_Init();
     gt_MeleeInitialization_Init();
     gt_DetectMovement_Init();
-    gt_CheckForAfkPlayer2_Init();
-    gt_CheckForAfkPlayer_Init();
+    gt_TrackUnitMovement_Init();
+    gt_TrackRallyChange_Init();
+    gt_ShareControlForAfkPlayer_Init();
     gt_Records_Init();
     gt_Draw_Init();
     gt_Elo_Init();

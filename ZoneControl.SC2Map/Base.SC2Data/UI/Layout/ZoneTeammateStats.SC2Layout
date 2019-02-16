@@ -68,6 +68,8 @@
             <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
         </Frame>
 
+  
+
     </Frame>
   
 
@@ -99,6 +101,7 @@
         </Frame>
 
 
+
   <Frame type="Label" name="BunkerArmorUp">
             <Style val="TeamStats"/>
             <Height val="40"/>
@@ -118,6 +121,17 @@
             <Text val="50"/> 
         </Frame>
 
+
+  <Frame type="Button" name="SpeedUpButton" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+                    <Text val=""/>
+
+       <Width val="40"/>
+        <Height val="30"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="-5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="136"/>
+        </Frame>
+
+
   <Frame type="Label" name="SpeedUp">
             <Style val="TeamStats"/>
             <Height val="40"/>
@@ -125,6 +139,15 @@
         <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
             <Anchor side="Left" relative="$parent" pos="Min" offset="136"/>
             <Text val="0"/>
+        </Frame>
+
+  <Frame type="Button" name="RegenUpButton" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+                    <Text val=""/>
+
+       <Width val="40"/>
+        <Height val="30"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="-5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="102"/>
         </Frame>
 
         <Frame type="Label" name="RegenUp">
@@ -136,6 +159,14 @@
             <Text val="0"/>
         </Frame>
 
+  <Frame type="Button" name="RangeUpButton" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+                    <Text val=""/>
+
+       <Width val="40"/>
+        <Height val="30"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="-5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="68"/>
+        </Frame>
 
 
   <Frame type="Label" name="RangeUp">
@@ -147,6 +178,15 @@
             <Text val="0"/>
         </Frame>
 
+  <Frame type="Button" name="AttackUpButton" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+                    <Text val=""/>
+
+       <Width val="40"/>
+        <Height val="30"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="-5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="34"/>
+        </Frame>
+
   <Frame type="Label" name="AttackUp">
             <Style val="TeamStats"/>
             <Height val="40"/>
@@ -154,6 +194,16 @@
         <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
             <Anchor side="Left" relative="$parent" pos="Min" offset="34"/>
             <Text val="0"/>
+        </Frame>
+
+   
+  <Frame type="Button" name="ArmorUpButton" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+                    <Text val=""/>
+
+       <Width val="40"/>
+        <Height val="30"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="-5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
         </Frame>
 
   <Frame type="Label" name="ArmorUp">
