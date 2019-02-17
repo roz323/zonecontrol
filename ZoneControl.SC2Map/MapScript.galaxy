@@ -2705,10 +2705,9 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
         for ( ; ( (autoA9265719_ai >= 0 && lv_index <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_index >= autoA9265719_ae) ) ; lv_index += autoA9265719_ai ) {
             if ((EventDialogControl() == gv_team_info_upgrade_buttons[lv_player][lv_index])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                }
-                else {
                     UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilites[gv_player_race_index[lv_player]][lv_index]), c_orderQueueReplace);
                 }
+
             }
 
         }
