@@ -10,4 +10,17 @@
         <Find value="1"/>
         <Value value="HaveMarauder"/>
     </CValidatorPlayerRequirement>
+    <CValidatorUnitCompareBehaviorCount id="MercRetiredStructure">
+        <ResultFailed value="Error,Structure is retired."/>
+        <Behavior value="RetireStructure"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="RetireStructure">
+        <ResultFailed value="Error,Structure already retired."/>
+        <Behavior value="RetireStructure"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="UnretireStructure">
+        <ResultFailed value="Error,Structure not retired."/>
+        <Compare value="NE"/>
+        <Behavior value="RetireStructure"/>
+    </CValidatorUnitCompareBehaviorCount>
 </Catalog>

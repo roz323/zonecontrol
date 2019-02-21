@@ -252,7 +252,7 @@
         <Cost>
             <Resource index="Minerals" value="550"/>
         </Cost>
-        <CmdButtonArray index="Execute" DefaultButtonFace="RetireStructure"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="RetireStructure" Requirements="NotRetired"/>
         <AlertArray index="Finish" value="UpgradeComplete"/>
     </CAbilEffectInstant>
     <CAbilResearch id="RoboticsBayResearch">
@@ -399,6 +399,7 @@
                 <DurationArray index="Delay" value="30"/>
             </SectionArray>
         </InfoArray>
+        <ValidatorArray value="MercRetiredStructure"/>
     </CAbilMorph>
     <CAbilMorph id="UpgradeToWarpGate">
         <Flags index="AutoCast" value="0"/>

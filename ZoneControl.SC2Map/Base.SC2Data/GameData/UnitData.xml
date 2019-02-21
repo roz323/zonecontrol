@@ -365,6 +365,9 @@
         <KillResource index="Minerals" value="15"/>
         <FlagArray index="IgnoreAttackAlert" value="1"/>
     </CUnit>
+    <CUnit id="HighTemplar">
+        <AbilArray index="9" removed="1"/>
+    </CUnit>
     <CUnit id="HiveMindEmulator">
         <LifeStart value="10000"/>
         <LifeMax value="10000"/>
@@ -687,6 +690,7 @@
         <CostResource index="Minerals" value="35"/>
         <KillResource index="Minerals" value="35"/>
         <SubgroupPriority value="1"/>
+        <PushPriority value="20"/>
     </CUnit>
     <CUnit id="SensorTower">
         <CostResource index="Vespene" value="0"/>
@@ -779,6 +783,7 @@
         </CardLayouts>
         <ScoreKill value="750"/>
         <MinimapRadius value="1"/>
+        <PushPriority value="20"/>
     </CUnit>
     <CUnit id="SiegeBreakerSieged">
         <Description value="Button/Tooltip/SiegeBreaker"/>
