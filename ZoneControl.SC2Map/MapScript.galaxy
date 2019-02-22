@@ -1013,6 +1013,7 @@ void gf_OnBunkerCreated3 (unit lp_bunker);
 void gf_OnBunkerCreated2 (unit lp_worker);
 void gf_OnBunkerRemoved (int lp_player, unit lp_bunker);
 void gf_UpdateAllWorkers (int lp_player);
+void gf_UpdateSingleWorker (unit lp_worker, bool lp_player_has_nuke);
 bool gf_PlayerHasNuke (int lp_player);
 void gf_SetDeadPlayerColor (int lp_player);
 void gf_TestVictory ();
@@ -1027,7 +1028,7 @@ trigger gt_Control;
 trigger gt_ButtonPress;
 trigger gt_MeleeInitialization;
 trigger gt_DetectMovement;
-trigger gt_sycvnsydwrdhmfgp;
+trigger gt_DetectPlayerChat;
 trigger gt_TrackUnitMovement;
 trigger gt_TrackRallyChange;
 trigger gt_ShareControlForAfkPlayer;
@@ -1281,7 +1282,7 @@ void gf_ConfigureConstants () {
     gv_spawn_scan_order[58] = 36;
     gv_spawn_scan_order[59] = 35;
     gv_engineering_bay_positions[0] = Point(18.5, 88.5);
-    gv_engineering_bay_positions[1] = Point(21.5, 92.5);
+    gv_engineering_bay_positions[1] = Point(21.5, 90.5);
     gv_engineering_bay_positions[2] = Point(90.5, 90.5);
     gv_engineering_bay_positions[3] = Point(93.5, 88.5);
     gv_engineering_bay_positions[4] = Point(93.5, 19.5);
@@ -2433,11 +2434,7 @@ void gf_OnBunkerCreated2 (unit lp_worker) {
     // Variable Initialization
 
     // Implementation
-    if ((gf_PlayerHasNuke(UnitGetOwner(lp_worker)) == true)) {
-        libNtve_gf_AttachModelToUnit(lp_worker, "SS_PowerupStrongerMissiles", "Ref_Hardpoint");
-        libHots_gf_StoreActorForUnit(lp_worker, 1, libNtve_gf_ActorLastCreated());
-    }
-
+    gf_UpdateSingleWorker(lp_worker, gf_PlayerHasNuke(UnitGetOwner(lp_worker)));
     UnitControlGroupAddUnit(UnitGetOwner(lp_worker), 3, lp_worker);
     TriggerAddEventUnitDied(gt_ScvDied, UnitRefFromUnit(lp_worker));
 }
@@ -2458,6 +2455,8 @@ void gf_OnBunkerRemoved (int lp_player, unit lp_bunker) {
 
 void gf_UpdateAllWorkers (int lp_player) {
     // Variable Declarations
+    bool lv_player_has_nuke;
+    actor lv_stored_actor;
     unit lv_unit;
 
     // Automatic Variable Declarations
@@ -2467,20 +2466,42 @@ void gf_UpdateAllWorkers (int lp_player) {
     // Variable Initialization
 
     // Implementation
+    lv_player_has_nuke = gf_PlayerHasNuke(lp_player);
     autoDF5EA8CF_g = UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     autoDF5EA8CF_u = UnitGroupCount(autoDF5EA8CF_g, c_unitCountAll);
     for (;; autoDF5EA8CF_u -= 1) {
         lv_unit = UnitGroupUnitFromEnd(autoDF5EA8CF_g, autoDF5EA8CF_u);
         if (lv_unit == null) { break; }
         if (((UnitGetType(lv_unit) == "SCV") || (UnitGetType(lv_unit) == "Probe") || (UnitGetType(lv_unit) == "Drone"))) {
-            libNtve_gf_KillModel(libHots_gf_ActorForUnit(lv_unit, 1));
-            if ((gf_PlayerHasNuke(lp_player) == true)) {
-                libNtve_gf_AttachModelToUnit(lv_unit, "SS_PowerupStrongerMissiles", "Ref_Hardpoint");
-                libHots_gf_StoreActorForUnit(lv_unit, 1, libNtve_gf_ActorLastCreated());
-            }
-
+            gf_UpdateSingleWorker(lv_unit, lv_player_has_nuke);
         }
 
+    }
+}
+
+void gf_UpdateSingleWorker (unit lp_worker, bool lp_player_has_nuke) {
+    // Variable Declarations
+    actor lv_stored_actor;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_stored_actor = libHots_gf_ActorForUnit(lp_worker, 1);
+    if ((lp_player_has_nuke == true)) {
+        if ((lv_stored_actor == null)) {
+            libNtve_gf_AttachModelToUnit(lp_worker, "SS_PowerupStrongerMissiles", "Ref_Hardpoint");
+            libHots_gf_StoreActorForUnit(lp_worker, 1, libNtve_gf_ActorLastCreated());
+        }
+
+    }
+    else {
+        if ((lv_stored_actor == null)) {
+        }
+        else {
+            libNtve_gf_KillModel(lv_stored_actor);
+            libHots_gf_StoreActorForUnit(lp_worker, 1, null);
+        }
     }
 }
 
@@ -2809,15 +2830,10 @@ void gt_DetectMovement_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: 
+// Trigger: DetectPlayerChat
 //--------------------------------------------------------------------------------------------------
-bool gt_sycvnsydwrdhmfgp_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_kydvyxndodkydurx;
-
+bool gt_DetectPlayerChat_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
-    // Variable Initialization
-
     // Actions
     if (!runActions) {
         return true;
@@ -2828,9 +2844,9 @@ bool gt_sycvnsydwrdhmfgp_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_sycvnsydwrdhmfgp_Init () {
-    gt_sycvnsydwrdhmfgp = TriggerCreate("gt_sycvnsydwrdhmfgp_Func");
-    TriggerAddEventChatMessage(gt_sycvnsydwrdhmfgp, c_playerAny, "", false);
+void gt_DetectPlayerChat_Init () {
+    gt_DetectPlayerChat = TriggerCreate("gt_DetectPlayerChat_Func");
+    TriggerAddEventChatMessage(gt_DetectPlayerChat, c_playerAny, "", false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3928,7 +3944,7 @@ void InitTriggers () {
     gt_ButtonPress_Init();
     gt_MeleeInitialization_Init();
     gt_DetectMovement_Init();
-    gt_sycvnsydwrdhmfgp_Init();
+    gt_DetectPlayerChat_Init();
     gt_TrackUnitMovement_Init();
     gt_TrackRallyChange_Init();
     gt_ShareControlForAfkPlayer_Init();
