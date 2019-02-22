@@ -881,7 +881,7 @@ int[10] gv_team_info_player_speed;
 int[10] gv_team_info_player_bunker_armor;
 int[10] gv_team_info_player_bunker_regen;
 int[10] gv_team_info_player_bunker_slots;
-int[10][8] gv_qkroogniejsytyxv;
+int[10][8] gv_team_info_player_upgrade_buttons;
 int gv_untitledVariable002;
 int gv_untitledVariable003;
 bool gv_message_lock;
@@ -971,7 +971,7 @@ void InitGlobals () {
     }
     for (init_i = 0; init_i <= 9; init_i += 1) {
         for (init_j = 0; init_j <= 7; init_j += 1) {
-            gv_qkroogniejsytyxv[init_i][init_j] = c_invalidDialogControlId;
+            gv_team_info_player_upgrade_buttons[init_i][init_j] = c_invalidDialogControlId;
         }
     }
     gv_untitledVariable002 = 100;
@@ -987,7 +987,7 @@ void InitGlobals () {
 void gf_ConfigureConstants ();
 void gf_AssignTeamLocations ();
 void gf_SpawnPlayers ();
-void gf_tqvcflrnrxiecrct (int lp_lfvdgjeljympfwyc);
+void gf_PlayerAfkEnded (int lp_player);
 void gf_SignBank (bank lp_bank);
 bool gf_VerifyBank (bank lp_bank);
 string gf_ComputeChecksum (bank lp_bank);
@@ -1002,7 +1002,7 @@ void gf_UpdateLeaderboardSortOrder ();
 void gf_UpdateLeaderboard (bool lp_force_update_sort);
 void gf_UpdateTeamInfoColor (int lp_player);
 void gf_TeamInfoInit ();
-void gf_tqxgowrxwijipocr (int lp_wepuriwpyoxsampk);
+void gf_UpdateTeamInfoForPlayer (int lp_player);
 void gf_RedrawDeathNotifications ();
 void gf_NotifyPlayerDied (int lp_palyer);
 void gf_NotifyPlayerLeave (int lp_palyer);
@@ -1627,9 +1627,9 @@ void gf_SpawnPlayers () {
     }
 }
 
-void gf_tqvcflrnrxiecrct (int lp_lfvdgjeljympfwyc) {
+void gf_PlayerAfkEnded (int lp_player) {
     // Variable Declarations
-    int lv_lvnpjvudtopnmswm;
+    int lv_index;
 
     // Automatic Variable Declarations
     const int auto9C1E4D45_ae = 7;
@@ -1638,11 +1638,11 @@ void gf_tqvcflrnrxiecrct (int lp_lfvdgjeljympfwyc) {
     // Variable Initialization
 
     // Implementation
-    if ((gv_player_is_afk[lp_lfvdgjeljympfwyc] == true)) {
-        gv_player_is_afk[lp_lfvdgjeljympfwyc] = false;
-        lv_lvnpjvudtopnmswm = 0;
-        for ( ; ( (auto9C1E4D45_ai >= 0 && lv_lvnpjvudtopnmswm <= auto9C1E4D45_ae) || (auto9C1E4D45_ai < 0 && lv_lvnpjvudtopnmswm >= auto9C1E4D45_ae) ) ; lv_lvnpjvudtopnmswm += auto9C1E4D45_ai ) {
-            DialogControlSetVisible(gv_qkroogniejsytyxv[lp_lfvdgjeljympfwyc][lv_lvnpjvudtopnmswm], PlayerGroupAll(), false);
+    if ((gv_player_is_afk[lp_player] == true)) {
+        gv_player_is_afk[lp_player] = false;
+        lv_index = 0;
+        for ( ; ( (auto9C1E4D45_ai >= 0 && lv_index <= auto9C1E4D45_ae) || (auto9C1E4D45_ai < 0 && lv_index >= auto9C1E4D45_ae) ) ; lv_index += auto9C1E4D45_ai ) {
+            DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lp_player][lv_index], PlayerGroupAll(), false);
         }
     }
 
@@ -2251,21 +2251,21 @@ void gf_TeamInfoInit () {
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "BunkerSlotsUp");
         gv_team_info_player_bunker_slots[lv_player] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "ArmorUpButton");
-        gv_qkroogniejsytyxv[lv_player][0] = DialogControlLastCreated();
+        gv_team_info_player_upgrade_buttons[lv_player][0] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "AttackUpButton");
-        gv_qkroogniejsytyxv[lv_player][1] = DialogControlLastCreated();
+        gv_team_info_player_upgrade_buttons[lv_player][1] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "RangeUpButton");
-        gv_qkroogniejsytyxv[lv_player][2] = DialogControlLastCreated();
+        gv_team_info_player_upgrade_buttons[lv_player][2] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "RegenUpButton");
-        gv_qkroogniejsytyxv[lv_player][3] = DialogControlLastCreated();
+        gv_team_info_player_upgrade_buttons[lv_player][3] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "SpeedUpButton");
-        gv_qkroogniejsytyxv[lv_player][4] = DialogControlLastCreated();
+        gv_team_info_player_upgrade_buttons[lv_player][4] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "BunkerArmorUpButton");
-        gv_qkroogniejsytyxv[lv_player][5] = DialogControlLastCreated();
+        gv_team_info_player_upgrade_buttons[lv_player][5] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "BunkerRegenUpButton");
-        gv_qkroogniejsytyxv[lv_player][6] = DialogControlLastCreated();
+        gv_team_info_player_upgrade_buttons[lv_player][6] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "BunkerSlotsUpButton");
-        gv_qkroogniejsytyxv[lv_player][7] = DialogControlLastCreated();
+        gv_team_info_player_upgrade_buttons[lv_player][7] = DialogControlLastCreated();
         TriggerAddEventDialogControl(gt_ButtonPress, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
         gf_UpdateTeamInfoColor(lv_player);
     }
@@ -2292,19 +2292,19 @@ void gf_TeamInfoInit () {
     }
 }
 
-void gf_tqxgowrxwijipocr (int lp_wepuriwpyoxsampk) {
+void gf_UpdateTeamInfoForPlayer (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
     if ((gv_player_alive[gv_team_info_current_player] == true)) {
-        libNtve_gf_SetDialogItemText(gv_team_info_player_mineral[lp_wepuriwpyoxsampk], IntToText(PlayerGetPropertyInt(lp_wepuriwpyoxsampk, c_playerPropMinerals)), PlayerGroupAll());
-        libNtve_gf_SetDialogItemText(gv_team_info_player_armor[lp_wepuriwpyoxsampk], IntToText(gv_team_info_player_armor_level[lp_wepuriwpyoxsampk]), PlayerGroupAll());
-        libNtve_gf_SetDialogItemText(gv_team_info_player_attack[lp_wepuriwpyoxsampk], IntToText(gv_team_info_player_attack_level[lp_wepuriwpyoxsampk]), PlayerGroupAll());
-        libNtve_gf_SetDialogItemText(gv_team_info_player_range[lp_wepuriwpyoxsampk], IntToText(gv_team_info_player_range_level[lp_wepuriwpyoxsampk]), PlayerGroupAll());
-        libNtve_gf_SetDialogItemText(gv_team_info_player_regen[lp_wepuriwpyoxsampk], IntToText(gv_team_info_player_regen_level[lp_wepuriwpyoxsampk]), PlayerGroupAll());
-        libNtve_gf_SetDialogItemText(gv_team_info_player_speed[lp_wepuriwpyoxsampk], IntToText(gv_team_info_player_speed_level[lp_wepuriwpyoxsampk]), PlayerGroupAll());
-        libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_armor[lp_wepuriwpyoxsampk], IntToText(gv_team_info_player_bunker_armor_level[lp_wepuriwpyoxsampk]), PlayerGroupAll());
-        libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_regen[lp_wepuriwpyoxsampk], IntToText(gv_team_info_player_bunker_regen_level[lp_wepuriwpyoxsampk]), PlayerGroupAll());
-        libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_slots[lp_wepuriwpyoxsampk], IntToText(gv_team_info_player_bunker_slots_level[lp_wepuriwpyoxsampk]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_mineral[lp_player], IntToText(PlayerGetPropertyInt(lp_player, c_playerPropMinerals)), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_armor[lp_player], IntToText(gv_team_info_player_armor_level[lp_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_attack[lp_player], IntToText(gv_team_info_player_attack_level[lp_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_range[lp_player], IntToText(gv_team_info_player_range_level[lp_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_regen[lp_player], IntToText(gv_team_info_player_regen_level[lp_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_speed[lp_player], IntToText(gv_team_info_player_speed_level[lp_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_armor[lp_player], IntToText(gv_team_info_player_bunker_armor_level[lp_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_regen[lp_player], IntToText(gv_team_info_player_bunker_regen_level[lp_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_slots[lp_player], IntToText(gv_team_info_player_bunker_slots_level[lp_player]), PlayerGroupAll());
     }
 
 }
@@ -2740,7 +2740,7 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
         lv_bebulusqayhxwluv = 0;
         for ( ; ( (autoA9265719_ai >= 0 && lv_bebulusqayhxwluv <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_bebulusqayhxwluv >= autoA9265719_ae) ) ; lv_bebulusqayhxwluv += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_qkroogniejsytyxv[lv_player][lv_bebulusqayhxwluv])) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_bebulusqayhxwluv])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
                     UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_bebulusqayhxwluv]), c_orderQueueReplace);
                 }
@@ -2823,7 +2823,7 @@ bool gt_sycvnsydwrdhmfgp_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    gf_tqvcflrnrxiecrct(EventPlayer());
+    gf_PlayerAfkEnded(EventPlayer());
     return true;
 }
 
@@ -2946,8 +2946,8 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
             lv_cjbxobnvvtqjttvx = 0;
             for ( ; ( (autoFC6C6804_ai >= 0 && lv_cjbxobnvvtqjttvx <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_cjbxobnvvtqjttvx >= autoFC6C6804_ae) ) ; lv_cjbxobnvvtqjttvx += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_qkroogniejsytyxv[lv_player][lv_cjbxobnvvtqjttvx], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_qkroogniejsytyxv[lv_player][lv_cjbxobnvvtqjttvx], PlayerGroupSingle(lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_cjbxobnvvtqjttvx], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_cjbxobnvvtqjttvx], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
@@ -3130,7 +3130,7 @@ bool gt_TeamInfoTrackUpgrades_Func (bool testConds, bool runActions) {
     gv_team_info_player_bunker_armor_level[lv_player] = TechTreeUpgradeCount(lv_player, gv_race_teaminfo_upgrades[lv_player_race][5], c_techCountQueuedOrBetter);
     gv_team_info_player_bunker_regen_level[lv_player] = TechTreeUpgradeCount(lv_player, gv_race_teaminfo_upgrades[lv_player_race][6], c_techCountQueuedOrBetter);
     gv_team_info_player_bunker_slots_level[lv_player] = TechTreeUpgradeCount(lv_player, gv_race_teaminfo_upgrades[lv_player_race][7], c_techCountQueuedOrBetter);
-    gf_tqxgowrxwijipocr(lv_player);
+    gf_UpdateTeamInfoForPlayer(lv_player);
     return true;
 }
 
@@ -3156,7 +3156,7 @@ bool gt_UpdateTeamInfo_Func (bool testConds, bool runActions) {
     else {
         gv_team_info_current_player = (gv_team_info_current_player + 1);
     }
-    gf_tqxgowrxwijipocr(gv_team_info_current_player);
+    gf_UpdateTeamInfoForPlayer(gv_team_info_current_player);
     return true;
 }
 
