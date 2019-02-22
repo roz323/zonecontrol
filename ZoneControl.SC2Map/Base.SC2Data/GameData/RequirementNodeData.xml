@@ -4,7 +4,6 @@
         <Value value="20"/>
     </CRequirementConst>
     <CRequirementAllowBehavior id="AllowBehaviorRetireStructure">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Link value="RetireStructure"/>
     </CRequirementAllowBehavior>
     <CRequirementAllowUnit id="AllowUnitWarPig">
@@ -154,6 +153,11 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="Structure" State="QueuedOrBetter"/>
     </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeStuctureRegenQueuedOrBetter">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="StuctureRegen" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeUnknownUpgrade2QueuedOrBetter">
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="UnknownUpgrade2" State="QueuedOrBetter"/>
@@ -253,6 +257,11 @@
     </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeStructureQueuedOrBetter204156726092">
         <OperandArray index="0" value="CountUpgradeStructureQueuedOrBetter"/>
+        <OperandArray index="1" value="204156726092"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeStuctureRegenQueuedOrBetter204156726092">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeStuctureRegenQueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeUnknownUpgrade2QueuedOrBetter204156726092">

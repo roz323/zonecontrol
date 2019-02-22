@@ -4,6 +4,7 @@
         <Amount value="50"/>
         <AttributeBonus index="Light" value="25"/>
         <AttributeBonus index="Armored" value="-10"/>
+        <AttributeBonus index="Structure" value="50"/>
     </CEffectDamage>
     <CEffectDamage id="AutoTurret">
         <Amount value="50"/>
@@ -137,6 +138,10 @@
         <AttributeBonus index="Armored" value="0"/>
         <Amount value="50"/>
     </CEffectDamage>
+    <CEffectDamage id="PhaseDisruptorsStrafeDamage">
+        <AttributeBonus index="Armored" value="0"/>
+        <Amount value="80"/>
+    </CEffectDamage>
     <CEffectDamage id="PhotonCannonU">
         <Amount value="80"/>
     </CEffectDamage>
@@ -168,7 +173,8 @@
         <Resources index="Minerals" value="200"/>
     </CEffectModifyPlayer>
     <CEffectDamage id="PsiBlades">
-        <Amount value="26"/>
+        <Amount value="60"/>
+        <AttributeBonus index="Structure" value="25"/>
     </CEffectDamage>
     <CEffectDamage id="PsionicShockwaveDamage">
         <AttributeBonus index="Armored" value="30"/>
@@ -211,6 +217,7 @@
         <Amount value="60"/>
         <AttributeBonus index="Light" value="25"/>
         <AttributeBonus index="Armored" value="-10"/>
+        <AttributeBonus index="Structure" value="90"/>
     </CEffectDamage>
     <CEffectDamage id="TempestDamageGround">
         <Amount value="120"/>
@@ -338,6 +345,7 @@
     </CEffectEnumArea>
     <CEffectDamage id="ZealotAiurWeapon">
         <Amount value="60"/>
+        <AttributeBonus index="Structure" value="50"/>
     </CEffectDamage>
     <CEffectCreateHealer id="heal">
         <RechargeVitalRate value="11"/>

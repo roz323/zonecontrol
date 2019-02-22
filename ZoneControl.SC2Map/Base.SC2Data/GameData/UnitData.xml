@@ -6,7 +6,6 @@
         <ShieldsStart value="175"/>
         <ShieldRegenDelay value="1"/>
         <ShieldRegenRate value="0.1992"/>
-        <Food value="-1"/>
         <LifeArmor value="2"/>
         <ShieldsMax value="175"/>
         <KillResource index="Minerals" value="15"/>
@@ -14,6 +13,9 @@
             <LayoutButtons index="8" removed="1"/>
         </CardLayouts>
         <Speed value="2.3007"/>
+        <EquipmentArray Weapon="FireRate"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="GuassRifle22"/>
     </CUnit>
     <CUnit id="AutoTurret">
         <LifeStart value="7000"/>
@@ -117,7 +119,7 @@
         <ShieldsMax value="5000"/>
         <ShieldRegenDelay value="0"/>
         <ShieldRegenRate value="8"/>
-        <Food value="0"/>
+        <Food value="-5"/>
         <CostResource index="Vespene" value="0"/>
         <PlacementFootprint value="Footprint4x4"/>
         <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
@@ -130,7 +132,7 @@
     </CUnit>
     <!-- StalkerAiur is swapped out for Dragoon -->
     <CUnit id="Dragoon">
-        <Food value="-1"/>
+        <Food value="-4"/>
         <LifeStart value="300"/>
         <LifeMax value="300"/>
         <LifeArmor value="4"/>
@@ -148,6 +150,9 @@
             <LayoutButtons index="5" Face="Blink" Type="AbilCmd" AbilCmd="Blink,Execute" Row="2" Column="0"/>
             <LayoutButtons index="7" removed="1"/>
         </CardLayouts>
+        <EquipmentArray Weapon="FireRate"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="GuassRifle22"/>
     </CUnit>
     <CUnit id="EngineeringBay">
         <AbilArray Link="BarracksTechLabResearch"/>
@@ -253,7 +258,7 @@
                 <Column value="1"/>
             </LayoutButtons>
         </CardLayouts>
-        <Food value="25"/>
+        <Food value="45"/>
         <FlagArray index="Invulnerable" value="1"/>
         <KillResource index="Minerals" value="125"/>
     </CUnit>
@@ -365,9 +370,6 @@
         <KillResource index="Minerals" value="15"/>
         <FlagArray index="IgnoreAttackAlert" value="1"/>
     </CUnit>
-    <CUnit id="HighTemplar">
-        <AbilArray index="9" removed="1"/>
-    </CUnit>
     <CUnit id="HiveMindEmulator">
         <LifeStart value="10000"/>
         <LifeMax value="10000"/>
@@ -388,7 +390,6 @@
         <FogVisibility value="Dimmed"/>
     </CUnit>
     <CUnit id="Immortal">
-        <Food value="-1"/>
         <LifeStart value="300"/>
         <LifeMax value="300"/>
         <LifeArmor value="6"/>
@@ -403,8 +404,26 @@
         <ShieldRegenDelay value="1"/>
         <ShieldRegenRate value="0.6992"/>
         <ScoreMake value="0"/>
+        <EquipmentArray Weapon="FireRate"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="GuassRifle22"/>
     </CUnit>
-    <CUnit id="ImmortalAiur"/>
+    <CUnit id="ImmortalAiur">
+        <LifeStart value="350"/>
+        <LifeMax value="350"/>
+        <ShieldsStart value="350"/>
+        <ShieldsMax value="350"/>
+        <ShieldRegenDelay value="1"/>
+        <ShieldRegenRate value="0.6015"/>
+        <WeaponArray index="0" Link="PhaseDisruptorsStrafe"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="5" removed="1"/>
+            <LayoutButtons index="6" removed="1"/>
+        </CardLayouts>
+        <EquipmentArray Weapon="FireRate"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="GuassRifle22"/>
+    </CUnit>
     <CUnit id="InfestedBunker">
         <LifeStart value="55000"/>
         <LifeMax value="55000"/>
@@ -564,7 +583,11 @@
         <ScoreKill value="125"/>
         <Attributes index="Armored" value="0"/>
         <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Structure" value="0"/>
         <ScoreMake value="0"/>
+        <EquipmentArray Weapon="FireRate"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="CannonThingy"/>
     </CUnit>
     <CUnit id="Probe">
         <AbilArray index="7" Link="PhaseCannon"/>
@@ -929,7 +952,7 @@
         <ShieldRegenRate value="0.6015"/>
     </CUnit>
     <CUnit id="Stalker">
-        <Food value="-1"/>
+        <Food value="-4"/>
         <LifeStart value="250"/>
         <LifeMax value="250"/>
         <LifeArmor value="4"/>
@@ -943,6 +966,9 @@
         <KillResource index="Minerals" value="15"/>
         <Attributes index="Biological" value="1"/>
         <SubgroupPriority value="255"/>
+        <EquipmentArray Weapon="FireRate"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="GuassRifle22"/>
     </CUnit>
     <CUnit id="SupplyDepot">
         <LifeStart value="20000"/>
@@ -998,7 +1024,6 @@
         <LifeArmor value="3"/>
         <ShieldsStart value="200"/>
         <ShieldsMax value="200"/>
-        <Food value="-1"/>
         <KillXP value="0"/>
         <KillResource index="Minerals" value="20"/>
         <AbilArray Link="AdeptPhaseShift"/>
@@ -1010,6 +1035,9 @@
         <ShieldRegenDelay value="1"/>
         <ShieldRegenRate value="0.6015"/>
         <Speed value="2.3007"/>
+        <EquipmentArray Weapon="FireRate"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="GuassRifle22"/>
     </CUnit>
     <CUnit id="WarPig">
         <CostResource index="Minerals" value="10"/>
@@ -1064,12 +1092,14 @@
         <ShieldsMax value="250"/>
         <ShieldRegenDelay value="0"/>
         <ShieldRegenRate value="0.5"/>
-        <Food value="-1"/>
         <ScoreMake value="0"/>
         <ScoreKill value="10"/>
         <LifeArmor value="2"/>
         <KillResource index="Minerals" value="10"/>
         <Speed value="2.3984"/>
+        <EquipmentArray Weapon="FireRate"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="GuassRifle22"/>
     </CUnit>
     <!-- Zealot, whirlwind -->
     <CUnit id="ZealotAiur">
@@ -1077,12 +1107,14 @@
         <LifeMax value="250"/>
         <ShieldsStart value="250"/>
         <ShieldsMax value="250"/>
-        <Food value="-1"/>
         <ScoreKill value="15"/>
         <LifeArmor value="3"/>
         <LifeRegenRate value="0.3007"/>
         <Speed value="2.3984"/>
         <KillResource index="Minerals" value="20"/>
         <ScoreMake value="0"/>
+        <EquipmentArray Weapon="FireRate"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="GuassRifle22"/>
     </CUnit>
 </Catalog>
