@@ -247,11 +247,11 @@
     <CActorAction id="TempestAttack">
         <Missile value="NexusShieldOverchargeModel"/>
     </CActorAction>
-    <CActorAction id="TempestAttackGround">
-        <Missile value="MothershipCorePurifyLight"/>
+    <CActorAction id="TempestAttackGround" effectImpact="MothershipCoreWeaponAB" effectLaunch="MothershipCoreWeaponAB">
+        <Missile value="MothershipCoreWeaponAttackMissile"/>
     </CActorAction>
     <CActorMissile id="TempestAttackGroundMissile">
-        <Model value="MothershipCorePurifyLight"/>
+        <Model value="HybridCPlasmaWeapon"/>
     </CActorMissile>
     <CActorSound id="UI_ResourcePickup">
         <On index="0" removed="1"/>

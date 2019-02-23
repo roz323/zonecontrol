@@ -125,6 +125,7 @@
         <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
         <KillResource index="Minerals" value="875"/>
         <ScoreKill value="875"/>
+        <EquipmentArray Weapon="ShieldRegen"/>
     </CUnit>
     <CUnit id="CommandCenter">
         <AbilArray index="7" Link="ScannerSweep"/>
@@ -271,7 +272,7 @@
         <AbilArray index="6" removed="1"/>
         <BehaviorArray index="0" Link="MorphingintoWarpGate"/>
         <BehaviorArray index="1" Link="PowerUserQueue"/>
-        <BehaviorArray index="2" Link="Purify"/>
+        <BehaviorArray index="2" removed="1"/>
         <BehaviorArray index="3" removed="1"/>
         <CardLayouts index="0">
             <LayoutButtons index="3" Face="Rally" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
@@ -296,9 +297,12 @@
         <LifeArmor value="3"/>
         <CostResource index="Minerals" value="1250"/>
         <KillResource index="Minerals" value="625"/>
-        <WeaponArray Link="TempestGround" Turret="PlanetaryFortress"/>
+        <WeaponArray Link="TempestGround" Turret="PhotonCannon"/>
         <WeaponArray/>
         <ScoreMake value="0"/>
+        <PlaneArray index="Ground" value="0"/>
+        <PlaneArray index="Air" value="1"/>
+        <EquipmentArray Weapon="ShieldRegen"/>
     </CUnit>
     <CUnit id="Ghost">
         <LifeStart value="325"/>
@@ -566,6 +570,7 @@
         <ShieldRegenRate value="10"/>
         <ScoreMake value="0"/>
         <ScoreKill value="75"/>
+        <EquipmentArray Weapon="ShieldRegen"/>
     </CUnit>
     <CUnit id="PalletMinerals">
         <Speed value="0.1328"/>
@@ -654,6 +659,7 @@
         <KillResource index="Minerals" value="225"/>
         <ScoreMake value="0"/>
         <ScoreKill value="225"/>
+        <EquipmentArray Weapon="ShieldRegen"/>
     </CUnit>
     <CUnit id="PylonOvercharged">
         <AbilArray index="5" removed="1"/>
@@ -763,6 +769,7 @@
         <Footprint value="Footprint1x1"/>
         <PlacementFootprint value="Footprint1x1"/>
         <ScoreKill value="50"/>
+        <EquipmentArray Weapon="ShieldRegen"/>
     </CUnit>
     <CUnit id="SiegeBreaker">
         <LifeStart value="25000"/>
@@ -842,7 +849,7 @@
     <CUnit id="SoACaster">
         <!--AbilArray Link="SOAHarvestingBeam"/-->
         <AbilArray index="0" Link="ArmSiloWithNuke"/>
-        <AbilArray index="1" removed="1"/>
+        <AbilArray index="1" Link="que5"/>
         <AbilArray index="2" removed="1"/>
         <AbilArray index="3" removed="1"/>
         <AbilArray index="4" removed="1"/>
@@ -893,7 +900,7 @@
                 <Row value="0"/>
                 <Column value="0"/>
             </LayoutButtons>
-            <LayoutButtons index="6" Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+            <LayoutButtons index="6" Face="CancelBuilding" Type="AbilCmd" AbilCmd="que5,CancelLast" Row="2" Column="4"/>
             <LayoutButtons index="7" Face="NukeArm" Type="AbilCmd" AbilCmd="ArmSiloWithNuke,Ammo1" Row="2" Column="0"/>
             <LayoutButtons index="8" removed="1"/>
             <LayoutButtons index="9" removed="1"/>
@@ -918,6 +925,8 @@
             <LayoutButtons index="28" removed="1"/>
             <LayoutButtons index="29" removed="1"/>
         </CardLayouts>
+        <EnergyMax value="0"/>
+        <EnergyRegenRate value="0"/>
     </CUnit>
     <CUnit id="Spectre">
         <EnergyStart value="0"/>
@@ -1086,6 +1095,7 @@
         <KillResource index="Minerals" value="850"/>
         <WeaponArray Link="TempestGround" Turret="PhotonCannon"/>
         <ScoreKill value="875"/>
+        <EquipmentArray Weapon="ShieldRegen"/>
     </CUnit>
     <CUnit id="Zealot">
         <LifeStart value="200"/>

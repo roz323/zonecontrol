@@ -276,9 +276,9 @@
         <EffectArray index="103" Operation="Add" Reference="Unit,ImmortalShakuras,LifeArmorLevel" Value="1"/>
         <EffectArray index="104" Reference="Unit,ImmortalShakuras,LifeArmor" Value="1"/>
         <EffectArray index="105" Operation="Set" Reference="Actor,ImmortalShakuras,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
-        <EffectArray index="106" Operation="Add" Reference="Unit,ImmortalTaldarim,LifeArmorLevel" Value="1"/>
+        <EffectArray index="106" Operation="Add" Reference="Unit,ImmortalAiur,LifeArmorLevel" Value="1"/>
         <EffectArray index="107" Reference="Unit,ImmortalTaldarim,LifeArmor" Value="1"/>
-        <EffectArray index="108" Operation="Set" Reference="Actor,ImmortalTaldarim,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="108" Operation="Set" Reference="Actor,ImmortalAiur,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
         <EffectArray index="109" Operation="Add" Reference="Unit,Monitor,LifeArmorLevel" Value="1"/>
         <EffectArray index="110" Reference="Unit,Monitor,LifeArmor" Value="1"/>
         <EffectArray index="111" Operation="Set" Reference="Actor,Monitor,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
@@ -816,13 +816,14 @@
         <AffectedUnitArray index="3" removed="1"/>
     </CUpgrade>
     <CUpgrade id="StuctureRegen">
-        <EffectArray Reference="Unit,Gateway,ShieldRegenRate" Value="41"/>
-        <EffectArray Reference="Unit,Pylon,ShieldRegenRate" Value="20.000000"/>
-        <EffectArray Reference="Unit,Obelisk,ShieldRegenRate" Value="20.000000"/>
-        <EffectArray Reference="Unit,WarpGate,ShieldRegenRate" Value="41.000000"/>
-        <EffectArray Reference="Unit,ShieldBattery,ShieldRegenRate" Value="20.000000"/>
+        <EffectArray Reference="Unit,Gateway,ShieldRegenRate" Value="34.000000"/>
+        <EffectArray Reference="Unit,Pylon,ShieldRegenRate" Value="16.000000"/>
+        <EffectArray Reference="Unit,Obelisk,ShieldRegenRate" Value="17.000000"/>
+        <EffectArray Reference="Unit,WarpGate,ShieldRegenRate" Value="37.000000"/>
+        <EffectArray Reference="Unit,ShieldBattery,ShieldRegenRate" Value="7.000000"/>
         <EffectArray Reference="Unit,Colossus,ShieldRegenRate" Value="20.000000"/>
         <EffectArray Reference="Abil,StructureRegen,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray Reference="Weapon,ShieldRegen,Level" Value="1"/>
         <MaxLevel value="20"/>
     </CUpgrade>
     <CUpgrade id="UnknownUpgrade">
@@ -842,6 +843,7 @@
         <EffectArray Operation="Subtract" Reference="Abil,PhaseCannon,Cost[0].Cooldown.TimeUse" Value="1.345000"/>
         <EffectArray Reference="Behavior,PhaseCannonTimedLife,Duration" Value="5.000000"/>
         <EffectArray Reference="Abil,UnknownAbility2,InfoArray[Research1].Resource[Minerals]" Value="50"/>
+        <EffectArray Reference="Weapon,CannonThingy,Level" Value="1"/>
         <MaxLevel value="20"/>
     </CUpgrade>
     <CUpgrade id="UpgradeArmor">
@@ -875,6 +877,7 @@
     </CUpgrade>
     <CUpgrade id="UpgradeFlameLance">
         <EffectArray Operation="Set" Reference="Weapon,ThermalLances,Effect" Value="ColossusPurifierThermalLances"/>
+        <EffectArray Operation="Set" Reference="Weapon,ThermalLances,Icon" Value="Assets\Textures\btn-upgrade-protoss-fenix-carrier-solarbeam.dds"/>
     </CUpgrade>
     <CUpgrade id="UpgradeShields">
         <EffectArray Reference="Unit,Zealot,ShieldArmorLevel" Value="1"/>
