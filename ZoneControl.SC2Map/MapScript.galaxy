@@ -845,7 +845,9 @@ int[10] gv_player_positions;
 int[65] gv_bunker_owners;
 point[65] gv_bunker_locations;
 fixed[5] gv_team_current_performance;
+fixed[5][5] gv_team_current_performance_for_winning_team;
 fixed[5] gv_team_peak_performance;
+fixed[5][5] gv_team_peak_performance_for_winning_team;
 int[5] gv_team_scores;
 color[10] gv_player_colors;
 int[5][5] gv_player_team_rank;
@@ -1917,9 +1919,41 @@ text gf_GetTeamPlayerList (int lp_team) {
 }
 
 void gf_ShowFinalStandings (int lp_winning_team) {
+    // Variable Declarations
+    fixed lv_cur_top_performance;
+    int lv_runner_up_team;
+    int lv_team;
+
     // Automatic Variable Declarations
+    const int auto9614AB2F_ae = 3;
+    const int auto9614AB2F_ai = 1;
+    const int auto063A0715_ae = 3;
+    const int auto063A0715_ai = 1;
+
+    // Variable Initialization
+    lv_runner_up_team = -1;
+
     // Implementation
-    UIDisplayMessage(PlayerGroupSingle(EventPlayer()), c_messageAreaChat, (gf_GetTeamPlayerList(lp_winning_team) + StringToText("") + StringExternal("Param/Value/3F6C9446") + FixedToText(gv_team_peak_performance[lp_winning_team], 2) + StringToText("")));
+    lv_runner_up_team = lp_winning_team;
+    lv_team = 0;
+    for ( ; ( (auto9614AB2F_ai >= 0 && lv_team <= auto9614AB2F_ae) || (auto9614AB2F_ai < 0 && lv_team >= auto9614AB2F_ae) ) ; lv_team += auto9614AB2F_ai ) {
+        if ((gv_team_peak_performance[lv_team] >= gv_team_peak_performance[lv_runner_up_team])) {
+            lv_runner_up_team = lv_team;
+            lv_cur_top_performance = gv_team_peak_performance[lv_team];
+        }
+    }
+    if ((lv_runner_up_team == lp_winning_team)) {
+        lv_cur_top_performance = 0.0;
+        lv_team = 0;
+        for ( ; ( (auto063A0715_ai >= 0 && lv_team <= auto063A0715_ae) || (auto063A0715_ai < 0 && lv_team >= auto063A0715_ae) ) ; lv_team += auto063A0715_ai ) {
+            if ((gv_team_peak_performance_for_winning_team[lp_winning_team][lv_team] >= lv_cur_top_performance)) {
+                lv_runner_up_team = lv_team;
+                lv_cur_top_performance = gv_team_peak_performance_for_winning_team[lp_winning_team][lv_team];
+            }
+        }
+    }
+    UIDisplayMessage(PlayerGroupSingle(EventPlayer()), c_messageAreaChat, (gf_GetTeamPlayerList(lp_winning_team) + StringToText("") + StringExternal("Param/Value/DFB2EDB0") + FixedToText(gv_team_peak_performance[lp_winning_team], 2) + StringToText("")));
+    UIDisplayMessage(PlayerGroupSingle(EventPlayer()), c_messageAreaChat, (gf_GetTeamPlayerList(lv_runner_up_team) + StringToText("") + StringExternal("Param/Value/64965991") + FixedToText(lv_cur_top_performance, 2) + StringToText("")));
 }
 
 void gf_ShowCorrectLeaderboard (int lp_player) {
@@ -3136,17 +3170,27 @@ void gt_Elo_Init () {
 bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
     // Variable Declarations
     fixed lv_num_teams;
+    fixed[5] lv_num_teams_for_winning_team;
     fixed[5] lv_team_scores_with_nuke_bonus;
+    fixed[5][5] lv_team_scores_with_nuke_bonus_for_winning_team;
     fixed lv_total_score;
+    fixed[5] lv_total_score_for_winning_team;
     int lv_team;
+    int lv_winning_team;
     int lv_player;
 
     // Automatic Variable Declarations
     playergroup auto8F014B60_g;
+    const int auto32B39109_ae = 3;
+    const int auto32B39109_ai = 1;
     const int auto9335F831_ae = 3;
     const int auto9335F831_ai = 1;
+    const int autoF1D30EF4_ae = 3;
+    const int autoF1D30EF4_ai = 1;
     const int auto494C091A_ae = 3;
     const int auto494C091A_ai = 1;
+    const int auto64136BF7_ae = 3;
+    const int auto64136BF7_ai = 1;
 
     // Variable Initialization
 
@@ -3162,6 +3206,13 @@ bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gf_PlayerHasNuke(lv_player) == true))) {
             lv_team_scores_with_nuke_bonus[gv_player_team[lv_player]] += 500.0;
+            lv_winning_team = 0;
+            for ( ; ( (auto32B39109_ai >= 0 && lv_winning_team <= auto32B39109_ae) || (auto32B39109_ai < 0 && lv_winning_team >= auto32B39109_ae) ) ; lv_winning_team += auto32B39109_ai ) {
+                if ((gv_player_team[lv_player] != lv_winning_team)) {
+                    lv_team_scores_with_nuke_bonus_for_winning_team[lv_winning_team][gv_player_team[lv_player]] += 500.0;
+                }
+
+            }
         }
 
     }
@@ -3171,6 +3222,15 @@ bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
             lv_team_scores_with_nuke_bonus[lv_team] += gv_team_scores[lv_team];
             lv_total_score += lv_team_scores_with_nuke_bonus[lv_team];
             lv_num_teams += 1.0;
+            lv_winning_team = 0;
+            for ( ; ( (autoF1D30EF4_ai >= 0 && lv_winning_team <= autoF1D30EF4_ae) || (autoF1D30EF4_ai < 0 && lv_winning_team >= autoF1D30EF4_ae) ) ; lv_winning_team += autoF1D30EF4_ai ) {
+                if ((lv_team != lv_winning_team)) {
+                    lv_team_scores_with_nuke_bonus_for_winning_team[lv_winning_team][lv_team] += gv_team_scores[lv_team];
+                    lv_total_score_for_winning_team[lv_winning_team] += lv_team_scores_with_nuke_bonus[lv_team];
+                    lv_num_teams_for_winning_team[lv_winning_team] += 1.0;
+                }
+
+            }
         }
 
     }
@@ -3178,8 +3238,17 @@ bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
     for ( ; ( (auto494C091A_ai >= 0 && lv_team <= auto494C091A_ae) || (auto494C091A_ai < 0 && lv_team >= auto494C091A_ae) ) ; lv_team += auto494C091A_ai ) {
         if ((gv_team_alive[lv_team] == true)) {
             gv_team_current_performance[lv_team] = (lv_team_scores_with_nuke_bonus[lv_team] / lv_total_score);
-            gv_team_current_performance[lv_team] *= IntToFixed(gv_num_teams);
+            gv_team_current_performance[lv_team] *= lv_num_teams;
             gv_team_peak_performance[lv_team] = MaxF(gv_team_current_performance[lv_team], gv_team_peak_performance[lv_team]);
+            lv_winning_team = 0;
+            for ( ; ( (auto64136BF7_ai >= 0 && lv_winning_team <= auto64136BF7_ae) || (auto64136BF7_ai < 0 && lv_winning_team >= auto64136BF7_ae) ) ; lv_winning_team += auto64136BF7_ai ) {
+                if ((lv_team != lv_winning_team)) {
+                    gv_team_current_performance_for_winning_team[lv_winning_team][lv_team] = (lv_team_scores_with_nuke_bonus_for_winning_team[lv_winning_team][lv_team] / lv_total_score_for_winning_team[lv_winning_team]);
+                    gv_team_current_performance_for_winning_team[lv_winning_team][lv_team] *= lv_num_teams_for_winning_team[lv_winning_team];
+                    gv_team_peak_performance_for_winning_team[lv_winning_team][lv_team] = MaxF(gv_team_current_performance_for_winning_team[lv_winning_team][lv_team], gv_team_peak_performance_for_winning_team[lv_winning_team][lv_team]);
+                }
+
+            }
         }
 
     }
