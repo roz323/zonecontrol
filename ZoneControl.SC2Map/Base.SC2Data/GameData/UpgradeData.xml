@@ -16,7 +16,7 @@
         <AffectedUnitArray value="Talis"/>
         <AffectedUnitArray value="Zealot"/>
         <AffectedUnitArray value="ZealotAiur"/>
-        <AffectedUnitArray value="ImmortalTaldarim"/>
+        <AffectedUnitArray value="ImmortalAiur"/>
         <AffectedUnitArray value="Stalker"/>
         <AffectedUnitArray value="Dragoon"/>
         <MaxLevel value="20"/>
@@ -829,19 +829,21 @@
     <CUpgrade id="UnknownUpgrade">
         <Name value="Upgrade/Name/ProtossShieldRegen"/>
         <EffectArray Reference="Unit,ImmortalAiur,ShieldRegenRate" Value="1.773400"/>
-        <EffectArray Reference="Unit,Dragoon,ShieldRegenRate" Value="1.773400"/>
+        <EffectArray Reference="Unit,Dragoon,ShieldRegenRate" Value="2.000000"/>
         <EffectArray Reference="Unit,Talis,ShieldRegenRate" Value="1.773400"/>
         <EffectArray Reference="Unit,Immortal,ShieldRegenRate" Value="1.773400"/>
         <EffectArray Reference="Unit,ZealotAiur,ShieldRegenRate" Value="1.773400"/>
-        <EffectArray Reference="Unit,Stalker,ShieldRegenRate" Value="1.773400"/>
-        <EffectArray Reference="Unit,Adept,ShieldRegenRate" Value="1.773400"/>
+        <EffectArray Reference="Unit,Stalker,ShieldRegenRate" Value="1.871000"/>
+        <EffectArray Reference="Unit,Adept,ShieldRegenRate" Value="1.972600"/>
         <EffectArray Reference="Abil,1PShield2,InfoArray[Research1].Resource[Minerals]" Value="25"/>
         <EffectArray Reference="Weapon,UnknownWeapon,Level" Value="1"/>
+        <EffectArray Reference="Unit,Probe,ShieldRegenRate" Value="2.000000"/>
+        <EffectArray Reference="Unit,Zealot,ShieldRegenRate" Value="1.601500"/>
         <MaxLevel value="20"/>
     </CUpgrade>
     <CUpgrade id="UnknownUpgrade2">
-        <EffectArray Operation="Subtract" Reference="Abil,PhaseCannon,Cost[0].Cooldown.TimeUse" Value="1.345000"/>
-        <EffectArray Reference="Behavior,PhaseCannonTimedLife,Duration" Value="5.000000"/>
+        <EffectArray Operation="Subtract" Reference="Abil,PhaseCannon,Cost[0].Cooldown.TimeUse" Value="1.350000"/>
+        <EffectArray Reference="Behavior,PhaseCannonTimedLife,Duration" Value="11.000000"/>
         <EffectArray Reference="Abil,UnknownAbility2,InfoArray[Research1].Resource[Minerals]" Value="50"/>
         <EffectArray Reference="Weapon,CannonThingy,Level" Value="1"/>
         <MaxLevel value="20"/>
@@ -860,12 +862,14 @@
         <EffectArray Reference="Unit,Talis,LifeArmor" Value="1"/>
         <EffectArray Reference="Unit,Talis,LifeArmorLevel" Value="1"/>
         <EffectArray Reference="Unit,Dragoon,LifeArmorLevel" Value="1"/>
-        <EffectArray Reference="Unit,ImmortalTaldarim,LifeArmorLevel" Value="1"/>
-        <EffectArray Reference="Unit,ImmortalTaldarim,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,LifeArmor" Value="1"/>
         <EffectArray Reference="Unit,Dragoon,LifeArmor" Value="1"/>
         <EffectArray Reference="Unit,PhotonCannon,LifeArmor" Value="1"/>
         <EffectArray Reference="Unit,PhotonCannon,LifeArmorLevel" Value="1"/>
         <EffectArray Reference="Abil,1UpgradeArmorz,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray Reference="Unit,Probe,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Probe,LifeArmorLevel" Value="1"/>
         <MaxLevel value="20"/>
     </CUpgrade>
     <CUpgrade id="UpgradeBaseWeapon">
@@ -891,8 +895,8 @@
         <EffectArray Reference="Unit,Talis,ShieldArmorLevel" Value="1"/>
         <EffectArray Reference="Unit,Talis,ShieldArmor" Value="1"/>
         <EffectArray Reference="Unit,Dragoon,ShieldArmorLevel" Value="1"/>
-        <EffectArray Reference="Unit,ImmortalTaldarim,ShieldArmorLevel" Value="1"/>
-        <EffectArray Reference="Unit,ImmortalTaldarim,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,ShieldArmor" Value="1"/>
         <EffectArray Reference="Unit,Dragoon,ShieldArmor" Value="1"/>
         <EffectArray Reference="Unit,PhotonCannon,ShieldArmor" Value="1"/>
         <EffectArray Reference="Unit,PhotonCannon,ShieldArmorLevel" Value="1"/>
@@ -909,14 +913,18 @@
         <EffectArray Reference="Unit,Talis,LifeArmorLevel" Value="1"/>
         <EffectArray Reference="Unit,Talis,LifeArmor" Value="1"/>
         <EffectArray Reference="Unit,Dragoon,LifeArmorLevel" Value="1"/>
-        <EffectArray Reference="Unit,ImmortalTaldarim,LifeArmorLevel" Value="1"/>
-        <EffectArray Reference="Unit,ImmortalTaldarim,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,LifeArmor" Value="1"/>
         <EffectArray Reference="Unit,Dragoon,LifeArmor" Value="1"/>
         <EffectArray Reference="Unit,PhotonCannon,LifeArmor" Value="1"/>
         <EffectArray Reference="Unit,PhotonCannon,LifeArmorLevel" Value="1"/>
         <EffectArray Reference="Unit,Stalker,LifeArmor" Value="1"/>
         <EffectArray Reference="Unit,Stalker,LifeArmorLevel" Value="1"/>
         <EffectArray Reference="Abil,1UpgradeShieldz,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray Reference="Unit,Probe,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Probe,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Probe,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Probe,ShieldArmor" Value="1"/>
         <MaxLevel value="20"/>
     </CUpgrade>
     <CUpgrade id="UpgradeWhirlwind"/>
