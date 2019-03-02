@@ -1369,18 +1369,14 @@ void gf_AssignTeamLocations () {
     const int autoE690D0A1_ai = 1;
     int autoC43E3F6E_ae;
     const int autoC43E3F6E_ai = 1;
-    const int auto12FB2DF6_ae = 30;
-    const int auto12FB2DF6_ai = 1;
-    int auto5E950BE3_ae;
-    const int auto5E950BE3_ai = 1;
     const int autoC52415DB_ae = 5;
     const int autoC52415DB_ai = 1;
     const int auto9255EF1A_ae = 10;
     const int auto9255EF1A_ai = 1;
     const int auto682EA569_ae = 3;
     const int auto682EA569_ai = 1;
-    int auto37EC8F74_ae;
-    const int auto37EC8F74_ai = 1;
+    const int auto12FB2DF6_ae = 30;
+    const int auto12FB2DF6_ai = 1;
     int auto6372DA87_ae;
     const int auto6372DA87_ai = 1;
     int auto75E4F2FB_ae;
@@ -1497,10 +1493,8 @@ void gf_AssignTeamLocations () {
 
         }
     }
-    else if ((GameAttributeGameValue("2") != "0002")) {
-        auto5E950BE3_ae = gv_num_teams;
-        lv_team = 1;
-        for ( ; ( (auto5E950BE3_ai >= 0 && lv_team <= auto5E950BE3_ae) || (auto5E950BE3_ai < 0 && lv_team >= auto5E950BE3_ae) ) ; lv_team += auto5E950BE3_ai ) {
+    else {
+        if ((GameAttributeGameValue("2") != "0002")) {
             lv_loop = 1;
             for ( ; ( (autoC52415DB_ai >= 0 && lv_loop <= autoC52415DB_ae) || (autoC52415DB_ai < 0 && lv_loop >= autoC52415DB_ae) ) ; lv_loop += autoC52415DB_ai ) {
                 lv_team_index = RandomInt(0, (lv_lobby_team_size[lv_team] - 1));
@@ -1510,23 +1504,21 @@ void gf_AssignTeamLocations () {
                 lv_lobby_teams[lv_team][lv_team_index2] = lv_swap_player;
             }
         }
-    }
-    else if ((GameAttributeGameValue("2") == "0001")) {
-        lv_loop = 1;
-        for ( ; ( (auto9255EF1A_ai >= 0 && lv_loop <= auto9255EF1A_ae) || (auto9255EF1A_ai < 0 && lv_loop >= auto9255EF1A_ae) ) ; lv_loop += auto9255EF1A_ai ) {
-            lv_team1 = RandomInt(1, gv_num_teams);
-            lv_team2 = RandomInt(1, gv_num_teams);
-            lv_team_index = 0;
-            for ( ; ( (auto682EA569_ai >= 0 && lv_team_index <= auto682EA569_ae) || (auto682EA569_ai < 0 && lv_team_index >= auto682EA569_ae) ) ; lv_team_index += auto682EA569_ai ) {
-                lv_swap_player = lv_lobby_teams[lv_team1][lv_team_index];
-                lv_lobby_teams[lv_team1][lv_team_index] = lv_lobby_teams[lv_team2][lv_team_index];
-                lv_lobby_teams[lv_team2][lv_team_index] = lv_swap_player;
+
+        if ((GameAttributeGameValue("2") == "0001")) {
+            lv_loop = 1;
+            for ( ; ( (auto9255EF1A_ai >= 0 && lv_loop <= auto9255EF1A_ae) || (auto9255EF1A_ai < 0 && lv_loop >= auto9255EF1A_ae) ) ; lv_loop += auto9255EF1A_ai ) {
+                lv_team1 = RandomInt(1, gv_num_teams);
+                lv_team2 = RandomInt(1, gv_num_teams);
+                lv_team_index = 0;
+                for ( ; ( (auto682EA569_ai >= 0 && lv_team_index <= auto682EA569_ae) || (auto682EA569_ai < 0 && lv_team_index >= auto682EA569_ae) ) ; lv_team_index += auto682EA569_ai ) {
+                    lv_swap_player = lv_lobby_teams[lv_team1][lv_team_index];
+                    lv_lobby_teams[lv_team1][lv_team_index] = lv_lobby_teams[lv_team2][lv_team_index];
+                    lv_lobby_teams[lv_team2][lv_team_index] = lv_swap_player;
+                }
             }
         }
-    }
-    auto37EC8F74_ae = gv_num_teams;
-    lv_team = 1;
-    for ( ; ( (auto37EC8F74_ai >= 0 && lv_team <= auto37EC8F74_ae) || (auto37EC8F74_ai < 0 && lv_team >= auto37EC8F74_ae) ) ; lv_team += auto37EC8F74_ai ) {
+
     }
     auto6372DA87_ae = gv_num_teams;
     lv_team = 0;
@@ -2826,7 +2818,7 @@ void gt_Control_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_nyhstrsfrplgssal;
+    int lv_okkjsrrylxjpcnyp;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -2846,11 +2838,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_nyhstrsfrplgssal = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_nyhstrsfrplgssal <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_nyhstrsfrplgssal >= autoA9265719_ae) ) ; lv_nyhstrsfrplgssal += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_nyhstrsfrplgssal])) {
+        lv_okkjsrrylxjpcnyp = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_okkjsrrylxjpcnyp <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_okkjsrrylxjpcnyp >= autoA9265719_ae) ) ; lv_okkjsrrylxjpcnyp += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_okkjsrrylxjpcnyp])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_nyhstrsfrplgssal]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_okkjsrrylxjpcnyp]), c_orderQueueReplace);
                 }
 
             }
@@ -3025,7 +3017,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_lsnofkqtntacuise;
+    int lv_baheplvwkqcpoecj;
     int lv_player;
     int lv_ally;
 
@@ -3047,10 +3039,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     for ( ; ( (auto99716D69_ai >= 0 && lv_player <= auto99716D69_ae) || (auto99716D69_ai < 0 && lv_player >= auto99716D69_ae) ) ; lv_player += auto99716D69_ai ) {
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_lsnofkqtntacuise = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_lsnofkqtntacuise <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_lsnofkqtntacuise >= autoFC6C6804_ae) ) ; lv_lsnofkqtntacuise += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_lsnofkqtntacuise], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_lsnofkqtntacuise], PlayerGroupSingle(lv_player), true);
+            lv_baheplvwkqcpoecj = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_baheplvwkqcpoecj <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_baheplvwkqcpoecj >= autoFC6C6804_ae) ) ; lv_baheplvwkqcpoecj += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_baheplvwkqcpoecj], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_baheplvwkqcpoecj], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;

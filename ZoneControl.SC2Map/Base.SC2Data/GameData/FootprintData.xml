@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CFootprint id="Footprint1x1">
+        <Layers index="Check">
+            <Sets index="0">
+                <Negative index="Dense" value="1"/>
+            </Sets>
+        </Layers>
+        <Shape>
+            <Offsets value="-0.5,-0.5;0.5,-0.5;-0.5,0.5;0.5,0.5"/>
+            <Borders value="0,2,2;1,0,2;2,3,2;3,1,2"/>
+        </Shape>
+    </CFootprint>
+    <CFootprint id="Footprint2x2">
+        <Layers index="Check">
+            <Sets index="0">
+                <Negative index="Creep" value="0"/>
+            </Sets>
+        </Layers>
+        <Shape>
+            <Offsets value="-1,-1;1,-1;-1,1;1,1"/>
+            <Borders value="0,2,2;1,0,2;2,3,2;3,1,2"/>
+        </Shape>
+    </CFootprint>
     <CFootprint id="Footprint3x2Underground">
         <Layers index="Check" Area="-1,-1,2,1">
             <Rows value="xxx"/>
@@ -24,6 +46,23 @@
             <Offsets value="-1,-1;1,-1;-1,1;1,1;-1.5,-0.5;-1.5,0.5;1.5,-0.5;1.5,0.5"/>
             <Borders value="0,4,2;1,0,2;2,3,2;3,7,2;4,5,2;5,2,2;6,1,2;7,6,2"/>
         </Shape>
+        <Layers index="Check">
+            <Sets index="0">
+                <Negative index="Creep" value="0"/>
+            </Sets>
+        </Layers>
+    </CFootprint>
+    <CFootprint id="Footprint3x3">
+        <Layers index="Check">
+            <Sets index="0">
+                <Negative index="Creep" value="0"/>
+                <Negative index="Dense" value="1"/>
+            </Sets>
+        </Layers>
+        <Shape>
+            <Offsets value="-1.5,-1.5;1.5,-1.5;-1.5,1.5;1.5,1.5"/>
+            <Borders value="0,2,2;1,0,2;2,3,2;3,1,2"/>
+        </Shape>
     </CFootprint>
     <CFootprint id="Footprint3x3Primal">
         <Shape>
@@ -34,6 +73,9 @@
     </CFootprint>
     <CFootprint id="Footprint5x5Contour">
         <Layers index="Check" Area="-2,-2,2,2">
+            <Sets index="0">
+                <Negative index="Creep" value="0"/>
+            </Sets>
             <Rows index="0" value="xxxx"/>
             <Rows index="1" value="xxxx"/>
             <Rows index="2" value="xxxx"/>
@@ -55,6 +97,9 @@
     </CFootprint>
     <CFootprint id="Footprint5x5DropOff">
         <Layers index="Check" Area="-2,-2,2,2">
+            <Sets index="0">
+                <Negative index="Creep" value="0"/>
+            </Sets>
             <Rows index="0" value="xxxx"/>
             <Rows index="1" value="xxxx"/>
             <Rows index="2" value="xxxx"/>
