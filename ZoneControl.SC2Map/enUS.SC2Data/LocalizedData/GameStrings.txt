@@ -19,10 +19,12 @@ Attribute001/Value002/Name=4v4
 Attribute001/Value003/Name=1v1v1v1
 Attribute001/Value004/Name=2v2
 Attribute001/Value005/Name=1v1
+Attribute002/Desc=Determines which corner teams spawn into. 
 Attribute002/Name=Placement
 Attribute002/Value001/Name=Random
 Attribute002/Value002/Name=Fixed
 Attribute002/Value003/Name=Torunament
+Attribute003/Desc=Determines whether the game uses lobby-assigned teams or random teams.
 Attribute003/Name=Team Selection
 Attribute003/Value001/Name=Random
 Attribute003/Value002/Name=Fixed
@@ -69,13 +71,18 @@ Attribute007/Value007/Name=Untitled Value 7
 Attribute007/Value008/Name=Untitled Value 8
 Attribute007/Value009/Name=Untitled Value 9
 Attribute007/Value010/Name=Untitled Value 10
-Attribute008/Name=Test
+Attribute008/Desc=Game initializes with 1,000,000 minerals.  Intended for training and testing out strategies
+Attribute008/Name=Training Mode
 Attribute008/Value001/Name=Enabled
 Attribute008/Value002/Name=Disabled
 Attribute009/Name=Race
 Attribute009/Value001/Name=T
 Attribute009/Value002/Name=P
 Attribute009/Value003/Name=Z
+Attribute010/Desc=For games with 4 or less players, adds an extra starting bunker for each player. 
+Attribute010/Name=Extra Bunk
+Attribute010/Value001/Name=Yes
+Attribute010/Value002/Name=No
 Behavior/Name/RetireStructure=Retired Structure
 Behavior/Tooltip/GuardianShield=Damage reduced by <d ref="-(Behavior,GuardianShield,DamageResponse[0].ModifyAmount[0])"/>.
 Behavior/Tooltip/RetireStructure=This structure cannot produce units.<n/><n/><c val="FFFFAE">Provides an additional <d ref="(Behavior,RetireStructure,Modification.Food)"/> supply.</c>
@@ -183,10 +190,10 @@ DocInfo/HowToPlayBasic01=Kill Enemy Armies and Bases for Income
 DocInfo/HowToPlayBasic02=Buy Upgrades and Bunkers
 DocInfo/HowToPlayWinning00=Destroy All Enemy Bunkers
 DocInfo/Name=Zone Control CE
-DocInfo/PatchNote001=- New texture scheme.
-DocInfo/PatchNote002=- Bunker supplies decreased from 50 to 10.
-DocInfo/PatchNote003=- Bunker armor decreased by 10.
-DocInfo/PatchNote004=- Supply Depot supplies decreased from 25 to 5.
+DocInfo/PatchNote001=Tanks placement now works in fog or when units in the way. 
+DocInfo/PatchNote002=Bunkers spawn faster for first 13 seconds of the game.
+DocInfo/PatchNote003=Turret now desplays proper health regeneration upgrade.
+DocInfo/PatchNote004=Games with <= 4 players can start with an extra bunker.
 DocInfo/PatchNote005=- Shield Tower damage reduction increased from 4 to 6.
 DocInfo/PatchNote006=- New: win condition - control all 4 middle zones.
 DocInfo/PatchNote007=- Major unit balancing to allow longer game play.
@@ -307,6 +314,7 @@ DocInfo/ScreenshotHowToPlay05=Many tools exist to aid you in victory. Stronger u
 DocInfo/Website=https://www.reddit.com/r/zonecontrol
 Effect/Name/RetireStructure=Retire Structure
 Effect/Name/UnretireStructure=Unretire Structure
+Fixed: Positioning determined by lobby layout=
 Guass Rifle range: <d ref="Weapon,GuassRifle,Range[0]"/>=Guass Rifle range: <d ref="Weapon,GuassRifle,Range[0]"/>
 LoadingScreen/Tip= 
 MapInfo/Player00/Name=
@@ -341,11 +349,13 @@ Param/Value/4C6E8C81=Shared control is now <c val="008000">enabled </c>for all t
 Param/Value/4CECA4D5=Shared control is now <c val="FF0000">disabled </c>for all teammates.
 Param/Value/4D217C45=)
 Param/Value/4E4C49FD= 
+Param/Value/51F5A1BF=Playing as 1v1
 Param/Value/54674B9B=">+
 Param/Value/5BD76028=Shared control is now <c val="008000">enabled </c>for all teammates.
 Param/Value/5C72117E=team 
 Param/Value/63C0F234=Unsupported Bank Type
 Param/Value/64965991= is the runner up team with a peak performance of 
+Param/Value/66C5BD44=Playing as 2v2
 Param/Value/70EDA249=0
 Param/Value/75A0334C=<s val="BoardWarAppraiseBig1"><c val="FF8000">+</c><c val="FF9F00">1</c><c val="FFBF00">0</c><c val="FFDE00">0</c>
 Param/Value/77531E47= wins 
@@ -358,6 +368,7 @@ Param/Value/90E4AD59= has died
 Param/Value/911BE273= or Lose 
 Param/Value/95B92D04= (enemy Elo)
 Param/Value/97853DA3=<s val="BoardWarAppraiseBig1"><c val="
+Param/Value/9F53B43A=Playing as 1v1v1v1
 Param/Value/A4DBF220=2000
 Param/Value/AD714ED6=Win 
 Param/Value/B3C976A8=<s val="BoardWarAppraiseMid">
@@ -371,7 +382,7 @@ Param/Value/BDFC7C56=<c val="347600">teewfffwef </c> is dead
 Param/Value/C499AFB3=
 Param/Value/C6238D14=
 Param/Value/CE0871DE=<s val="BoardWarAppraiseMid">Win <c val="00FF00">+
-Param/Value/CFE0085C=Game is not full, Records and elo will not be modified.
+Param/Value/CFE0085C=Elo, records, and settings will not be updated for this game.
 Param/Value/D4783B0D=
 Param/Value/D6B9972F=Player (Elo Rating)
 Param/Value/D949A0BD= (
@@ -382,11 +393,13 @@ Param/Value/F1B2F557= has been defeated!
 Param/Value/FEC831E8=)
 Param/Value/FEEA8607=">+
 Param/Value/FEF10A99=<s val="BoardWarAppraiseBig1"><c val="0080FF">+</c><c val="0055FF">5</c><c val="002BFF">0</c>
+Random: Positioning is completely random=
 RequirementNode/Tooltip/204156726092=Max upgrade level.
 RequirementNode/Tooltip/CountUnitInfestedBunkerCompleteOnly4084108369=Have Mercenary Bunker.
 RequirementNode/Tooltip/CountUnitNukeCompleteOnly1541890172=No Nukes remaining.
 Structure already retired.=Structure already retired.
 Structure not retired.=Structure not retired.
+Tournament: Diagonal matchups are preserved.=
 Unit/InfoText/MineralCrystal=Collect 50 minerals.
 Unit/InfoText/NaturalMinerals=Collect 200 minerals.
 Unit/InfoText/PalletMinerals=Collect 100 minerals.
