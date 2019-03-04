@@ -1428,18 +1428,31 @@ void gf_AssignTeamLocations () {
 
     }
     if (((lv_mode == "0001") && (lv_min_team_size == lv_max_team_size) && (lv_min_team_size == 2) && (lv_lobby_current_team == 3))) {
-        UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/66C5BD44"));
         lv_mode = "0004";
     }
 
     if (((lv_mode == "0001") && (lv_min_team_size == lv_max_team_size) && (lv_min_team_size == 1) && (lv_lobby_current_team == 3))) {
-        UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/51F5A1BF"));
         lv_mode = "0005";
     }
 
     if (((lv_mode == "0001") && (lv_min_team_size == lv_max_team_size) && (lv_min_team_size == 1) && (lv_lobby_current_team == 5))) {
-        UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/9F53B43A"));
         lv_mode = "0003";
+    }
+
+    if (((lv_mode == "0002") && (lv_min_team_size == lv_max_team_size) && (lv_min_team_size == 2) && (lv_lobby_current_team == 3))) {
+        lv_mode = "0004";
+    }
+
+    if (((lv_mode == "0002") && (lv_min_team_size == lv_max_team_size) && (lv_min_team_size == 1) && (lv_lobby_current_team == 3))) {
+        lv_mode = "0005";
+    }
+
+    if (((lv_mode == "0004") && (lv_min_team_size == lv_max_team_size) && (lv_min_team_size == 1) && (lv_lobby_current_team == 3))) {
+        lv_mode = "0005";
+    }
+
+    if (((lv_mode == "0003") && (lv_min_team_size == lv_max_team_size) && (lv_min_team_size == 1) && (lv_lobby_current_team == 3))) {
+        lv_mode = "0005";
     }
 
     if ((lv_mode == "0001")) {
@@ -1494,6 +1507,7 @@ void gf_AssignTeamLocations () {
         lv_team_placement[2][0] = 2;
     }
     if ((lv_mode != GameAttributeGameValue("1"))) {
+        UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, (StringExternal("Param/Value/87B123E0") + StringToText(gv_game_mode_string)));
         gv_mode_downgraded = true;
     }
 
