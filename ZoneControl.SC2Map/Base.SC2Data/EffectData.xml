@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectDamage id="AdeptDamage">
+        <Amount value="50"/>
+        <AttributeBonus index="Light" value="25"/>
+        <AttributeBonus index="Structure" value="50"/>
+    </CEffectDamage>
+    <CEffectDamage id="AutoTurret">
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CEffectCreateUnit id="AutoTurretRelease">
+        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
+    </CEffectCreateUnit>
+    <CEffectDamage id="C10CanisterRifle">
+        <AttributeBonus index="Armored" value="10"/>
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CEffectCreateUnit id="CalldownMULECreateUnit">
+        <SpawnUnit value="SCV"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="CalldownMULEFinalSet">
+        <EffectArray index="1" value="CalldownMULEIssueOrder"/>
+        <EffectArray index="2" removed="1"/>
+    </CEffectSet>
+    <CEffectDamage id="ColossusPurifierThermalLancesDamage">
+        <Amount value="80"/>
+        <AttributeBonus index="Structure" value="1000"/>
+    </CEffectDamage>
+    <CEffectDamage id="CrucioShockCannonBlast">
+        <AttributeBonus index="Armored" value="0"/>
+        <AttributeBonus index="Mechanical" value="5220"/>
+        <AttributeBonus index="Structure" value="5220"/>
+        <Amount value="280"/>
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <SearchFilters value="Ground;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CEffectDamage>
+    <CEffectDamage id="CrucioShockCannonDirected">
+        <AttributeBonus index="Armored" value="0"/>
+        <AttributeBonus index="Mechanical" value="5220"/>
+        <AttributeBonus index="Structure" value="5220"/>
+        <Amount value="280"/>
+    </CEffectDamage>
+    <CEffectDamage id="CrucioShockCannonDummy">
+        <AttributeBonus index="Armored" value="0"/>
+        <AttributeBonus index="Mechanical" value="5220"/>
+        <AttributeBonus index="Structure" value="5220"/>
+        <Amount value="280"/>
+    </CEffectDamage>
+    <CEffectDamage id="D8ChargeDamage">
+        <Amount value="125"/>
+    </CEffectDamage>
+    <CEffectDamage id="DragoonDamage">
+        <AttributeBonus index="Armored" value="10"/>
+        <Amount value="65"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="GuardianShieldPersistent">
+        <PeriodCount value="65535"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="GuardianShieldSearch">
+        <AreaArray index="0" Radius="10.5" Effect="GuardianShieldApplyBehavior"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="GuassRifle">
+        <Amount value="30"/>
+    </CEffectDamage>
+    <CEffectDamage id="HammerSecurityDamage">
+        <AttributeBonus index="Armored" value="30"/>
+        <Amount value="55"/>
+    </CEffectDamage>
+    <CEffectDamage id="ImmortalSplashDamage">
+        <AttributeBonus index="Armored" value="0"/>
+        <Amount value="0"/>
+    </CEffectDamage>
+    <CEffectRemoveBehavior id="ImmortalTaldarimMissileSpeedStackRB">
+        <Count value="8"/>
+    </CEffectRemoveBehavior>
+    <CEffectDamage id="ImmortalTaldarimWeaponDamage">
+        <AttributeBonus index="Armored" value="0"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="ImmortalTaldarimWeaponSearch">
+        <AreaArray index="0" Radius="0.5" Effect="ImmortalTaldarimWeaponDamageSet"/>
+    </CEffectEnumArea>
+    <!--    <CEffectLaunchMissile id="HammerSecurityLMOne">-->
+    <!--        <EditorCategories value="Race:Terran"/>-->
+    <!--        <ImpactEffect value="HammerSecuritySet"/>-->
+    <!--        <Movers Link="MarauderWeapon"/>-->
+    <!--        <AmmoUnit value="HammerSecurityLMWeapon"/>-->
+    <!--    </CEffectLaunchMissile>-->
+    <!--    <CEffectLaunchMissile id="HammerSecurityLMTwo">-->
+    <!--        <EditorCategories value="Race:Terran"/>-->
+    <!--        <ImpactEffect value="HammerSecuritySet"/>-->
+    <!--        <Movers Link="MarauderWeapon"/>-->
+    <!--        <AmmoUnit value="HammerSecurityLMWeapon"/>-->
+    <!--    </CEffectLaunchMissile> -->
+    <!--    <CEffectSet id="HammerSecuritySet">-->
+    <!--        <EditorCategories value="Race:Terran"/>-->
+    <!--        <EffectArray value="PunisherGrenadesSlow"/>-->
+    <!--        <EffectArray value="HammerSecuritySlowAOE"/>-->
+    <!--        <EffectArray value="HammerSecurityDamage"/>-->
+    <!--    </CEffectSet> -->
+    <!--    <CEffectEnumArea id="HammerSecuritySlowAOE">-->
+    <!--        <EditorCategories value="Race:Terran"/>-->
+    <!--        <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+    <!--        <AreaArray Radius="1" Effect="PunisherGrenadesSlow"/>-->
+    <!--        <ExcludeArray Value="Target"/>-->
+    <!--        <ValidatorArray value="JackhammerConcussionGrenadesPurchased"/>-->
+    <!--    </CEffectEnumArea> -->
+    <CEffectDamage id="KelmorianMinerDamage">
+        <Amount value="35"/>
+    </CEffectDamage>
+    <CEffectDamage id="MercReaperD8ChargeDamage">
+        <Amount value="150"/>
+    </CEffectDamage>
+    <CEffectDamage id="MercReaperP38ScytheGuassPistol">
+        <AttributeBonus index="Light" value="10"/>
+        <Amount value="16"/>
+    </CEffectDamage>
+    <CEffectDamage id="MothershipCoreRepulsorCannonDamage">
+        <Amount value="60"/>
+    </CEffectDamage>
+    <CEffectDamage id="NukeDamage">
+        <AttributeBonus index="Structure" value="2500"/>
+        <Amount value="5000"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="NukePersistent">
+        <InitialDelay value="0"/>
+        <PeriodCount value="0"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="P38ScytheGuassPistol">
+        <Amount value="14"/>
+        <AttributeBonus index="Light" value="7"/>
+    </CEffectDamage>
+    <CEffectDamage id="ParticleDisruptorsU">
+        <AttributeBonus index="Armored" value="10"/>
+        <Amount value="45"/>
+    </CEffectDamage>
+    <CEffectDamage id="PhaseDisruptors">
+        <AttributeBonus index="Armored" value="0"/>
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CEffectDamage id="PhaseDisruptorsStrafeDamage">
+        <AttributeBonus index="Armored" value="0"/>
+        <Amount value="80"/>
+    </CEffectDamage>
+    <CEffectDamage id="PhotonCannonU">
+        <Amount value="80"/>
+    </CEffectDamage>
+    <CEffectModifyPlayer id="PickupEX2Gas50">
+        <Resources index="Minerals" value="50"/>
+        <Resources index="Vespene" value="0"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="PickupGas25">
+        <Resources index="Minerals" value="50"/>
+        <Resources index="Vespene" value="0"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="PickupMinerals100">
+        <Resources index="Minerals" value="0"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="PickupMinerals106">
+        <EditorCategories value=""/>
+        <Resources index="Minerals" value="50"/>
+    </CEffectModifyPlayer>
+    <CEffectSet id="PickupMinerals100Set">
+        <EffectArray index="0" value="PickupRemoveDelay"/>
+        <EffectArray index="1" value="PickupMinerals100"/>
+    </CEffectSet>
+    <CEffectSet id="PickupMinerals100Set2">
+        <EditorCategories value=""/>
+        <EffectArray value="PickupRemoveDelay"/>
+        <EffectArray value="PickupMinerals106"/>
+    </CEffectSet>
+    <CEffectModifyPlayer id="PickupMinerals250">
+        <Resources index="Minerals" value="200"/>
+    </CEffectModifyPlayer>
+    <CEffectDamage id="PsiBlades">
+        <Amount value="60"/>
+        <AttributeBonus index="Structure" value="25"/>
+    </CEffectDamage>
+    <CEffectDamage id="PsionicShockwaveDamage">
+        <AttributeBonus index="Armored" value="30"/>
+        <AttributeBonus index="Biological" value="0"/>
+        <Amount value="100"/>
+    </CEffectDamage>
+    <CEffectDamage id="PunisherGrenadesU">
+        <AttributeBonus index="Armored" value="25"/>
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="RetireStructure">
+        <ValidatorArray index="0" value="RetireStructure"/>
+        <EditorCategories value=""/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="SalvageDeath">
+        <ValidatorArray value="HasNoCargo"/>
+        <ValidatorArray value="CasterLifeFull"/>
+    </CEffectDamage>
+    <CEffectCreateHealer id="ShieldBatteryRechargeChanneled">
+        <ValidatorArray value="NotStructureandNotDetector"/>
+    </CEffectCreateHealer>
+    <CEffectDamage id="SiegeBreakerDamage">
+        <AttributeBonus index="Armored" value="0"/>
+        <Amount value="420"/>
+    </CEffectDamage>
+    <CEffectDamage id="SpecterU">
+        <AttributeBonus index="Light" value="15"/>
+        <AttributeBonus index="Armored" value="15"/>
+        <Amount value="60"/>
+    </CEffectDamage>
+    <!--CEffectDamage id="StalkerSecondaryDamage" parent="DU_WEAP_MISSILE">-->
+    <!--        <EditorCategories value="Race:Protoss"/>-->
+    <!--        <Amount value="3"/>-->
+    <!--        <AttributeBonus index="Armored" value="1"/>-->
+    <!--    </CEffectDamage-->
+    <CEffectDamage id="StalkerEntropyLanceSecondaryDamage">
+        <Amount value="10"/>
+    </CEffectDamage>
+    <CEffectDamage id="TalisDamage">
+        <Amount value="60"/>
+        <AttributeBonus index="Light" value="25"/>
+        <AttributeBonus index="Armored" value="-10"/>
+        <AttributeBonus index="Structure" value="90"/>
+    </CEffectDamage>
+    <CEffectDamage id="TempestDamageGround">
+        <Amount value="120"/>
+    </CEffectDamage>
+    <CEffectDamage id="ThermalLancesFireBeamDamage">
+        <AttributeBonus index="Structure" value="300"/>
+        <Amount value="40"/>
+    </CEffectDamage>
+    <CEffectDamage id="ThermalLancesFriendlyDamage">
+        <AttributeBonus index="Structure" value="1000"/>
+        <Amount value="80"/>
+    </CEffectDamage>
+    <CEffectDamage id="ThermalLancesMU">
+        <Amount value="80"/>
+        <AttributeBonus index="Structure" value="1000"/>
+    </CEffectDamage>
+    <CEffectRemoveBehavior id="UnretireStructure">
+        <ValidatorArray index="0" value="UnretireStructure"/>
+        <EditorCategories value=""/>
+        <BehaviorLink value="RetireStructure"/>
+    </CEffectRemoveBehavior>
+    <!--CEffectCreateHealer id="SentryShieldRepairDoubleHeal">-->
+    <!--        <EditorCategories value="Race:Protoss"/>-->
+    <!--        <DrainVital value="Energy"/>-->
+    <!--        <DrainVitalCostFactor value="0.33"/>-->
+    <!--        <RechargeVital value="Shields"/>-->
+    <!--        <RechargeVitalRate value="9"/>-->
+    <!--        <Marker>-->
+    <!--            <MatchFlags index="Link" value="1"/>-->
+    <!--        </Marker>-->
+    <!--        <InitialEffect value="SentryShieldRepairDoubleApplyBehavior"/>-->
+    <!--        <ExpireEffect value="SentryShieldRepairDoubleRemoveBehavior"/>-->
+    <!--        <FinalEffect value="SentryShieldRepairDoubleRemoveBehavior"/>-->
+    <!--    </CEffectCreateHealer>-->
+    <!--    <CEffectCreateHealer id="SentryShieldRepairDoubleSecondHeal">-->
+    <!--        <EditorCategories value="Race:Protoss"/>-->
+    <!--        <DrainVital value="Energy"/>-->
+    <!--        <DrainVitalCostFactor value="0.33"/>-->
+    <!--        <RechargeVital value="Shields"/>-->
+    <!--        <RechargeVitalRate value="9"/>-->
+    <!--        <Marker Link="Effect/SentryShieldRepairDoubleHeal">-->
+    <!--            <MatchFlags index="Link" value="1"/>-->
+    <!--        </Marker>-->
+    <!--        <Flags index="Channeled" value="0"/>-->
+    <!--        <PeriodCount value="4"/>-->
+    <!--    </CEffectCreateHealer>-->
+    <!--    <CEffectEnumArea id="SentryShieldRepairDoubleSearch">-->
+    <!--        <EditorCategories value="Race:Protoss"/>-->
+    <!--        <SearchFilters value="Visible;Self,Enemy,Structure,Missile,Uncommandable,UnderConstruction,Dead,Hidden,Invulnerable"/>-->
+    <!--        <AreaArray>-->
+    <!--            <Arc value="180"/>-->
+    <!--            <MaxCount value="1"/>-->
+    <!--            <Radius value="4"/>-->
+    <!--            <Effect value="SentryShieldRepairDoubleSecondPersistent"/>-->
+    <!--        </AreaArray>-->
+    <!--        <MaxCount value="1"/>-->
+    <!--        <ExcludeArray Value="Target"/>-->
+    <!--        <ImpactLocation Value="CasterUnit"/>-->
+    <!--        <LaunchLocation Value="CasterUnit"/>-->
+    <!--    </CEffectEnumArea>-->
+    <!--    <CEffectCreatePersistent id="SentryShieldRepairDoublePersistent">-->
+    <!--        <WhichLocation Value="TargetUnit"/>-->
+    <!--        <Flags index="Channeled" value="1"/>-->
+    <!--        <Flags index="PersistUntilDestroyed" value="1"/>-->
+    <!--        <InitialEffect value="SentryShieldRepairDoubleHeal"/>-->
+    <!--        <PeriodicEffectArray value="SentryShieldRepairDoubleSearch"/>-->
+    <!--        <PeriodicPeriodArray value="0.25"/>-->
+    <!--        <ValidatorArray value="ShieldsNotFull"/>-->
+    <!--        <ValidatorArray value="NotWarpingIn"/>-->
+    <!--        <ValidatorArray value="HiddenCompareAB"/>-->
+    <!--        <ValidatorArray value="HiddenCompareBA"/>-->
+    <!--        <ValidatorArray value="NotVortexd"/>-->
+    <!--        <ValidatorArray value="NotUncommandable"/>-->
+    <!--        <ValidatorArray value="SourceNotHidden"/>-->
+    <!--        <ValidatorArray value="NotInterceptor"/>-->
+    <!--        <ValidatorArray value="TargetIsNotBeingRepairedBySentry"/>-->
+    <!--        <Marker>-->
+    <!--            <MatchFlags index="Link" value="1"/>-->
+    <!--        </Marker>-->
+    <!--        <PeriodicValidator value="SentryPeriodicHealingValidator"/>-->
+    <!--    </CEffectCreatePersistent>-->
+    <!--    <CEffectCreatePersistent id="SentryShieldRepairDoubleSecondPersistent">-->
+    <!--        <ValidatorArray value="ShieldsNotFull"/>-->
+    <!--        <ValidatorArray value="NotWarpingIn"/>-->
+    <!--        <ValidatorArray value="HiddenCompareAB"/>-->
+    <!--        <ValidatorArray value="HiddenCompareBA"/>-->
+    <!--        <ValidatorArray value="NotVortexd"/>-->
+    <!--        <ValidatorArray value="NotUncommandable"/>-->
+    <!--        <ValidatorArray value="SourceNotHidden"/>-->
+    <!--        <ValidatorArray value="NotInterceptor"/>-->
+    <!--        <ValidatorArray value="TargetIsNotBeingRepairedBySentry"/>-->
+    <!--        <WhichLocation Value="TargetUnit"/>-->
+    <!--        <InitialEffect value="SentryShieldRepairDoubleSecondHeal"/>-->
+    <!--        <PeriodCount value="3"/>-->
+    <!--        <PeriodicEffectArray value="SentryShieldRepairDoubleImpactDummy"/>-->
+    <!--        <PeriodicEffectArray value="SentryShieldRepairDoubleApplyBehavior"/>-->
+    <!--        <PeriodicEffectArray value="SentryShieldRepairDoubleRemoveBehavior"/>-->
+    <!--        <PeriodicPeriodArray value="0"/>-->
+    <!--        <PeriodicPeriodArray value="0"/>-->
+    <!--        <PeriodicPeriodArray value="0.20"/>-->
+    <!--    </CEffectCreatePersistent>-->
+    <!--    <CEffectApplyBehavior id="SentryShieldRepairDoubleApplyBehavior">-->
+    <!--        <EditorCategories value="Race:Protoss"/>-->
+    <!--        <Behavior value="SentryShieldRepairDoubleHealing"/>-->
+    <!--    </CEffectApplyBehavior>-->
+    <!--    <CEffectRemoveBehavior id="SentryShieldRepairDoubleRemoveBehavior">-->
+    <!--        <EditorCategories value="Race:Protoss"/>-->
+    <!--        <BehaviorLink value="SentryShieldRepairDoubleHealing"/>-->
+    <!--    </CEffectRemoveBehavior>-->
+    <!--    <CEffectModifyUnit id="SentryShieldRepairDoubleImpactDummy"/-->
+    <CEffectCreateHealer id="VoidSentryShieldRepairDouble">
+        <RechargeVitalRate value="12"/>
+        <!-- cannot validate the behavior in the healer, it toggles on and off quickly as the behavior is applied and removed -->
+        <!--ValidatorArray value="TargetNotBeingHealed"/-->
+    </CEffectCreateHealer>
+    <CEffectDamage id="VoidZealotWhirlwindDamage">
+        <AttributeBonus index="Armored" value="3"/>
+        <Amount value="6"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="VoidZealotWhirlwindMoveSearch">
+        <AreaArray index="0" MaxCount="1" Radius="2" Effect="VoidZealotWhirlwindMoveCP"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="VoidZealotWhirlwindSearch">
+        <AreaArray index="0" Radius="1" Effect="VoidZealotWhirlwindDamage"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="ZealotAiurWeapon">
+        <Amount value="60"/>
+        <AttributeBonus index="Structure" value="50"/>
+    </CEffectDamage>
+    <CEffectCreateHealer id="heal">
+        <RechargeVitalRate value="11"/>
+    </CEffectCreateHealer>
+</Catalog>
