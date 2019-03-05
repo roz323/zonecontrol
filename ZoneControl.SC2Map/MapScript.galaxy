@@ -1380,7 +1380,7 @@ void gf_AssignTeamLocations () {
     playergroup auto41ED98CC_g;
     int autoE690D0A1_ae;
     const int autoE690D0A1_ai = 1;
-    const int autoC43E3F6E_ae = 15;
+    const int autoC43E3F6E_ae = 8;
     const int autoC43E3F6E_ai = 1;
     const int autoC52415DB_ae = 5;
     const int autoC52415DB_ai = 1;
@@ -1517,9 +1517,9 @@ void gf_AssignTeamLocations () {
         for ( ; ( (autoE690D0A1_ai >= 0 && lv_team <= autoE690D0A1_ae) || (autoE690D0A1_ai < 0 && lv_team >= autoE690D0A1_ae) ) ; lv_team += autoE690D0A1_ai ) {
             TriggerDebugOutput(1, IntToText(lv_team), true);
             while ((lv_lobby_team_size[lv_team] < gv_players_per_team)) {
-                lv_player = 0;
+                lv_player = 1;
                 for ( ; ( (autoC43E3F6E_ai >= 0 && lv_player <= autoC43E3F6E_ae) || (autoC43E3F6E_ai < 0 && lv_player >= autoC43E3F6E_ae) ) ; lv_player += autoC43E3F6E_ai ) {
-                    if (((lv_lobby_player_has_team[lv_player] == false) && (GameAttributePlayerValue("11", lv_player) == "0001"))) {
+                    if (((lv_lobby_player_has_team[lv_player] == false))) {
                         lv_lobby_teams[lv_team][lv_lobby_team_size[lv_team]] = lv_player;
                         lv_lobby_team_size[lv_team] = (lv_lobby_team_size[lv_team] + 1);
                         lv_lobby_player_has_team[lv_player] = true;
@@ -2019,7 +2019,7 @@ void gf_ShowFinalStandings (int lp_winning_team) {
 void gf_ShowCorrectLeaderboard (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
-    if ((BankValueGetAsFlag(gv_banks[lp_player], "Player", "use_team_leaderboard") == true)) {
+    if (((PlayerType(lp_player) == c_playerTypeNeutral) || (BankValueGetAsFlag(gv_banks[lp_player], "Player", "use_team_leaderboard") == true))) {
         DialogSetVisible(gv_teamLeaderboard, PlayerGroupSingle(lp_player), true);
         DialogSetVisible(gv_playerLeaderboard, PlayerGroupSingle(lp_player), false);
     }
@@ -2065,6 +2065,7 @@ void gf_LeaderboardInit () {
     gv_playerLeaderboard = DialogLastCreated();
     DialogSetImageVisible(gv_teamLeaderboard, false);
     DialogSetImageVisible(gv_playerLeaderboard, false);
+    gf_ShowCorrectLeaderboard(0);
     auto5FBD3F8B_g = gv_all_players;
     lv_player = -1;
     while (true) {
@@ -2900,7 +2901,7 @@ void gt_Control_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_bnjdwyewcfaelyrh;
+    int lv_qpvptjpdkmrkjdxs;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -2920,11 +2921,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_bnjdwyewcfaelyrh = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_bnjdwyewcfaelyrh <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_bnjdwyewcfaelyrh >= autoA9265719_ae) ) ; lv_bnjdwyewcfaelyrh += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_bnjdwyewcfaelyrh])) {
+        lv_qpvptjpdkmrkjdxs = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_qpvptjpdkmrkjdxs <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_qpvptjpdkmrkjdxs >= autoA9265719_ae) ) ; lv_qpvptjpdkmrkjdxs += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_qpvptjpdkmrkjdxs])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_bnjdwyewcfaelyrh]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_qpvptjpdkmrkjdxs]), c_orderQueueReplace);
                 }
 
             }
@@ -3099,7 +3100,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_gynwhwvwbtdyiprh;
+    int lv_mtftkhxwjjpbohpa;
     int lv_player;
     int lv_ally;
 
@@ -3123,10 +3124,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_gynwhwvwbtdyiprh = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_gynwhwvwbtdyiprh <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_gynwhwvwbtdyiprh >= autoFC6C6804_ae) ) ; lv_gynwhwvwbtdyiprh += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_gynwhwvwbtdyiprh], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_gynwhwvwbtdyiprh], PlayerGroupSingle(lv_player), true);
+            lv_mtftkhxwjjpbohpa = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_mtftkhxwjjpbohpa <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_mtftkhxwjjpbohpa >= autoFC6C6804_ae) ) ; lv_mtftkhxwjjpbohpa += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_mtftkhxwjjpbohpa], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_mtftkhxwjjpbohpa], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
