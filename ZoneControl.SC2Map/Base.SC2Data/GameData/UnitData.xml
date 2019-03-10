@@ -16,6 +16,7 @@
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
+        <LifeRegenRate value="1"/>
     </CUnit>
     <CUnit id="AutoTurret">
         <LifeStart value="7000"/>
@@ -111,7 +112,6 @@
     </CUnit>
     <CUnit id="Colossus">
         <Attributes index="Massive" value="0"/>
-        <Attributes index="Structure" value="1"/>
         <LifeStart value="6000"/>
         <LifeMax value="6000"/>
         <LifeArmor value="5"/>
@@ -119,7 +119,7 @@
         <ShieldsMax value="5000"/>
         <ShieldRegenDelay value="0"/>
         <ShieldRegenRate value="8"/>
-        <Food value="-5"/>
+        <Food value="0"/>
         <CostResource index="Vespene" value="0"/>
         <Footprint value="Footprint4x4Contour"/>
         <PlacementFootprint value="Footprint4x4"/>
@@ -127,6 +127,11 @@
         <KillResource index="Minerals" value="875"/>
         <ScoreKill value="875"/>
         <EquipmentArray Weapon="ShieldRegen"/>
+        <Collide index="Structure" value="0"/>
+        <AbilArray Link="BuildInProgress"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+        </CardLayouts>
     </CUnit>
     <CUnit id="CommandCenter">
         <AbilArray index="7" Link="ScannerSweep"/>
@@ -137,7 +142,7 @@
         <LifeStart value="300"/>
         <LifeMax value="300"/>
         <LifeArmor value="4"/>
-        <LifeRegenRate value="0.6992"/>
+        <LifeRegenRate value="1.1992"/>
         <ShieldsStart value="200"/>
         <ShieldsMax value="200"/>
         <ShieldRegenDelay value="1"/>
@@ -410,6 +415,7 @@
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
+        <BehaviorArray index="0" removed="1"/>
     </CUnit>
     <CUnit id="ImmortalAiur">
         <LifeStart value="350"/>
@@ -427,6 +433,9 @@
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
         <AbilArray index="5" removed="1"/>
+        <KillResource index="Minerals" value="35"/>
+        <ScoreMake value="0"/>
+        <ScoreKill value="35"/>
     </CUnit>
     <CUnit id="InfestedBunker">
         <LifeStart value="55000"/>
@@ -644,7 +653,7 @@
             <LayoutButtons index="3" removed="1"/>
             <LayoutButtons index="4" removed="1"/>
         </CardLayouts>
-        <Food value="5"/>
+        <Food value="6"/>
         <LifeStart value="7000"/>
         <LifeMax value="7000"/>
         <LifeRegenRate value="5"/>
@@ -960,7 +969,7 @@
         <LifeStart value="250"/>
         <LifeMax value="250"/>
         <LifeArmor value="4"/>
-        <LifeRegenRate value="0.6015"/>
+        <LifeRegenRate value="1.1015"/>
         <ShieldsStart value="150"/>
         <ShieldsMax value="150"/>
         <ShieldRegenDelay value="0"/>
@@ -1042,6 +1051,10 @@
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
+        <LifeRegenRate value="1.0507"/>
+    </CUnit>
+    <CUnit id="TempestWeaponGround">
+        <Height value="1.76"/>
     </CUnit>
     <CUnit id="WarPig">
         <CostResource index="Minerals" value="10"/>
@@ -1059,7 +1072,7 @@
         <FlagArray index="IgnoreAttackAlert" value="1"/>
     </CUnit>
     <CUnit id="WarpGate">
-        <BehaviorArray index="1" Link="Purify"/>
+        <BehaviorArray index="1" removed="1"/>
         <CardLayouts index="0">
             <LayoutButtons index="0" Face="" Type="Undefined" AbilCmd=""/>
             <LayoutButtons index="1" Face="" Type="Undefined" AbilCmd="" Column="0"/>
@@ -1069,7 +1082,7 @@
             <LayoutButtons index="5" Face="Rally" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
             <LayoutButtons index="6" Face="Attack" AbilCmd="attack,Execute" Column="4"/>
             <LayoutButtons index="7" Face="UnretireStructure" Type="AbilCmd" AbilCmd="UnretireStructure,Execute" Row="2" Column="3"/>
-            <LayoutButtons index="8" Face="RetireStructure" Type="AbilCmd" AbilCmd="RetireStructure,255" Row="2" Column="2"/>
+            <LayoutButtons index="8" Face="RetireStructure" Type="AbilCmd" AbilCmd="RetireStructure,Execute" Row="2" Column="2"/>
             <LayoutButtons index="9" removed="1"/>
             <LayoutButtons index="10" removed="1"/>
             <LayoutButtons index="11" removed="1"/>
@@ -1094,9 +1107,9 @@
     <CUnit id="Zealot">
         <LifeStart value="200"/>
         <LifeMax value="200"/>
-        <LifeRegenRate value="0.3007"/>
-        <ShieldsStart value="250"/>
-        <ShieldsMax value="250"/>
+        <LifeRegenRate value="1"/>
+        <ShieldsStart value="200"/>
+        <ShieldsMax value="200"/>
         <ShieldRegenDelay value="0"/>
         <ShieldRegenRate value="0.5"/>
         <ScoreMake value="0"/>
@@ -1107,16 +1120,17 @@
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
+        <Radius value="0.5625"/>
     </CUnit>
     <!-- Zealot, whirlwind -->
     <CUnit id="ZealotAiur">
-        <LifeStart value="250"/>
-        <LifeMax value="250"/>
+        <LifeStart value="200"/>
+        <LifeMax value="200"/>
         <ShieldsStart value="250"/>
         <ShieldsMax value="250"/>
         <ScoreKill value="15"/>
         <LifeArmor value="3"/>
-        <LifeRegenRate value="0.3007"/>
+        <LifeRegenRate value="1.0507"/>
         <Speed value="2.3085"/>
         <KillResource index="Minerals" value="20"/>
         <ScoreMake value="0"/>

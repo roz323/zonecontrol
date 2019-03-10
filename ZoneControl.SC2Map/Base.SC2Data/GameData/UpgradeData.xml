@@ -354,7 +354,7 @@
         <EffectArray index="75" Operation="Set" Reference="Weapon,DarkArchonWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
         <EffectArray index="76" Operation="Add" Reference="Effect,ImmortalTaldarimWeaponDamage,Amount" Value="1"/>
         <EffectArray index="77" Reference="Effect,ImmortalTaldarimWeaponDamage,AttributeBonus[Armored]" Value="1.000000"/>
-        <EffectArray index="78" Reference="Weapon,ImmortalTaldarim,Level" Value="1"/>
+        <EffectArray index="78" Reference="Weapon,ImmortalAiur,Level" Value="1"/>
         <EffectArray index="79" Operation="Set" Reference="Weapon,ImmortalTaldarim,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
         <EffectArray index="80" Reference="Weapon,AnnihilatorParticleDisruptors,Level" Value="1"/>
         <EffectArray index="81" Operation="Set" Reference="Weapon,AnnihilatorParticleDisruptors,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
@@ -365,8 +365,8 @@
         <EffectArray index="86" Reference="Effect,SanitizationBeamDamage,Amount" Value="1"/>
         <EffectArray index="87" Operation="Add" Reference="Weapon,PhotonCannon,Level" Value="1"/>
         <EffectArray index="88" Operation="Set" Reference="Weapon,AvengerWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
-        <EffectArray index="89" Reference="Effect,AvengerWeapon,Amount" Value="5"/>
-        <EffectArray index="90" Reference="Weapon,AscendantWeapon,Level" Value="1"/>
+        <EffectArray index="89" Reference="Effect,PhaseDisruptorsStrafeDamage,Amount" Value="2"/>
+        <EffectArray index="90" Reference="Weapon,PhaseDisruptorsStrafe,Level" Value="1"/>
         <EffectArray index="91" Operation="Set" Reference="Weapon,AscendantWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
         <EffectArray index="92" Reference="Effect,AscendantWeaponDamage,Amount" Value="1"/>
         <EffectArray index="93" Reference="Weapon,CenturionWarpBlades,Level" Value="1"/>
@@ -843,7 +843,7 @@
     </CUpgrade>
     <CUpgrade id="UnknownUpgrade2">
         <EffectArray Operation="Subtract" Reference="Abil,PhaseCannon,Cost[0].Cooldown.TimeUse" Value="1.350000"/>
-        <EffectArray Reference="Behavior,PhaseCannonTimedLife,Duration" Value="11.000000"/>
+        <EffectArray Reference="Behavior,PhaseCannonTimedLife,Duration" Value="6.000000"/>
         <EffectArray Reference="Abil,UnknownAbility2,InfoArray[Research1].Resource[Minerals]" Value="50"/>
         <EffectArray Reference="Weapon,CannonThingy,Level" Value="1"/>
         <MaxLevel value="20"/>
@@ -874,8 +874,8 @@
     </CUpgrade>
     <CUpgrade id="UpgradeBaseWeapon">
         <EffectArray Reference="Weapon,TempestGround,Level" Value="1"/>
-        <EffectArray Reference="Effect,TempestDamageGround,Amount" Value="2"/>
-        <EffectArray Reference="Weapon,TempestGround,RateMultiplier" Value="0.04"/>
+        <EffectArray Reference="Effect,TempestDamageGround,Amount" Value="8"/>
+        <EffectArray Reference="Weapon,TempestGround,RateMultiplier" Value="0.08"/>
         <EffectArray Reference="Abil,1StrucureDMGSPEED,InfoArray[Research1].Resource[Minerals]" Value="50"/>
         <MaxLevel value="20"/>
     </CUpgrade>

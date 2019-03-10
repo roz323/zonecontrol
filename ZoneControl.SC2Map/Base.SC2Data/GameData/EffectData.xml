@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
     <CEffectDamage id="AdeptDamage">
-        <Amount value="50"/>
+        <Amount value="40"/>
         <AttributeBonus index="Light" value="25"/>
-        <AttributeBonus index="Structure" value="50"/>
+        <AttributeBonus index="Structure" value="100"/>
     </CEffectDamage>
     <CEffectDamage id="AutoTurret">
         <Amount value="50"/>
@@ -51,7 +51,7 @@
     </CEffectDamage>
     <CEffectDamage id="DragoonDamage">
         <AttributeBonus index="Armored" value="10"/>
-        <Amount value="65"/>
+        <Amount value="70"/>
     </CEffectDamage>
     <CEffectCreatePersistent id="GuardianShieldPersistent">
         <PeriodCount value="65535"/>
@@ -70,6 +70,9 @@
         <AttributeBonus index="Armored" value="0"/>
         <Amount value="0"/>
     </CEffectDamage>
+    <CEffectSet id="ImmortalSplashSet">
+        <EffectArray index="1" removed="1"/>
+    </CEffectSet>
     <CEffectRemoveBehavior id="ImmortalTaldarimMissileSpeedStackRB">
         <Count value="8"/>
     </CEffectRemoveBehavior>
@@ -131,11 +134,11 @@
     </CEffectDamage>
     <CEffectDamage id="ParticleDisruptorsU">
         <AttributeBonus index="Armored" value="10"/>
-        <Amount value="45"/>
+        <Amount value="60"/>
     </CEffectDamage>
     <CEffectDamage id="PhaseDisruptors">
         <AttributeBonus index="Armored" value="0"/>
-        <Amount value="50"/>
+        <Amount value="70"/>
     </CEffectDamage>
     <CEffectDamage id="PhaseDisruptorsStrafeDamage">
         <AttributeBonus index="Armored" value="0"/>
@@ -143,6 +146,7 @@
     </CEffectDamage>
     <CEffectDamage id="PhotonCannonU">
         <Amount value="80"/>
+        <Death value="Blast"/>
     </CEffectDamage>
     <CEffectModifyPlayer id="PickupEX2Gas50">
         <Resources index="Minerals" value="50"/>
@@ -172,8 +176,8 @@
         <Resources index="Minerals" value="200"/>
     </CEffectModifyPlayer>
     <CEffectDamage id="PsiBlades">
-        <Amount value="60"/>
-        <AttributeBonus index="Structure" value="25"/>
+        <Amount value="30"/>
+        <AttributeBonus index="Structure" value="40"/>
     </CEffectDamage>
     <CEffectDamage id="PsionicShockwaveDamage">
         <AttributeBonus index="Armored" value="30"/>
@@ -210,13 +214,12 @@
     <!--        <AttributeBonus index="Armored" value="1"/>-->
     <!--    </CEffectDamage-->
     <CEffectDamage id="StalkerEntropyLanceSecondaryDamage">
-        <Amount value="10"/>
+        <Amount value="0"/>
     </CEffectDamage>
     <CEffectDamage id="TalisDamage">
-        <Amount value="60"/>
+        <Amount value="40"/>
         <AttributeBonus index="Light" value="25"/>
-        <AttributeBonus index="Armored" value="-10"/>
-        <AttributeBonus index="Structure" value="90"/>
+        <AttributeBonus index="Structure" value="100"/>
     </CEffectDamage>
     <CEffectDamage id="TempestDamageGround">
         <Amount value="120"/>
@@ -344,7 +347,7 @@
     </CEffectEnumArea>
     <CEffectDamage id="ZealotAiurWeapon">
         <Amount value="60"/>
-        <AttributeBonus index="Structure" value="50"/>
+        <AttributeBonus index="Structure" value="85"/>
     </CEffectDamage>
     <CEffectCreateHealer id="heal">
         <RechargeVitalRate value="11"/>
