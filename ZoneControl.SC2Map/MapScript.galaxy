@@ -1088,7 +1088,9 @@ trigger gt_ComputeStandings;
 trigger gt_ShowStandings;
 trigger gt_ToggleLeaderboard;
 trigger gt_LeaderboardPeriodicRefresh;
+trigger gt_UntitledTrigger001;
 trigger gt_TeamInfoTrackUpgrades;
+trigger gt_RefreshTeamInfoMins;
 trigger gt_UpdateTeamInfo;
 trigger gt_ShardCollected;
 trigger gt_ShardSpawn;
@@ -3684,11 +3686,15 @@ void gt_Elo_Init () {
 // Trigger: ComputeStandings
 //--------------------------------------------------------------------------------------------------
 bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
+    int init_i;
+
     // Variable Declarations
+    fixed lv_denominator;
+    int lv_opponent_total_score;
+    fixed[5] lv_num_players_on_team;
+    fixed lv_num_players;
     fixed lv_num_teams;
-    fixed[5] lv_num_teams_for_winning_team;
     fixed[5] lv_team_scores_with_nuke_bonus;
-    fixed[5][5] lv_team_scores_with_nuke_bonus_for_winning_team;
     fixed lv_total_score;
     fixed[5] lv_total_score_for_winning_team;
     int lv_team;
@@ -3697,18 +3703,17 @@ bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
 
     // Automatic Variable Declarations
     playergroup auto8F014B60_g;
-    const int auto32B39109_ae = 3;
-    const int auto32B39109_ai = 1;
     const int auto9335F831_ae = 3;
     const int auto9335F831_ai = 1;
-    const int autoF1D30EF4_ae = 3;
-    const int autoF1D30EF4_ai = 1;
     const int auto494C091A_ae = 3;
     const int auto494C091A_ai = 1;
     const int auto64136BF7_ae = 3;
     const int auto64136BF7_ai = 1;
 
     // Variable Initialization
+    for (init_i = 0; init_i <= 4; init_i += 1) {
+        lv_team_scores_with_nuke_bonus[init_i] = 1000.0;
+    }
 
     // Actions
     if (!runActions) {
@@ -3720,15 +3725,14 @@ bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
     while (true) {
         lv_player = PlayerGroupNextPlayer(auto8F014B60_g, lv_player);
         if (lv_player < 0) { break; }
-        if (((gv_player_alive[lv_player] == true) && (gf_PlayerHasNuke(lv_player) == true))) {
-            lv_team_scores_with_nuke_bonus[gv_player_team[lv_player]] += 500.0;
-            lv_winning_team = 0;
-            for ( ; ( (auto32B39109_ai >= 0 && lv_winning_team <= auto32B39109_ae) || (auto32B39109_ai < 0 && lv_winning_team >= auto32B39109_ae) ) ; lv_winning_team += auto32B39109_ai ) {
-                if ((gv_player_team[lv_player] != lv_winning_team)) {
-                    lv_team_scores_with_nuke_bonus_for_winning_team[lv_winning_team][gv_player_team[lv_player]] += 500.0;
-                }
-
+        if ((gv_player_alive[lv_player] == true)) {
+            lv_team = gv_player_team[lv_player];
+            lv_num_players_on_team[lv_team] += 1.0;
+            lv_num_players += 1.0;
+            if ((gf_PlayerHasNuke(lv_player) == true)) {
+                lv_team_scores_with_nuke_bonus[lv_team] += 500.0;
             }
+
         }
 
     }
@@ -3738,36 +3742,37 @@ bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
             lv_team_scores_with_nuke_bonus[lv_team] += gv_team_scores[lv_team];
             lv_total_score += lv_team_scores_with_nuke_bonus[lv_team];
             lv_num_teams += 1.0;
-            lv_winning_team = 0;
-            for ( ; ( (autoF1D30EF4_ai >= 0 && lv_winning_team <= autoF1D30EF4_ae) || (autoF1D30EF4_ai < 0 && lv_winning_team >= autoF1D30EF4_ae) ) ; lv_winning_team += autoF1D30EF4_ai ) {
-                if ((lv_team != lv_winning_team)) {
-                    lv_team_scores_with_nuke_bonus_for_winning_team[lv_winning_team][lv_team] += gv_team_scores[lv_team];
-                    lv_total_score_for_winning_team[lv_winning_team] += lv_team_scores_with_nuke_bonus[lv_team];
-                    lv_num_teams_for_winning_team[lv_winning_team] += 1.0;
-                }
-
-            }
         }
 
     }
     lv_team = 0;
     for ( ; ( (auto494C091A_ai >= 0 && lv_team <= auto494C091A_ae) || (auto494C091A_ai < 0 && lv_team >= auto494C091A_ae) ) ; lv_team += auto494C091A_ai ) {
         if ((gv_team_alive[lv_team] == true)) {
-            gv_team_current_performance[lv_team] = (lv_team_scores_with_nuke_bonus[lv_team] / lv_total_score);
-            gv_team_current_performance[lv_team] *= lv_num_teams;
-            if ((gv_team_current_performance[lv_team] >= gv_team_peak_performance[lv_team])) {
-                gv_team_peak_performance[lv_team] = gv_team_current_performance[lv_team];
-                gv_team_peak_performance_time[lv_team] = CurrentDateTimeGet();
+            lv_denominator = (lv_total_score - lv_team_scores_with_nuke_bonus[lv_team]);
+            lv_denominator = (IntToFixed(gv_players_per_team) * lv_denominator);
+            if ((lv_denominator != 0.0)) {
+                gv_team_current_performance[lv_team] = (lv_team_scores_with_nuke_bonus[lv_team] / lv_denominator);
+                gv_team_current_performance[lv_team] *= (lv_num_players - lv_num_players_on_team[lv_team]);
+                if ((gv_team_current_performance[lv_team] >= gv_team_peak_performance[lv_team])) {
+                    gv_team_peak_performance[lv_team] = gv_team_current_performance[lv_team];
+                    gv_team_peak_performance_time[lv_team] = CurrentDateTimeGet();
+                }
+
             }
 
             lv_winning_team = 0;
             for ( ; ( (auto64136BF7_ai >= 0 && lv_winning_team <= auto64136BF7_ae) || (auto64136BF7_ai < 0 && lv_winning_team >= auto64136BF7_ae) ) ; lv_winning_team += auto64136BF7_ai ) {
                 if ((lv_team != lv_winning_team)) {
-                    gv_team_current_performance_for_winning_team[lv_winning_team][lv_team] = (lv_team_scores_with_nuke_bonus_for_winning_team[lv_winning_team][lv_team] / lv_total_score_for_winning_team[lv_winning_team]);
-                    gv_team_current_performance_for_winning_team[lv_winning_team][lv_team] *= lv_num_teams_for_winning_team[lv_winning_team];
-                    if ((gv_team_current_performance_for_winning_team[gv_winning_team][lv_team] >= gv_team_peak_performance_for_winning_team[gv_winning_team][lv_team])) {
-                        gv_team_peak_performance_for_winning_team[lv_winning_team][lv_team] = gv_team_current_performance_for_winning_team[lv_winning_team][lv_team];
-                        gv_team_peak_performance_for_winning_team_time[gv_winning_team][lv_team] = CurrentDateTimeGet();
+                    lv_denominator = (lv_total_score - (lv_team_scores_with_nuke_bonus[gv_winning_team] + lv_team_scores_with_nuke_bonus[lv_team]));
+                    lv_denominator = (IntToFixed(gv_players_per_team) * lv_denominator);
+                    if ((lv_denominator != 0.0)) {
+                        gv_team_current_performance_for_winning_team[lv_winning_team][lv_team] = (lv_team_scores_with_nuke_bonus[lv_team] / lv_denominator);
+                        gv_team_current_performance_for_winning_team[lv_winning_team][lv_team] *= (lv_num_players - (lv_num_players_on_team[lv_winning_team] + lv_num_players_on_team[lv_team]));
+                        if ((gv_team_current_performance_for_winning_team[gv_winning_team][lv_team] >= gv_team_peak_performance_for_winning_team[gv_winning_team][lv_team])) {
+                            gv_team_peak_performance_for_winning_team[lv_winning_team][lv_team] = gv_team_current_performance_for_winning_team[lv_winning_team][lv_team];
+                            gv_team_peak_performance_for_winning_team_time[gv_winning_team][lv_team] = CurrentDateTimeGet();
+                        }
+
                     }
 
                 }
@@ -3874,6 +3879,20 @@ void gt_LeaderboardPeriodicRefresh_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Untitled Trigger 001
+//--------------------------------------------------------------------------------------------------
+bool gt_UntitledTrigger001_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_UntitledTrigger001_Init () {
+    gt_UntitledTrigger001 = TriggerCreate("gt_UntitledTrigger001_Func");
+    TriggerAddEventUpgradeLevelChanged(gt_UntitledTrigger001, c_playerAny);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: TeamInfoTrackUpgrades
 //--------------------------------------------------------------------------------------------------
 bool gt_TeamInfoTrackUpgrades_Func (bool testConds, bool runActions) {
@@ -3910,6 +3929,39 @@ void gt_TeamInfoTrackUpgrades_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: RefreshTeamInfoMins
+//--------------------------------------------------------------------------------------------------
+bool gt_RefreshTeamInfoMins_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup auto75D196B2_g;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto75D196B2_g = gv_all_players;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto75D196B2_g, lv_player);
+        if (lv_player < 0) { break; }
+        libNtve_gf_SetDialogItemText(gv_team_info_player_mineral[lv_player], IntToText(PlayerGetPropertyInt(lv_player, c_playerPropMinerals)), PlayerGroupAll());
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_RefreshTeamInfoMins_Init () {
+    gt_RefreshTeamInfoMins = TriggerCreate("gt_RefreshTeamInfoMins_Func");
+    TriggerAddEventTimePeriodic(gt_RefreshTeamInfoMins, 0.5, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: UpdateTeamInfo
 //--------------------------------------------------------------------------------------------------
 bool gt_UpdateTeamInfo_Func (bool testConds, bool runActions) {
@@ -3932,7 +3984,6 @@ bool gt_UpdateTeamInfo_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_UpdateTeamInfo_Init () {
     gt_UpdateTeamInfo = TriggerCreate("gt_UpdateTeamInfo_Func");
-    TriggerAddEventTimePeriodic(gt_UpdateTeamInfo, 0.1, c_timeGame);
     TriggerAddEventDialogControl(gt_UpdateTeamInfo, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
 }
 
@@ -4078,6 +4129,7 @@ bool gt_Score_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    gf_ComputeFinalScores(gv_player_team[gv_winning_team]);
     gf_CreateResultsDialog(gv_player_team[EventPlayer()]);
     return true;
 }
@@ -4753,7 +4805,9 @@ void InitTriggers () {
     gt_ShowStandings_Init();
     gt_ToggleLeaderboard_Init();
     gt_LeaderboardPeriodicRefresh_Init();
+    gt_UntitledTrigger001_Init();
     gt_TeamInfoTrackUpgrades_Init();
+    gt_RefreshTeamInfoMins_Init();
     gt_UpdateTeamInfo_Init();
     gt_ShardCollected_Init();
     gt_ShardSpawn_Init();
