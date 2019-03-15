@@ -876,6 +876,7 @@ int[5] gv_team_leaderboard_team_scores;
 int[17] gv_player_leaderboard_player_frames;
 int[17] gv_player_leaderboard_player_scores;
 int[17] gv_player_leaderboard_player_names;
+int gv_results_dialog;
 fixed[5] gv_team_final_performance;
 datetime[5] gv_team_final_performance_time;
 int gv_victory_button;
@@ -973,6 +974,7 @@ void InitGlobals () {
     for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_player_leaderboard_player_names[init_i] = c_invalidDialogControlId;
     }
+    gv_results_dialog = c_invalidDialogId;
     for (init_i = 0; init_i <= 4; init_i += 1) {
         gv_team_final_performance_time[init_i] = IntToDateTime(0);
     }
@@ -2514,13 +2516,13 @@ void gf_ComputeFinalScores (int lp_winning_team) {
         lv_player = PlayerGroupNextPlayer(auto5F5C6DF5_g, lv_player);
         if (lv_player < 0) { break; }
         lv_team = gv_player_team[lv_player];
-        if ((lv_team == gv_winning_team)) {
+        if ((lv_team == lp_winning_team)) {
             gv_team_final_performance[lv_team] = gv_team_peak_performance[lv_team];
             gv_team_final_performance_time[lv_team] = gv_team_peak_performance_time[lv_team];
         }
         else {
-            gv_team_final_performance[lv_team] = gv_team_peak_performance_for_winning_team[gv_winning_team][lv_team];
-            gv_team_final_performance_time[lv_team] = gv_team_peak_performance_for_winning_team_time[gv_winning_team][lv_team];
+            gv_team_final_performance[lv_team] = gv_team_peak_performance_for_winning_team[lp_winning_team][lv_team];
+            gv_team_final_performance_time[lv_team] = gv_team_peak_performance_for_winning_team_time[lp_winning_team][lv_team];
         }
     }
 }
@@ -2552,6 +2554,7 @@ void gf_CreateResultsDialog (int lp_winning_team) {
     // Implementation
     DialogCreate(1200, 630, c_anchorTop, 0, 60, false);
     lv_dialog = DialogLastCreated();
+    gv_results_dialog = DialogLastCreated();
     DialogSetVisible(DialogLastCreated(), PlayerGroupAll(), true);
     DialogSetImageVisible(DialogLastCreated(), false);
     libNtve_gf_CreateDialogItemImage(DialogLastCreated(), 1100, 600, c_anchorCenter, 0, 0, StringToText(""), "Assets\\Textures\\ui_battlenet_glue_frame_small_base.dds", c_triggerImageTypeHorizontalBorder, true, Color(100,100,100), c_triggerBlendModeNormal);
@@ -2596,8 +2599,8 @@ void gf_CreateResultsDialog (int lp_winning_team) {
 
             libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (FixedToText(gv_player_current_elo[lv_player], 0) + StringExternal("Param/Value/DB7F0C5D") + TextWithColor(FixedToText(lv_elo_change, 1), lv_elo_change_color) + StringExternal("Param/Value/0E083112")), PlayerGroupAll());
             DialogControlHookup(lv_player_row, c_triggerControlTypeLabel, "ResultsPeakPerformance");
-            lv_peak_score = gv_team_final_performance[lv_team];
-            lv_peak_score_time = gv_team_final_performance_time[lv_team];
+            lv_peak_score = gv_team_final_performance[gv_player_team[lv_player]];
+            lv_peak_score_time = gv_team_final_performance_time[gv_player_team[lv_player]];
             libNtve_gf_SetDialogItemText(DialogControlLastCreated(), FixedToText(lv_peak_score, 2), PlayerGroupAll());
             libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (FixedToText(lv_peak_score, 2) + StringExternal("Param/Value/08AECC7B") + TextTimeFormat(StringToText("<mintotal/>:<sec2/>"), (DateTimeToInt(lv_peak_score_time) - DateTimeToInt(gv_game_start_time)))), PlayerGroupAll());
             lv_current_offset += 35;
@@ -3300,11 +3303,16 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     }
 
     if ((EventDialogControl() == gv_victory_button)) {
-        if ((gv_player_team[EventPlayer()] == gv_winning_team)) {
-            GameOver(EventPlayer(), c_gameOverVictory, false, false);
+        if ((gv_game_over == true)) {
+            if ((gv_player_team[EventPlayer()] == gv_winning_team)) {
+                GameOver(EventPlayer(), c_gameOverVictory, false, false);
+            }
+            else {
+                GameOver(EventPlayer(), c_gameOverDefeat, false, false);
+            }
         }
         else {
-            GameOver(EventPlayer(), c_gameOverDefeat, false, false);
+            DialogSetVisible(gv_results_dialog, PlayerGroupAll(), false);
         }
     }
 
@@ -3764,15 +3772,16 @@ bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
                     lv_denominator = lv_total_score;
                     lv_denominator -= lv_team_scores_with_nuke_bonus[gv_winning_team];
                     lv_denominator -= lv_team_scores_with_nuke_bonus[lv_team];
+                    lv_denominator = (IntToFixed(gv_players_per_team) * lv_denominator);
                     lv_alive_opponents = lv_num_players;
                     lv_alive_opponents -= lv_num_players_on_team[lv_winning_team];
                     lv_alive_opponents -= lv_num_players_on_team[lv_team];
                     if (((lv_denominator != 0.0) && (lv_alive_opponents > 0.1))) {
                         gv_team_current_performance_for_winning_team[lv_winning_team][lv_team] = (lv_team_scores_with_nuke_bonus[lv_team] / lv_denominator);
                         gv_team_current_performance_for_winning_team[lv_winning_team][lv_team] *= lv_alive_opponents;
-                        if ((gv_team_current_performance_for_winning_team[gv_winning_team][lv_team] >= gv_team_peak_performance_for_winning_team[gv_winning_team][lv_team])) {
+                        if ((gv_team_current_performance_for_winning_team[lv_winning_team][lv_team] >= gv_team_peak_performance_for_winning_team[lv_winning_team][lv_team])) {
                             gv_team_peak_performance_for_winning_team[lv_winning_team][lv_team] = gv_team_current_performance_for_winning_team[lv_winning_team][lv_team];
-                            gv_team_peak_performance_for_winning_team_time[gv_winning_team][lv_team] = CurrentDateTimeGet();
+                            gv_team_peak_performance_for_winning_team_time[lv_winning_team][lv_team] = CurrentDateTimeGet();
                         }
 
                     }
@@ -3885,28 +3894,19 @@ void gt_LeaderboardPeriodicRefresh_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_Score_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    color lv_elo_change_color;
-    fixed lv_elo_change;
-    int lv_button;
     int lv_team;
-    int lv_player;
-    int lv_current_offset;
-    int lv_dialog;
-    int lv_player_row;
 
     // Automatic Variable Declarations
     // Variable Initialization
-    lv_elo_change_color = Color(100,100,100);
-    lv_dialog = c_invalidDialogId;
-    lv_player_row = c_invalidDialogControlId;
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    gf_ComputeFinalScores(gv_player_team[EventPlayer()]);
-    gf_CreateResultsDialog(gv_player_team[EventPlayer()]);
+    lv_team = gv_player_team[EventPlayer()];
+    gf_ComputeFinalScores(lv_team);
+    gf_CreateResultsDialog(lv_team);
     return true;
 }
 
