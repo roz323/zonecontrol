@@ -39,6 +39,10 @@
         <ScoreKill value="100"/>
         <KillResource index="Minerals" value="100"/>
     </CUnit>
+    <CUnit id="Baneling">
+        <CostResource index="Minerals" value="25"/>
+        <CostResource index="Vespene" value="0"/>
+    </CUnit>
     <CUnit id="BattlecruiserHelios">
         <AbilArray index="1" Link="Yamato"/>
         <AbilArray index="2" Link="que1"/>
@@ -137,6 +141,10 @@
         <AbilArray index="7" Link="ScannerSweep"/>
         <AbilArray Link="CalldownMULE"/>
     </CUnit>
+    <CUnit id="CreepTumor">
+        <Footprint value="Footprint1x1"/>
+        <PlacementFootprint value="Footprint1x1"/>
+    </CUnit>
     <!-- StalkerAiur is swapped out for Dragoon -->
     <CUnit id="Dragoon">
         <LifeStart value="300"/>
@@ -159,6 +167,43 @@
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
+    </CUnit>
+    <CUnit id="Drone">
+        <AbilArray index="4" Link="CreepTumorBuild"/>
+        <AbilArray index="5" Link="TerranBuild2"/>
+        <AbilArray index="6" removed="1"/>
+        <AbilArray index="7" removed="1"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="5" Face="SpawningPool" AbilCmd="TerranBuild2,Build1" Row="2" Column="0"/>
+            <LayoutButtons index="6" Face="CreepTumor" Type="AbilCmd" AbilCmd="TerranBuild2,Build2" SubmenuCardId="" Column="3"/>
+            <LayoutButtons index="7" Face="SpineCrawler" Type="AbilCmd" AbilCmd="attack,255" SubmenuCardId="" Column="4"/>
+            <LayoutButtons index="8" Face="Drone" AbilCmd="" Row="1" Column="3"/>
+            <LayoutButtons index="9" Face="LurkerFromHydraliskBurrowed" AbilCmd="TerranBuild2,Build3" Column="2"/>
+            <LayoutButtons index="10" Face="NukeCalldown" Type="Undefined" AbilCmd="" Row="1"/>
+            <LayoutButtons index="11" Face="Halt" Type="AbilCmd" AbilCmd="TerranBuild2,Halt" Row="1" Column="0"/>
+            <LayoutButtons index="12" Face="ColonyInfestation" Type="Undefined" AbilCmd="" Row="2" Column="1"/>
+            <LayoutButtons index="13" Face="SporeCrawler" Type="Undefined" AbilCmd="" Row="2" Column="2"/>
+            <LayoutButtons index="14" removed="1"/>
+            <LayoutButtons index="15" removed="1"/>
+            <LayoutButtons index="16" removed="1"/>
+            <LayoutButtons index="17" removed="1"/>
+            <LayoutButtons index="18" removed="1"/>
+            <LayoutButtons index="19" removed="1"/>
+            <LayoutButtons index="20" removed="1"/>
+            <LayoutButtons index="21" removed="1"/>
+            <LayoutButtons index="22" removed="1"/>
+            <LayoutButtons index="23" removed="1"/>
+            <LayoutButtons index="24" removed="1"/>
+            <LayoutButtons index="25" removed="1"/>
+            <LayoutButtons index="26" removed="1"/>
+            <LayoutButtons index="27" removed="1"/>
+            <LayoutButtons index="28" removed="1"/>
+            <LayoutButtons index="29" removed="1"/>
+            <LayoutButtons index="30" removed="1"/>
+            <LayoutButtons index="31" removed="1"/>
+            <LayoutButtons index="32" removed="1"/>
+            <LayoutButtons index="33" removed="1"/>
+        </CardLayouts>
     </CUnit>
     <CUnit id="EngineeringBay">
         <AbilArray Link="BarracksTechLabResearch"/>
@@ -267,7 +312,28 @@
         <KillResource index="Minerals" value="125"/>
     </CUnit>
     <CUnit id="EvolutionChamber">
-        <Food value="45"/>
+        <Food value="80"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <Attributes index="Armored" value="0"/>
+        <Attributes index="Biological" value="0"/>
+        <Attributes index="Structure" value="0"/>
+        <LifeStart value="50000"/>
+        <LifeRegenRate value="100"/>
+        <AbilArray Link="EngineeringBayResearch"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="0" Face="zerggroundarmor1" AbilCmd="evolutionchamberresearch,Research4" Row="0" Column="0"/>
+            <LayoutButtons index="1" Face="zergmissileweapons1" AbilCmd="evolutionchamberresearch,Research7" Row="0" Column="1"/>
+            <LayoutButtons index="2" Face="InfantryLifeRegeneration" AbilCmd="EngineeringBayResearch,Research27" Column="3"/>
+            <LayoutButtons index="3" Face="InfantryMovespeed" AbilCmd="EngineeringBayResearch,Research26" Column="4"/>
+            <LayoutButtons index="4" Face="HotSHardenedCarapace" Type="Undefined" AbilCmd="" Row="2" Column="0"/>
+            <LayoutButtons index="5" Face="zerglingattackspeed" Type="Undefined" AbilCmd="" Row="2" Column="1"/>
+            <LayoutButtons index="6" Face="EvolveGlialRegeneration" Type="Undefined" AbilCmd="" Row="2" Column="2"/>
+            <LayoutButtons index="7" Face="hydraliskspeed" Type="Undefined" AbilCmd="" Row="2" Column="3"/>
+            <LayoutButtons index="8" Face="EvolveChitinousPlating" Type="Undefined" AbilCmd="" Row="1" Column="0"/>
+            <LayoutButtons index="9" Face="QueenBurstHeal" Type="Undefined" AbilCmd="" Column="2"/>
+            <LayoutButtons index="10" Face="HotSRedundantMembranes" Type="Undefined" AbilCmd="" Row="1"/>
+            <LayoutButtons index="11" removed="1"/>
+        </CardLayouts>
     </CUnit>
     <CUnit id="Gateway">
         <AbilArray index="1" Link="GatewayTrain"/>
@@ -399,6 +465,47 @@
         <AbilArray index="1" removed="1"/>
         <RepairTime value="20"/>
         <FogVisibility value="Dimmed"/>
+    </CUnit>
+    <CUnit id="HunterKiller">
+        <LifeStart value="350"/>
+        <LifeMax value="350"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="5" removed="1"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="Hydralisk">
+        <LifeStart value="300"/>
+        <LifeMax value="300"/>
+        <LifeArmor value="2"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="5" Face="AncillaryCarapaceHydralisk" Type="Passive" AbilCmd="" Requirements="HaveHotSHydraliskHealth" Column="0"/>
+            <LayoutButtons index="6" Face="GroovedSpines" Requirements="HaveHotSGroovedSpines"/>
+            <LayoutButtons index="7" Face="HydraliskFrenzy" Type="AbilCmd" AbilCmd="HydraliskFrenzy,Execute" Requirements=""/>
+            <LayoutButtons index="8" Face="LurkerMP" AbilCmd="MorphToLurker,Execute"/>
+            <LayoutButtons index="9" removed="1"/>
+            <LayoutButtons index="10" removed="1"/>
+            <LayoutButtons index="11" removed="1"/>
+            <LayoutButtons index="12" removed="1"/>
+            <LayoutButtons index="13" removed="1"/>
+            <LayoutButtons index="14" removed="1"/>
+            <LayoutButtons index="15" removed="1"/>
+            <LayoutButtons index="16" removed="1"/>
+            <LayoutButtons index="17" removed="1"/>
+            <LayoutButtons index="18" removed="1"/>
+            <LayoutButtons index="19" removed="1"/>
+            <LayoutButtons index="20" removed="1"/>
+            <LayoutButtons index="21" removed="1"/>
+            <LayoutButtons index="22" removed="1"/>
+            <LayoutButtons index="23" removed="1"/>
+            <LayoutButtons index="24" removed="1"/>
+            <LayoutButtons index="25" removed="1"/>
+            <LayoutButtons index="26" removed="1"/>
+            <LayoutButtons index="27" removed="1"/>
+            <LayoutButtons index="28" removed="1"/>
+            <LayoutButtons index="29" removed="1"/>
+            <LayoutButtons index="30" removed="1"/>
+            <LayoutButtons index="31" removed="1"/>
+        </CardLayouts>
     </CUnit>
     <CUnit id="Immortal">
         <LifeStart value="300"/>
@@ -606,6 +713,16 @@
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="CannonThingy"/>
     </CUnit>
+    <CUnit id="PrimalRoach">
+        <LifeStart value="300"/>
+        <LifeMax value="300"/>
+        <LifeArmor value="0"/>
+    </CUnit>
+    <CUnit id="PrimalSunkenColony">
+        <CardLayouts index="0">
+            <LayoutButtons index="3" removed="1"/>
+        </CardLayouts>
+    </CUnit>
     <CUnit id="Probe">
         <AbilArray index="7" Link="PhaseCannon"/>
         <AbilArray Link="TacNukeStrike"/>
@@ -674,6 +791,9 @@
         <AbilArray index="5" removed="1"/>
         <AbilArray index="6" removed="1"/>
     </CUnit>
+    <CUnit id="Ravager">
+        <CostResource index="Vespene" value="0"/>
+    </CUnit>
     <CUnit id="Reaper">
         <Speed value="2.5"/>
         <CardLayouts index="0">
@@ -695,6 +815,40 @@
         <WeaponArray index="1" Link="D8Charge"/>
         <LifeRegenRate value="0"/>
         <FlagArray index="IgnoreAttackAlert" value="1"/>
+    </CUnit>
+    <CUnit id="Roach">
+        <LifeStart value="270"/>
+        <LifeMax value="270"/>
+        <LifeArmor value="0"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="6" Face="TunnelingClaws" Type="Passive" AbilCmd="" Requirements="HaveHotSTunnelingClaws" Column="1"/>
+            <LayoutButtons index="7" Face="HotSRoachDamage" Requirements="HaveHotSRoachDamage"/>
+            <LayoutButtons index="8" Face="HotSRoachShield" Requirements="HaveHotSRoachShield"/>
+            <LayoutButtons index="9" Face="Ravager" Type="AbilCmd" AbilCmd="MorphToRavager,Execute" Requirements="" Column="0"/>
+            <LayoutButtons index="10" removed="1"/>
+            <LayoutButtons index="11" removed="1"/>
+            <LayoutButtons index="12" removed="1"/>
+            <LayoutButtons index="13" removed="1"/>
+            <LayoutButtons index="14" removed="1"/>
+            <LayoutButtons index="15" removed="1"/>
+            <LayoutButtons index="16" removed="1"/>
+            <LayoutButtons index="17" removed="1"/>
+            <LayoutButtons index="18" removed="1"/>
+            <LayoutButtons index="19" removed="1"/>
+            <LayoutButtons index="20" removed="1"/>
+            <LayoutButtons index="21" removed="1"/>
+            <LayoutButtons index="22" removed="1"/>
+            <LayoutButtons index="23" removed="1"/>
+            <LayoutButtons index="24" removed="1"/>
+            <LayoutButtons index="25" removed="1"/>
+            <LayoutButtons index="26" removed="1"/>
+            <LayoutButtons index="27" removed="1"/>
+            <LayoutButtons index="28" removed="1"/>
+            <LayoutButtons index="29" removed="1"/>
+            <LayoutButtons index="30" removed="1"/>
+            <LayoutButtons index="31" removed="1"/>
+            <LayoutButtons index="32" removed="1"/>
+        </CardLayouts>
     </CUnit>
     <CUnit id="SCV">
         <Food value="0"/>
@@ -937,6 +1091,26 @@
         <EnergyMax value="0"/>
         <EnergyRegenRate value="0"/>
     </CUnit>
+    <CUnit id="SpawningPool">
+        <LifeStart value="40000"/>
+        <LifeMax value="40000"/>
+        <CostResource index="Minerals" value="750"/>
+        <BehaviorArray index="0" removed="1"/>
+        <BehaviorArray index="1" removed="1"/>
+        <BehaviorArray index="2" removed="1"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="2" removed="1"/>
+            <LayoutButtons index="3" removed="1"/>
+            <LayoutButtons index="4" removed="1"/>
+            <LayoutButtons index="5" removed="1"/>
+            <LayoutButtons index="6" removed="1"/>
+            <LayoutButtons index="7" removed="1"/>
+            <LayoutButtons index="8" removed="1"/>
+            <LayoutButtons index="9" removed="1"/>
+        </CardLayouts>
+        <Footprint value="Footprint3x3"/>
+        <PlacementFootprint value="Footprint3x3"/>
+    </CUnit>
     <CUnit id="Spectre">
         <EnergyStart value="0"/>
         <EnergyMax value="0"/>
@@ -1034,6 +1208,9 @@
         <EquipmentArray Weapon="GuassRifle23"/>
         <Footprint value="Footprint3x2Underground"/>
     </CUnit>
+    <CUnit id="Swarmling">
+        <LifeStart value="160"/>
+    </CUnit>
     <CUnit id="Talis">
         <LifeStart value="150"/>
         <LifeMax value="150"/>
@@ -1119,7 +1296,7 @@
         <ScoreKill value="10"/>
         <LifeArmor value="2"/>
         <KillResource index="Minerals" value="10"/>
-        <Speed value="2.3007"/>
+        <Speed value="2.4023"/>
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
@@ -1140,5 +1317,40 @@
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
+    </CUnit>
+    <CUnit id="Zergling">
+        <LifeStart value="100"/>
+        <LifeMax value="100"/>
+        <Food value="-1"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="6" Face="MorphtoSplitterling" Type="AbilCmd" AbilCmd="MorphZerglingToSplitterling,Train1" Row="2" Column="0"/>
+            <LayoutButtons index="7" Face="HotSRedundantMembranes" Type="Passive" AbilCmd="" Requirements="HaveHotSZerglingHealth" Column="1"/>
+            <LayoutButtons index="8" Face="HotSZerglingFrenzy" Type="Passive" AbilCmd="" Requirements="HaveHotSZerglingFrenzy" Column="1"/>
+            <LayoutButtons index="9" removed="1"/>
+            <LayoutButtons index="10" removed="1"/>
+            <LayoutButtons index="11" removed="1"/>
+            <LayoutButtons index="12" removed="1"/>
+            <LayoutButtons index="13" removed="1"/>
+            <LayoutButtons index="14" removed="1"/>
+            <LayoutButtons index="15" removed="1"/>
+            <LayoutButtons index="16" removed="1"/>
+            <LayoutButtons index="17" removed="1"/>
+            <LayoutButtons index="18" removed="1"/>
+            <LayoutButtons index="19" removed="1"/>
+            <LayoutButtons index="20" removed="1"/>
+            <LayoutButtons index="21" removed="1"/>
+            <LayoutButtons index="22" removed="1"/>
+            <LayoutButtons index="23" removed="1"/>
+            <LayoutButtons index="24" removed="1"/>
+            <LayoutButtons index="25" removed="1"/>
+            <LayoutButtons index="26" removed="1"/>
+            <LayoutButtons index="27" removed="1"/>
+            <LayoutButtons index="28" removed="1"/>
+            <LayoutButtons index="29" removed="1"/>
+            <LayoutButtons index="30" removed="1"/>
+            <LayoutButtons index="31" removed="1"/>
+            <LayoutButtons index="32" removed="1"/>
+            <LayoutButtons index="33" removed="1"/>
+        </CardLayouts>
     </CUnit>
 </Catalog>
