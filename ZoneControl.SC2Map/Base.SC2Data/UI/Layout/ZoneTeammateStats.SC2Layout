@@ -3,34 +3,56 @@
 <Desc>
 
 <Frame type="Frame" name="TeammateStateIcons">
-        <Width val="400"/>
+        <Width val="600"/>
         <Height val="40"/>
+
+
+ <Frame type="Image" name="NukeIcon">
+            <Height val="20"/>
+            <Width val="20"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="390"/>
+        </Frame>
+
+ <Frame type="Image" name="WorkerIcon">
+            <Height val="20"/>
+            <Width val="20"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="356"/>
+        </Frame>
+
+ <Frame type="Image" name="TankIcon">
+            <Height val="20"/>
+            <Width val="20"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="322"/>
+        </Frame>
 
 
   <Frame type="Image" name="BunkerSlotsIcon">
             <Height val="20"/>
             <Width val="20"/>
             <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="338"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="268"/>
         </Frame>
   <Frame type="Image" name="BunkerRegenIcon">
             <Height val="20"/>
             <Width val="20"/>
             <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="304"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="234"/>
         </Frame>
   <Frame type="Image" name="BunkerArmorIcon">
             <Height val="20"/>
             <Width val="20"/>
             <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="270"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="200"/>
         </Frame>
 
   <Frame type="Image" name="PlayerMineralIcon">
             <Height val="20"/>
             <Width val="20"/>
           <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="208"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="448"/>
         </Frame>
 
   <Frame type="Image" name="SpeedIcon">
@@ -78,8 +100,46 @@
 
 
   <Frame type="Frame" name="TeammateState">
-        <Width val="400"/>
+        <Width val="600"/>
         <Height val="40"/>
+
+
+
+        <Frame type="Label" name="PlayerLosses">
+            <Style val="TeamStats"/>
+            <Height val="40"/>
+            <Width val="90"/>
+  <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="500"/>
+            <Text val="0"/> 
+        </Frame>
+
+<Frame type="Label" name="NukeCount">
+            <Style val="TeamStats"/>
+            <Height val="40"/>
+            <Width val="40"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="380"/>
+            <Text val="1"/>
+        </Frame>
+
+  <Frame type="Label" name="WorkerCount">
+            <Style val="TeamStats"/>
+            <Height val="40"/>
+            <Width val="40"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="346"/>
+            <Text val="1"/>
+        </Frame>
+
+  <Frame type="Label" name="TankCount">
+            <Style val="TeamStats"/>
+            <Height val="40"/>
+            <Width val="40"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="312"/>
+            <Text val="0"/>
+        </Frame>
 
 
   <Frame type="Button" name="BunkerSlotsUpButton" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
@@ -87,7 +147,7 @@
        <Width val="40"/>
        <Height val="30"/>
        <Anchor side="Top" relative="$parent" pos="Min" offset="-5"/>
-       <Anchor side="Left" relative="$parent" pos="Min" offset="328"/>
+       <Anchor side="Left" relative="$parent" pos="Min" offset="258"/>
         <Visible val="false"/>
 
   </Frame>
@@ -97,16 +157,19 @@
             <Height val="40"/>
             <Width val="40"/>
         <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="328"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="258"/>
             <Text val="0"/>
         </Frame>
+
+
+
 
   <Frame type="Button" name="BunkerRegenUpButton" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
        <Text val=""/>
        <Width val="40"/>
        <Height val="30"/>
        <Anchor side="Top" relative="$parent" pos="Min" offset="-5"/>
-       <Anchor side="Left" relative="$parent" pos="Min" offset="294"/>
+       <Anchor side="Left" relative="$parent" pos="Min" offset="224"/>
         <Visible val="false"/>
   </Frame>
 
@@ -116,7 +179,7 @@
             <Height val="40"/>
             <Width val="40"/>
         <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="294"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="224"/>
             <Text val="0"/>
         </Frame>
 
@@ -126,7 +189,7 @@
        <Width val="40"/>
        <Height val="30"/>
        <Anchor side="Top" relative="$parent" pos="Min" offset="-5"/>
-       <Anchor side="Left" relative="$parent" pos="Min" offset="260"/>
+       <Anchor side="Left" relative="$parent" pos="Min" offset="190"/>
         <Visible val="false"/>
   </Frame>
 
@@ -135,7 +198,7 @@
             <Height val="40"/>
             <Width val="40"/>
         <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="260"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="190"/>
             <Text val="0"/>
         </Frame>
 
@@ -145,7 +208,7 @@
             <Height val="40"/>
             <Width val="90"/>
   <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="175"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="415"/>
             <Text val="50"/> 
         </Frame>
 

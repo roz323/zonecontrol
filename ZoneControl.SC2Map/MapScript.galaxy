@@ -796,7 +796,7 @@ string[4][3] gv_race_spawner_types;
 string[4] gv_race_worker_types;
 string[4] gv_race_research_facility_types;
 string[4] gv_race_nuke_facility_types;
-string[4][9] gv_race_teaminfo_icons;
+string[4][12] gv_race_teaminfo_icons;
 string[4][9] gv_race_teaminfo_upgrades;
 abilcmd[4][9] gv_race_teaminfo_upgrade_abilities;
 bool[17] gv_movement_detected;
@@ -876,10 +876,16 @@ int[5] gv_team_leaderboard_team_scores;
 int[17] gv_player_leaderboard_player_frames;
 int[17] gv_player_leaderboard_player_scores;
 int[17] gv_player_leaderboard_player_names;
-int gv_results_dialog;
+int[17] gv_results_dialog;
 fixed[5] gv_team_final_performance;
 datetime[5] gv_team_final_performance_time;
 int gv_victory_button;
+fixed[17] gv_player_upgrade_total_cost;
+fixed[17] gv_player_net_resource_traded;
+int[17] gv_player_tank_counts;
+int[17] gv_player_num_workers;
+int gv_initial_resource;
+int[17] gv_player_losses;
 int[17] gv_team_info_player_armor_level;
 int[17] gv_team_info_player_attack_level;
 int[17] gv_team_info_player_range_level;
@@ -892,6 +898,7 @@ int gv_team_info_current_player;
 int[17][5] gv_team_info_palyer_slot_map;
 int[17] gv_team_info_player_dialogs;
 int[17] gv_team_info_player_mineral;
+int[17] gv_team_info_player_losses;
 int[17] gv_team_info_player_armor;
 int[17] gv_team_info_player_attack;
 int[17] gv_team_info_player_range;
@@ -900,6 +907,9 @@ int[17] gv_team_info_player_speed;
 int[17] gv_team_info_player_bunker_armor;
 int[17] gv_team_info_player_bunker_regen;
 int[17] gv_team_info_player_bunker_slots;
+int[17] gv_team_info_player_tanks;
+int[17] gv_team_info_player_workers;
+int[17] gv_team_info_player_nukes;
 int[17][8] gv_team_info_player_upgrade_buttons;
 int gv_untitledVariable002;
 int gv_untitledVariable003;
@@ -911,6 +921,8 @@ int[17] gv_num_nuke_used;
 int gv_winning_team;
 bool gv_game_over;
 bool gv_game_over_test;
+int gv_total_resource_granted;
+int[17] gv_total_structure_granted_value;
 unitgroup[17] gv_structuresGroup;
 
 void InitGlobals () {
@@ -974,17 +986,25 @@ void InitGlobals () {
     for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_player_leaderboard_player_names[init_i] = c_invalidDialogControlId;
     }
-    gv_results_dialog = c_invalidDialogId;
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_results_dialog[init_i] = c_invalidDialogId;
+    }
     for (init_i = 0; init_i <= 4; init_i += 1) {
         gv_team_final_performance_time[init_i] = IntToDateTime(0);
     }
     gv_victory_button = c_invalidDialogControlId;
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_player_num_workers[init_i] = 1;
+    }
     gv_team_info_current_player = 1;
     for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_team_info_player_dialogs[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_team_info_player_mineral[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_team_info_player_losses[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_team_info_player_armor[init_i] = c_invalidDialogControlId;
@@ -1011,6 +1031,15 @@ void InitGlobals () {
         gv_team_info_player_bunker_slots[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_team_info_player_tanks[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_team_info_player_workers[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_team_info_player_nukes[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= 16; init_i += 1) {
         for (init_j = 0; init_j <= 7; init_j += 1) {
             gv_team_info_player_upgrade_buttons[init_i][init_j] = c_invalidDialogControlId;
         }
@@ -1030,6 +1059,7 @@ void gf_AssignTeamLocations ();
 void gf_SpawnPlayers ();
 void gf_SpectatorInit ();
 void gf_SpawnInitialBunk (int lp_player, int lp_position, int lp_player_race);
+void gf_GrantStructure (int lp_player, unit lp_structure);
 void gf_PlayerAfkEnded (int lp_player);
 void gf_RecordLastGameResults (int lp_winning_team);
 void gf_SignBank (bank lp_bank);
@@ -1039,6 +1069,7 @@ void gf_DisplayElo (playergroup lp_players);
 void gf_SaveBankIfFullGame (int lp_player);
 void gf_RecordUpdateGameStart ();
 void gf_RecordUpdateGameVictory (int lp_player);
+int gf_GetPlayerScore (int lp_player);
 text gf_GetTeamPlayerList (int lp_team);
 void gf_ShowFinalStandings (int lp_winning_team);
 void gf_ShowCorrectLeaderboard (int lp_player);
@@ -1063,6 +1094,7 @@ void gf_OnBunkerRemoved (int lp_player, unit lp_bunker);
 void gf_UpdateAllWorkers (int lp_player);
 void gf_UpdateSingleWorker (unit lp_worker, bool lp_player_has_nuke);
 bool gf_PlayerHasNuke (int lp_player);
+int gf_GetPlayerNumNukes (int lp_player);
 void gf_SetDeadPlayerColor (int lp_player);
 void gf_TestVictory ();
 void gf_OnPlayerDead (int lp_player);
@@ -1091,6 +1123,8 @@ trigger gt_ShowStandings;
 trigger gt_ToggleLeaderboard;
 trigger gt_LeaderboardPeriodicRefresh;
 trigger gt_Score;
+trigger gt_ResourceTradingTracker;
+trigger gt_UpdateLosses;
 trigger gt_TeamInfoTrackUpgrades;
 trigger gt_RefreshTeamInfoMins;
 trigger gt_UpdateTeamInfo;
@@ -1103,6 +1137,7 @@ trigger gt_BunkerBuild;
 trigger gt_BunkerBuild2;
 trigger gt_ConstructionCancelled;
 trigger gt_BunkerDestoryed;
+trigger gt_TankDied;
 trigger gt_ScvDied;
 trigger gt_OnRetire;
 trigger gt_OnUnretire;
@@ -1202,7 +1237,7 @@ void gf_ConfigureConstants () {
     gv_race_spawn_unit_types[0][1][1] = "MercReaper";
     gv_race_spawn_unit_types[0][2][1] = "HammerSecurity";
     gv_race_spawn_unit_types[0][3][1] = "Spectre";
-    gv_race_spawn_unit_types[1][0][0] = "SupplicantACGluescreenDummy";
+    gv_race_spawn_unit_types[1][0][0] = "Zealot";
     gv_race_spawn_unit_types[1][1][0] = "Adept";
     gv_race_spawn_unit_types[1][2][0] = "Stalker";
     gv_race_spawn_unit_types[1][3][0] = "Immortal";
@@ -1251,6 +1286,9 @@ void gf_ConfigureConstants () {
     gv_race_teaminfo_icons[0][5] = "Assets\\Textures\\btn-upgrade-terran-buildingarmor.dds";
     gv_race_teaminfo_icons[0][6] = "Assets\\Textures\\btn-upgrade-swann-regenerativebiosteel.dds";
     gv_race_teaminfo_icons[0][7] = "Assets\\Textures\\btn-upgrade-terran-neosteelframe.dds";
+    gv_race_teaminfo_icons[0][8] = "Assets\\Textures\\btn-unit-terran-siegetankmercenary-sieged.dds";
+    gv_race_teaminfo_icons[0][9] = "Assets\\Textures\\btn-unit-terran-scv.dds";
+    gv_race_teaminfo_icons[0][10] = "Assets\\Textures\\btn-ability-terran-nuclearstrike-color.dds";
     gv_race_teaminfo_icons[1][0] = "Assets\\Textures\\btn-ability-protoss-voidarmor.dds";
     gv_race_teaminfo_icons[1][1] = "Assets\\Textures\\btn-upgrade-protoss-groundweaponslevel1.dds";
     gv_race_teaminfo_icons[1][2] = "Assets\\Textures\\btn-upgrade-protoss-structureovercharge.dds";
@@ -1259,6 +1297,9 @@ void gf_ConfigureConstants () {
     gv_race_teaminfo_icons[1][5] = "Assets\\Textures\\btn-ability-protoss-arcshield.dds";
     gv_race_teaminfo_icons[1][6] = "Assets\\Textures\\btn-ability-spearofadun-shieldovercharge.dds";
     gv_race_teaminfo_icons[1][7] = "Assets\\Textures\\btn-upgrade-protoss-researchbosoniccore.dds";
+    gv_race_teaminfo_icons[1][8] = "Assets\\Textures\\btn-unit-terran-siegetankmercenary-sieged.dds";
+    gv_race_teaminfo_icons[1][9] = "Assets\\Textures\\btn-unit-terran-scv.dds";
+    gv_race_teaminfo_icons[1][10] = "Assets\\Textures\\btn-ability-terran-nuclearstrike-color.dds";
     gv_race_teaminfo_icons[2][0] = "Assets\\Textures\\btn-ability-protoss-voidarmor.dds";
     gv_race_teaminfo_icons[2][1] = "Assets\\Textures\\btn-upgrade-protoss-groundweaponslevel1.dds";
     gv_race_teaminfo_icons[2][2] = "Assets\\Textures\\btn-upgrade-protoss-structureovercharge.dds";
@@ -1267,6 +1308,9 @@ void gf_ConfigureConstants () {
     gv_race_teaminfo_icons[2][5] = "Assets\\Textures\\btn-ability-protoss-arcshield.dds";
     gv_race_teaminfo_icons[2][6] = "Assets\\Textures\\btn-ability-spearofadun-shieldovercharge.dds";
     gv_race_teaminfo_icons[2][7] = "Assets\\Textures\\btn-upgrade-protoss-researchbosoniccore.dds";
+    gv_race_teaminfo_icons[1][8] = "Assets\\Textures\\btn-unit-terran-siegetankmercenary-sieged.dds";
+    gv_race_teaminfo_icons[1][9] = "Assets\\Textures\\btn-unit-terran-scv.dds";
+    gv_race_teaminfo_icons[1][10] = "Assets\\Textures\\btn-ability-terran-nuclearstrike-color.dds";
     gv_race_teaminfo_upgrades[0][0] = "MarineArmor";
     gv_race_teaminfo_upgrades[0][1] = "MarineWeapons";
     gv_race_teaminfo_upgrades[0][2] = "MarineAttackRange";
@@ -1781,13 +1825,13 @@ void gf_SpawnPlayers () {
         lv_player = PlayerGroupNextPlayer(autoF3930426_g, lv_player);
         if (lv_player < 0) { break; }
         PlayerModifyPropertyInt(lv_player, c_playerPropHandicap, c_playerPropOperSetTo, 100);
+        gv_total_resource_granted = 50;
         if ((GameAttributeGameValue("8") == "0001")) {
             UIDisplayMessage(PlayerGroupSingle(lv_player), c_messageAreaChat, StringExternal("Param/Value/B9C32212"));
-            PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, 1000000);
+            gv_total_resource_granted = 100000;
         }
-        else {
-            PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, 50);
-        }
+
+        PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, gv_total_resource_granted);
         lv_position = gv_player_positions[lv_player];
         lv_player_race = gv_player_race_index[lv_player];
         gv_player_spawn_offsets[lv_player][0] = gv_position_spawn_offsets[lv_position][0];
@@ -1812,6 +1856,8 @@ void gf_SpawnPlayers () {
         UnitIssueOrder(UnitLastCreated(), Order(AbilityCommand("move", 2)), c_orderQueueReplace);
         lv_unit = UnitLastCreated();
         gf_OnBunkerCreated2(lv_unit);
+        gv_total_structure_granted_value[lv_player] += 3000;
+        gv_total_structure_granted_value[lv_player] += 4500;
         libNtve_gf_AttachModelToUnit(UnitLastCreated(), "SS_PowerupStrongerMissiles", "Ref_Hardpoint");
         libHots_gf_StoreActorForUnit(UnitLastCreated(), 1, libNtve_gf_ActorLastCreated());
         if ((PlayerType(lv_player) == c_playerTypeUser)) {
@@ -1844,6 +1890,13 @@ void gf_SpawnInitialBunk (int lp_player, int lp_position, int lp_player_race) {
     lv_unit = UnitLastCreated();
     gf_OnBunkerCreated3(lv_unit);
     gf_OnBunkerCreated(lp_player, lv_unit);
+    gf_GrantStructure(lp_player, lv_unit);
+}
+
+void gf_GrantStructure (int lp_player, unit lp_structure) {
+    // Automatic Variable Declarations
+    // Implementation
+    gv_total_structure_granted_value[lp_player] += UnitTypeGetCost(UnitGetType(lp_structure), c_unitCostMinerals);
 }
 
 void gf_PlayerAfkEnded (int lp_player) {
@@ -2141,6 +2194,12 @@ void gf_RecordUpdateGameVictory (int lp_player) {
     BankValueSetFromFixed(gv_banks[lp_player], "Player", ("elo" + gv_game_mode_string), gv_player_current_elo[lp_player]);
 }
 
+int gf_GetPlayerScore (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    return (PlayerScoreValueGetAsInt(lp_player, "UnitsKilledValue") + (PlayerScoreValueGetAsInt(lp_player, "StructuresKilledValue") + gv_player_shards_collected[lp_player]));
+}
+
 text gf_GetTeamPlayerList (int lp_team) {
     // Variable Declarations
     int lv_player;
@@ -2419,7 +2478,7 @@ void gf_UpdateLeaderboard (bool lp_force_update_sort) {
                 lv_team_nuke_scores[gv_player_team[lv_player]] += 500;
             }
 
-            lv_player_score = (PlayerScoreValueGetAsInt(lv_player, "UnitsKilledValue") + (PlayerScoreValueGetAsInt(lv_player, "StructuresKilledValue") + gv_player_shards_collected[lv_player]));
+            lv_player_score = gf_GetPlayerScore(lv_player);
             gv_player_scores[lv_player] = lv_player_score;
             lv_team_scores[gv_player_team[lv_player]] = (lv_player_score + lv_team_scores[gv_player_team[lv_player]]);
             gv_team_scores[gv_player_team[lv_player]] = lv_team_scores[gv_player_team[lv_player]];
@@ -2554,7 +2613,7 @@ void gf_CreateResultsDialog (int lp_winning_team) {
     // Implementation
     DialogCreate(1200, 630, c_anchorTop, 0, 60, false);
     lv_dialog = DialogLastCreated();
-    gv_results_dialog = DialogLastCreated();
+    gv_results_dialog[0] = DialogLastCreated();
     DialogSetVisible(DialogLastCreated(), PlayerGroupAll(), true);
     DialogSetImageVisible(DialogLastCreated(), false);
     libNtve_gf_CreateDialogItemImage(DialogLastCreated(), 1100, 600, c_anchorCenter, 0, 0, StringToText(""), "Assets\\Textures\\ui_battlenet_glue_frame_small_base.dds", c_triggerImageTypeHorizontalBorder, true, Color(100,100,100), c_triggerBlendModeNormal);
@@ -2620,6 +2679,9 @@ void gf_UpdateTeamInfoColor (int lp_player) {
     libNtve_gf_SetDialogItemColor(gv_team_info_player_bunker_armor[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
     libNtve_gf_SetDialogItemColor(gv_team_info_player_bunker_regen[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
     libNtve_gf_SetDialogItemColor(gv_team_info_player_bunker_slots[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
+    libNtve_gf_SetDialogItemColor(gv_team_info_player_tanks[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
+    libNtve_gf_SetDialogItemColor(gv_team_info_player_workers[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
+    libNtve_gf_SetDialogItemColor(gv_team_info_player_nukes[lp_player], gv_player_colors[lp_player], PlayerGroupAll());
 }
 
 void gf_TeamInfoInit () {
@@ -2678,12 +2740,25 @@ void gf_TeamInfoInit () {
         libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), gv_race_teaminfo_icons[gv_player_race_index[lv_player]][6], PlayerGroupAll());
         DialogControlHookup(lv_header, c_triggerControlTypeImage, "BunkerSlotsIcon");
         libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), gv_race_teaminfo_icons[gv_player_race_index[lv_player]][7], PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "TankIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), gv_race_teaminfo_icons[gv_player_race_index[lv_player]][8], PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "WorkerIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), gv_race_teaminfo_icons[gv_player_race_index[lv_player]][9], PlayerGroupAll());
+        DialogControlHookup(lv_header, c_triggerControlTypeImage, "NukeIcon");
+        libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), gv_race_teaminfo_icons[gv_player_race_index[lv_player]][10], PlayerGroupAll());
         DialogControlCreateFromTemplate(lv_mainDialog, c_triggerControlTypePanel, "ZoneTeammateStats/TeammateState");
         DialogControlSetVisible(DialogControlLastCreated(), PlayerGroupAll(), false);
         gv_team_info_player_dialogs[lv_player] = DialogControlLastCreated();
         DialogControlSetPosition(gv_team_info_player_dialogs[lv_player], PlayerGroupSingle(lv_player), c_anchorTopLeft, 0, ((0 * 30) + 30));
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "PlayerMinerals");
         gv_team_info_player_mineral[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "PlayerLosses");
+        gv_team_info_player_losses[lv_player] = DialogControlLastCreated();
+        if ((GameAttributeGameValue("8") == "0002")) {
+            DialogControlSetVisible(DialogControlLastCreated(), PlayerGroupAll(), false);
+        }
+
+        DialogControlSetVisible(DialogControlLastCreated(), PlayerGroupSingle(0), true);
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "AttackUp");
         gv_team_info_player_attack[lv_player] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "ArmorUp");
@@ -2700,6 +2775,13 @@ void gf_TeamInfoInit () {
         gv_team_info_player_bunker_regen[lv_player] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "BunkerSlotsUp");
         gv_team_info_player_bunker_slots[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "TankCount");
+        gv_team_info_player_tanks[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "WorkerCount");
+        gv_team_info_player_workers[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "NukeCount");
+        gv_team_info_player_nukes[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "NukeCount");
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "ArmorUpButton");
         gv_team_info_player_upgrade_buttons[lv_player][0] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeButton, "AttackUpButton");
@@ -2758,6 +2840,9 @@ void gf_UpdateTeamInfoForPlayer (int lp_player) {
         libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_armor[lp_player], IntToText(gv_team_info_player_bunker_armor_level[lp_player]), PlayerGroupAll());
         libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_regen[lp_player], IntToText(gv_team_info_player_bunker_regen_level[lp_player]), PlayerGroupAll());
         libNtve_gf_SetDialogItemText(gv_team_info_player_bunker_slots[lp_player], IntToText(gv_team_info_player_bunker_slots_level[lp_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_nukes[lp_player], IntToText(gf_GetPlayerNumNukes(lp_player)), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_workers[lp_player], IntToText(gv_player_num_workers[lp_player]), PlayerGroupAll());
+        libNtve_gf_SetDialogItemText(gv_team_info_player_tanks[lp_player], IntToText(gv_player_tank_counts[lp_player]), PlayerGroupAll());
     }
 
 }
@@ -2961,6 +3046,12 @@ bool gf_PlayerHasNuke (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
     return (UnitMagazineCount(gv_ghost_academies[lp_player], "ArmSiloWithNuke") >= 1);
+}
+
+int gf_GetPlayerNumNukes (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    return UnitMagazineCount(gv_ghost_academies[lp_player], "ArmSiloWithNuke");
 }
 
 void gf_SetDeadPlayerColor (int lp_player) {
@@ -3241,7 +3332,7 @@ bool gt_Control_Func (bool testConds, bool runActions) {
     while (true) {
         lv_ally = PlayerGroupNextPlayer(autoAC7F0913_g, lv_ally);
         if (lv_ally < 0) { break; }
-        if (((PlayerGetAlliance(lv_player, c_allianceIdControl, lv_ally) == true) && (lv_player != lv_ally))) {
+        if (((PlayerGetAlliance(lv_player, c_allianceIdControl, lv_ally) == true) && (lv_player != lv_ally) && (lv_player != lv_ally))) {
             lv_has_control_shared = true;
         }
 
@@ -3284,7 +3375,7 @@ void gt_Control_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_wlfgnarkehweggqf;
+    int lv_hebauyekbdditewy;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -3312,17 +3403,17 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
             }
         }
         else {
-            DialogSetVisible(gv_results_dialog, PlayerGroupAll(), false);
+            DialogSetVisible(gv_results_dialog[0], PlayerGroupAll(), false);
         }
     }
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_wlfgnarkehweggqf = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_wlfgnarkehweggqf <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_wlfgnarkehweggqf >= autoA9265719_ae) ) ; lv_wlfgnarkehweggqf += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_wlfgnarkehweggqf])) {
+        lv_hebauyekbdditewy = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_hebauyekbdditewy <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_hebauyekbdditewy >= autoA9265719_ae) ) ; lv_hebauyekbdditewy += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_hebauyekbdditewy])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_wlfgnarkehweggqf]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_hebauyekbdditewy]), c_orderQueueReplace);
                 }
 
             }
@@ -3548,7 +3639,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_utthprwnovamrunm;
+    int lv_sgnqtswkqpdderyf;
     int lv_player;
     int lv_ally;
 
@@ -3572,10 +3663,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_utthprwnovamrunm = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_utthprwnovamrunm <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_utthprwnovamrunm >= autoFC6C6804_ae) ) ; lv_utthprwnovamrunm += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_utthprwnovamrunm], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_utthprwnovamrunm], PlayerGroupSingle(lv_player), true);
+            lv_sgnqtswkqpdderyf = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_sgnqtswkqpdderyf <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_sgnqtswkqpdderyf >= autoFC6C6804_ae) ) ; lv_sgnqtswkqpdderyf += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_sgnqtswkqpdderyf], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_sgnqtswkqpdderyf], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
@@ -3917,6 +4008,87 @@ void gt_Score_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: ResourceTradingTracker
+//--------------------------------------------------------------------------------------------------
+bool gt_ResourceTradingTracker_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_player_net_resource_traded[EventPlayer()] -= EventResourceTradeAmount(c_resourceTypeMinerals);
+    gv_player_net_resource_traded[EventResourceTradeRecipient()] += EventResourceTradeAmount(c_resourceTypeMinerals);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ResourceTradingTracker_Init () {
+    gt_ResourceTradingTracker = TriggerCreate("gt_ResourceTradingTracker_Func");
+    TriggerAddEventResourceTrade(gt_ResourceTradingTracker, c_playerAny, c_playerAny);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: UpdateLosses
+//--------------------------------------------------------------------------------------------------
+bool gt_UpdateLosses_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    fixed lv_running_total;
+    unit lv_unit;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    unitgroup auto8C2A0172_g;
+    int auto8C2A0172_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    while ((lv_player <= 1000)) {
+        lv_player += 1;
+        if ((lv_player > 15)) {
+            Wait(1.0, c_timeGame);
+            lv_player = 0;
+        }
+
+        if ((gv_player_alive[lv_player] == true)) {
+            lv_running_total = gf_GetPlayerScore(lv_player);
+            lv_running_total += gv_total_resource_granted;
+            lv_running_total += gv_total_structure_granted_value[lv_player];
+            lv_running_total += gv_player_net_resource_traded[lv_player];
+            auto8C2A0172_g = gv_structuresGroup[lv_player];
+            auto8C2A0172_u = UnitGroupCount(auto8C2A0172_g, c_unitCountAll);
+            for (;; auto8C2A0172_u -= 1) {
+                lv_unit = UnitGroupUnitFromEnd(auto8C2A0172_g, auto8C2A0172_u);
+                if (lv_unit == null) { break; }
+                if ((UnitIsAlive(lv_unit) == true)) {
+                    lv_running_total -= UnitTypeGetCost(UnitGetType(lv_unit), c_unitCostMinerals);
+                }
+
+            }
+            lv_running_total -= gv_player_upgrade_total_cost[lv_player];
+            lv_running_total -= PlayerGetPropertyInt(lv_player, c_playerPropMinerals);
+            lv_running_total -= (gv_player_num_workers[lv_player] * 3000.0);
+            lv_running_total -= (gf_GetPlayerNumNukes(lv_player) * 4500.0);
+            libNtve_gf_SetDialogItemText(gv_team_info_player_losses[lv_player], IntToText(RoundI(lv_running_total)), PlayerGroupAll());
+            Wait(1.0, c_timeGame);
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_UpdateLosses_Init () {
+    gt_UpdateLosses = TriggerCreate("gt_UpdateLosses_Func");
+    TriggerAddEventTimeElapsed(gt_UpdateLosses, 5.0, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: TeamInfoTrackUpgrades
 //--------------------------------------------------------------------------------------------------
 bool gt_TeamInfoTrackUpgrades_Func (bool testConds, bool runActions) {
@@ -3942,6 +4114,7 @@ bool gt_TeamInfoTrackUpgrades_Func (bool testConds, bool runActions) {
     gv_team_info_player_bunker_armor_level[lv_player] = TechTreeUpgradeCount(lv_player, gv_race_teaminfo_upgrades[lv_player_race][5], c_techCountQueuedOrBetter);
     gv_team_info_player_bunker_regen_level[lv_player] = TechTreeUpgradeCount(lv_player, gv_race_teaminfo_upgrades[lv_player_race][6], c_techCountQueuedOrBetter);
     gv_team_info_player_bunker_slots_level[lv_player] = TechTreeUpgradeCount(lv_player, gv_race_teaminfo_upgrades[lv_player_race][7], c_techCountQueuedOrBetter);
+    gv_player_upgrade_total_cost[lv_player] = PlayerScoreValueGetAsFixed(lv_player, "MineralsUsedTotalUpgrade");
     gf_UpdateTeamInfoForPlayer(lv_player);
     return true;
 }
@@ -4270,6 +4443,7 @@ void gt_OnUpgrade_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_BunkerBuild_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    unit lv_unit;
     point lv_point;
 
     // Automatic Variable Declarations
@@ -4280,6 +4454,12 @@ bool gt_BunkerBuild_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    lv_unit = EventUnitProgressUnit();
+    if (((UnitGetType(lv_unit) == "SiegeBreakerSieged") || (UnitGetType(lv_unit) == "Colossus"))) {
+        gv_player_tank_counts[UnitGetOwner(lv_unit)] += 1;
+        TriggerAddEventUnitDied(gt_TankDied, UnitRefFromUnit(lv_unit));
+        gf_UpdateTeamInfoForPlayer(UnitGetOwner(lv_unit));
+    }
     if ((UnitGetType(EventUnitProgressUnit()) == gv_race_spawner_types[gv_player_race_index[UnitGetOwner(EventUnitProgressUnit())]][0])) {
         gf_OnBunkerCreated(UnitGetOwner(EventUnitProgressUnit()), EventUnitProgressUnit());
     }
@@ -4328,12 +4508,23 @@ void gt_BunkerBuild2_Init () {
 // Trigger: ConstructionCancelled
 //--------------------------------------------------------------------------------------------------
 bool gt_ConstructionCancelled_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_refund_losses;
+    unit lv_unit;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+
     // Actions
     if (!runActions) {
         return true;
     }
 
+    lv_unit = EventUnitProgressUnit();
+    lv_refund_losses = RoundI((0.25 * UnitTypeGetCost(libNtve_gf_TriggeringProgressUnitType(), c_unitCostMinerals)));
+    gv_player_losses[UnitGetOwner(EventUnitProgressUnit())] += lv_refund_losses;
+    UnitSetCustomValue(lv_unit, 0, lv_refund_losses);
+    gf_UpdateTeamInfoForPlayer(UnitGetOwner(EventUnitProgressUnit()));
     gf_TestPlayerDead(UnitGetOwner(EventUnitProgressUnit()));
     return true;
 }
@@ -4361,6 +4552,26 @@ bool gt_BunkerDestoryed_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_BunkerDestoryed_Init () {
     gt_BunkerDestoryed = TriggerCreate("gt_BunkerDestoryed_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: TankDied
+//--------------------------------------------------------------------------------------------------
+bool gt_TankDied_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_player_tank_counts[UnitGetOwner(EventUnit())] -= 1;
+    gf_UpdateTeamInfoForPlayer(UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_TankDied_Init () {
+    gt_TankDied = TriggerCreate("gt_TankDied_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4449,6 +4660,7 @@ void gt_OnUnretire_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ScvCalldown_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    int lv_player;
     unit lv_unit;
 
     // Automatic Variable Declarations
@@ -4463,7 +4675,10 @@ bool gt_ScvCalldown_Func (bool testConds, bool runActions) {
     }
 
     Wait(5.0, c_timeGame);
-    autoC83EDAA1_g = UnitGroup("SCV", UnitGetOwner(EventUnit()), RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    lv_player = UnitGetOwner(EventUnit());
+    gv_player_num_workers[lv_player] += 1;
+    gf_UpdateTeamInfoForPlayer(lv_player);
+    autoC83EDAA1_g = UnitGroup("SCV", lv_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     autoC83EDAA1_u = UnitGroupCount(autoC83EDAA1_g, c_unitCountAll);
     for (;; autoC83EDAA1_u -= 1) {
         lv_unit = UnitGroupUnitFromEnd(autoC83EDAA1_g, autoC83EDAA1_u);
@@ -4502,6 +4717,7 @@ bool gt_DetectNukeAction_Func (bool testConds, bool runActions) {
     if (((gv_num_nuke_used[lv_player] == lv_num_used) && (gv_num_nukes_detected[lv_player] < gv_num_nuke_used[lv_player]))) {
         gv_num_nuke_used[lv_player] -= 1;
         UnitMagazineArm(gv_nuke_silos[lv_player], AbilityCommand("ArmSiloWithNuke", 0), 1);
+        gf_UpdateTeamInfoForPlayer(lv_player);
         TriggerDebugOutput(1, StringExternal("Param/Value/2CB32ECF"), true);
     }
 
@@ -4544,6 +4760,7 @@ bool gt_ArmNuke_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    gf_UpdateTeamInfoForPlayer(UnitGetOwner(EventUnit()));
     gf_UpdateAllWorkers(UnitGetOwner(EventUnit()));
     return true;
 }
@@ -4551,7 +4768,7 @@ bool gt_ArmNuke_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ArmNuke_Init () {
     gt_ArmNuke = TriggerCreate("gt_ArmNuke_Func");
-    TriggerAddEventUnitAbility(gt_ArmNuke, null, AbilityCommand("ArmSiloWithNuke", 0), c_unitAbilStageAll, false);
+    TriggerAddEventUnitAbility(gt_ArmNuke, null, AbilityCommand("ArmSiloWithNuke", 0), c_unitAbilStageComplete, false);
     TriggerAddEventUnitAbility(gt_ArmNuke, null, AbilityCommand("TacNukeStrike", 0), c_abilEffectStageCast, false);
 }
 
@@ -4684,6 +4901,7 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
                     UnitControlGroupAddUnit(lv_teammate, 2, lv_unit);
                     PlayerModifyPropertyInt(UnitGetOwner(lv_unit), c_playerPropMinerals, c_playerPropOperAdd, 550);
                     UnitIssueOrder(lv_unit, Order(AbilityCommand("RetireStructure", 0)), c_orderQueueReplace);
+                    gf_GrantStructure(lv_teammate, lv_unit);
                 }
                 else {
                     if (((UnitGetType(lv_unit) == "SiegeBreakerSieged") || (UnitGetType(lv_unit) == "SiegeBreaker"))) {
@@ -4751,6 +4969,7 @@ bool gt_MineralTrickle_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    gv_total_resource_granted += 5;
     auto52F9A234_g = gv_all_players;
     lv_player = -1;
     while (true) {
@@ -4794,6 +5013,8 @@ void InitTriggers () {
     gt_ToggleLeaderboard_Init();
     gt_LeaderboardPeriodicRefresh_Init();
     gt_Score_Init();
+    gt_ResourceTradingTracker_Init();
+    gt_UpdateLosses_Init();
     gt_TeamInfoTrackUpgrades_Init();
     gt_RefreshTeamInfoMins_Init();
     gt_UpdateTeamInfo_Init();
@@ -4806,6 +5027,7 @@ void InitTriggers () {
     gt_BunkerBuild2_Init();
     gt_ConstructionCancelled_Init();
     gt_BunkerDestoryed_Init();
+    gt_TankDied_Init();
     gt_ScvDied_Init();
     gt_OnRetire_Init();
     gt_OnUnretire_Init();
