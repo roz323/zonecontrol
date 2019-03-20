@@ -801,6 +801,8 @@ string[4][9] gv_race_teaminfo_upgrades;
 abilcmd[4][9] gv_race_teaminfo_upgrade_abilities;
 bool[17] gv_movement_detected;
 bool[17] gv_player_is_afk;
+int[10] gv_position_lanes;
+int[17] gv_player_lanes;
 bool gv_mode_downgraded;
 playergroup[5] gv_teams;
 playergroup gv_all_players;
@@ -816,6 +818,7 @@ unit[17] gv_research_facilities;
 unit[17] gv_initial_bunkers;
 bool gv_player_draw;
 string gv_magic;
+fixed gv_game_average_elo;
 fixed gv_total_wagers;
 fixed[17] gv_player_elos;
 fixed[17] gv_player_current_elo;
@@ -879,7 +882,15 @@ int[17] gv_player_leaderboard_player_names;
 int[17] gv_results_dialog;
 fixed[5] gv_team_final_performance;
 datetime[5] gv_team_final_performance_time;
-int gv_victory_button;
+int[17] gv_victory_button;
+bool[17] gv_player_built_bunker;
+bool[17] gv_player_bought_combat_early;
+bool[17] gv_player_has_worker_death;
+int gv_num_achievements;
+string[101] gv_achievement_ids;
+string[101] gv_achievements_names;
+string[101] gv_achievement_icons;
+int[17] gv_achievements_dialog;
 fixed[17] gv_player_upgrade_total_cost;
 fixed[17] gv_player_net_resource_traded;
 int[17] gv_player_tank_counts;
@@ -918,6 +929,7 @@ int gv_num_messages;
 text[51] gv_messages;
 int[17] gv_num_nukes_detected;
 int[17] gv_num_nuke_used;
+bool[17] gv_player_inherited_bunks;
 int gv_winning_team;
 bool gv_game_over;
 bool gv_game_over_test;
@@ -992,7 +1004,18 @@ void InitGlobals () {
     for (init_i = 0; init_i <= 4; init_i += 1) {
         gv_team_final_performance_time[init_i] = IntToDateTime(0);
     }
-    gv_victory_button = c_invalidDialogControlId;
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_victory_button[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= 100; init_i += 1) {
+        gv_achievement_ids[init_i] = "";
+    }
+    for (init_i = 0; init_i <= 100; init_i += 1) {
+        gv_achievements_names[init_i] = "";
+    }
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_achievements_dialog[init_i] = c_invalidDialogId;
+    }
     for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_player_num_workers[init_i] = 1;
     }
@@ -1078,7 +1101,17 @@ void gf_LeaderboardInit ();
 void gf_UpdateLeaderboardSortOrder ();
 void gf_UpdateLeaderboard (bool lp_force_update_sort);
 void gf_ComputeFinalScores (int lp_winning_team);
-void gf_CreateResultsDialog (int lp_winning_team);
+void gf_CreateResultsDialog (int lp_winning_team, playergroup lp_show_player);
+void gf_AddAchievement (string lp_id, string lp_name, string lp_icon);
+void gf_TestOneBunkAchievement (int lp_player);
+void gf_TestEarlyCombatPurchased (int lp_player);
+void gf_TestEarlyCombatAchievement (int lp_player);
+void gf_TestSafeWorkerAchievement (int lp_player);
+void gf_TestCarryTeammateAchievement (int lp_player);
+void gf_TestHugeNukeAchievement (unit lp_unit);
+void gf_TestVictoryBasedAcievements (int lp_winning_team);
+void gf_MarkAchievementCompleted (string lp_id, int lp_player, int lp_level);
+void gf_CreateAchievementsDialog (playergroup lp_show_player);
 void gf_UpdateTeamInfoColor (int lp_player);
 void gf_TeamInfoInit ();
 void gf_UpdateTeamInfoForPlayer (int lp_player);
@@ -1123,6 +1156,13 @@ trigger gt_ShowStandings;
 trigger gt_ToggleLeaderboard;
 trigger gt_LeaderboardPeriodicRefresh;
 trigger gt_Score;
+trigger gt_InitOneBunk;
+trigger gt_InitCombatShields;
+trigger gt_InitSafeWorker;
+trigger gt_InitCarryTeammate;
+trigger gt_InitHugeNuke;
+trigger gt_testacheivement;
+trigger gt_achievements;
 trigger gt_ResourceTradingTracker;
 trigger gt_UpdateLosses;
 trigger gt_TeamInfoTrackUpgrades;
@@ -1503,6 +1543,14 @@ void gf_ConfigureConstants () {
     gv_extra_bunk_position[5] = 4;
     gv_extra_bunk_position[6] = 7;
     gv_extra_bunk_position[7] = 6;
+    gv_position_lanes[0] = 7;
+    gv_position_lanes[7] = 0;
+    gv_position_lanes[1] = 2;
+    gv_position_lanes[2] = 1;
+    gv_position_lanes[3] = 4;
+    gv_position_lanes[4] = 3;
+    gv_position_lanes[5] = 6;
+    gv_position_lanes[6] = 5;
 }
 
 void gf_AssignTeamLocations () {
@@ -1833,6 +1881,7 @@ void gf_SpawnPlayers () {
 
         PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, gv_total_resource_granted);
         lv_position = gv_player_positions[lv_player];
+        gv_player_lanes[lv_player] = gv_position_players[gv_position_lanes[lv_position]];
         lv_player_race = gv_player_race_index[lv_player];
         gv_player_spawn_offsets[lv_player][0] = gv_position_spawn_offsets[lv_position][0];
         gv_player_spawn_offsets[lv_player][1] = gv_position_spawn_offsets[lv_position][1];
@@ -2074,6 +2123,7 @@ void gf_DisplayElo (playergroup lp_players) {
     while (true) {
         lv_player = PlayerGroupNextPlayer(auto11B949D1_g, lv_player);
         if (lv_player < 0) { break; }
+        UIDisplayMessage(PlayerGroupSingle(lv_player), c_messageAreaChat, (StringExternal("Param/Value/1CFBFBF6") + FixedToText(gv_game_average_elo, 1)));
         lv_message = (StringToText("") + StringExternal("Param/Value/AD714ED6"));
         lv_message = (lv_message + TextWithColor(FixedToTextAdvanced(((gv_total_wagers / gv_players_per_team) - gv_player_elos_wagers[lv_player]), c_formatNumberStyleNormal, true, 2, 2), libNtve_gf_ConvertPlayerColorToColor(13)));
         lv_message = (lv_message + StringExternal("Param/Value/911BE273"));
@@ -2182,6 +2232,7 @@ void gf_RecordUpdateGameStart () {
         BankValueSetFromFixed(gv_banks[lv_player], "Player", ("elo" + gv_game_mode_string), gv_player_current_elo[lv_player]);
         gf_SaveBankIfFullGame(lv_player);
     }
+    gv_game_average_elo = (lv_total_elo / PlayerGroupCount(gv_all_players));
     gf_DisplayElo(gv_all_players);
 }
 
@@ -2586,7 +2637,7 @@ void gf_ComputeFinalScores (int lp_winning_team) {
     }
 }
 
-void gf_CreateResultsDialog (int lp_winning_team) {
+void gf_CreateResultsDialog (int lp_winning_team, playergroup lp_show_player) {
     // Variable Declarations
     fixed lv_peak_score;
     datetime lv_peak_score_time;
@@ -2613,24 +2664,24 @@ void gf_CreateResultsDialog (int lp_winning_team) {
     // Implementation
     DialogCreate(1200, 630, c_anchorTop, 0, 60, false);
     lv_dialog = DialogLastCreated();
-    gv_results_dialog[0] = DialogLastCreated();
     DialogSetVisible(DialogLastCreated(), PlayerGroupAll(), true);
     DialogSetImageVisible(DialogLastCreated(), false);
     libNtve_gf_CreateDialogItemImage(DialogLastCreated(), 1100, 600, c_anchorCenter, 0, 0, StringToText(""), "Assets\\Textures\\ui_battlenet_glue_frame_small_base.dds", c_triggerImageTypeHorizontalBorder, true, Color(100,100,100), c_triggerBlendModeNormal);
     libNtve_gf_CreateDialogItemButton(DialogLastCreated(), 300, 100, c_anchorBottom, 0, 70, StringToText(""), StringExternal("Param/Value/07DB2B02"), "");
-    auto36B0CB86_g = gv_all_players;
+    auto36B0CB86_g = lp_show_player;
     lv_player = -1;
     while (true) {
         lv_player = PlayerGroupNextPlayer(auto36B0CB86_g, lv_player);
         if (lv_player < 0) { break; }
+        gv_results_dialog[lv_player] = lv_dialog;
+        gv_victory_button[lv_player] = DialogControlLastCreated();
         if ((lp_winning_team == gv_player_team[lv_player])) {
             libNtve_gf_SetDialogItemText(DialogControlLastCreated(), StringExternal("Param/Value/3C1367FD"), PlayerGroupSingle(lv_player));
         }
 
     }
-    gv_victory_button = DialogControlLastCreated();
     DialogControlCreateFromTemplate(lv_dialog, c_triggerControlTypePanel, "ZoneResults/ResultsTitle");
-    DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupAll(), c_anchorTopLeft, 0, 50);
+    DialogControlSetPosition(DialogControlLastCreated(), lp_show_player, c_anchorTopLeft, 0, 50);
     lv_current_offset = 100;
     lv_team = 0;
     for ( ; ( (auto17774444_ai >= 0 && lv_team <= auto17774444_ae) || (auto17774444_ai < 0 && lv_team >= auto17774444_ae) ) ; lv_team += auto17774444_ai ) {
@@ -2642,10 +2693,10 @@ void gf_CreateResultsDialog (int lp_winning_team) {
             if (lv_player < 0) { break; }
             DialogControlCreateFromTemplate(lv_dialog, c_triggerControlTypePanel, "ZoneResults/ResultsPlayer");
             lv_player_row = DialogControlLastCreated();
-            DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupAll(), c_anchorTopLeft, 0, lv_current_offset);
+            DialogControlSetPosition(DialogControlLastCreated(), lp_show_player, c_anchorTopLeft, 0, lv_current_offset);
             DialogControlHookup(lv_player_row, c_triggerControlTypeLabel, "ResultsName");
-            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), PlayerName(lv_player), PlayerGroupAll());
-            libNtve_gf_SetDialogItemColor(DialogControlLastCreated(), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false)), PlayerGroupAll());
+            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), PlayerName(lv_player), lp_show_player);
+            libNtve_gf_SetDialogItemColor(DialogControlLastCreated(), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false)), lp_show_player);
             DialogControlHookup(lv_player_row, c_triggerControlTypeLabel, "ResultsElo");
             lv_elo_change = (gv_player_current_elo[lv_player] - gv_player_elos[lv_player]);
             if ((lv_elo_change > 0.0)) {
@@ -2656,14 +2707,262 @@ void gf_CreateResultsDialog (int lp_winning_team) {
                 lv_elo_change_color = Color(71.37, 1.96, 3.92);
             }
 
-            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (FixedToText(gv_player_current_elo[lv_player], 0) + StringExternal("Param/Value/DB7F0C5D") + TextWithColor(FixedToText(lv_elo_change, 1), lv_elo_change_color) + StringExternal("Param/Value/0E083112")), PlayerGroupAll());
+            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (FixedToText(gv_player_current_elo[lv_player], 0) + StringExternal("Param/Value/DB7F0C5D") + TextWithColor(FixedToText(lv_elo_change, 1), lv_elo_change_color) + StringExternal("Param/Value/0E083112")), lp_show_player);
             DialogControlHookup(lv_player_row, c_triggerControlTypeLabel, "ResultsPeakPerformance");
             lv_peak_score = gv_team_final_performance[gv_player_team[lv_player]];
             lv_peak_score_time = gv_team_final_performance_time[gv_player_team[lv_player]];
-            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), FixedToText(lv_peak_score, 2), PlayerGroupAll());
-            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (FixedToText(lv_peak_score, 2) + StringExternal("Param/Value/08AECC7B") + TextTimeFormat(StringToText("<mintotal/>:<sec2/>"), (DateTimeToInt(lv_peak_score_time) - DateTimeToInt(gv_game_start_time)))), PlayerGroupAll());
+            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), FixedToText(lv_peak_score, 2), lp_show_player);
+            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), (FixedToText(lv_peak_score, 2) + StringExternal("Param/Value/08AECC7B") + TextTimeFormat(StringToText("<mintotal/>:<sec2/>"), (DateTimeToInt(lv_peak_score_time) - DateTimeToInt(gv_game_start_time)))), lp_show_player);
             lv_current_offset += 35;
         }
+    }
+}
+
+void gf_AddAchievement (string lp_id, string lp_name, string lp_icon) {
+    // Automatic Variable Declarations
+    // Implementation
+    gv_achievement_ids[gv_num_achievements] = lp_id;
+    gv_achievements_names[gv_num_achievements] = lp_name;
+    gv_achievement_icons[gv_num_achievements] = lp_icon;
+    gv_num_achievements += 1;
+}
+
+void gf_TestOneBunkAchievement (int lp_player) {
+    // Variable Declarations
+    int lv_teammate;
+
+    // Automatic Variable Declarations
+    playergroup auto7547A006_g;
+
+    // Variable Initialization
+
+    // Implementation
+    if ((gv_player_built_bunker[lp_player] == true)) {
+        return ;
+    }
+
+    gf_MarkAchievementCompleted("1b", lp_player, RoundI(gv_game_average_elo));
+    auto7547A006_g = gv_teams[gv_player_team[lp_player]];
+    lv_teammate = -1;
+    while (true) {
+        lv_teammate = PlayerGroupNextPlayer(auto7547A006_g, lv_teammate);
+        if (lv_teammate < 0) { break; }
+        if ((gv_player_built_bunker[lv_teammate] == true)) {
+            return ;
+        }
+
+    }
+    gf_MarkAchievementCompleted("1bx2", lp_player, RoundI(gv_game_average_elo));
+}
+
+void gf_TestEarlyCombatPurchased (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if (((gv_player_alive[gv_player_lanes[lp_player]] == true) && (gv_movement_detected[gv_player_lanes[lp_player]] == true) && (TimerGetElapsed(gv_game_timer) <= 60.0) && (gv_player_scores[gv_player_lanes[lp_player]] <= 50))) {
+        UIDisplayMessage(PlayerGroupSingle(lp_player), c_messageAreaChat, StringExternal("Param/Value/8A94AF44"));
+        gv_player_bought_combat_early[lp_player] = true;
+    }
+
+}
+
+void gf_TestEarlyCombatAchievement (int lp_player) {
+    // Variable Declarations
+    int lv_teammate;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    if ((gv_player_bought_combat_early[lp_player] == true)) {
+        gf_MarkAchievementCompleted("cs", lp_player, RoundI(gv_player_elos[gv_player_lanes[lp_player]]));
+    }
+
+}
+
+void gf_TestSafeWorkerAchievement (int lp_player) {
+    // Variable Declarations
+    int lv_teammate;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    if ((gv_player_has_worker_death[lp_player] == true)) {
+        return ;
+    }
+
+    gf_MarkAchievementCompleted("sscv", lp_player, RoundI(gv_game_average_elo));
+}
+
+void gf_TestCarryTeammateAchievement (int lp_player) {
+    // Variable Declarations
+    int lv_teammate;
+
+    // Automatic Variable Declarations
+    playergroup auto053EF8FE_g;
+
+    // Variable Initialization
+
+    // Implementation
+    auto053EF8FE_g = gv_teams[gv_player_team[lp_player]];
+    lv_teammate = -1;
+    while (true) {
+        lv_teammate = PlayerGroupNextPlayer(auto053EF8FE_g, lv_teammate);
+        if (lv_teammate < 0) { break; }
+        if ((gv_player_alive[lv_teammate] != true)) {
+            return ;
+        }
+
+        if (((lv_teammate != lp_player) && (gv_player_elos[lv_teammate] > 850.0))) {
+            return ;
+        }
+
+    }
+    gf_MarkAchievementCompleted("ct", lp_player, RoundI(gv_game_average_elo));
+}
+
+void gf_TestHugeNukeAchievement (unit lp_unit) {
+    // Variable Declarations
+    int lv_teammate;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    UIDisplayMessage(PlayerGroupSingle(UnitGetOwner(lp_unit)), c_messageAreaChat, FixedToText(UnitGetPropertyFixed(lp_unit, c_unitPropKills, c_unitPropCurrent), c_fixedPrecisionAny));
+    if ((TimerGetElapsed(gv_game_timer) <= 400.0) && (UnitGetPropertyFixed(lp_unit, c_unitPropKills, c_unitPropCurrent) >= 103.0)) {
+        UIDisplayMessage(PlayerGroupSingle(UnitGetOwner(lp_unit)), c_messageAreaChat, StringExternal("Param/Value/7B036259"));
+        gf_MarkAchievementCompleted("mn", UnitGetOwner(lp_unit), RoundI(gv_game_average_elo));
+    }
+
+}
+
+void gf_TestVictoryBasedAcievements (int lp_winning_team) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup auto1DC28DEC_g;
+    playergroup auto79E5299F_g;
+
+    // Variable Initialization
+
+    // Implementation
+    auto1DC28DEC_g = gv_teams[gv_winning_team];
+    gv_winning_team = -1;
+    while (true) {
+        gv_winning_team = PlayerGroupNextPlayer(auto1DC28DEC_g, gv_winning_team);
+        if (gv_winning_team < 0) { break; }
+        if ((gv_player_inherited_bunks[lv_player] == true)) {
+            return ;
+        }
+
+    }
+    auto79E5299F_g = gv_teams[gv_winning_team];
+    gv_winning_team = -1;
+    while (true) {
+        gv_winning_team = PlayerGroupNextPlayer(auto79E5299F_g, gv_winning_team);
+        if (gv_winning_team < 0) { break; }
+        if ((gv_player_alive[lv_player] == true)) {
+            gf_TestEarlyCombatAchievement(lv_player);
+            gf_TestOneBunkAchievement(lv_player);
+            gf_TestSafeWorkerAchievement(lv_player);
+            gf_TestCarryTeammateAchievement(lv_player);
+        }
+
+    }
+}
+
+void gf_MarkAchievementCompleted (string lp_id, int lp_player, int lp_level) {
+    // Variable Declarations
+    int lv_current_level;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    if ((gv_banks[lp_player] != null) && (GameAttributeGameValue("1") == "0001") && (GameAttributeGameValue("9") == "0001")) {
+        lv_current_level = BankValueGetAsInt(gv_banks[lp_player], "C", lp_id);
+        BankValueSetFromInt(gv_banks[lp_player], "C", lp_id, MaxI(lv_current_level, lp_level));
+    }
+
+}
+
+void gf_CreateAchievementsDialog (playergroup lp_show_player) {
+    // Variable Declarations
+    text lv_tooltip_text;
+    int lv_level;
+    int lv_achievement_index;
+    int lv_button;
+    int lv_player;
+    int lv_current_offset;
+    int lv_dialog;
+    int lv_player_row;
+
+    // Automatic Variable Declarations
+    playergroup autoEE18D22E_g;
+    playergroup auto300DF7D6_g;
+    int auto6D196538_ae;
+    const int auto6D196538_ai = 1;
+
+    // Variable Initialization
+    lv_dialog = c_invalidDialogId;
+    lv_player_row = c_invalidDialogControlId;
+
+    // Implementation
+    DialogCreate(1200, 630, c_anchorTop, 0, 60, false);
+    lv_dialog = DialogLastCreated();
+    DialogSetVisible(DialogLastCreated(), lp_show_player, true);
+    DialogSetImageVisible(DialogLastCreated(), false);
+    libNtve_gf_CreateDialogItemImage(DialogLastCreated(), 1100, 600, c_anchorCenter, 0, 0, StringToText(""), "Assets\\Textures\\ui_battlenet_glue_frame_small_base.dds", c_triggerImageTypeHorizontalBorder, true, Color(100,100,100), c_triggerBlendModeNormal);
+    libNtve_gf_CreateDialogItemButton(DialogLastCreated(), 300, 100, c_anchorBottom, 0, 70, StringToText(""), StringExternal("Param/Value/4E2F7B84"), "");
+    autoEE18D22E_g = lp_show_player;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(autoEE18D22E_g, lv_player);
+        if (lv_player < 0) { break; }
+        gv_achievements_dialog[lv_player] = lv_dialog;
+        gv_victory_button[lv_player] = DialogControlLastCreated();
+        if ((gv_winning_team == gv_player_team[lv_player])) {
+            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), StringExternal("Param/Value/1F8AB04D"), PlayerGroupSingle(lv_player));
+        }
+
+    }
+    lv_current_offset = 100;
+    auto300DF7D6_g = gv_all_players;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto300DF7D6_g, lv_player);
+        if (lv_player < 0) { break; }
+        if ((gv_banks[lv_player] != null)) {
+            DialogControlCreateFromTemplate(lv_dialog, c_triggerControlTypePanel, "ZoneResults/AchievementsPlayer");
+            lv_player_row = DialogControlLastCreated();
+            DialogControlSetPosition(DialogControlLastCreated(), lp_show_player, c_anchorTopLeft, 0, lv_current_offset);
+            DialogControlHookup(lv_player_row, c_triggerControlTypeLabel, "AchievementsName");
+            libNtve_gf_SetDialogItemText(DialogControlLastCreated(), PlayerName(lv_player), lp_show_player);
+            libNtve_gf_SetDialogItemColor(DialogControlLastCreated(), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false)), lp_show_player);
+            auto6D196538_ae = (gv_num_achievements - 1);
+            lv_achievement_index = 0;
+            for ( ; ( (auto6D196538_ai >= 0 && lv_achievement_index <= auto6D196538_ae) || (auto6D196538_ai < 0 && lv_achievement_index >= auto6D196538_ae) ) ; lv_achievement_index += auto6D196538_ai ) {
+                lv_level = BankValueGetAsInt(gv_banks[lv_player], "C", gv_achievement_ids[lv_achievement_index]);
+                DialogControlHookup(lv_player_row, c_triggerControlTypeImage, libNtve_gf_ConvertStringToUILayoutFrameName(IntToString(lv_achievement_index)));
+                lv_tooltip_text = StringToText(gv_achievements_names[lv_achievement_index]);
+                if ((lv_level > 0)) {
+                    if ((lv_level > 1)) {
+                        lv_tooltip_text = (lv_tooltip_text + StringExternal("Param/Value/E621DDBB") + FixedToText(lv_level, 0));
+                    }
+
+                    DialogControlSetVisible(DialogControlLastCreated(), lp_show_player, true);
+                    libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), gv_achievement_icons[lv_achievement_index], lp_show_player);
+                    libNtve_gf_SetDialogItemTooltip(DialogControlLastCreated(), lv_tooltip_text, lp_show_player);
+                }
+                else {
+                    DialogControlSetVisible(DialogControlLastCreated(), lp_show_player, false);
+                }
+            }
+            lv_current_offset += 35;
+        }
+
     }
 }
 
@@ -2723,6 +3022,7 @@ void gf_TeamInfoInit () {
         DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupSingle(lv_player), c_anchorTopLeft, 0, 0);
         lv_header = DialogControlLastCreated();
         DialogControlHookup(lv_header, c_triggerControlTypeImage, "PlayerMineralIcon");
+        libNtve_gf_SetDialogItemTooltip(DialogControlLastCreated(), StringExternal("Param/Value/3434053B"), PlayerGroupAll());
         libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), "Assets\\Textures\\icon-mineral.dds", PlayerGroupAll());
         DialogControlHookup(lv_header, c_triggerControlTypeImage, "SpeedIcon");
         libNtve_gf_SetDialogItemImage(DialogControlLastCreated(), gv_race_teaminfo_icons[gv_player_race_index[lv_player]][4], PlayerGroupAll());
@@ -2944,6 +3244,7 @@ void gf_OnBunkerCreated (int lp_player, unit lp_bunker) {
     gv_bunkers[lv_bunker_index] = lp_bunker;
     gv_bunker_spawn_points[lv_bunker_index] = Point(gv_player_spawn_offsets[lp_player][0], gv_player_spawn_offsets[lp_player][1]);
     gv_bunker_spawn_points[lv_bunker_index] = PointWithOffset(gv_bunker_locations[lv_bunker_index], gv_player_spawn_offsets[lp_player][0], gv_player_spawn_offsets[lp_player][1]);
+    gv_player_built_bunker[lp_player] = true;
     UnitGroupAdd(gv_structuresGroup[lp_player], lp_bunker);
     UnitControlGroupAddUnit(UnitGetOwner(lp_bunker), 2, lp_bunker);
     TriggerAddEventUnitDied(gt_BunkerDestoryed, UnitRefFromUnit(lp_bunker));
@@ -3115,6 +3416,7 @@ void gf_TestVictory () {
 
     gv_winning_team = lv_alive_team;
     gf_ComputeFinalScores(gv_winning_team);
+    gf_TestVictoryBasedAcievements(gv_winning_team);
     autoFF8AFB91_g = gv_all_players;
     lv_player = -1;
     while (true) {
@@ -3133,7 +3435,6 @@ void gf_TestVictory () {
         if (lv_player < 0) { break; }
         gf_SaveBankIfFullGame(lv_player);
     }
-    gf_CreateResultsDialog(lv_alive_team);
 }
 
 void gf_OnPlayerDead (int lp_player) {
@@ -3375,7 +3676,7 @@ void gt_Control_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_hebauyekbdditewy;
+    int lv_xtdywutnjdpeljwf;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -3393,7 +3694,7 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((EventDialogControl() == gv_victory_button)) {
+    if ((EventDialogControl() == gv_victory_button[EventPlayer()])) {
         if ((gv_game_over == true)) {
             if ((gv_player_team[EventPlayer()] == gv_winning_team)) {
                 GameOver(EventPlayer(), c_gameOverVictory, false, false);
@@ -3403,17 +3704,26 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
             }
         }
         else {
-            DialogSetVisible(gv_results_dialog[0], PlayerGroupAll(), false);
+            if ((gv_results_dialog[EventPlayer()] != c_invalidDialogId)) {
+                DialogSetVisible(gv_results_dialog[EventPlayer()], PlayerGroupSingle(EventPlayer()), false);
+                gv_results_dialog[lv_player] = c_invalidDialogId;
+            }
+
+            if ((gv_achievements_dialog[EventPlayer()] != c_invalidDialogId)) {
+                DialogSetVisible(gv_achievements_dialog[EventPlayer()], PlayerGroupSingle(EventPlayer()), false);
+                gv_achievements_dialog[lv_player] = c_invalidDialogId;
+            }
+
         }
     }
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_hebauyekbdditewy = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_hebauyekbdditewy <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_hebauyekbdditewy >= autoA9265719_ae) ) ; lv_hebauyekbdditewy += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_hebauyekbdditewy])) {
+        lv_xtdywutnjdpeljwf = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_xtdywutnjdpeljwf <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_xtdywutnjdpeljwf >= autoA9265719_ae) ) ; lv_xtdywutnjdpeljwf += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_xtdywutnjdpeljwf])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_hebauyekbdditewy]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_xtdywutnjdpeljwf]), c_orderQueueReplace);
                 }
 
             }
@@ -3639,7 +3949,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_sgnqtswkqpdderyf;
+    int lv_qvntuwmhvgqmxupd;
     int lv_player;
     int lv_ally;
 
@@ -3663,10 +3973,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_sgnqtswkqpdderyf = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_sgnqtswkqpdderyf <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_sgnqtswkqpdderyf >= autoFC6C6804_ae) ) ; lv_sgnqtswkqpdderyf += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_sgnqtswkqpdderyf], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_sgnqtswkqpdderyf], PlayerGroupSingle(lv_player), true);
+            lv_qvntuwmhvgqmxupd = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_qvntuwmhvgqmxupd <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_qvntuwmhvgqmxupd >= autoFC6C6804_ae) ) ; lv_qvntuwmhvgqmxupd += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_qvntuwmhvgqmxupd], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_qvntuwmhvgqmxupd], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
@@ -3997,7 +4307,6 @@ bool gt_Score_Func (bool testConds, bool runActions) {
 
     lv_team = gv_player_team[EventPlayer()];
     gf_ComputeFinalScores(lv_team);
-    gf_CreateResultsDialog(lv_team);
     return true;
 }
 
@@ -4005,6 +4314,152 @@ bool gt_Score_Func (bool testConds, bool runActions) {
 void gt_Score_Init () {
     gt_Score = TriggerCreate("gt_Score_Func");
     TriggerAddEventChatMessage(gt_Score, c_playerAny, "test", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: InitOneBunk
+//--------------------------------------------------------------------------------------------------
+bool gt_InitOneBunk_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_AddAchievement("1b", "One Bunker", "Assets\\Textures\\btn-building-terran-bunker.dds");
+    gf_AddAchievement("1bx2", "Double One Bunker", "Assets\\Textures\\btn-building-terran-bunkerfortified.dds");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_InitOneBunk_Init () {
+    gt_InitOneBunk = TriggerCreate("gt_InitOneBunk_Func");
+    TriggerAddEventMapInit(gt_InitOneBunk);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: InitCombatShields
+//--------------------------------------------------------------------------------------------------
+bool gt_InitCombatShields_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_AddAchievement("cs", "Early Combat Shields", "Assets\\Textures\\btn-techupgrade-terran-combatshield-color.dds");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_InitCombatShields_Init () {
+    gt_InitCombatShields = TriggerCreate("gt_InitCombatShields_Func");
+    TriggerAddEventMapInit(gt_InitCombatShields);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: InitSafeWorker
+//--------------------------------------------------------------------------------------------------
+bool gt_InitSafeWorker_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_AddAchievement("sscv", "Safe Worker", "Assets\\Textures\\btn-unit-terran-scv.dds");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_InitSafeWorker_Init () {
+    gt_InitSafeWorker = TriggerCreate("gt_InitSafeWorker_Func");
+    TriggerAddEventMapInit(gt_InitSafeWorker);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: InitCarryTeammate
+//--------------------------------------------------------------------------------------------------
+bool gt_InitCarryTeammate_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_AddAchievement("ct", "Major Carry", "Assets\\Textures\\ui-kerriganupgrades-kineticblast.dds");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_InitCarryTeammate_Init () {
+    gt_InitCarryTeammate = TriggerCreate("gt_InitCarryTeammate_Func");
+    TriggerAddEventMapInit(gt_InitCarryTeammate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: InitHugeNuke
+//--------------------------------------------------------------------------------------------------
+bool gt_InitHugeNuke_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_AddAchievement("mn", "MassiveNuke", "Assets\\Textures\\btn-ability-terran-nuclearstrike-color.dds");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_InitHugeNuke_Init () {
+    gt_InitHugeNuke = TriggerCreate("gt_InitHugeNuke_Func");
+    TriggerAddEventMapInit(gt_InitHugeNuke);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: testacheivement
+//--------------------------------------------------------------------------------------------------
+bool gt_testacheivement_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_MarkAchievementCompleted("1b", EventPlayer(), 3);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_testacheivement_Init () {
+    gt_testacheivement = TriggerCreate("gt_testacheivement_Func");
+    TriggerAddEventChatMessage(gt_testacheivement, c_playerAny, "testach", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: achievements
+//--------------------------------------------------------------------------------------------------
+bool gt_achievements_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_team;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_CreateAchievementsDialog(PlayerGroupSingle(EventPlayer()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_achievements_Init () {
+    gt_achievements = TriggerCreate("gt_achievements_Func");
+    TriggerAddEventChatMessage(gt_achievements, c_playerAny, "-achievements", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4105,6 +4560,10 @@ bool gt_TeamInfoTrackUpgrades_Func (bool testConds, bool runActions) {
     }
 
     lv_player = EventPlayer();
+    if ((EventUpgradeName() == "ShieldWall")) {
+        gf_TestEarlyCombatPurchased(lv_player);
+    }
+
     lv_player_race = gv_player_race_index[lv_player];
     gv_team_info_player_armor_level[lv_player] = TechTreeUpgradeCount(lv_player, gv_race_teaminfo_upgrades[lv_player_race][0], c_techCountQueuedOrBetter);
     gv_team_info_player_attack_level[lv_player] = TechTreeUpgradeCount(lv_player, gv_race_teaminfo_upgrades[lv_player_race][1], c_techCountQueuedOrBetter);
@@ -4600,6 +5059,7 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
 
     lv_player = UnitGetOwner(EventUnit());
     lv_spawnPosition = UnitGetPosition(EventUnit());
+    gv_player_has_worker_death[lv_player] = true;
     Wait(5.0, c_timeGame);
     lv_structure_to_spawn_at = UnitGroupClosestToPoint(gv_structuresGroup[lv_player], lv_spawnPosition);
     if ((gv_player_alive[lv_player] == true)) {
@@ -4721,6 +5181,7 @@ bool gt_DetectNukeAction_Func (bool testConds, bool runActions) {
         TriggerDebugOutput(1, StringExternal("Param/Value/2CB32ECF"), true);
     }
 
+    gf_TestHugeNukeAchievement(EventUnit());
     return true;
 }
 
@@ -4869,6 +5330,7 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
 
     }
     if ((lv_teammate >= 1)) {
+        gv_player_inherited_bunks[lv_teammate] = true;
         UnitGroupAddUnitGroup(gv_structuresGroup[lv_teammate], gv_structuresGroup[lv_player]);
         lv_bunker_slot = 1;
         for ( ; ( (auto356FEFDF_ai >= 0 && lv_bunker_slot <= auto356FEFDF_ae) || (auto356FEFDF_ai < 0 && lv_bunker_slot >= auto356FEFDF_ae) ) ; lv_bunker_slot += auto356FEFDF_ai ) {
@@ -5013,6 +5475,13 @@ void InitTriggers () {
     gt_ToggleLeaderboard_Init();
     gt_LeaderboardPeriodicRefresh_Init();
     gt_Score_Init();
+    gt_InitOneBunk_Init();
+    gt_InitCombatShields_Init();
+    gt_InitSafeWorker_Init();
+    gt_InitCarryTeammate_Init();
+    gt_InitHugeNuke_Init();
+    gt_testacheivement_Init();
+    gt_achievements_Init();
     gt_ResourceTradingTracker_Init();
     gt_UpdateLosses_Init();
     gt_TeamInfoTrackUpgrades_Init();
