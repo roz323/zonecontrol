@@ -61,6 +61,34 @@
 
     </Frame>
 
+
+<Frame type="Frame" name="ResultsDialogButtons">
+        <Width val="400"/>
+        <Height val="60"/>
+
+
+
+  <Frame type="Button" name="ResultsTab" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+       <Text val="Results"/>
+       <Width val="180"/>
+       <Height val="60"/>
+       <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+       <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+
+  </Frame>
+
+  <Frame type="Button" name="AchievementsTab" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+       <Text val="Achievements"/>
+       <Width val="180"/>
+       <Height val="60"/>
+       <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+       <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+  </Frame>
+
+
+
+    </Frame>
+
 <Frame type="Frame" name="AchievementsPlayer">
         <Width val="1200"/>
         <Height val="50"/>
