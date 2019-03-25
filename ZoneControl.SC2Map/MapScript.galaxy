@@ -942,6 +942,8 @@ bool gv_game_over_test;
 int gv_total_resource_granted;
 int[17] gv_total_structure_granted_value;
 unitgroup[17] gv_structuresGroup;
+unitgroup[17] gv_structuresGroup2;
+unitgroup[17] gv_structuresGroup3;
 
 void InitGlobals () {
     int init_i;
@@ -1082,6 +1084,12 @@ void InitGlobals () {
     for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_structuresGroup[init_i] = UnitGroupEmpty();
     }
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_structuresGroup2[init_i] = UnitGroupEmpty();
+    }
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_structuresGroup3[init_i] = UnitGroupEmpty();
+    }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1205,7 +1213,8 @@ trigger gt_ScvDied;
 trigger gt_OnRetire;
 trigger gt_OnUnretire;
 trigger gt_ScvCalldown;
-trigger gt_ScvCalldown2;
+trigger gt_TurretCreated;
+trigger gt_TurretDied;
 trigger gt_DetectNukeAction;
 trigger gt_DetectNukeEffect;
 trigger gt_ArmNuke;
@@ -3468,6 +3477,7 @@ void gf_OnBunkerCreated (int lp_player, unit lp_bunker) {
     gv_bunker_locations[lv_bunker_index] = UnitGetPosition(lp_bunker);
     gv_bunker_owners[lv_bunker_index] = lp_player;
     gv_bunker_retire_status[lv_bunker_index] = false;
+    gv_bunker_merc_status[lv_bunker_index] = false;
     gv_bunkers[lv_bunker_index] = lp_bunker;
     gv_bunker_spawn_points[lv_bunker_index] = Point(gv_player_spawn_offsets[lp_player][0], gv_player_spawn_offsets[lp_player][1]);
     gv_bunker_spawn_points[lv_bunker_index] = PointWithOffset(gv_bunker_locations[lv_bunker_index], gv_player_spawn_offsets[lp_player][0], gv_player_spawn_offsets[lp_player][1]);
@@ -3491,6 +3501,7 @@ void gf_OnBunkerCreated3 (unit lp_bunker) {
 
 void gf_OnBunkerCreated2 (unit lp_worker) {
     // Variable Declarations
+    int lv_player;
     int lv_untitledVariable001;
     int lv_bunker_index;
 
@@ -3498,9 +3509,15 @@ void gf_OnBunkerCreated2 (unit lp_worker) {
     // Variable Initialization
 
     // Implementation
-    gf_UpdateSingleWorker(lp_worker, gf_PlayerHasNuke(UnitGetOwner(lp_worker)));
-    UnitControlGroupAddUnit(UnitGetOwner(lp_worker), 3, lp_worker);
-    TriggerAddEventUnitDied(gt_ScvDied, UnitRefFromUnit(lp_worker));
+    lv_player = UnitGetOwner(lp_worker);
+    if ((UnitGroupHasUnit(gv_structuresGroup2[lv_player], lp_worker) == false)) {
+        UnitGroupAdd(gv_structuresGroup2[lv_player], lp_worker);
+        gf_UpdateSingleWorker(lp_worker, gf_PlayerHasNuke(lv_player));
+        UnitControlGroupAddUnit(lv_player, 3, lp_worker);
+        TriggerAddEventUnitDied(gt_ScvDied, UnitRefFromUnit(lp_worker));
+        TriggerAddEventUnitCreated(gt_TurretCreated, UnitRefFromUnit(lp_worker), null, null);
+    }
+
 }
 
 void gf_OnBunkerRemoved (int lp_player, unit lp_bunker) {
@@ -3918,7 +3935,7 @@ void gt_Control_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_jrngvufwgsoyafof;
+    int lv_nqwkwjojbpfkpfti;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -3963,11 +3980,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_jrngvufwgsoyafof = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_jrngvufwgsoyafof <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_jrngvufwgsoyafof >= autoA9265719_ae) ) ; lv_jrngvufwgsoyafof += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_jrngvufwgsoyafof])) {
+        lv_nqwkwjojbpfkpfti = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_nqwkwjojbpfkpfti <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_nqwkwjojbpfkpfti >= autoA9265719_ae) ) ; lv_nqwkwjojbpfkpfti += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_nqwkwjojbpfkpfti])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_jrngvufwgsoyafof]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_nqwkwjojbpfkpfti]), c_orderQueueReplace);
                 }
 
             }
@@ -4194,7 +4211,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_itbyemnhtgnmmbdt;
+    int lv_hgwqmgspsmuovjwq;
     int lv_player;
     int lv_ally;
 
@@ -4218,10 +4235,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_itbyemnhtgnmmbdt = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_itbyemnhtgnmmbdt <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_itbyemnhtgnmmbdt >= autoFC6C6804_ae) ) ; lv_itbyemnhtgnmmbdt += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_itbyemnhtgnmmbdt], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_itbyemnhtgnmmbdt], PlayerGroupSingle(lv_player), true);
+            lv_hgwqmgspsmuovjwq = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_hgwqmgspsmuovjwq <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_hgwqmgspsmuovjwq >= autoFC6C6804_ae) ) ; lv_hgwqmgspsmuovjwq += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_hgwqmgspsmuovjwq], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_hgwqmgspsmuovjwq], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
@@ -5322,6 +5339,7 @@ bool gt_BunkerBuild_Func (bool testConds, bool runActions) {
     lv_unit = EventUnitProgressUnit();
     lv_player = UnitGetOwner(lv_unit);
     if (((UnitGetType(lv_unit) == "SiegeBreakerSieged") || (UnitGetType(lv_unit) == "Colossus"))) {
+        UnitGroupRemove(gv_structuresGroup[lv_player], lv_unit);
         if ((TimerGetElapsed(gv_game_timer) <= 660.0)) {
             gv_player_early_tanks_built[lv_player] += 1;
         }
@@ -5450,12 +5468,15 @@ void gt_TankDied_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ScvDied_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    unitgroup lv_group;
+    unit lv_unit;
     unit lv_structure_to_spawn_at;
     point lv_spawnPosition;
     int lv_player;
 
     // Automatic Variable Declarations
     // Variable Initialization
+    lv_group = UnitGroupEmpty();
 
     // Conditions
     if (testConds) {
@@ -5473,7 +5494,12 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
     lv_spawnPosition = UnitGetPosition(EventUnit());
     gv_player_has_worker_death[lv_player] = true;
     Wait(5.0, c_timeGame);
-    lv_structure_to_spawn_at = UnitGroupClosestToPoint(gv_structuresGroup[lv_player], lv_spawnPosition);
+    UnitGroupAdd(lv_group, UnitGroupClosestToPoint(gv_structuresGroup[lv_player], lv_spawnPosition));
+    if ((UnitGroupCount(gv_structuresGroup3[lv_player], c_unitCountAll) > 0)) {
+        UnitGroupAdd(lv_group, UnitGroupClosestToPoint(gv_structuresGroup3[lv_player], lv_spawnPosition));
+    }
+
+    lv_structure_to_spawn_at = UnitGroupClosestToPoint(lv_group, lv_spawnPosition);
     if ((gv_player_alive[lv_player] == true)) {
         UnitCreate(1, gv_race_worker_types[gv_player_race_index[lv_player]], 0, lv_player, PointWithOffset(UnitGetPosition(lv_structure_to_spawn_at), (0.0 - gv_player_spawn_offsets[lv_player][0]), (0.0 - gv_player_spawn_offsets[lv_player][1])), 270.0);
         gf_OnBunkerCreated2(UnitLastCreated());
@@ -5566,11 +5592,10 @@ void gt_ScvCalldown_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: ScvCalldown 2
+// Trigger: TurretCreated
 //--------------------------------------------------------------------------------------------------
-bool gt_ScvCalldown2_Func (bool testConds, bool runActions) {
+bool gt_TurretCreated_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_player;
     unit lv_unit;
 
     // Automatic Variable Declarations
@@ -5581,13 +5606,38 @@ bool gt_ScvCalldown2_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/BF2D338B"));
+    lv_unit = EventUnitCreatedUnit();
+    if ((UnitGetType(lv_unit) == "AutoTurret")) {
+        UnitGroupAdd(gv_structuresGroup3[UnitGetOwner(lv_unit)], lv_unit);
+        TriggerAddEventUnitDied(gt_TurretDied, UnitRefFromUnit(lv_unit));
+    }
+
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_ScvCalldown2_Init () {
-    gt_ScvCalldown2 = TriggerCreate("gt_ScvCalldown2_Func");
+void gt_TurretCreated_Init () {
+    gt_TurretCreated = TriggerCreate("gt_TurretCreated_Func");
+    TriggerAddEventUnitCreated(gt_TurretCreated, null, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: TurretDied
+//--------------------------------------------------------------------------------------------------
+bool gt_TurretDied_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitGroupRemove(gv_structuresGroup3[UnitGetOwner(EventUnit())], EventUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_TurretDied_Init () {
+    gt_TurretDied = TriggerCreate("gt_TurretDied_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5943,7 +5993,8 @@ void InitTriggers () {
     gt_OnRetire_Init();
     gt_OnUnretire_Init();
     gt_ScvCalldown_Init();
-    gt_ScvCalldown2_Init();
+    gt_TurretCreated_Init();
+    gt_TurretDied_Init();
     gt_DetectNukeAction_Init();
     gt_DetectNukeEffect_Init();
     gt_ArmNuke_Init();
