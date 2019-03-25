@@ -1311,13 +1311,13 @@ void gf_ConfigureConstants () {
     gv_race_spawn_unit_types[1][2][1] = "Dragoon";
     gv_race_spawn_unit_types[1][3][1] = "ImmortalAiur";
     gv_race_spawn_unit_types[2][0][0] = "Zergling";
-    gv_race_spawn_unit_types[2][1][0] = "Roach";
-    gv_race_spawn_unit_types[2][2][0] = "Hydralisk";
+    gv_race_spawn_unit_types[2][1][0] = "Hydralisk";
+    gv_race_spawn_unit_types[2][2][0] = "Roach";
     gv_race_spawn_unit_types[2][3][0] = "Ultralisk";
-    gv_race_spawn_unit_types[2][0][1] = "RaptorACGluescreenDummy";
-    gv_race_spawn_unit_types[2][1][1] = "Ravager";
-    gv_race_spawn_unit_types[2][2][1] = "HunterKiller";
-    gv_race_spawn_unit_types[2][3][1] = "PrimalUltraliskACGluescreenDummy";
+    gv_race_spawn_unit_types[2][0][1] = "Swarmling";
+    gv_race_spawn_unit_types[2][1][1] = "HunterKiller";
+    gv_race_spawn_unit_types[2][2][1] = "PrimalRoachACGluescreenDummy";
+    gv_race_spawn_unit_types[2][3][1] = "HotSNoxious";
     lv_race = 0;
     for ( ; ( (auto09C3E088_ai >= 0 && lv_race <= auto09C3E088_ae) || (auto09C3E088_ai < 0 && lv_race >= auto09C3E088_ae) ) ; lv_race += auto09C3E088_ai ) {
         lv_tier = 0;
@@ -1332,8 +1332,8 @@ void gf_ConfigureConstants () {
     gv_race_spawner_types[0][1] = "InfestedBunker";
     gv_race_spawner_types[1][0] = "Gateway";
     gv_race_spawner_types[1][1] = "Gateway";
-    gv_race_spawner_types[2][0] = "SpawningPool";
-    gv_race_spawner_types[2][1] = "SpawningPool";
+    gv_race_spawner_types[2][0] = "SunkenColony";
+    gv_race_spawner_types[2][1] = "PrimalSunkenColony";
     gv_race_worker_types[0] = "SCV";
     gv_race_worker_types[1] = "Probe";
     gv_race_worker_types[2] = "Drone";
@@ -3918,7 +3918,7 @@ void gt_Control_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_fwflmfilnyiipawh;
+    int lv_jrngvufwgsoyafof;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -3963,11 +3963,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_fwflmfilnyiipawh = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_fwflmfilnyiipawh <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_fwflmfilnyiipawh >= autoA9265719_ae) ) ; lv_fwflmfilnyiipawh += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_fwflmfilnyiipawh])) {
+        lv_jrngvufwgsoyafof = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_jrngvufwgsoyafof <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_jrngvufwgsoyafof >= autoA9265719_ae) ) ; lv_jrngvufwgsoyafof += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_jrngvufwgsoyafof])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_fwflmfilnyiipawh]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_jrngvufwgsoyafof]), c_orderQueueReplace);
                 }
 
             }
@@ -4194,7 +4194,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_xnsmasglqsaxglbw;
+    int lv_itbyemnhtgnmmbdt;
     int lv_player;
     int lv_ally;
 
@@ -4218,10 +4218,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_xnsmasglqsaxglbw = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_xnsmasglqsaxglbw <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_xnsmasglqsaxglbw >= autoFC6C6804_ae) ) ; lv_xnsmasglqsaxglbw += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_xnsmasglqsaxglbw], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_xnsmasglqsaxglbw], PlayerGroupSingle(lv_player), true);
+            lv_itbyemnhtgnmmbdt = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_itbyemnhtgnmmbdt <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_itbyemnhtgnmmbdt >= autoFC6C6804_ae) ) ; lv_itbyemnhtgnmmbdt += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_itbyemnhtgnmmbdt], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_itbyemnhtgnmmbdt], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
