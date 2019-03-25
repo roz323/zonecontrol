@@ -3,6 +3,7 @@
     <CWeaponLegacy id="Adept">
         <Range value="6"/>
         <Period value="1.78"/>
+        <TargetFilters value="Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="AutoTurret">
         <Icon value="Assets\Textures\btn-upgrade-terran-infantryweaponslevel0.dds"/>
@@ -115,12 +116,15 @@
     <CWeaponLegacy id="ParticleDisruptors">
         <Period value="1.9"/>
         <Range value="6.5"/>
+        <TargetFilters value="Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="PhaseDisruptors">
         <Range value="7"/>
+        <TargetFilters value="Ground,Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="PhaseDisruptorsStrafe">
         <Range value="7"/>
+        <TargetFilters value="Ground,Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="PhotonCannon">
         <Period value="1"/>
@@ -128,6 +132,7 @@
     </CWeaponLegacy>
     <CWeaponLegacy id="PsiBlades">
         <Period value="1.05"/>
+        <TargetFilters value="Ground,Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="PsionicShockwave">
         <Range value="6"/>
@@ -155,13 +160,18 @@
     <CWeaponLegacy id="Talis">
         <Range value="6"/>
         <Period value="1.74"/>
+        <TargetFilters value="Ground,Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="Tempest">
-        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <TargetFilters value="Ground,Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="TempestGround">
         <Range value="6.5"/>
         <Period value="2.5"/>
+        <TargetFilters value="Ground,Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ThermalLances">
+        <TargetFilters value="Ground,Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CWeaponLegacy>
     <CWeaponLegacy id="UnknownWeapon">
         <EditorCategories value=""/>
