@@ -240,20 +240,6 @@
     <CActorUnit id="SiegeBreaker">
         <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
     </CActorUnit>
-    <CActorUnit id="SiegeBreakerSieged">
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
-        <PlacementModel value="AdeptPlacement"/>
-    </CActorUnit>
-    <CActorUnit id="SiegeBreakerSieged2" parent="SiegeBreakerSieged" unitName="Lurker2">
-        <On index="0" Terms="UnitBirth.Lurker2"/>
-        <On index="1" Terms="UnitBirth.Lurker2"/>
-        <On index="2" Terms="UnitRevive.Lurker2"/>
-        <On index="3" Terms="UnitRevive.Lurker2"/>
-        <On index="4" Terms="UnitConstruction.Lurker2.Start"/>
-        <On index="5" Terms="UnitConstruction.Lurker2.Finish"/>
-        <Model value="Lurker"/>
-        <HighlightTooltip value="Unit/Name/SiegeBreakerSieged2"/>
-    </CActorUnit>
     <CActorUnit id="SpawningPool">
         <BuildModel value="Invisible"/>
     </CActorUnit>
