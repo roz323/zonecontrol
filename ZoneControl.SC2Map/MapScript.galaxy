@@ -846,6 +846,7 @@ int[61] gv_spawn_scan_order;
 unit[65] gv_bunkers;
 point[65] gv_bunker_rally_points;
 unit[65] gv_bunker_rally_units;
+bool[65] gv_bunker_simple_spawn;
 bool[65] gv_bunker_merc_status;
 int[65] gv_spawner_upgrade_status;
 bool[65] gv_bunker_retire_status;
@@ -2092,12 +2093,10 @@ void gf_SyncSharedControl (int lp_player) {
     lv_player = lp_player;
     lv_has_control_shared = libNtve_gf_DialogItemIsChecked(gv_alliance_checkbox, lv_player);
     if ((lv_has_control_shared == false)) {
-        UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, StringExternal("Param/Value/BBC5CEEB"));
-        UIDisplayMessage(PlayerGroupSingle(lv_player), c_messageAreaChat, StringExternal("Param/Value/4BFA9C3C"));
+        UIDisplayMessage(gv_teams[gv_player_team[lv_player]], c_messageAreaChat, (TextWithColor(PlayerName(lp_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/C25F0BB7")));
     }
     else {
-        UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, StringExternal("Param/Value/A4429AB7"));
-        UIDisplayMessage(PlayerGroupSingle(lv_player), c_messageAreaChat, StringExternal("Param/Value/AFCEF2FE"));
+        UIDisplayMessage(gv_teams[gv_player_team[lv_player]], c_messageAreaChat, (TextWithColor(PlayerName(lp_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/740451DE")));
     }
     auto973C1AA8_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
     lv_ally = -1;
@@ -2119,10 +2118,10 @@ void gf_SyncSharedControl (int lp_player) {
 void gf_AddControlButton () {
     // Automatic Variable Declarations
     // Implementation
-    DialogCreate(40, 40, c_anchorTopRight, 40, 7, true);
+    DialogCreate(40, 40, c_anchorTopRight, 7, 35, true);
     DialogSetVisible(DialogLastCreated(), gv_all_players, true);
     DialogSetImageVisible(DialogLastCreated(), false);
-    libNtve_gf_CreateDialogItemCheckBox(DialogLastCreated(), 40, 40, c_anchorCenter, 0, 0, StringToText(""), false);
+    libNtve_gf_CreateDialogItemCheckBox(DialogLastCreated(), 40, 40, c_anchorCenter, 0, 0, StringExternal("Param/Value/76DCB49E"), false);
     gv_alliance_checkbox = DialogControlLastCreated();
     DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/FullscreenUpperContainer/ResourcePanel");
     DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupAll(), c_anchorTopRight, 30, 0);
@@ -3944,7 +3943,7 @@ void gt_Help_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_lkglhdsscgqeepds;
+    int lv_jlsxscepmplhbbqs;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -3989,11 +3988,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_lkglhdsscgqeepds = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_lkglhdsscgqeepds <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_lkglhdsscgqeepds >= autoA9265719_ae) ) ; lv_lkglhdsscgqeepds += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_lkglhdsscgqeepds])) {
+        lv_jlsxscepmplhbbqs = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_jlsxscepmplhbbqs <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_jlsxscepmplhbbqs >= autoA9265719_ae) ) ; lv_jlsxscepmplhbbqs += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_jlsxscepmplhbbqs])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_lkglhdsscgqeepds]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_jlsxscepmplhbbqs]), c_orderQueueReplace);
                 }
 
             }
@@ -4267,7 +4266,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_otgyecmmnstjtege;
+    int lv_jotcblphlrlkysdt;
     int lv_player;
     int lv_ally;
 
@@ -4291,10 +4290,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_otgyecmmnstjtege = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_otgyecmmnstjtege <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_otgyecmmnstjtege >= autoFC6C6804_ae) ) ; lv_otgyecmmnstjtege += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_otgyecmmnstjtege], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_otgyecmmnstjtege], PlayerGroupSingle(lv_player), true);
+            lv_jotcblphlrlkysdt = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_jotcblphlrlkysdt <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_jotcblphlrlkysdt >= autoFC6C6804_ae) ) ; lv_jotcblphlrlkysdt += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_jotcblphlrlkysdt], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_jotcblphlrlkysdt], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
