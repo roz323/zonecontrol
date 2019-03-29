@@ -3,9 +3,6 @@
     <CRequirementConst id="204156726092">
         <Value value="20"/>
     </CRequirementConst>
-    <CRequirementAllowBehavior id="AllowBehaviorRetireStructure">
-        <Link value="RetireStructure"/>
-    </CRequirementAllowBehavior>
     <CRequirementAllowUnit id="AllowUnitWarPig">
         <Tooltip value=""/>
         <Link value="WarPig"/>
@@ -20,6 +17,11 @@
         <Tooltip value=""/>
         <OperandArray value="CountUpgradeResearchPlasmaCapacitorsQueuedOrBetter"/>
     </CRequirementAnd>
+    <CRequirementCountBehavior id="CountBehaviorRetireStructureCompleteOnlyAtUnit">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="RetireStructure" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
     <CRequirementCountUnit id="CountUnitHammerSecurityCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="HammerSecurity" State="CompleteOnly"/>
@@ -59,6 +61,9 @@
     <CRequirementCountUnit id="CountUnitWarPigCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="WarPig" State="CompleteOnly"/>
+    </CRequirementCountUnit>
+    <CRequirementCountUnit id="CountUnitWarpGateCompleteOnly3112877171TechTreeCheat">
+        <Count Link="WarpGate" State="CompleteOnly"/>
     </CRequirementCountUnit>
     <CRequirementCountUpgrade id="CountUpgradeAdeptPiercingAttackCompleteOnly543136321">
         <Count Link=""/>
@@ -121,7 +126,6 @@
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeResearchBlinkCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="ResearchBlink" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeResearchBlinkQueuedOrBetter">
@@ -283,6 +287,10 @@
         <OperandArray index="0" value="CountUpgradeUpgradeShieldsQueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
+    <CRequirementNot id="NotCountBehaviorRetireStructureCompleteOnlyAtUnit">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountBehaviorRetireStructureCompleteOnlyAtUnit"/>
+    </CRequirementNot>
     <CRequirementNot id="NotCountUpgradeResearchBlinkQueuedOrBetter">
         <OperandArray index="0" value="CountUpgradeResearchBlinkQueuedOrBetter"/>
     </CRequirementNot>

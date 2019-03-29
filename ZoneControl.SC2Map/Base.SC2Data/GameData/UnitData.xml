@@ -123,6 +123,7 @@
         <ShieldRegenDelay value="0"/>
         <ShieldRegenRate value="8"/>
         <Food value="0"/>
+        <CostResource index="Minerals" value="1750"/>
         <CostResource index="Vespene" value="0"/>
         <PlacementFootprint value="Footprint4x4"/>
         <EditorCategories value="ObjectType:Structure,ObjectFamily:Melee"/>
@@ -131,8 +132,9 @@
         <EquipmentArray Weapon="ShieldRegen"/>
         <Collide index="Structure" value="0"/>
         <AbilArray index="3" Link="BuildInProgress"/>
+        <AbilArray Link="Warpable"/>
         <CardLayouts index="0">
-            <LayoutButtons index="5" Face="Cancel" Type="AbilCmd" AbilCmd="Warpable,Cancel" Column="4"/>
+            <LayoutButtons index="5" Face="Cancel" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Column="4"/>
         </CardLayouts>
         <BehaviorArray index="0" removed="1"/>
     </CUnit>
@@ -170,19 +172,20 @@
     <CUnit id="Drone">
         <AbilArray index="4" Link="CreepTumorBuild"/>
         <AbilArray index="5" Link="TerranBuild2"/>
-        <AbilArray index="6" removed="1"/>
-        <AbilArray index="7" removed="1"/>
+        <AbilArray index="6" Link="Transfusion"/>
+        <AbilArray index="7" Link="TacNukeStrike"/>
+        <AbilArray Link="CalldownDrone"/>
         <CardLayouts index="0">
-            <LayoutButtons index="3" Face="QueenHeal"/>
-            <LayoutButtons index="5" Face="SpawningPool" AbilCmd="TerranBuild2,Build1" Row="2" Column="0"/>
+            <LayoutButtons index="3" Face="QueenHeal" AbilCmd="Transfusion,Execute"/>
+            <LayoutButtons index="5" Face="ColonyInfestation" AbilCmd="TerranBuild2,Build1" Row="2" Column="0"/>
             <LayoutButtons index="6" Face="CreepTumor" Type="AbilCmd" AbilCmd="TerranBuild2,Build2" SubmenuCardId="" Column="3"/>
-            <LayoutButtons index="7" Face="SpineCrawler" Type="AbilCmd" AbilCmd="attack,255" SubmenuCardId="" Column="4"/>
-            <LayoutButtons index="8" Face="Drone" AbilCmd="" Row="1" Column="3"/>
+            <LayoutButtons index="7" Face="SpineCrawler" Type="AbilCmd" AbilCmd="TerranBuild2,Build12" SubmenuCardId="" Column="4"/>
+            <LayoutButtons index="8" Face="Drone" AbilCmd="CalldownDrone,Execute" Row="1" Column="3"/>
             <LayoutButtons index="9" Face="LurkerFromHydraliskBurrowed" AbilCmd="TerranBuild2,Build3" Column="2"/>
-            <LayoutButtons index="10" Face="NukeCalldown" Type="Undefined" AbilCmd="" Row="1"/>
+            <LayoutButtons index="10" Face="NukeCalldown" AbilCmd="TacNukeStrike,Execute" Row="1"/>
             <LayoutButtons index="11" Face="Halt" Type="AbilCmd" AbilCmd="TerranBuild2,Halt" Row="1" Column="0"/>
-            <LayoutButtons index="12" Face="ColonyInfestation" Type="Undefined" AbilCmd="" Row="2" Column="1"/>
-            <LayoutButtons index="13" Face="SporeCrawler" Type="Undefined" AbilCmd="" Row="2" Column="2"/>
+            <LayoutButtons index="12" Face="Hatchery" Type="Undefined" AbilCmd="" Row="2" Column="1"/>
+            <LayoutButtons index="13" Face="SporeCrawler" Type="AbilCmd" AbilCmd="TerranBuild2,Build9" Row="2" Column="2"/>
             <LayoutButtons index="14" removed="1"/>
             <LayoutButtons index="15" removed="1"/>
             <LayoutButtons index="16" removed="1"/>
@@ -342,17 +345,18 @@
         <AbilArray index="4" Link="attack"/>
         <AbilArray index="5" Link="UnretireStructure"/>
         <AbilArray index="6" Link="RetireStructure"/>
+        <AbilArray Link="stop"/>
         <BehaviorArray index="0" Link="MorphingintoWarpGate"/>
         <BehaviorArray index="1" Link="PowerUserQueue"/>
         <BehaviorArray index="2" removed="1"/>
         <BehaviorArray index="3" removed="1"/>
         <CardLayouts index="0">
-            <LayoutButtons index="3" Face="Rally" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
+            <LayoutButtons index="3" Face="Rally" AbilCmd="Rally,Rally1" Column="2"/>
             <LayoutButtons index="4" Face="UpgradeToWarpGate" AbilCmd="UpgradeToWarpGate,Execute" Row="2" Column="0"/>
             <LayoutButtons index="5" Face="Attack" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons index="6" Face="RetireStructure" AbilCmd="RetireStructure,Execute" Row="2" Column="2"/>
             <LayoutButtons index="7" Face="UnretireStructure" AbilCmd="UnretireStructure,Execute" Row="2" Column="3"/>
-            <LayoutButtons index="8" removed="1"/>
+            <LayoutButtons index="8" Face="Stop" AbilCmd="stop,Stop" Row="0" Column="3"/>
             <LayoutButtons index="9" removed="1"/>
             <LayoutButtons index="10" removed="1"/>
             <LayoutButtons index="11" removed="1"/>
@@ -444,8 +448,61 @@
         <KillResource index="Minerals" value="15"/>
         <FlagArray index="IgnoreAttackAlert" value="1"/>
     </CUnit>
+    <CUnit id="Hatchery">
+        <LifeStart value="30000"/>
+        <LifeMax value="35000"/>
+        <Food value="5"/>
+        <CostResource index="Minerals" value="500"/>
+        <KillResource index="Minerals" value="250"/>
+        <BehaviorArray index="1" Link="makeCreep8x6Enhanced"/>
+        <BehaviorArray index="2" Link="GameTime5Seconds"/>
+        <BehaviorArray index="3" removed="1"/>
+        <BehaviorArray index="4" removed="1"/>
+        <BehaviorArray index="5" removed="1"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="0" Face="Cancel" Type="AbilCmd" AbilCmd="que5CancelToSelection,CancelLast" Row="2" Column="4"/>
+            <LayoutButtons index="1" Face="CancelMutateMorph" AbilCmd="UpgradeToLair,Cancel"/>
+            <LayoutButtons index="2" Face="CancelBuilding" AbilCmd="BuildInProgress,Cancel"/>
+            <LayoutButtons index="3" Face="Lair" AbilCmd="UpgradeToLair,Execute" Column="0"/>
+            <LayoutButtons index="4" removed="1"/>
+            <LayoutButtons index="5" removed="1"/>
+            <LayoutButtons index="6" removed="1"/>
+            <LayoutButtons index="7" removed="1"/>
+            <LayoutButtons index="8" removed="1"/>
+            <LayoutButtons index="9" removed="1"/>
+        </CardLayouts>
+        <Footprint value="Footprint4x4"/>
+        <PlacementFootprint value="Footprint4x4"/>
+        <ScoreKill value="250"/>
+    </CUnit>
     <CUnit id="HighTemplar">
         <AbilArray index="9" removed="1"/>
+    </CUnit>
+    <CUnit id="Hive">
+        <LifeStart value="37500"/>
+        <LifeMax value="37500"/>
+        <LifeArmor value="6"/>
+        <Food value="25"/>
+        <CostResource index="Minerals" value="1500"/>
+        <CostResource index="Vespene" value="0"/>
+        <KillResource index="Minerals" value="750"/>
+        <BehaviorArray index="1" Link="makeCreep8x6Enhanced"/>
+        <BehaviorArray index="2" removed="1"/>
+        <BehaviorArray index="3" removed="1"/>
+        <BehaviorArray index="4" removed="1"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="0" Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+            <LayoutButtons index="1" Face="Cancel" AbilCmd="que5CancelToSelection,CancelLast"/>
+            <LayoutButtons index="2" removed="1"/>
+            <LayoutButtons index="3" removed="1"/>
+            <LayoutButtons index="4" removed="1"/>
+            <LayoutButtons index="5" removed="1"/>
+            <LayoutButtons index="6" removed="1"/>
+            <LayoutButtons index="7" removed="1"/>
+        </CardLayouts>
+        <Footprint value="Footprint4x4"/>
+        <PlacementFootprint value="Footprint4x4"/>
+        <ScoreKill value="750"/>
     </CUnit>
     <CUnit id="HiveMindEmulator">
         <LifeStart value="10000"/>
@@ -467,15 +524,18 @@
         <FogVisibility value="Dimmed"/>
     </CUnit>
     <CUnit id="HunterKiller">
-        <LifeStart value="350"/>
-        <LifeMax value="350"/>
+        <LifeStart value="270"/>
+        <LifeMax value="270"/>
         <CardLayouts index="0">
             <LayoutButtons index="5" removed="1"/>
         </CardLayouts>
+        <LifeArmor value="2"/>
+        <LifeRegenRateCreep value="2"/>
+        <ScoreKill value="10"/>
     </CUnit>
     <CUnit id="Hydralisk">
-        <LifeStart value="300"/>
-        <LifeMax value="300"/>
+        <LifeStart value="220"/>
+        <LifeMax value="220"/>
         <LifeArmor value="2"/>
         <CardLayouts index="0">
             <LayoutButtons index="5" Face="AncillaryCarapaceHydralisk" Type="Passive" AbilCmd="" Requirements="HaveHotSHydraliskHealth" Column="0"/>
@@ -585,6 +645,61 @@
         <Food value="5"/>
         <Description value="Button/Tooltip/OrbitalCommand"/>
         <KillResource index="Minerals" value="650"/>
+    </CUnit>
+    <CUnit id="KorhalSporeCannon">
+        <LifeStart value="52500"/>
+        <LifeMax value="52500"/>
+        <LifeArmor value="5"/>
+        <LifeRegenRate value="6"/>
+        <LifeRegenRateCreep value="20"/>
+        <AbilArray index="3" Link="Rally"/>
+        <AbilArray index="4" removed="1"/>
+        <WeaponArray index="0" Link="Guardian" Turret="KorhalSporeCannon"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="0" Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="3"/>
+            <LayoutButtons index="2" Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="0" Column="2"/>
+        </CardLayouts>
+        <Footprint value="Footprint3x3"/>
+        <PlacementFootprint value="Footprint3x3"/>
+    </CUnit>
+    <CUnit id="Lair">
+        <LifeStart value="35000"/>
+        <LifeMax value="35000"/>
+        <LifeArmor value="5"/>
+        <Food value="15"/>
+        <CostResource index="Minerals" value="1000"/>
+        <CostResource index="Vespene" value="0"/>
+        <KillResource index="Minerals" value="500"/>
+        <BehaviorArray index="1" Link="makeCreep8x6Enhanced"/>
+        <BehaviorArray index="2" removed="1"/>
+        <BehaviorArray index="3" removed="1"/>
+        <BehaviorArray index="4" removed="1"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="0" Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+            <LayoutButtons index="1" Face="Cancel" AbilCmd="que5CancelToSelection,CancelLast"/>
+            <LayoutButtons index="2" Face="CancelMutateMorph" AbilCmd="UpgradeToHive,Cancel"/>
+            <LayoutButtons index="3" Face="Hive" AbilCmd="UpgradeToHive,Execute" Column="0"/>
+            <LayoutButtons index="4" removed="1"/>
+            <LayoutButtons index="5" removed="1"/>
+            <LayoutButtons index="6" removed="1"/>
+            <LayoutButtons index="7" removed="1"/>
+            <LayoutButtons index="8" removed="1"/>
+            <LayoutButtons index="9" removed="1"/>
+        </CardLayouts>
+        <Footprint value="Footprint4x4"/>
+        <PlacementFootprint value="Footprint4x4"/>
+        <ScoreKill value="500"/>
+    </CUnit>
+    <CUnit id="LurkerMP">
+        <CardLayouts index="0">
+            <LayoutButtons index="6" Column="4"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="LurkerMPBurrowed">
+        <CardLayouts index="0">
+            <LayoutButtons index="6" removed="1"/>
+            <LayoutButtons index="7" removed="1"/>
+        </CardLayouts>
     </CUnit>
     <CUnit id="Marauder">
         <LifeStart value="300"/>
@@ -717,6 +832,8 @@
         <LifeStart value="300"/>
         <LifeMax value="300"/>
         <LifeArmor value="0"/>
+        <LifeRegenRateCreep value="2"/>
+        <KillResource index="Minerals" value="15"/>
     </CUnit>
     <CUnit id="PrimalSunkenColony">
         <CardLayouts index="0">
@@ -763,6 +880,8 @@
         <WeaponArray index="0" Link=""/>
         <ScoreMake value="0"/>
         <SubgroupPriority value="1"/>
+        <EquipmentArray Weapon="UnknownWeapon"/>
+        <EquipmentArray Weapon="GuassRifle22"/>
     </CUnit>
     <CUnit id="Pylon">
         <BehaviorArray index="0" Link="FastEnablerPowerUser"/>
@@ -818,8 +937,8 @@
         <LifeRegenDelay value="0"/>
     </CUnit>
     <CUnit id="Roach">
-        <LifeStart value="270"/>
-        <LifeMax value="270"/>
+        <LifeStart value="260"/>
+        <LifeMax value="260"/>
         <LifeArmor value="0"/>
         <CardLayouts index="0">
             <LayoutButtons index="6" Face="TunnelingClaws" Type="Passive" AbilCmd="" Requirements="HaveHotSTunnelingClaws" Column="1"/>
@@ -850,6 +969,8 @@
             <LayoutButtons index="31" removed="1"/>
             <LayoutButtons index="32" removed="1"/>
         </CardLayouts>
+        <KillResource index="Minerals" value="10"/>
+        <ScoreKill value="10"/>
     </CUnit>
     <CUnit id="SCV">
         <Food value="0"/>
@@ -1092,26 +1213,6 @@
         <EnergyMax value="0"/>
         <EnergyRegenRate value="0"/>
     </CUnit>
-    <CUnit id="SpawningPool">
-        <LifeStart value="40000"/>
-        <LifeMax value="40000"/>
-        <CostResource index="Minerals" value="750"/>
-        <BehaviorArray index="0" removed="1"/>
-        <BehaviorArray index="1" removed="1"/>
-        <BehaviorArray index="2" removed="1"/>
-        <CardLayouts index="0">
-            <LayoutButtons index="2" removed="1"/>
-            <LayoutButtons index="3" removed="1"/>
-            <LayoutButtons index="4" removed="1"/>
-            <LayoutButtons index="5" removed="1"/>
-            <LayoutButtons index="6" removed="1"/>
-            <LayoutButtons index="7" removed="1"/>
-            <LayoutButtons index="8" removed="1"/>
-            <LayoutButtons index="9" removed="1"/>
-        </CardLayouts>
-        <Footprint value="Footprint3x3"/>
-        <PlacementFootprint value="Footprint3x3"/>
-    </CUnit>
     <CUnit id="Spectre">
         <EnergyStart value="0"/>
         <EnergyMax value="0"/>
@@ -1160,6 +1261,25 @@
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
+    </CUnit>
+    <CUnit id="SunkenColony">
+        <AbilArray Link="BuildInProgress"/>
+        <AbilArray Link="Rally"/>
+        <AbilArray Link="BurrowBanelingDown"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="1" Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="3"/>
+            <LayoutButtons index="3">
+                <Face value="Rally"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="Rally,Rally1"/>
+                <Requirements value=""/>
+                <Row value="0"/>
+                <Column value="2"/>
+            </LayoutButtons>
+            <LayoutButtons Face="GreaterSpire" Type="AbilCmd" AbilCmd="BurrowBanelingDown,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Footprint value="Footprint3x3"/>
+        <PlacementFootprint value="Footprint3x3"/>
     </CUnit>
     <CUnit id="SupplyDepot">
         <LifeStart value="20000"/>
@@ -1210,7 +1330,9 @@
         <Footprint value="Footprint3x2Underground"/>
     </CUnit>
     <CUnit id="Swarmling">
-        <LifeStart value="160"/>
+        <LifeStart value="220"/>
+        <LifeMax value="220"/>
+        <LifeRegenRateCreep value="2"/>
     </CUnit>
     <CUnit id="Talis">
         <LifeStart value="150"/>
@@ -1264,8 +1386,15 @@
             <LayoutButtons index="6" Face="Attack" AbilCmd="attack,Execute" Column="4"/>
             <LayoutButtons index="7" Face="UnretireStructure" Type="AbilCmd" AbilCmd="UnretireStructure,Execute" Row="2" Column="3"/>
             <LayoutButtons index="8" Face="RetireStructure" Type="AbilCmd" AbilCmd="RetireStructure,Execute" Row="2" Column="2"/>
-            <LayoutButtons index="9" removed="1"/>
-            <LayoutButtons index="10" removed="1"/>
+            <LayoutButtons index="9" Face="Rally" Type="Undefined" AbilCmd="" Row="0" Column="2"/>
+            <LayoutButtons index="10">
+                <Face value="Stop"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="stop,Stop"/>
+                <Requirements value=""/>
+                <Row value="0"/>
+                <Column value="3"/>
+            </LayoutButtons>
             <LayoutButtons index="11" removed="1"/>
         </CardLayouts>
         <LifeStart value="22500"/>
@@ -1277,6 +1406,7 @@
         <AbilArray Link="attack"/>
         <AbilArray Link="RetireStructure"/>
         <AbilArray Link="UnretireStructure"/>
+        <AbilArray Link="stop"/>
         <LifeArmor value="6"/>
         <ShieldsStart value="32500"/>
         <ShieldsMax value="32500"/>
@@ -1287,18 +1417,18 @@
         <CostResource index="Minerals" value="1750"/>
     </CUnit>
     <CUnit id="Zealot">
-        <LifeStart value="200"/>
-        <LifeMax value="200"/>
-        <LifeRegenRate value="1"/>
-        <ShieldsStart value="200"/>
-        <ShieldsMax value="200"/>
+        <LifeStart value="300"/>
+        <LifeMax value="300"/>
+        <LifeRegenRate value="2"/>
+        <ShieldsStart value="150"/>
+        <ShieldsMax value="150"/>
         <ShieldRegenDelay value="0"/>
         <ShieldRegenRate value="0.5"/>
         <ScoreMake value="0"/>
         <ScoreKill value="10"/>
-        <LifeArmor value="2"/>
+        <LifeArmor value="5"/>
         <KillResource index="Minerals" value="10"/>
-        <Speed value="2.4023"/>
+        <Speed value="2.504"/>
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
@@ -1306,23 +1436,25 @@
     </CUnit>
     <!-- Zealot, whirlwind -->
     <CUnit id="ZealotAiur">
-        <LifeStart value="200"/>
-        <LifeMax value="200"/>
-        <ShieldsStart value="250"/>
-        <ShieldsMax value="250"/>
+        <LifeStart value="350"/>
+        <LifeMax value="350"/>
+        <ShieldsStart value="175"/>
+        <ShieldsMax value="175"/>
         <ScoreKill value="15"/>
-        <LifeArmor value="3"/>
-        <LifeRegenRate value="1.0507"/>
-        <Speed value="2.3085"/>
+        <LifeArmor value="5"/>
+        <LifeRegenRate value="2.0507"/>
+        <Speed value="2.5078"/>
         <KillResource index="Minerals" value="20"/>
         <ScoreMake value="0"/>
         <EquipmentArray Weapon="FireRate"/>
         <EquipmentArray Weapon="UnknownWeapon"/>
         <EquipmentArray Weapon="GuassRifle22"/>
+        <ShieldRegenDelay value="0"/>
+        <ShieldRegenRate value="0.6015"/>
     </CUnit>
     <CUnit id="Zergling">
-        <LifeStart value="100"/>
-        <LifeMax value="100"/>
+        <LifeStart value="180"/>
+        <LifeMax value="180"/>
         <Food value="-1"/>
         <CardLayouts index="0">
             <LayoutButtons index="6" Face="MorphtoSplitterling" Type="AbilCmd" AbilCmd="MorphZerglingToSplitterling,Train1" Row="2" Column="0"/>
@@ -1354,5 +1486,9 @@
             <LayoutButtons index="32" removed="1"/>
             <LayoutButtons index="33" removed="1"/>
         </CardLayouts>
+        <LifeRegenRateCreep value="2"/>
+        <Speed value="2.8515"/>
+        <KillResource index="Minerals" value="3"/>
+        <ScoreKill value="3"/>
     </CUnit>
 </Catalog>

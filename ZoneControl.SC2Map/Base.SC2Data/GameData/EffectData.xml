@@ -18,10 +18,22 @@
     <CEffectCreateUnit id="CalldownMULECreateUnit">
         <SpawnUnit value="SCV"/>
     </CEffectCreateUnit>
+    <CEffectCreateUnit id="CalldownMULECreateUnit2">
+        <ValidatorArray value="MULETargetCheck"/>
+        <EditorCategories value="Race:Terran"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <SpawnEffect value="CalldownMULECreateSet"/>
+        <SpawnUnit value="Drone"/>
+    </CEffectCreateUnit>
     <CEffectSet id="CalldownMULEFinalSet">
         <EffectArray index="1" value="CalldownMULEIssueOrder"/>
         <EffectArray index="2" removed="1"/>
     </CEffectSet>
+    <CEffectDamage id="Claws">
+        <AttributeBonus index="Mechanical" value="250"/>
+        <AttributeBonus index="Structure" value="250"/>
+        <Amount value="25"/>
+    </CEffectDamage>
     <CEffectDamage id="ColossusPurifierThermalLancesDamage">
         <Amount value="80"/>
         <AttributeBonus index="Structure" value="1000"/>
@@ -176,8 +188,9 @@
         <Resources index="Minerals" value="200"/>
     </CEffectModifyPlayer>
     <CEffectDamage id="PsiBlades">
-        <Amount value="30"/>
-        <AttributeBonus index="Structure" value="40"/>
+        <Amount value="55"/>
+        <AttributeBonus index="Mechanical" value="275"/>
+        <AttributeBonus index="Structure" value="275"/>
     </CEffectDamage>
     <CEffectDamage id="PsionicShockwaveDamage">
         <AttributeBonus index="Armored" value="30"/>
@@ -348,8 +361,9 @@
         <AreaArray index="0" Radius="1" Effect="VoidZealotWhirlwindDamage"/>
     </CEffectEnumArea>
     <CEffectDamage id="ZealotAiurWeapon">
-        <Amount value="60"/>
-        <AttributeBonus index="Structure" value="85"/>
+        <Amount value="130"/>
+        <AttributeBonus index="Mechanical" value="600"/>
+        <AttributeBonus index="Structure" value="600"/>
     </CEffectDamage>
     <CEffectCreateHealer id="heal">
         <RechargeVitalRate value="11"/>
