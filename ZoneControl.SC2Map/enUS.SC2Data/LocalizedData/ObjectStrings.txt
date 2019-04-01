@@ -52,8 +52,11 @@ RequirementNode/Name/AndAllowUnitMarineNotCountUpgradeCombatShieldQueuedOrBetter
 RequirementNode/Name/AndAllowUnitMarineNotCountUpgradeMarineStimpackQueuedOrBetter=AllowUnit(Marine) && !CountUpgrade(MarineStimpack,QueuedOrBetter)
 RequirementNode/Name/AndCountUpgradeReaperSpeedQueuedOrBetter=CountUpgrade(ReaperSpeed,QueuedOrBetter) && ()
 RequirementNode/Name/AndCountUpgradeResearchPlasmaCapacitorsQueuedOrBetter=CountUpgrade(ResearchPlasmaCapacitors,QueuedOrBetter) && ()
+RequirementNode/Name/CountUnitBunkerCompleteOnly=CountUnit(Bunker,CompleteOnly)
+RequirementNode/Name/CountUnitInfestedBunkerCompleteOnly=CountUnit(InfestedBunker,CompleteOnly)
 RequirementNode/Name/CountUnitInfestedBunkerCompleteOnly4084108369=CountUnit(InfestedBunker,CompleteOnly){Have Mercenary Bunker.}
 RequirementNode/Name/CountUnitNukeCompleteOnly1541890172=CountUnit(Nuke,CompleteOnly){No Nukes remaining.}
+RequirementNode/Name/CountUpgradeAllowBadBuildsCompleteOnly=CountUpgrade(AllowBadBuilds,CompleteOnly)
 RequirementNode/Name/CountUpgradeBunkerArmorQueuedOrBetter=CountUpgrade(BunkerArmor,QueuedOrBetter)
 RequirementNode/Name/CountUpgradeBunkerCapacityQueuedOrBetter=CountUpgrade(BunkerCapacity,QueuedOrBetter)
 RequirementNode/Name/CountUpgradeBunkerLifeRegenerationQueuedOrBetter=CountUpgrade(BunkerLifeRegeneration,QueuedOrBetter)
@@ -80,6 +83,7 @@ RequirementNode/Name/CountUpgradeUpgradeFlameLanceQueuedOrBetter=CountUpgrade(Up
 RequirementNode/Name/CountUpgradeUpgradeShieldsQueuedOrBetter=CountUpgrade(UpgradeShields,QueuedOrBetter)
 RequirementNode/Name/CountUpgradeUpgradeWhirlwindCompleteOnly=CountUpgrade(UpgradeWhirlwind,CompleteOnly)
 RequirementNode/Name/CountUpgradeUpgradeWhirlwindQueuedOrBetter=CountUpgrade(UpgradeWhirlwind,QueuedOrBetter)
+RequirementNode/Name/GTESumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly2=(CountUnit(Bunker,CompleteOnly) + CountUnit(InfestedBunker,CompleteOnly)) >= 2
 RequirementNode/Name/LTCountUpgradeBunkerArmorQueuedOrBetter204156726092=CountUpgrade(BunkerArmor,QueuedOrBetter) < 20{Max upgrade level.}
 RequirementNode/Name/LTCountUpgradeBunkerCapacityQueuedOrBetter204156726092=CountUpgrade(BunkerCapacity,QueuedOrBetter) < 20{Max upgrade level.}
 RequirementNode/Name/LTCountUpgradeBunkerLifeRegenerationQueuedOrBetter204156726092=CountUpgrade(BunkerLifeRegeneration,QueuedOrBetter) < 20{Max upgrade level.}
@@ -104,6 +108,8 @@ RequirementNode/Name/NotCountUpgradeResearchSiegeBreakerArcliteCannonQueuedOrBet
 RequirementNode/Name/NotCountUpgradeSiegeTurretAreaQueuedOrBetter=!CountUpgrade(SiegeTurretArea,QueuedOrBetter)
 RequirementNode/Name/NotCountUpgradeUpgradeFlameLanceQueuedOrBetter=!CountUpgrade(UpgradeFlameLance,QueuedOrBetter)
 RequirementNode/Name/NotCountUpgradeUpgradeWhirlwindQueuedOrBetter=!CountUpgrade(UpgradeWhirlwind,QueuedOrBetter)
+RequirementNode/Name/OrCountUpgradeAllowBadBuildsCompleteOnlyGTESumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly2=CountUpgrade(AllowBadBuilds,CompleteOnly) || (CountUnit(Bunker,CompleteOnly) + CountUnit(InfestedBunker,CompleteOnly)) >= 2
+RequirementNode/Name/SumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly=CountUnit(Bunker,CompleteOnly) + CountUnit(InfestedBunker,CompleteOnly)
 Unit/EditorPrefix/HammerSecurity=
 Unit/EditorPrefix/InfestedBunker=
 Unit/EditorPrefix/MercReaper=
@@ -116,6 +122,7 @@ Unit/EditorSuffix/PalletMinerals=(Item)
 Unit/EditorSuffix/SiegeBreaker=(Tank Mode)
 Unit/EditorSuffix/SiegeBreakerSieged=(Siege Mode)
 Unit/EditorSuffix/WarPig=
+Upgrade/EditorDescription/AllowBadBuilds=Thing
 Validator/Name/RetireStructure=Retire Structure
 Validator/Name/UnretireStructure=Unretire Structure
 Weapon/EditorPrefix/GuassRifle2=Marine -

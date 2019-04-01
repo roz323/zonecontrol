@@ -102,6 +102,7 @@ Button/Name/BunkerArmor=Building Armor
 Button/Name/BunkerCapacity=Bunker Capacity
 Button/Name/BunkerLifeRegeneration=Building Life Regeneration
 Button/Name/CalldownMULE=Calldown: SCV
+Button/Name/EngineerHeroDismantle=Allow Bad Builds
 Button/Name/FenixWhirlwind=Research Whirlwind
 Button/Name/HireSiegeBreakers=Build Siege Breaker
 Button/Name/HiveMindEmulator=Build Shield Tower
@@ -143,6 +144,7 @@ Button/Tooltip/ConcussiveGrenade=Units hit by the Marauder are temporarily slowe
 Button/Tooltip/ConstructionCancelTextTerranBunker=<s val="Kicker_Minerals">750</s> <IMG path="Assets\Textures\icon-mineral-terran.dds" height="28" width="28"/>
 Button/Tooltip/ConstructionCancelTextTerranSensorTower=<s val="Kicker_Minerals">94</s> <IMG path="Assets\Textures\icon-mineral-terran.dds" height="28" width="28"/>
 Button/Tooltip/ConstructionCancelTextTerranSupplyDepot=<s val="Kicker_Minerals">300</s> <IMG path="Assets\Textures\icon-mineral-terran.dds" height="28" width="28"/>
+Button/Tooltip/EngineerHeroDismantle=Allows builds that are NOT RECOMMENDED and should not be attempted except by experienced players.<n/><n/>Allows early mercenary upgrade, early supply depots, and construction in tank slot.
 Button/Tooltip/FenixWhirlwind=Enables Aiur Zealots to use the whirlwind ability.
 Button/Tooltip/GhostAcademy=Can build Nukes that SCVs can call down.
 Button/Tooltip/HiveMindEmulator=Defensive structure. Provides additional armor to nearby units.
@@ -205,11 +207,11 @@ DocInfo/PatchNote004=Games with <= 4 players can start with an extra bunker.
 DocInfo/PatchNote005=Incomplete lobbies work as long as they are balanced.
 DocInfo/PatchNote006=Acrlite cannon upgrade no longer needs to be purcahsed.
 DocInfo/PatchNote007=Observers can view all player upgrades and scoreboard.
-DocInfo/PatchNote008=- Mercenary Bunker build time reduced by 5s.
-DocInfo/PatchNote009=- SCV now affected by movespeed upgrade.
-DocInfo/PatchNote010=- Siege Turret deals 2x dmg to structures.
-DocInfo/PatchNote011=- Reaper pistol attack range decreased.
-DocInfo/PatchNote012=- Terrain environment changed.
+DocInfo/PatchNote008=Starting bunks moved forward in slot.
+DocInfo/PatchNote009=Concussive shells adjusted to match zc4.
+DocInfo/PatchNote010=Second shard for bunks with < 25% health.
+DocInfo/PatchNote011=Replaced alliance dialog with simple checkbox.
+DocInfo/PatchNote012=Added -trades command.
 DocInfo/PatchNote013=- Costs: Bunker - 1000. Mercenary Bunker - 500. Siege Turret - 1250.
 DocInfo/PatchNote014=- Supply Limit added. Bunkers are worth 50 supply each.
 DocInfo/PatchNote015=- Win/Loss career tracking added.
@@ -454,6 +456,7 @@ Unit/Name/NaturalMineralsRed=Mineral Shards
 Unit/Name/PalletMinerals=Mineral Cluster
 Unit/Name/SoACaster=Nuke Silo
 Unit/Name/Talis=Centurion
+Upgrade/Name/AllowBadBuilds=Allow Questionable Builds
 Upgrade/Name/BunkerArmor=Bunker Armor
 Upgrade/Name/BunkerCapacity=Bunker Capacity
 Upgrade/Name/BunkerLifeRegeneration=Bunker Life Regeneration

@@ -162,6 +162,9 @@
             <Resource index="Minerals" value="50"/>
             <Button DefaultButtonFace="Stimpack222" Requirements="LearnTerranBuildingArmor2"/>
         </InfoArray>
+        <InfoArray index="Research16" Upgrade="AllowBadBuilds">
+            <Button DefaultButtonFace="EngineerHeroDismantle"/>
+        </InfoArray>
         <InfoArray index="Research22" Upgrade="TerranInfantryWeaponsLevel1223222">
             <Resource index="Minerals" value="50"/>
             <Button DefaultButtonFace="TerranInfantryWeaponsLevel1223222"/>
@@ -322,7 +325,9 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="SupplyDrop"/>
     </CAbilEffectInstant>
     <CAbilBuild id="TerranBuild">
-        <InfoArray index="Build2" Time="20"/>
+        <InfoArray index="Build2" Time="20">
+            <Button Requirements="AllowSupplyDepot"/>
+        </InfoArray>
         <InfoArray index="Build7" Time="60">
             <Button Requirements=""/>
         </InfoArray>
@@ -380,6 +385,9 @@
             <Button DefaultButtonFace="FenixWhirlwind" Requirements="HaveWhirlwind"/>
         </InfoArray>
     </CAbilResearch>
+    <CAbilResearch id="AllowBadBuilds">
+        <InfoArray index="Research2" Upgrade="AllowBadBuilds"/>
+    </CAbilResearch>
     <CAbilResearch id="UnknownAbility">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Activity value="UI/Training"/>
@@ -416,7 +424,7 @@
     </CAbilMorph>
     <CAbilMorph id="UpgradeToOrbital">
         <Name value="Abil/Name/UpgradeToMercenaryBunker"/>
-        <CmdButtonArray index="Execute" Requirements=""/>
+        <CmdButtonArray index="Execute" Requirements="AllowSupplyDepot"/>
         <ActorKey value=""/>
         <InfoArray index="0" Unit="InfestedBunker" CollideRange="1.25">
             <SectionArray index="Abils">

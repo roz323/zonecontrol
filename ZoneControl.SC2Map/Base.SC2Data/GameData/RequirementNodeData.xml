@@ -19,12 +19,21 @@
     </CRequirementAnd>
     <CRequirementCountBehavior id="CountBehaviorRetireStructureCompleteOnlyAtUnit">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="RetireStructure" State="CompleteOnlyAtUnit"/>
     </CRequirementCountBehavior>
+    <CRequirementCountUnit id="CountUnitBunkerCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="Bunker" State="CompleteOnly"/>
+    </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitHammerSecurityCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="HammerSecurity" State="CompleteOnly"/>
+    </CRequirementCountUnit>
+    <CRequirementCountUnit id="CountUnitInfestedBunkerCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="InfestedBunker" State="CompleteOnly"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitInfestedBunkerCompleteOnly4084108369">
         <Flags index="TechTreeCheat" value="0"/>
@@ -70,6 +79,11 @@
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeAdeptPiercingAttackCompleteOnlyTechTreeCheat">
         <Count Link=""/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeAllowBadBuildsCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <Count Link="AllowBadBuilds" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeBunkerArmorQueuedOrBetter">
         <Flags index="TechTreeCheat" value="0"/>
@@ -198,6 +212,11 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="VoidColossusFireBeam" State="QueuedOrBetter"/>
     </CRequirementCountUpgrade>
+    <CRequirementGTE id="GTESumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly2">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="SumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly"/>
+        <OperandArray index="1" value="2"/>
+    </CRequirementGTE>
     <CRequirementLT id="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092">
         <OperandArray index="0" value="CountUpgradeAdeptPiercingAttackQueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
@@ -288,7 +307,6 @@
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
     <CRequirementNot id="NotCountBehaviorRetireStructureCompleteOnlyAtUnit">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountBehaviorRetireStructureCompleteOnlyAtUnit"/>
     </CRequirementNot>
     <CRequirementNot id="NotCountUpgradeResearchBlinkQueuedOrBetter">
@@ -319,6 +337,16 @@
     <CRequirementNot id="NotCountUpgradeUpgradeWhirlwindQueuedOrBetter">
         <OperandArray index="0" value="CountUpgradeUpgradeWhirlwindQueuedOrBetter"/>
     </CRequirementNot>
+    <CRequirementOr id="OrCountUpgradeAllowBadBuildsCompleteOnlyGTESumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly2">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray value="CountUpgradeAllowBadBuildsCompleteOnly"/>
+        <OperandArray value="GTESumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly2"/>
+    </CRequirementOr>
+    <CRequirementSum id="SumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray value="CountUnitBunkerCompleteOnly"/>
+        <OperandArray value="CountUnitInfestedBunkerCompleteOnly"/>
+    </CRequirementSum>
     <CRequirementSum id="SumCountUnitMarauderCompleteOnlyCountUnitHammerSecurityCompleteOnly">
         <OperandArray value="CountUnitMarauderCompleteOnly"/>
         <OperandArray value="CountUnitHammerSecurityCompleteOnly"/>
