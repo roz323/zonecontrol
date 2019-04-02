@@ -23,7 +23,6 @@
     </CRequirementCountBehavior>
     <CRequirementCountUnit id="CountUnitBunkerCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="Bunker" State="CompleteOnly"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitHammerSecurityCompleteOnly">
@@ -32,7 +31,6 @@
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitInfestedBunkerCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="InfestedBunker" State="CompleteOnly"/>
     </CRequirementCountUnit>
     <CRequirementCountUnit id="CountUnitInfestedBunkerCompleteOnly4084108369">
@@ -82,7 +80,6 @@
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeAllowBadBuildsCompleteOnly">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="AllowBadBuilds" State="CompleteOnly"/>
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeBunkerArmorQueuedOrBetter">
@@ -213,7 +210,6 @@
         <Count Link="VoidColossusFireBeam" State="QueuedOrBetter"/>
     </CRequirementCountUpgrade>
     <CRequirementGTE id="GTESumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly2">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="SumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly"/>
         <OperandArray index="1" value="2"/>
     </CRequirementGTE>
@@ -309,6 +305,10 @@
     <CRequirementNot id="NotCountBehaviorRetireStructureCompleteOnlyAtUnit">
         <OperandArray index="0" value="CountBehaviorRetireStructureCompleteOnlyAtUnit"/>
     </CRequirementNot>
+    <CRequirementNot id="NotCountUpgradeAllowBadBuildsCompleteOnly">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeAllowBadBuildsCompleteOnly"/>
+    </CRequirementNot>
     <CRequirementNot id="NotCountUpgradeResearchBlinkQueuedOrBetter">
         <OperandArray index="0" value="CountUpgradeResearchBlinkQueuedOrBetter"/>
     </CRequirementNot>
@@ -338,12 +338,10 @@
         <OperandArray index="0" value="CountUpgradeUpgradeWhirlwindQueuedOrBetter"/>
     </CRequirementNot>
     <CRequirementOr id="OrCountUpgradeAllowBadBuildsCompleteOnlyGTESumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly2">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray value="CountUpgradeAllowBadBuildsCompleteOnly"/>
         <OperandArray value="GTESumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly2"/>
     </CRequirementOr>
     <CRequirementSum id="SumCountUnitBunkerCompleteOnlyCountUnitInfestedBunkerCompleteOnly">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray value="CountUnitBunkerCompleteOnly"/>
         <OperandArray value="CountUnitInfestedBunkerCompleteOnly"/>
     </CRequirementSum>
