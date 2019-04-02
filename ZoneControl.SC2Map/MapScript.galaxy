@@ -1123,10 +1123,11 @@ void gf_ConfigureConstants ();
 void gf_AssignTeamLocations ();
 void gf_AssignPlayerColors ();
 void gf_SpawnPlayers ();
-void gf_AllowBadBuilds (int lp_player);
 void gf_SpectatorInit ();
 void gf_SpawnInitialBunk (int lp_player, int lp_position, int lp_player_race);
 void gf_GrantStructure (int lp_player, unit lp_structure);
+void gf_TryAllowBadBuilds (int lp_player);
+void gf_EnableTankSlotConstruction (int lp_player);
 void gf_SyncSharedControl (int lp_player);
 void gf_AddControlButton ();
 void gf_PlayerAfkEnded (int lp_player);
@@ -1196,6 +1197,7 @@ trigger gt_Help;
 trigger gt_ButtonPress;
 trigger gt_CheckForInvalidGame;
 trigger gt_MeleeInitialization;
+trigger gt_PermanentAllowBadBuilds;
 trigger gt_Checkbox;
 trigger gt_Control;
 trigger gt_DetectMovement;
@@ -2118,29 +2120,8 @@ void gf_SpawnPlayers () {
         UnitGroupAdd(gv_player_pylons[lv_player], UnitLastCreated());
         UnitCreate(1, "SmallInvisiblePylon", 0, lv_player, gv_pylon_positions_small_1[lv_position], 270.0);
         UnitGroupAdd(gv_player_pylons[lv_player], UnitLastCreated());
+        gf_TryAllowBadBuilds(lv_player);
     }
-}
-
-void gf_AllowBadBuilds (int lp_player) {
-    // Variable Declarations
-    unit lv_pylon;
-
-    // Automatic Variable Declarations
-    unitgroup autoB74A0826_g;
-    int autoB74A0826_u;
-
-    // Variable Initialization
-
-    // Implementation
-    autoB74A0826_g = gv_player_pylons[lp_player];
-    autoB74A0826_u = UnitGroupCount(autoB74A0826_g, c_unitCountAll);
-    for (;; autoB74A0826_u -= 1) {
-        lv_pylon = UnitGroupUnitFromEnd(autoB74A0826_g, autoB74A0826_u);
-        if (lv_pylon == null) { break; }
-        UnitRemove(lv_pylon);
-    }
-    UnitCreate(1, "InvisiblePylon", 0, lp_player, gv_pylon_positions_small_1[gv_player_positions[lp_player]], 270.0);
-    gv_player_pylons[lp_player] = libNtve_gf_ConvertUnitToUnitGroup(UnitLastCreated());
 }
 
 void gf_SpectatorInit () {
@@ -2169,6 +2150,37 @@ void gf_GrantStructure (int lp_player, unit lp_structure) {
     // Automatic Variable Declarations
     // Implementation
     gv_total_structure_granted_value[lp_player] += UnitTypeGetCost(UnitGetType(lp_structure), c_unitCostMinerals);
+}
+
+void gf_TryAllowBadBuilds (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if (((UnitAbilityExists(gv_nuke_silos[lp_player], "AllowBadBuilds") == true) && (BankKeyExists(gv_banks[lp_player], "P", "abb") == true) && (BankValueGetAsFlag(gv_banks[lp_player], "P", "abb") == true))) {
+        UnitIssueOrder(gv_nuke_silos[lp_player], Order(AbilityCommand("EngineeringBayResearch", 15)), c_orderQueueAddToEnd);
+    }
+
+}
+
+void gf_EnableTankSlotConstruction (int lp_player) {
+    // Variable Declarations
+    unit lv_pylon;
+
+    // Automatic Variable Declarations
+    unitgroup autoB74A0826_g;
+    int autoB74A0826_u;
+
+    // Variable Initialization
+
+    // Implementation
+    autoB74A0826_g = gv_player_pylons[lp_player];
+    autoB74A0826_u = UnitGroupCount(autoB74A0826_g, c_unitCountAll);
+    for (;; autoB74A0826_u -= 1) {
+        lv_pylon = UnitGroupUnitFromEnd(autoB74A0826_g, autoB74A0826_u);
+        if (lv_pylon == null) { break; }
+        UnitRemove(lv_pylon);
+    }
+    UnitCreate(1, "InvisiblePylon", 0, lp_player, gv_pylon_positions_small_1[gv_player_positions[lp_player]], 270.0);
+    gv_player_pylons[lp_player] = libNtve_gf_ConvertUnitToUnitGroup(UnitLastCreated());
 }
 
 void gf_SyncSharedControl (int lp_player) {
@@ -4151,7 +4163,7 @@ void gt_Help_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_rbdcotuwwjcifwgf;
+    int lv_ghasonkyunxcdeib;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -4196,11 +4208,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_rbdcotuwwjcifwgf = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_rbdcotuwwjcifwgf <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_rbdcotuwwjcifwgf >= autoA9265719_ae) ) ; lv_rbdcotuwwjcifwgf += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_rbdcotuwwjcifwgf])) {
+        lv_ghasonkyunxcdeib = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_ghasonkyunxcdeib <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_ghasonkyunxcdeib >= autoA9265719_ae) ) ; lv_ghasonkyunxcdeib += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_ghasonkyunxcdeib])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_rbdcotuwwjcifwgf]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_ghasonkyunxcdeib]), c_orderQueueReplace);
                 }
 
             }
@@ -4298,6 +4310,40 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
 void gt_MeleeInitialization_Init () {
     gt_MeleeInitialization = TriggerCreate("gt_MeleeInitialization_Func");
     TriggerAddEventMapInit(gt_MeleeInitialization);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PermanentAllowBadBuilds
+//--------------------------------------------------------------------------------------------------
+bool gt_PermanentAllowBadBuilds_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    bool lv_bad_builds_allowed;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_bad_builds_allowed = !(BankValueGetAsFlag(gv_banks[EventPlayer()], "P", "abb"));
+    if ((lv_bad_builds_allowed == false)) {
+        UIDisplayMessage(PlayerGroupSingle(EventPlayer()), c_messageAreaChat, StringExternal("Param/Value/907071D9"));
+    }
+    else {
+        UIDisplayMessage(PlayerGroupSingle(EventPlayer()), c_messageAreaChat, StringExternal("Param/Value/66D9F048"));
+    }
+    BankValueSetFromFlag(gv_banks[EventPlayer()], "P", "abb", lv_bad_builds_allowed);
+    gf_SaveBankIfFullGame(EventPlayer());
+    gf_TryAllowBadBuilds(EventPlayer());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PermanentAllowBadBuilds_Init () {
+    gt_PermanentAllowBadBuilds = TriggerCreate("gt_PermanentAllowBadBuilds_Func");
+    TriggerAddEventChatMessage(gt_PermanentAllowBadBuilds, c_playerAny, "-allowbadbuilds", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4474,7 +4520,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_gndfkuyxcbhvpxvx;
+    int lv_dnxplfcsiwrewrml;
     int lv_player;
     int lv_ally;
 
@@ -4498,10 +4544,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_gndfkuyxcbhvpxvx = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_gndfkuyxcbhvpxvx <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_gndfkuyxcbhvpxvx >= autoFC6C6804_ae) ) ; lv_gndfkuyxcbhvpxvx += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_gndfkuyxcbhvpxvx], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_gndfkuyxcbhvpxvx], PlayerGroupSingle(lv_player), true);
+            lv_dnxplfcsiwrewrml = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_dnxplfcsiwrewrml <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_dnxplfcsiwrewrml >= autoFC6C6804_ae) ) ; lv_dnxplfcsiwrewrml += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_dnxplfcsiwrewrml], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_dnxplfcsiwrewrml], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
@@ -5273,7 +5319,7 @@ bool gt_TeamInfoTrackUpgrades_Func (bool testConds, bool runActions) {
     }
 
     if ((EventUpgradeName() == "AllowBadBuilds")) {
-        gf_AllowBadBuilds(lv_player);
+        gf_EnableTankSlotConstruction(lv_player);
     }
 
     lv_player_race = gv_player_race_index[lv_player];
@@ -6290,6 +6336,7 @@ void InitTriggers () {
     gt_ButtonPress_Init();
     gt_CheckForInvalidGame_Init();
     gt_MeleeInitialization_Init();
+    gt_PermanentAllowBadBuilds_Init();
     gt_Checkbox_Init();
     gt_Control_Init();
     gt_DetectMovement_Init();
