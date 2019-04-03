@@ -1165,6 +1165,7 @@ void gf_TestTankRushAchievement (int lp_player);
 void gf_TestVictoryBasedAcievements (int lp_winning_team);
 void gf_MarkAchievementCompleted (string lp_id, int lp_player, int lp_level);
 void gf_CreateAchievementsDialog (playergroup lp_show_player);
+void gf_UpdateNetResourcesForPlayer (int lp_player);
 void gf_UpdateTeamInfoColor (int lp_player);
 void gf_TeamInfoInit ();
 void gf_UpdateTeamInfoForPlayer (int lp_player);
@@ -1224,6 +1225,7 @@ trigger gt_TestPickupAchievement;
 trigger gt_InitTankRush;
 trigger gt_testacheivement;
 trigger gt_achievements;
+trigger gt_PeriodicUpdateNetResources;
 trigger gt_NetResources;
 trigger gt_ResourceTradingTracker;
 trigger gt_UpdateLosses;
@@ -3433,6 +3435,12 @@ void gf_CreateAchievementsDialog (playergroup lp_show_player) {
     }
 }
 
+void gf_UpdateNetResourcesForPlayer (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    gv_player_net_resource_traded[lp_player] = (PlayerScoreValueGetAsFixed(lp_player, "MineralsReceived") - PlayerScoreValueGetAsFixed(lp_player, "MineralsDonated"));
+}
+
 void gf_UpdateTeamInfoColor (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
@@ -3931,11 +3939,13 @@ void gf_TestVictory () {
 
 void gf_OnPlayerDead (int lp_player) {
     // Variable Declarations
+    fixed lv_num_alive_teammates;
     int lv_teammate;
     unit lv_unit;
 
     // Automatic Variable Declarations
     playergroup auto4A0D2F01_g;
+    playergroup auto20CF516A_g;
     unitgroup autoF739310F_g;
     int autoF739310F_u;
     unitgroup auto5C8128CE_g;
@@ -3954,15 +3964,27 @@ void gf_OnPlayerDead (int lp_player) {
     gf_SetDeadPlayerColor(lp_player);
     gf_UpdatePlayerColor(lp_player);
     gf_UpdateTeamInfoColor(lp_player);
-    auto4A0D2F01_g = PlayerGroupAlliance(c_playerGroupAlly, lp_player);
+    auto4A0D2F01_g = gv_teams[gv_player_team[lp_player]];
     lv_teammate = -1;
     while (true) {
         lv_teammate = PlayerGroupNextPlayer(auto4A0D2F01_g, lv_teammate);
         if (lv_teammate < 0) { break; }
-        PlayerSetAlliance(lp_player, c_allianceIdVision, lv_teammate, false);
+        if ((gv_player_alive[lv_teammate] == true)) {
+            lv_num_alive_teammates += 1.0;
+        }
+
     }
-    VisRevealerCreate(lp_player, RegionEntireMap());
-    gv_player_revealers[lp_player] = VisRevealerLastCreated();
+    auto20CF516A_g = gv_teams[gv_player_team[lp_player]];
+    lv_teammate = -1;
+    while (true) {
+        lv_teammate = PlayerGroupNextPlayer(auto20CF516A_g, lv_teammate);
+        if (lv_teammate < 0) { break; }
+        if ((gv_player_alive[lv_teammate] == true)) {
+            PlayerModifyPropertyInt(lv_teammate, c_playerPropMinerals, c_playerPropOperAdd, RoundI((PlayerGetPropertyInt(lp_player, c_playerPropMinerals) / lv_num_alive_teammates)));
+        }
+
+    }
+    PlayerModifyPropertyInt(lp_player, c_playerPropMinerals, c_playerPropOperSetTo, 0);
     gf_UpdateLeaderboard(true);
     autoF739310F_g = UnitGroup(null, lp_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     autoF739310F_u = UnitGroupCount(autoF739310F_g, c_unitCountAll);
@@ -4163,7 +4185,7 @@ void gt_Help_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_ghasonkyunxcdeib;
+    int lv_mvmstxrxnrlnnngu;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -4208,11 +4230,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_ghasonkyunxcdeib = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_ghasonkyunxcdeib <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_ghasonkyunxcdeib >= autoA9265719_ae) ) ; lv_ghasonkyunxcdeib += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_ghasonkyunxcdeib])) {
+        lv_mvmstxrxnrlnnngu = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_mvmstxrxnrlnnngu <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_mvmstxrxnrlnnngu >= autoA9265719_ae) ) ; lv_mvmstxrxnrlnnngu += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_mvmstxrxnrlnnngu])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_ghasonkyunxcdeib]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_mvmstxrxnrlnnngu]), c_orderQueueReplace);
                 }
 
             }
@@ -4520,7 +4542,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_dnxplfcsiwrewrml;
+    int lv_qwknbotqclnltwbw;
     int lv_player;
     int lv_ally;
 
@@ -4544,10 +4566,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_dnxplfcsiwrewrml = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_dnxplfcsiwrewrml <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_dnxplfcsiwrewrml >= autoFC6C6804_ae) ) ; lv_dnxplfcsiwrewrml += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_dnxplfcsiwrewrml], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_dnxplfcsiwrewrml], PlayerGroupSingle(lv_player), true);
+            lv_qwknbotqclnltwbw = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_qwknbotqclnltwbw <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_qwknbotqclnltwbw >= autoFC6C6804_ae) ) ; lv_qwknbotqclnltwbw += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_qwknbotqclnltwbw], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_qwknbotqclnltwbw], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
@@ -5182,6 +5204,39 @@ void gt_achievements_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: PeriodicUpdateNetResources
+//--------------------------------------------------------------------------------------------------
+bool gt_PeriodicUpdateNetResources_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup auto20019133_g;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto20019133_g = gv_all_players;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto20019133_g, lv_player);
+        if (lv_player < 0) { break; }
+        gf_UpdateNetResourcesForPlayer(lv_player);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PeriodicUpdateNetResources_Init () {
+    gt_PeriodicUpdateNetResources = TriggerCreate("gt_PeriodicUpdateNetResources_Func");
+    TriggerAddEventTimePeriodic(gt_PeriodicUpdateNetResources, 15.0, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: NetResources
 //--------------------------------------------------------------------------------------------------
 bool gt_NetResources_Func (bool testConds, bool runActions) {
@@ -5196,16 +5251,17 @@ bool gt_NetResources_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    gf_UpdateNetResourcesForPlayer(EventPlayer());
     lv_message = (lv_message + TextWithColor(PlayerName(EventPlayer()), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(EventPlayer(), false))));
     if ((gv_player_net_resource_traded[EventPlayer()] < 1)) {
-        lv_message = (lv_message + StringExternal("Param/Value/42516F14"));
+        lv_message = (lv_message + StringExternal("Param/Value/2E913FA3"));
         lv_message = (lv_message + FixedToText((0.0 - gv_player_net_resource_traded[EventPlayer()]), 0));
     }
     else {
-        lv_message = (lv_message + StringExternal("Param/Value/9E8F37DC"));
+        lv_message = (lv_message + StringExternal("Param/Value/AEB4688D"));
         lv_message = (lv_message + FixedToText((0.0 + gv_player_net_resource_traded[EventPlayer()]), 0));
     }
-    lv_message = (lv_message + StringExternal("Param/Value/9F1E4038"));
+    lv_message = (lv_message + StringExternal("Param/Value/18010F2A"));
     UIDisplayMessage(gv_teams[gv_player_team[EventPlayer()]], c_messageAreaChat, lv_message);
     return true;
 }
@@ -5226,8 +5282,8 @@ bool gt_ResourceTradingTracker_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    gv_player_net_resource_traded[EventPlayer()] -= EventResourceTradeAmount(c_resourceTypeMinerals);
-    gv_player_net_resource_traded[EventResourceTradeRecipient()] += EventResourceTradeAmount(c_resourceTypeMinerals);
+    gf_UpdateNetResourcesForPlayer(EventResourceTradeRecipient());
+    gf_UpdateNetResourcesForPlayer(EventPlayer());
     return true;
 }
 
@@ -6363,6 +6419,7 @@ void InitTriggers () {
     gt_InitTankRush_Init();
     gt_testacheivement_Init();
     gt_achievements_Init();
+    gt_PeriodicUpdateNetResources_Init();
     gt_NetResources_Init();
     gt_ResourceTradingTracker_Init();
     gt_UpdateLosses_Init();

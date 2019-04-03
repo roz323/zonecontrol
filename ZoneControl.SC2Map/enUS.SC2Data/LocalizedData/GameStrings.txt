@@ -212,7 +212,7 @@ DocInfo/PatchNote009=Concussive shells adjusted to match zc4.
 DocInfo/PatchNote010=Second shard for bunks with < 25% health.
 DocInfo/PatchNote011=Replaced alliance dialog with simple checkbox.
 DocInfo/PatchNote012=Added -trades command.
-DocInfo/PatchNote013=- Costs: Bunker - 1000. Mercenary Bunker - 500. Siege Turret - 1250.
+DocInfo/PatchNote013=Added bad-build protection.
 DocInfo/PatchNote014=- Supply Limit added. Bunkers are worth 50 supply each.
 DocInfo/PatchNote015=- Win/Loss career tracking added.
 DocInfo/PatchNote016=- Bug fix: winning team of holding center bunkers.
@@ -348,6 +348,7 @@ Param/Value/10B37AA2=
 Param/Value/12841285=a
 Param/Value/14FEAE57= 
 Param/Value/15229CAF=<s val="BoardWarAppraiseMid"><c val="D8D8D8">(type <c val="FFFFFF">-records</c> to view W-L stats)</c></s>
+Param/Value/18010F2A= minerals
 Param/Value/1AE20288=R
 Param/Value/1CB9AF72= W, 
 Param/Value/1CFBFBF6=Average opponent elo is 
@@ -358,6 +359,7 @@ Param/Value/28003E0A=R
 Param/Value/298CA7FA= (
 Param/Value/2CB32ECF=Nuke Glitch Corrected
 Param/Value/2DABF6B5= 
+Param/Value/2E913FA3= has sent 
 Param/Value/312A6E35= (team Elo)  - Vs - 
 Param/Value/33188E24= is afk, control has been automatically shared.
 Param/Value/3434053B=TEST
@@ -368,7 +370,6 @@ Param/Value/3C1367FD=Victory<n/>
 Param/Value/40746770=Shared control is now <c val="FF0000">disabled </c>for all teammates.
 Param/Value/4214D75A=)
 Param/Value/42164AEC=Chat Commands:<n/>-h  - Displays this (h)elp menu<n/>-r  - Displays player (r)ecords<n/>-e  - Displays (e)lo stakes<n/>-l  - Toggles (l)eaderboard mode<n/>-u - Toggles team (u)pgrades menu<n/>-d - Offer (draw), all players must agree<n/>-c - Toggle shared (c)ontrol.<n/>
-Param/Value/42516F14= has sent 
 Param/Value/436384BF= 
 Param/Value/4E2F7B84=Dismiss
 Param/Value/4E4C49FD= 
@@ -399,13 +400,12 @@ Param/Value/911BE273= or Lose
 Param/Value/92B980A1=
 Param/Value/95B92D04= (enemy Elo)
 Param/Value/97853DA3=<s val="BoardWarAppraiseBig1"><c val="
-Param/Value/9E8F37DC= has received  
-Param/Value/9F1E4038= minerals
 Param/Value/9FD17718=L
 Param/Value/A0987309=L
 Param/Value/A4DBF220=2000
 Param/Value/A698A56B=T
 Param/Value/AD714ED6=Win 
+Param/Value/AEB4688D= has received  
 Param/Value/B3C976A8=<s val="BoardWarAppraiseMid">
 Param/Value/B75EFE4C= (
 Param/Value/B80DF5EE=<s val="BoardWarAppraiseMid"><c val="
@@ -421,7 +421,6 @@ Param/Value/C6238D14=
 Param/Value/C63ADDFB=B
 Param/Value/CE0871DE=<s val="BoardWarAppraiseMid">Win <c val="00FF00">+
 Param/Value/CFE0085C=Elo, records, and settings will not be updated for this game.
-Param/Value/D09A5A11= has sent 
 Param/Value/D2EB51C9=Stubborn Mode is now <c val="E80005">Disabled</c>
 Param/Value/D4783B0D=
 Param/Value/D6B9972F=Player (Elo Rating)
