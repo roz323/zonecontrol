@@ -211,6 +211,67 @@
         <On index="74" removed="1"/>
     </CActorUnit>
     <!--                                                                                         -->
+    <!-- Invisible Pylon ....................................................................... -->
+    <!--                                                                                         -->
+    <CActorUnit id="InvisiblePylon" unitName="LargeInvisiblePylon">
+        <On index="0" Terms="UnitBirth.LargeInvisiblePylon" Send="Create SoundEmitter LargeInvisiblePylon_Ambience"/>
+        <On index="1" Terms="UnitBirth.LargeInvisiblePylon"/>
+        <On index="2" Terms="UnitRevive.LargeInvisiblePylon"/>
+        <On index="3" Terms="UnitRevive.LargeInvisiblePylon"/>
+        <On index="4" Terms="UnitConstruction.LargeInvisiblePylon.Start"/>
+        <On index="5" Terms="UnitConstruction.LargeInvisiblePylon.Finish"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="LargeInvisiblePylonFootprint"/>
+        <BuildModel value="LargeInvisiblePylon"/>
+        <DeathArray index="Normal" ModelLink="LargeInvisiblePylon" SoundLink="LargeInvisiblePylonDeath" VoiceLink="LargeInvisiblePylonDeathVoice"/>
+        <PlacementModel value="LargeInvisiblePylon"/>
+        <GroupSoundArray index="What" value="LargeInvisiblePylon_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="LargeInvisiblePylon_GroupYes"/>
+        <GroupSoundArray index="Attack" value="LargeInvisiblePylon_GroupAttack"/>
+        <GroupSoundArray index="Board" value="LargeInvisiblePylon_GroupBoard"/>
+        <SoundArray index="Birth" value="LargeInvisiblePylon_Birth"/>
+        <SoundArray index="Ready" value="LargeInvisiblePylon_Ready"/>
+        <SoundArray index="Help" value="LargeInvisiblePylon_Help"/>
+        <SoundArray index="What" value="LargeInvisiblePylon_What"/>
+        <SoundArray index="Yes" value="LargeInvisiblePylon_Yes"/>
+        <SoundArray index="Attack" value="LargeInvisiblePylon_Attack"/>
+        <SoundArray index="Pissed" value="LargeInvisiblePylon_Pissed"/>
+        <SoundArray index="Movement" value="LargeInvisiblePylon_Movement"/>
+        <SoundArray index="Turning" value="LargeInvisiblePylon_Turning"/>
+        <SoundArray index="Board" value="LargeInvisiblePylon_Board"/>
+        <SoundArray index="Click" value="LargeInvisiblePylon_Click"/>
+        <SoundArray index="ClickError" value="LargeInvisiblePylon_ClickError"/>
+        <SoundArray index="Highlight" value="LargeInvisiblePylon_Highlight"/>
+    </CActorUnit>
+    <CActorUnit id="KaraxInvisiblePylon" unitName="SmallInvisiblePylon">
+        <On index="0" Terms="UnitBirth.SmallInvisiblePylon" Send="Create SoundEmitter SmallInvisiblePylon_Ambience"/>
+        <On index="1" Terms="UnitBirth.SmallInvisiblePylon"/>
+        <On index="2" Terms="UnitRevive.SmallInvisiblePylon"/>
+        <On index="3" Terms="UnitRevive.SmallInvisiblePylon"/>
+        <On index="4" Terms="UnitConstruction.SmallInvisiblePylon.Start"/>
+        <On index="5" Terms="UnitConstruction.SmallInvisiblePylon.Finish"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="SmallInvisiblePylonFootprint"/>
+        <BuildModel value="SmallInvisiblePylon"/>
+        <DeathArray index="Normal" ModelLink="SmallInvisiblePylon" SoundLink="SmallInvisiblePylonDeath" VoiceLink="SmallInvisiblePylonDeathVoice"/>
+        <PlacementModel value="SmallInvisiblePylon"/>
+        <GroupSoundArray index="What" value="SmallInvisiblePylon_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="SmallInvisiblePylon_GroupYes"/>
+        <GroupSoundArray index="Attack" value="SmallInvisiblePylon_GroupAttack"/>
+        <GroupSoundArray index="Board" value="SmallInvisiblePylon_GroupBoard"/>
+        <SoundArray index="Birth" value="SmallInvisiblePylon_Birth"/>
+        <SoundArray index="Ready" value="SmallInvisiblePylon_Ready"/>
+        <SoundArray index="Help" value="SmallInvisiblePylon_Help"/>
+        <SoundArray index="What" value="SmallInvisiblePylon_What"/>
+        <SoundArray index="Yes" value="SmallInvisiblePylon_Yes"/>
+        <SoundArray index="Attack" value="SmallInvisiblePylon_Attack"/>
+        <SoundArray index="Pissed" value="SmallInvisiblePylon_Pissed"/>
+        <SoundArray index="Movement" value="SmallInvisiblePylon_Movement"/>
+        <SoundArray index="Turning" value="SmallInvisiblePylon_Turning"/>
+        <SoundArray index="Board" value="SmallInvisiblePylon_Board"/>
+        <SoundArray index="Click" value="SmallInvisiblePylon_Click"/>
+        <SoundArray index="ClickError" value="SmallInvisiblePylon_ClickError"/>
+        <SoundArray index="Highlight" value="SmallInvisiblePylon_Highlight"/>
+    </CActorUnit>
+    <!--                                                                                         -->
     <!-- Korhal Spore Cannon .................................................................... -->
     <!--                                                                                         -->
     <CActorUnit id="KorhalSporeCannon">
