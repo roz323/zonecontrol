@@ -499,4 +499,14 @@
         <Range index="0" value="5"/>
         <Arc value="360"/>
     </CAbilEffectTarget>
+    <CAbilEffectInstant id="SOAGlobalChrono">
+        <CmdButtonArray index="Execute" Requirements=""/>
+        <Cost index="0">
+            <Vital index="Energy" value="0"/>
+        </Cost>
+        <Cost>
+            <Charge Link="Abil/SOAGlobalChrono"/>
+            <Cooldown Link="Abil/SOAGlobalChrono" TimeUse="20"/>
+        </Cost>
+    </CAbilEffectInstant>
 </Catalog>
