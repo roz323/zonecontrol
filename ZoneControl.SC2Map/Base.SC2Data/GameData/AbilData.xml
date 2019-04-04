@@ -105,6 +105,9 @@
     <CAbilAugment id="Charge">
         <CmdButtonArray index="Execute" Requirements="HaveVoidZealotCharge"/>
     </CAbilAugment>
+    <CAbilEffectTarget id="ChronoBoostEnergyCost">
+        <TargetFilters index="0" value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
+    </CAbilEffectTarget>
     <CAbilResearch id="EngineeringBayResearch">
         <InfoArray index="Research2" Time="0">
             <Resource index="Minerals" value="50"/>
