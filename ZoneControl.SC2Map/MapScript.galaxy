@@ -1184,6 +1184,7 @@ void gf_UpdateNetResourcesForPlayer (int lp_player);
 void gf_UpdateTeamInfoColor (int lp_player);
 void gf_TeamInfoInit ();
 void gf_UpdateTeamInfoForPlayer (int lp_player);
+void gf_RewardMessage (point lp_position, int lp_player, int lp_value);
 void gf_RedrawDeathNotifications ();
 void gf_NotifyPlayerDied (int lp_palyer);
 void gf_NotifyPlayerLeave (int lp_palyer);
@@ -1213,7 +1214,6 @@ trigger gt_Help;
 trigger gt_ButtonPress;
 trigger gt_CheckForInvalidGame;
 trigger gt_MeleeInitialization;
-trigger gt_testa;
 trigger gt_TMToggleFogOfWar;
 trigger gt_TMResetGame;
 trigger gt_TMResetUpgrades;
@@ -2259,7 +2259,7 @@ void gf_ApplyTrainingMode () {
     // Automatic Variable Declarations
     // Implementation
     gf_ApplyFogOfWar();
-    if (true) {
+    if ((GameAttributeGameValue("15") != "0001")) {
         gf_StartCeaseFire();
     }
 
@@ -3841,6 +3841,14 @@ void gf_UpdateTeamInfoForPlayer (int lp_player) {
 
 }
 
+void gf_RewardMessage (point lp_position, int lp_player, int lp_value) {
+    // Automatic Variable Declarations
+    // Implementation
+    TextTagCreate(TextWithColor((StringExternal("Param/Value/5B24D363") + IntToText(lp_value)), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lp_player, false))), 40, lp_position, 1.0, true, false, gv_teams[gv_player_team[lp_player]]);
+    TextTagSetVelocity(TextTagLastCreated(), 0.5, 90.0);
+    TextTagSetTime(TextTagLastCreated(), c_textTagTimeDuration, 5.0);
+}
+
 void gf_RedrawDeathNotifications () {
     // Variable Declarations
     int lv_index;
@@ -4414,7 +4422,7 @@ void gt_Help_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_oyqxvqsfyirqldcu;
+    int lv_scbafuxwqututfqv;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -4459,11 +4467,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_oyqxvqsfyirqldcu = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_oyqxvqsfyirqldcu <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_oyqxvqsfyirqldcu >= autoA9265719_ae) ) ; lv_oyqxvqsfyirqldcu += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_oyqxvqsfyirqldcu])) {
+        lv_scbafuxwqututfqv = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_scbafuxwqututfqv <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_scbafuxwqututfqv >= autoA9265719_ae) ) ; lv_scbafuxwqututfqv += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_scbafuxwqututfqv])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_oyqxvqsfyirqldcu]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_scbafuxwqututfqv]), c_orderQueueReplace);
                 }
 
             }
@@ -4563,32 +4571,6 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
 void gt_MeleeInitialization_Init () {
     gt_MeleeInitialization = TriggerCreate("gt_MeleeInitialization_Func");
     TriggerAddEventMapInit(gt_MeleeInitialization);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: testa
-//--------------------------------------------------------------------------------------------------
-bool gt_testa_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((gv_cease_fire_timer != null)) {
-        libNtve_gf_StopTimer(gv_cease_fire_timer);
-    }
-
-    gv_cease_fire_timer = TimerCreate();
-    TriggerAddEventTimer(gt_CeaseFireOver, gv_cease_fire_timer);
-    TimerStart(gv_cease_fire_timer, 5.0, false, c_timeReal);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_testa_Init () {
-    gt_testa = TriggerCreate("gt_testa_Func");
-    TriggerAddEventChatMessage(gt_testa, c_playerAny, "testa", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5010,7 +4992,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_rxapvsffsxachwop;
+    int lv_fwmwrowewriduyky;
     int lv_player;
     int lv_ally;
 
@@ -5034,10 +5016,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_rxapvsffsxachwop = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_rxapvsffsxachwop <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_rxapvsffsxachwop >= autoFC6C6804_ae) ) ; lv_rxapvsffsxachwop += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_rxapvsffsxachwop], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_rxapvsffsxachwop], PlayerGroupSingle(lv_player), true);
+            lv_fwmwrowewriduyky = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_fwmwrowewriduyky <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_fwmwrowewriduyky >= autoFC6C6804_ae) ) ; lv_fwmwrowewriduyky += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_fwmwrowewriduyky], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_fwmwrowewriduyky], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
@@ -5973,9 +5955,7 @@ bool gt_ShardCollected_Func (bool testConds, bool runActions) {
     gv_player_shards_collected[lv_player] = (gv_player_shards_collected[lv_player] + lv_value);
     PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperAdd, lv_value);
     SoundPlayAtPointForPlayer(SoundLink("UI_ResourcePickup", -1), c_maxPlayers, PlayerGroupSingle(lv_player), lv_shard_position, 0.0, 100.0, 0.0);
-    TextTagCreate((StringExternal("Param/Value/395798D3") + IntToText(lv_value)), 24, lv_shard_position, 1.0, true, false, PlayerGroupSingle(lv_player));
-    TextTagSetVelocity(TextTagLastCreated(), 0.5, 90.0);
-    TextTagSetTime(TextTagLastCreated(), c_textTagTimeDuration, 5.0);
+    gf_RewardMessage(lv_shard_position, lv_player, lv_value);
     return true;
 }
 
@@ -6346,6 +6326,7 @@ bool gt_BunkerDestoryed_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    gf_RewardMessage(UnitGetPosition(EventUnit()), libNtve_gf_KillingPlayer(), FixedToInt(UnitGetPropertyFixed(EventUnit(), c_unitPropBountyMinerals, c_unitPropCurrent)));
     gf_OnBunkerRemoved(EventPlayer(), EventUnit());
     return true;
 }
@@ -6365,6 +6346,7 @@ bool gt_TankDied_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    gf_RewardMessage(UnitGetPosition(EventUnit()), libNtve_gf_KillingPlayer(), FixedToInt(UnitGetPropertyFixed(EventUnit(), c_unitPropBountyMinerals, c_unitPropCurrent)));
     gv_player_tank_counts[UnitGetOwner(EventUnit())] -= 1;
     gf_UpdateTeamInfoForPlayer(UnitGetOwner(EventUnit()));
     return true;
@@ -6872,7 +6854,6 @@ void InitTriggers () {
     gt_ButtonPress_Init();
     gt_CheckForInvalidGame_Init();
     gt_MeleeInitialization_Init();
-    gt_testa_Init();
     gt_TMToggleFogOfWar_Init();
     gt_TMResetGame_Init();
     gt_TMResetUpgrades_Init();
