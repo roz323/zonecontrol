@@ -801,6 +801,7 @@ string[4] gv_race_nuke_facility_types;
 string[4][12] gv_race_teaminfo_icons;
 string[4][9] gv_race_teaminfo_upgrades;
 abilcmd[4][9] gv_race_teaminfo_upgrade_abilities;
+bool gv_resetting;
 bool gv_fog_of_war;
 revealer[2] gv_fog_of_war_revealers;
 int gv_starting_minerals;
@@ -1131,6 +1132,7 @@ void gf_SpawnPlayers ();
 void gf_SpectatorInit ();
 void gf_SpawnInitialBunk (int lp_player, int lp_position, int lp_player_race);
 void gf_GrantStructure (int lp_player, unit lp_structure);
+void gf_ResetUpgrades ();
 void gf_LoadGameSettings ();
 void gf_ApplyTrainingMode ();
 void gf_ApplyFogOfWar ();
@@ -1206,7 +1208,9 @@ trigger gt_Help;
 trigger gt_ButtonPress;
 trigger gt_CheckForInvalidGame;
 trigger gt_MeleeInitialization;
-trigger gt_ToggleFogOfWar;
+trigger gt_TMToggleFogOfWar;
+trigger gt_TMResetGame;
+trigger gt_TMResetUpgrades;
 trigger gt_BunkCounts;
 trigger gt_AutoEnableBadBuilds;
 trigger gt_PermanentAllowBadBuilds;
@@ -2161,6 +2165,31 @@ void gf_GrantStructure (int lp_player, unit lp_structure) {
     gv_total_structure_granted_value[lp_player] += UnitTypeGetCost(UnitGetType(lp_structure), c_unitCostMinerals);
 }
 
+void gf_ResetUpgrades () {
+    // Variable Declarations
+    int lv_index;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup autoC8B7CC3F_g;
+    const int auto1ABD0225_ae = 7;
+    const int auto1ABD0225_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    autoC8B7CC3F_g = gv_all_players;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(autoC8B7CC3F_g, lv_player);
+        if (lv_player < 0) { break; }
+        lv_index = 0;
+        for ( ; ( (auto1ABD0225_ai >= 0 && lv_index <= auto1ABD0225_ae) || (auto1ABD0225_ai < 0 && lv_index >= auto1ABD0225_ae) ) ; lv_index += auto1ABD0225_ai ) {
+            libNtve_gf_SetUpgradeLevelForPlayer(lv_player, gv_race_teaminfo_upgrades[gv_player_race_index[lv_player]][lv_index], 0);
+        }
+    }
+}
+
 void gf_LoadGameSettings () {
     // Variable Declarations
     string lv_starting_minerals;
@@ -2193,6 +2222,10 @@ void gf_LoadGameSettings () {
 
     if ((lv_starting_minerals == "0006")) {
         gv_starting_minerals = 50000;
+    }
+
+    if ((lv_starting_minerals == "0007")) {
+        gv_starting_minerals = 100000;
     }
 
 }
@@ -4428,10 +4461,17 @@ void gt_MeleeInitialization_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: ToggleFogOfWar
+// Trigger: TMToggleFogOfWar
 //--------------------------------------------------------------------------------------------------
-bool gt_ToggleFogOfWar_Func (bool testConds, bool runActions) {
+bool gt_TMToggleFogOfWar_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((GameAttributeGameValue("8") == "0001"))) {
+            return false;
+        }
+    }
+
     // Actions
     if (!runActions) {
         return true;
@@ -4443,8 +4483,92 @@ bool gt_ToggleFogOfWar_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void gt_ToggleFogOfWar_Init () {
-    gt_ToggleFogOfWar = TriggerCreate("gt_ToggleFogOfWar_Func");
+void gt_TMToggleFogOfWar_Init () {
+    gt_TMToggleFogOfWar = TriggerCreate("gt_TMToggleFogOfWar_Func");
+    TriggerAddEventChatMessage(gt_TMToggleFogOfWar, c_playerAny, "-fog", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: TMResetGame
+//--------------------------------------------------------------------------------------------------
+bool gt_TMResetGame_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    playergroup auto9BE2C912_g;
+    unitgroup autoA50B2BA7_g;
+    int autoA50B2BA7_u;
+
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((GameAttributeGameValue("8") == "0001"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto9BE2C912_g = gv_all_players;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto9BE2C912_g, lv_player);
+        if (lv_player < 0) { break; }
+        gf_ResetUpgrades();
+        autoA50B2BA7_g = UnitGroup(null, lv_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        autoA50B2BA7_u = UnitGroupCount(autoA50B2BA7_g, c_unitCountAll);
+        for (;; autoA50B2BA7_u -= 1) {
+            lv_unit = UnitGroupUnitFromEnd(autoA50B2BA7_g, autoA50B2BA7_u);
+            if (lv_unit == null) { break; }
+            UnitKill(lv_unit);
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_TMResetGame_Init () {
+    gt_TMResetGame = TriggerCreate("gt_TMResetGame_Func");
+    TriggerAddEventChatMessage(gt_TMResetGame, c_playerAny, "-reset", true);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: TMResetUpgrades
+//--------------------------------------------------------------------------------------------------
+bool gt_TMResetUpgrades_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((GameAttributeGameValue("8") == "0001"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_ResetUpgrades();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_TMResetUpgrades_Init () {
+    gt_TMResetUpgrades = TriggerCreate("gt_TMResetUpgrades_Func");
+    TriggerAddEventChatMessage(gt_TMResetUpgrades, c_playerAny, "-resetupgrades", true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6592,7 +6716,9 @@ void InitTriggers () {
     gt_ButtonPress_Init();
     gt_CheckForInvalidGame_Init();
     gt_MeleeInitialization_Init();
-    gt_ToggleFogOfWar_Init();
+    gt_TMToggleFogOfWar_Init();
+    gt_TMResetGame_Init();
+    gt_TMResetUpgrades_Init();
     gt_BunkCounts_Init();
     gt_AutoEnableBadBuilds_Init();
     gt_PermanentAllowBadBuilds_Init();
