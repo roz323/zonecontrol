@@ -153,9 +153,9 @@ Button/Name/VoidColossusBeamScanWidth=Research Colossus Flame
 Button/Name/VoidStalkerDragoonArmor=Upgrade Life and Shield Armor
 Button/Name/VoidTempestStructureDamage=Upgrade Structure Damage
 Button/Name/WarpInEngineFluidTower=Warp In Psionic Tower
-Button/Tooltip/AutoTurret=Support turret, ideal for bolstering your army in important battles.<n/><n/><c val="FFFFAE">Timed-life: <d ref="Behavior,AutoTurretTimedLife,Duration"/> s</c>
+Button/Tooltip/AutoTurret=Torreta, ideal para fortalecer tu ejército durante batallas importantes.<n/><n/><c val="FFFFAE">Timed-life: <d ref="Behavior,AutoTurretTimedLife,Duration"/> s</c>
 Button/Tooltip/BuildingShield=Upgrades Life and Shield Armor of Protoss Structures.
-Button/Tooltip/Bunker=Defensive structure and spawns infantry. Able to protect up to <d ref="Abil,BunkerTransport,TotalCargoSpace"/> infantry unit slots. Units inside the Bunker have +1 range to their attacks. Build in Zones closer to center for stronger units.<n/><n/><c val="FFFFAE">Provides <d ref="Unit,Bunker,Food[0]"/> supply.</c>
+Button/Tooltip/Bunker=El búnker es una estructura defensiva que también engendra infantería. Protege hasta  <d ref="Abil,BunkerTransport,TotalCargoSpace"/> unidades de infantería.  Aumenta la distancia de ataque en 1. Bunkers cerca del centro generan unidades más fuertes.<n/><n/> <c val="FFFFAE">Proporciona <d ref="Unit,Bunker,Food[0]"/> suministros. 
 Button/Tooltip/BunkerArmor=Buildings - increased armor by 1.
 Button/Tooltip/BunkerCapacity=Bunkers - increased capacity by 1.
 Button/Tooltip/BunkerLifeRegeneration=Buildings - increased life regeneration by 35.
@@ -177,7 +177,7 @@ Button/Tooltip/InfantryWeapons=Infantry - increased damage by 1.
 Button/Tooltip/MineralCrystal=
 Button/Tooltip/NukeArm=Arms the Silo with a Tactical Nuke.
 Button/Tooltip/NukeCalldown=Instantly calls down a Nuke. Each player starts the game with 1.
-Button/Tooltip/OrbitalCommand=Upgrades to a Mercenary Bunker and spawns the next tier unit. Mercenaries have increased life and damage. In addition, Mercenary Bunkers have increased life and armor, and repair for free.
+Button/Tooltip/OrbitalCommand=Mejora tu infantería para dominar a tus oponentes.
 Button/Tooltip/PalletMinerals=
 Button/Tooltip/PhaseCannon=Phases in a Photon Cannon that lasts for <d ref="Behavior,PhaseCannonTimedLife,Duration"/> seconds before leaving the battlefield.<n/><n/>
 Button/Tooltip/PhotonCannonPassive=Increases duration of cannons by 4 seconds and decreases cooldown by one second.
@@ -214,17 +214,17 @@ Button/Tooltip/WarpInEngineFluidTower=Detects enemies in a large radius.
 CasterLifeFull=Unit must have full life.
 Cobalt Rounds=Cobalt Rounds
 DocInfo/Author=Roz
-DocInfo/DescLong=El mismo gran juego con numerosas correcciones de errores y mejoras.
+DocInfo/DescLong=Zone Control Community Edition.<n/><n/>The same great game with many enhancements:<n/>- Bugfixes<n/>- Infantry and workers spawn on proper side of bunker.<n/>- Improved leaderboards<n/>- Improved elo security<n/>- Faster and smoother gameplay<n/><n/><n/>
 DocInfo/DescShort=4+
-DocInfo/HowToPlayBasic00=Bunkers Spawn Infantry
-DocInfo/HowToPlayBasic01=Kill Enemy Armies and Bases for Income
+DocInfo/HowToPlayBasic00=Bunkers engendran infantería.
+DocInfo/HowToPlayBasic01=Gana ingresos matando ejércitos y bases enemigos.
 DocInfo/HowToPlayBasic02=Buy Upgrades and Bunkers
-DocInfo/HowToPlayWinning00=Destroy All Enemy Bunkers
+DocInfo/HowToPlayWinning00=Destruir todos los bunkers enemigos.
 DocInfo/Name=Zone Control CE Dev
-DocInfo/PatchNote001=Tanks placement now works in fog or when units in the way. 
-DocInfo/PatchNote002=Bunkers spawn units faster for first 13 seconds of the game.
-DocInfo/PatchNote003=Turret now desplays proper health regeneration upgrade.
-DocInfo/PatchNote004=Games with <= 4 players can start with an extra bunker.
+DocInfo/PatchNote001=Construcción de tanques mejorados.
+DocInfo/PatchNote002=Los bunkers se reproducen más rápido durante los primeros 13 segundos del juego.
+DocInfo/PatchNote003=La torreta muestra la actualización de regeneración adecuada.
+DocInfo/PatchNote004=Los juegos con menos de 4 jugadores pueden comenzar con un segundo bunker.
 DocInfo/PatchNote005=Incomplete lobbies work as long as they are balanced.
 DocInfo/PatchNote006=Acrlite cannon upgrade no longer needs to be purcahsed.
 DocInfo/PatchNote007=Observers can view all player upgrades and scoreboard.
@@ -239,8 +239,8 @@ DocInfo/PatchNote015=Teammate's resources automatically transfer upon death.
 DocInfo/Screenshot01=Drop Nukes to protect expansions or gain a boost of minerals!
 DocInfo/Screenshot02=
 DocInfo/Screenshot03=Hunker down and protect your Bunkers!
-DocInfo/Screenshot04=Engage in huge battles!
-DocInfo/Screenshot05=Upgrade your infantry to dominate your opponents.
+DocInfo/Screenshot04=Lucha enormes batallas!
+DocInfo/Screenshot05=Mejora tu infantería para dominar a tus oponentes.
 DocInfo/ScreenshotHowToPlay01=You and an ally each start with one Bunker that produces Marines.
 DocInfo/ScreenshotHowToPlay02=Kills award minerals. Use your micro to gain an edge in each battle.
 DocInfo/ScreenshotHowToPlay03=Spend your minerals on Upgrades to make your Infantry and Bunkers stronger.
@@ -264,7 +264,6 @@ MapInfo/Player07/Name=Player 7
 MapInfo/Player08/Name=Player 8
 MapInfo/Player09/Name=Hostile
 MapInfo/Player10/Name=Hostile
-Param/Value/0035E0FF=Toggles leaderboard modes.
 Param/Value/07DB2B02=Defeat
 Param/Value/08AECC7B= @ 
 Param/Value/09C7D2D3=Scoreboard
@@ -294,6 +293,7 @@ Param/Value/3AC4D29A= losses
 Param/Value/3C1367FD=Victory<n/>
 Param/Value/40746770=Shared control is now <c val="FF0000">disabled </c>for all teammates.
 Param/Value/4214D75A=)
+Param/Value/42164AEC=Chat Commands:<n/>-h  - Displays this (h)elp menu<n/>-r  - Displays player (r)ecords<n/>-e  - Displays (e)lo stakes<n/>-l  - Toggles (l)eaderboard mode<n/>-u - Toggles team (u)pgrades menu<n/>-d - Offer (draw), all players must agree<n/>-c - Toggle shared (c)ontrol.<n/>
 Param/Value/436384BF= 
 Param/Value/4E2F7B84=Dismiss
 Param/Value/4E4C49FD= 
@@ -330,7 +330,6 @@ Param/Value/A0987309=L
 Param/Value/A4DBF220=2000
 Param/Value/A698A56B=T
 Param/Value/AD714ED6=Win 
-Param/Value/AE178147=Dismiss
 Param/Value/AEB4688D= has received  
 Param/Value/B3C976A8=<s val="BoardWarAppraiseMid">
 Param/Value/B75EFE4C= (
@@ -344,13 +343,11 @@ Param/Value/C25F0BB7= has <c val="E80005">disabled </c>shared control.
 Param/Value/C499AFB3= 
 Param/Value/C6238D14=
 Param/Value/C63ADDFB=B
-Param/Value/C6898BBE=
 Param/Value/CE0871DE=<s val="BoardWarAppraiseMid">Win <c val="00FF00">+
 Param/Value/CFE0085C=Elo, records, and settings will not be updated for this game.
 Param/Value/D2EB51C9=Stubborn Mode is now <c val="E80005">Disabled</c>
 Param/Value/D4783B0D=
 Param/Value/D6B9972F=Player (Elo Rating)
-Param/Value/D78C84C8=kills
 Param/Value/D82F42FA=B
 Param/Value/DB7F0C5D= (
 Param/Value/DFB2EDB0= wins with a peak performance of 
