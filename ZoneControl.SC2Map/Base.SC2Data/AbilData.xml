@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CAbilResearch id="1PShield2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="UnknownUpgrade">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="PsionicSuperStorm" Requirements="MaxShieldRegen"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="1StrucureDMGSPEED">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="UpgradeBaseWeapon">
+            <Resource index="Minerals" value="50"/>
+            <Button DefaultButtonFace="CommanderArtanisSpearofAdunGuardianShell" Requirements="BaseWeapMax"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="1UpgradeArmorz">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="UpgradeArmor">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="ProtossGroundArmorLevel1" Requirements="ProtossArmorMax"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="1UpgradeShieldz">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="UpgradeShields">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="ProtossShieldsLevel1" Requirements="ProtossShieldMax"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectTarget id="AdeptPhaseShift">
+        <CmdButtonArray index="Execute" State="Restricted" Requirements="UnknownRequirement4"/>
+    </CAbilEffectTarget>
+    <CAbilArmMagazine id="ArmSiloWithNuke">
+        <InfoArray index="Ammo1" CountStart="1">
+            <Button Requirements=""/>
+        </InfoArray>
+    </CAbilArmMagazine>
+    <CAbilResearch id="BarracksTechLabResearch">
+        <InfoArray index="Research1" Time="0">
+            <Resource index="Minerals" value="750"/>
+            <Resource index="Vespene" value="0"/>
+            <Button Requirements="MarineOrMarauder"/>
+        </InfoArray>
+        <InfoArray index="Research2" Time="0" Upgrade="CombatShield">
+            <Resource index="Minerals" value="300"/>
+            <Resource index="Vespene" value="0"/>
+            <Button Requirements="HaveDarkTemplar"/>
+        </InfoArray>
+        <InfoArray index="Research3" Time="0">
+            <Resource index="Minerals" value="200"/>
+            <Resource index="Vespene" value="0"/>
+            <Button Requirements="HaveMarauder"/>
+        </InfoArray>
+        <InfoArray index="Research4" Upgrade="SiegeTurretArea">
+            <Resource index="Minerals" value="2000"/>
+            <Button DefaultButtonFace="ResearchObliterationOrdnance" Requirements="LearnObliterationOrdnance"/>
+        </InfoArray>
+        <InfoArray index="Research5" Upgrade="ReaperSpeed">
+            <Resource index="Minerals" value="250"/>
+            <Button DefaultButtonFace="ReaperSpeed" Requirements="HaveReaper"/>
+        </InfoArray>
+        <InfoArray index="Research6" Upgrade="ResearchSiegeBreakerArcliteCannon">
+            <Resource index="Minerals" value="350"/>
+            <Button DefaultButtonFace="ResearchArcliteCannon" Requirements="LearnArcliteCannon"/>
+        </InfoArray>
+        <InfoArray index="Research7" Upgrade="ResearchPlasmaCapacitors">
+            <Resource index="Minerals" value="350"/>
+            <Button DefaultButtonFace="ResearchPlasmaCapacitors" Requirements="LearnPlasmaCapacitors"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectTarget id="Blink">
+        <Cost index="0">
+            <Cooldown Link="Blink" TimeUse="60"/>
+        </Cost>
+        <!--Effect index="0" value="VoidStalkerBlinkSet"/-->
+        <CmdButtonArray index="Execute" Requirements="UnknownRequirement3"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="BuildAutoTurret">
+        <Cost index="0">
+            <Resource index="Minerals" value="225"/>
+            <Vital index="Energy" value="0"/>
+            <Cooldown Link="Raven Build Link" Location="Unit" TimeUse="15"/>
+        </Cost>
+        <Range index="0" value="7"/>
+    </CAbilEffectTarget>
+    <CAbilMorph id="BurrowBanelingDown">
+        <InfoArray index="0" Unit="KorhalSporeCannon">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="40"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilEffectTarget id="CalldownMULE">
+        <Cost index="0">
+            <Resource index="Minerals" value="3000"/>
+            <Vital index="Energy" value="0"/>
+        </Cost>
+        <CmdButtonArray index="Execute" Requirements="HaveMercenaryBunker"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="CalldownDrone" parent="CalldownMULE">
+        <Name value="Abil/Name/CalldownDrone"/>
+        <Effect index="0" value="CalldownMULECreateUnit2"/>
+    </CAbilEffectTarget>
+    <CAbilAugment id="Charge">
+        <CmdButtonArray index="Execute" Requirements="HaveVoidZealotCharge"/>
+    </CAbilAugment>
+    <CAbilEffectTarget id="ChronoBoostEnergyCost">
+        <TargetFilters index="0" value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
+    </CAbilEffectTarget>
+    <CAbilResearch id="EngineeringBayResearch">
+        <InfoArray index="Research2" Time="0">
+            <Resource index="Minerals" value="50"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research3" Time="0">
+            <Resource index="Minerals" value="10"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research4" Time="0">
+            <Resource index="Minerals" value="50"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research5" Time="0">
+            <Resource index="Minerals" value="150"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research6" Time="0">
+            <Resource index="Minerals" value="50"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research7" Time="0">
+            <Resource index="Minerals" value="10"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research8" Time="0">
+            <Resource index="Minerals" value="50"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research9" Time="0">
+            <Resource index="Minerals" value="150"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research10" Upgrade="TerranInfantryWeaponsLevel32">
+            <Resource index="Minerals" value="350"/>
+            <Button DefaultButtonFace="TerranInfantryWeaponsLevel32" Requirements="LearnTerranInfantryWeapon32"/>
+        </InfoArray>
+        <InfoArray index="Research11" Upgrade="TerranInfantryArmorsLevel32">
+            <Resource index="Minerals" value="350"/>
+            <Button DefaultButtonFace="TerranInfantryArmorLevel32" Requirements="LearnTerranInfantryArmor32"/>
+        </InfoArray>
+        <InfoArray index="Research12" Upgrade="IncreasedRange2">
+            <Resource index="Minerals" value="75"/>
+            <Button DefaultButtonFace="Stimpack2" Requirements="LearnCombatShield"/>
+        </InfoArray>
+        <InfoArray index="Research13" Upgrade="IncreasedRange22">
+            <Resource index="Minerals" value="75"/>
+            <Button DefaultButtonFace="Stimpack22" Requirements="LearnStimpack22"/>
+        </InfoArray>
+        <InfoArray index="Research14" Upgrade="TerranBuildingArmor22">
+            <Resource index="Minerals" value="50"/>
+            <Button DefaultButtonFace="Stimpack2222" Requirements="LearnTerranBuildingArmor22"/>
+        </InfoArray>
+        <InfoArray index="Research15" Upgrade="TerranBuildingArmor2">
+            <Resource index="Minerals" value="50"/>
+            <Button DefaultButtonFace="Stimpack222" Requirements="LearnTerranBuildingArmor2"/>
+        </InfoArray>
+        <InfoArray index="Research16" Upgrade="AllowBadBuilds">
+            <Button DefaultButtonFace="EngineerHeroDismantle" Requirements="AllowBadBuildsAvailable"/>
+        </InfoArray>
+        <InfoArray index="Research22" Upgrade="TerranInfantryWeaponsLevel1223222">
+            <Resource index="Minerals" value="50"/>
+            <Button DefaultButtonFace="TerranInfantryWeaponsLevel1223222"/>
+        </InfoArray>
+        <InfoArray index="Research23" Upgrade="BunkerCapacity">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="BunkerCapacity" Requirements="MaxLevelBunkerCapacity"/>
+        </InfoArray>
+        <InfoArray index="Research24" Upgrade="BunkerLifeRegeneration">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="BunkerLifeRegeneration" Requirements="MaxLevelBunkerRegen"/>
+        </InfoArray>
+        <InfoArray index="Research25" Upgrade="BunkerArmor">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="BunkerArmor" Requirements="MaxLevelBunkerArmor"/>
+        </InfoArray>
+        <InfoArray index="Research26" Upgrade="MarineMovespeed">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="InfantryMovespeed" Requirements="MaxLevelInfantryMovespeed"/>
+        </InfoArray>
+        <InfoArray index="Research27" Upgrade="MarineLifeRegeneration">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="InfantryLifeRegeneration" Requirements="MaxLevelInfantryRegen"/>
+        </InfoArray>
+        <InfoArray index="Research28" Upgrade="MarineAttackRange">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="InfantryAttackRange" Requirements="MaxLevelInfantryRange"/>
+        </InfoArray>
+        <InfoArray index="Research29" Upgrade="MarineArmor">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="InfantryArmor" Requirements="MaxLevelInfantryArmor"/>
+        </InfoArray>
+        <InfoArray index="Research30" Upgrade="MarineWeapons">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="InfantryWeapons" Requirements="MaxLevelInfantryWeapons"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="ForgeResearch">
+        <InfoArray index="Research1" Time="0">
+            <Resource index="Minerals" value="25"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research4" Time="0">
+            <Resource index="Minerals" value="25"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research7" Time="0">
+            <Resource index="Minerals" value="25"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="GhostAcademyResearch">
+        <InfoArray index="Research1" Time="0">
+            <Resource index="Minerals" value="500"/>
+            <Resource index="Vespene" value="0"/>
+            <Button DefaultButtonFace="VoidZealotWhirlwind"/>
+        </InfoArray>
+        <InfoArray index="Research2" Time="0" Upgrade="VoidColossusFireBeam">
+            <Resource index="Minerals" value="1750"/>
+            <Resource index="Vespene" value="0"/>
+            <Button DefaultButtonFace="VoidColossusFireBeam" Requirements="HaveVoidColossusFireBeam2"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="GuardianShield">
+        <Cost index="0">
+            <Vital index="Energy" value="0"/>
+            <Charge CountMax="1" CountStart="1" CountUse="1"/>
+        </Cost>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="PhaseCannon">
+        <Cost index="0">
+            <Resource index="Minerals" value="250"/>
+            <Cooldown Link="SpawnPhaseCannon" Location="Unit" TimeUse="29"/>
+        </Cost>
+    </CAbilEffectTarget>
+    <CAbilBuild id="ProtossBuild">
+        <InfoArray index="Build2" Time="40">
+            <Resource index="Minerals" value="50"/>
+        </InfoArray>
+        <InfoArray index="Build3" Unit="Obelisk" Time="25">
+            <Resource index="Minerals" value="125"/>
+            <Button DefaultButtonFace="WarpInEngineFluidTower" Requirements=""/>
+            <ValidatorArray index="0" removed="1"/>
+        </InfoArray>
+        <InfoArray index="Build4" Time="80">
+            <Button Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build12" Unit="Colossus" Time="90">
+            <Button DefaultButtonFace="Colossus" Requirements="UseWarpGate"/>
+        </InfoArray>
+        <InfoArray index="Build16" Time="20">
+            <Button Requirements=""/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilEffectInstant id="RetireStructure">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Cost>
+            <Resource index="Minerals" value="550"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="RetireStructure" Requirements="UnknownRequirement6"/>
+        <AlertArray index="Finish" value="UpgradeComplete"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="RoboticsBayResearch">
+        <InfoArray index="Research2" Upgrade="PsiStormTech"/>
+        <InfoArray index="Research3" Time="0" Upgrade="UpgradeFlameLance">
+            <Resource index="Minerals" value="2000"/>
+            <Resource index="Vespene" value="0"/>
+            <Button Requirements="ColossusUpgrade"/>
+        </InfoArray>
+        <InfoArray index="Research6" Time="0">
+            <Resource index="Minerals" value="1250"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="SalvageBunkerRefund">
+        <Cost index="0">
+            <Resource index="Minerals" value="0"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="SelfDestruct"/>
+    </CAbilEffectInstant>
+    <CAbilAugment id="ShadowCharge">
+        <CmdButtonArray index="Execute" Requirements="LearnCharge"/>
+        <Cost>
+            <Charge TimeStart="12"/>
+        </Cost>
+    </CAbilAugment>
+    <CAbilEffectTarget id="ShieldBatteryRechargeChanneled">
+        <Range index="0" value="7"/>
+        <Range index="1" removed="1"/>
+        <FollowRange value="7"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="Stimpack">
+        <Cost index="0">
+            <Vital index="Life" value="70"/>
+        </Cost>
+    </CAbilEffectInstant>
+    <CAbilResearch id="StructureRegen">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="StuctureRegen">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="AetherMawAetherStorm" Requirements="UnknownRequirement5"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilWarpTrain id="SuperWarpGateTrainVoid">
+        <InfoArray index="Train15" Time="120" Unit="Colossus">
+            <Resource index="Minerals" value="1450"/>
+            <Resource index="Vespene" value="0"/>
+            <Charge CountMax="-200"/>
+            <Cooldown TimeUse="18"/>
+        </InfoArray>
+    </CAbilWarpTrain>
+    <CAbilEffectInstant id="SupplyDropInstant">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="SupplyDropApplyTempBehavior"/>
+        <Cost>
+            <Resource index="Minerals" value="450"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="SupplyDrop"/>
+    </CAbilEffectInstant>
+    <CAbilBuild id="TerranBuild">
+        <InfoArray index="Build2" Time="20">
+            <Button Requirements="AllowSupplyDepot"/>
+        </InfoArray>
+        <InfoArray index="Build7" Time="60">
+            <Button Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build8" Unit="HiveMindEmulator">
+            <Button DefaultButtonFace="HiveMindEmulator"/>
+        </InfoArray>
+        <InfoArray index="Build9" Time="15">
+            <Button Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build22" Time="15"/>
+        <InfoArray index="Build29" Unit="SiegeBreakerSieged" Time="90">
+            <Button DefaultButtonFace="HireSiegeBreakers" Requirements="HaveMercenaryBunker"/>
+        </InfoArray>
+        <InfoArray index="Build30" Unit="AutoTurret">
+            <Button DefaultButtonFace="AutoTurret"/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilBuild id="TerranBuild2" parent="TerranBuild">
+        <Name value="Abil/Name/TerranBuild2"/>
+        <InfoArray index="Build1" Unit="SunkenColony" Time="50">
+            <Button DefaultButtonFace="SpawningPool" Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="CreepTumor" Time="9">
+            <Button DefaultButtonFace="CreepTumor" Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build3" Unit="LurkerMP" Time="90">
+            <Button DefaultButtonFace="Lurker" Requirements=""/>
+            <ValidatorArray index="0" removed="1"/>
+        </InfoArray>
+        <InfoArray index="Build9" Unit="SporeCrawler"/>
+        <InfoArray index="Build11" Unit="Hatchery" Time="50">
+            <Button Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build12" Unit="SpineCrawler" Time="2">
+            <Button DefaultButtonFace="SpineCrawler" Requirements=""/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilResearch id="TwilightCouncilResearch">
+        <InfoArray index="Research1" Time="0">
+            <Resource index="Minerals" value="350"/>
+            <Resource index="Vespene" value="0"/>
+        </InfoArray>
+        <InfoArray index="Research2" Time="0" Upgrade="ResearchBlink">
+            <Resource index="Minerals" value="450"/>
+            <Resource index="Vespene" value="0"/>
+            <Button Requirements="UnknownRequirement2"/>
+        </InfoArray>
+        <InfoArray index="Research3" Time="0" Upgrade="ResearchPhaseTransfer">
+            <Resource index="Minerals" value="300"/>
+            <Resource index="Vespene" value="0"/>
+            <Button Requirements="AdeptCompleteRE"/>
+        </InfoArray>
+        <InfoArray index="Research4" Upgrade="UpgradeWhirlwind">
+            <Resource index="Minerals" value="400"/>
+            <Button DefaultButtonFace="FenixWhirlwind" Requirements="HaveWhirlwind"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="AllowBadBuilds">
+        <InfoArray index="Research2" Upgrade="AllowBadBuilds"/>
+    </CAbilResearch>
+    <CAbilResearch id="UnknownAbility">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Activity value="UI/Training"/>
+        <InfoArray index="Research1" Upgrade="Structure">
+            <Resource index="Minerals" value="50"/>
+            <Button DefaultButtonFace="BuildingShield" Requirements="LSArmorMax"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="UnknownAbility2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Activity value="UI/Training"/>
+        <InfoArray index="Research1" Upgrade="UnknownUpgrade2">
+            <Resource index="Minerals" value="50"/>
+            <Button DefaultButtonFace="PhotonCannon" Requirements="CannonUpgradeMax"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="UpgradeFIreRate">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="AdeptPiercingAttack">
+            <Resource index="Minerals" value="25"/>
+            <Button DefaultButtonFace="ProtossFIreRate" Requirements="LearnAdeptPiercingAttack"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="UnretireStructure">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Cost>
+            <Resource index="Minerals" value="500"/>
+        </Cost>
+        <AlertArray index="Finish" value="UpgradeComplete"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="UnretireStructure" Requirements="NotRetired"/>
+    </CAbilEffectInstant>
+    <CAbilMorph id="UpgradeToGreaterSpire">
+        <InfoArray index="0" Score="1" Unit="KorhalSporeCannon"/>
+    </CAbilMorph>
+    <CAbilMorph id="UpgradeToOrbital">
+        <Name value="Abil/Name/UpgradeToMercenaryBunker"/>
+        <CmdButtonArray index="Execute" Requirements="AllowSupplyDepot"/>
+        <ActorKey value=""/>
+        <InfoArray index="0" Unit="InfestedBunker" CollideRange="1.25">
+            <SectionArray index="Abils">
+                <DurationArray index="Delay" value="30"/>
+            </SectionArray>
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="30"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Delay" value="30"/>
+            </SectionArray>
+        </InfoArray>
+        <Cost>
+            <Resource index="Minerals" value="1500"/>
+        </Cost>
+        <ValidatorArray value="MercRetiredStructure"/>
+    </CAbilMorph>
+    <CAbilMorph id="UpgradeToWarpGate">
+        <Flags index="AutoCast" value="0"/>
+        <Flags index="AutoCastOn" value="0"/>
+        <Flags index="FastBuild" value="0"/>
+        <RefundFraction>
+            <Resource index="Minerals" value="0.75"/>
+        </RefundFraction>
+        <InfoArray index="0">
+            <SectionArray index="Abils">
+                <DurationArray index="Delay" value="32"/>
+            </SectionArray>
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="32"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Delay" value="32"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilEffectTarget id="VoidSentryShieldRepair">
+        <Range index="0" value="5"/>
+        <Arc value="360"/>
+        <ArcSlop value="360"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="VoidSentryShieldRepairDouble">
+        <Arc value="360"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="VoidZealotWhirlwind">
+        <CmdButtonArray index="Execute" Requirements="LearnWhirlwind"/>
+    </CAbilEffectInstant>
+    <!--CAbilTransport id="MedivacTransport">-->
+    <!--        <LoadValidatorArray value="NoNP"/>-->
+    <!--    </CAbilTransport>-->
+    <!--    <CAbilTransport id="WarpPrismTransport">-->
+    <!--        <LoadValidatorArray value="NoNP"/>-->
+    <!--    </CAbilTransport>-->
+    <!--    <CAbilTransport id="OverlordTransport">-->
+    <!--        <LoadValidatorArray value="NoNP"/>-->
+    <!--    </CAbilTransport>-->
+    <!--    <CAbilTransport id="NydusCanalTransport">-->
+    <!--        <LoadValidatorArray value="NoNP"/>-->
+    <!--    </CAbilTransport>-->
+    <!--    <CAbilTransport id="HerculesTransport">-->
+    <!--        <LoadValidatorArray value="NoNP"/>-->
+    <!--    </CAbilTransport>-->
+    <!--    <CAbilTransport id="GreaterNydusWormTransport">-->
+    <!--        <LoadValidatorArray value="NoNP"/>-->
+    <!--    </CAbilTransport>-->
+    <!--    <CAbilTransport id="ZeusTransport">-->
+    <!--        <LoadValidatorArray value="NoNP"/>-->
+    <!--    </CAbilTransport-->
+    <CAbilEffectTarget id="heal">
+        <Flags index="AllowMovement" value="0"/>
+        <Flags index="NoDeceleration" value="0"/>
+        <Range index="0" value="5"/>
+        <Arc value="360"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="SOAGlobalChrono">
+        <CmdButtonArray index="Execute" Requirements=""/>
+        <Cost index="0">
+            <Vital index="Energy" value="0"/>
+        </Cost>
+        <Cost>
+            <Charge Link="Abil/SOAGlobalChrono"/>
+            <Cooldown Link="Abil/SOAGlobalChrono" TimeUse="20"/>
+        </Cost>
+    </CAbilEffectInstant>
+</Catalog>

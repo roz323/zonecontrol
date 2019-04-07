@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUpgrade id="AdeptPiercingAttack">
+        <EffectArray index="0" Reference="Weapon,Adept,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,PhaseDisruptors,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,ImmortalTaldarim,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,PsiBlades,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,SolariteReaper,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,ParticleDisruptors,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,Talis,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,Dragoon,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Abil,UpgradeFIreRate,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray Reference="Weapon,PhotonCannon,RateMultiplier" Value="0.03"/>
+        <EffectArray Reference="Weapon,FireRate,Level" Value="1"/>
+        <AffectedUnitArray value="Immortal"/>
+        <AffectedUnitArray value="Talis"/>
+        <AffectedUnitArray value="Zealot"/>
+        <AffectedUnitArray value="ZealotAiur"/>
+        <AffectedUnitArray value="ImmortalAiur"/>
+        <AffectedUnitArray value="Stalker"/>
+        <AffectedUnitArray value="Dragoon"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="AllowBadBuilds"/>
+    <CUpgrade id="BunkerArmor" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/BunkerArmor"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Unit,Bunker,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Bunker,LifeArmor[0]" Value="1"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research25].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,InfestedBunker,LifeArmor[0]" Value="1"/>
+        <EffectArray index="4" Reference="Unit,InfestedBunker,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="5" Reference="Unit,SensorTower,LifeArmor[0]" Value="1"/>
+        <EffectArray index="6" Reference="Unit,SensorTower,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="7" Reference="Unit,SupplyDepotLowered,LifeArmor[0]" Value="1"/>
+        <EffectArray index="8" Reference="Unit,SupplyDepotLowered,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="9" Reference="Unit,SupplyDepot,LifeArmor[0]" Value="1"/>
+        <EffectArray index="10" Reference="Unit,SupplyDepot,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="11" Reference="Unit,HiveMindEmulator,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,HiveMindEmulator,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,SiegeBreakerSieged,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,SiegeBreaker,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,SiegeBreaker,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,SiegeBreakerSieged,LifeArmorLevel" Value="1"/>
+        <AffectedUnitArray index="0" value="Bunker"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
+    </CUpgrade>
+    <CUpgrade id="BunkerCapacity" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/BunkerCapacity"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-neosteelframe.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Abil,BunkerTransport,TotalCargoSpace[0]" Value="1"/>
+        <EffectArray index="1" Reference="Abil,BunkerTransport,MaxCargoCount[0]" Value="1"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research23].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Weapon,GuassRifle232,Level[0]" Value="1"/>
+        <EffectArray index="4" Operation="Set" Reference="Button,HireDevilDogsPH,AlertIcon" Value="Assets\Textures\btn-upgrade-terran-neosteelframe.dds"/>
+        <EffectArray index="5" removed="1"/>
+        <EffectArray index="6" removed="1"/>
+        <EffectArray index="7" removed="1"/>
+        <EffectArray index="8" removed="1"/>
+        <EffectArray index="9" removed="1"/>
+        <EffectArray index="10" removed="1"/>
+        <EffectArray index="11" removed="1"/>
+        <AffectedUnitArray index="0" value="Bunker"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
+    </CUpgrade>
+    <CUpgrade id="BunkerLifeRegeneration" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/BunkerLifeRegeneration"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-research-zerg-regenerativebio-steel.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Weapon,GuassRifle23,Level[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Bunker,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research24].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,InfestedBunker,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="4" Reference="Unit,HiveMindEmulator,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="5" Reference="Unit,SensorTower,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="6" Reference="Unit,AutoTurret,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="7" Reference="Unit,SupplyDepot,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="8" Reference="Unit,SupplyDepotLowered,LifeRegenRate[0]" Value="35.000000"/>
+        <EffectArray index="9" removed="1"/>
+        <EffectArray index="10" removed="1"/>
+        <EffectArray index="11" removed="1"/>
+        <AffectedUnitArray index="0" value="Bunker"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
+    </CUpgrade>
+    <CUpgrade id="CombatShield">
+        <ScoreResult value="BuildOrder"/>
+        <EffectArray index="0" Reference="Unit,Marine,LifeMax" Value="20"/>
+        <EffectArray index="1" Reference="Unit,Marine,LifeStart" Value="20"/>
+        <EffectArray index="4" Reference="Unit,WarPig,LifeMax" Value="20"/>
+        <EffectArray index="5" Reference="Unit,WarPig,LifeStart" Value="20"/>
+    </CUpgrade>
+    <CUpgrade id="MarineArmor" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineArmor"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Unit,Marine,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Marine,LifeArmor[0]" Value="1"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research29].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,WarPig,LifeArmor[0]" Value="1"/>
+        <EffectArray index="4" Reference="Unit,WarPig,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="5" Reference="Unit,SCV,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="6" Reference="Unit,SCV,LifeArmor[0]" Value="1"/>
+        <EffectArray index="7" Reference="Unit,Reaper,LifeArmor[0]" Value="1"/>
+        <EffectArray index="8" Reference="Unit,Reaper,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="9" Reference="Unit,MercReaper,LifeArmor[0]" Value="1"/>
+        <EffectArray index="10" Reference="Unit,MercReaper,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray index="11" Reference="Unit,Marauder,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,Marauder,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,HammerSecurity,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,HammerSecurity,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,Ghost,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,Ghost,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,Spectre,LifeArmor[0]" Value="1"/>
+        <EffectArray Reference="Unit,Spectre,LifeArmorLevel[0]" Value="1"/>
+        <EffectArray Reference="Unit,AutoTurret,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,AutoTurret,LifeArmorLevel" Value="1"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
+    </CUpgrade>
+    <CUpgrade id="MarineAttackRange" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineAttackRange"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-tips-terran-penetrator.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Weapon,GuassRifle2,Level[0]" Value="1"/>
+        <EffectArray index="1" Reference="Weapon,GuassRifle,Range[0]" Value="0.08"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research28].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Weapon,KelmorianMinerGaussRifle,Range[0]" Value="0.08"/>
+        <EffectArray index="4" Reference="Weapon,HammerSecurity,Range[0]" Value="0.08"/>
+        <EffectArray index="5" Reference="Weapon,PunisherGrenades,Range[0]" Value="0.08"/>
+        <EffectArray index="6" Reference="Weapon,P38ScytheGuassPistol,Range[0]" Value="0.08"/>
+        <EffectArray index="7" Reference="Weapon,MercReaperP38ScytheGuassPistol,Range[0]" Value="0.08"/>
+        <EffectArray index="8" Reference="Weapon,D8Charge,Range[0]" Value="0.08"/>
+        <EffectArray index="9" Reference="Weapon,MercReaperD8Charge,Range[0]" Value="0.08"/>
+        <EffectArray index="10" Reference="Weapon,C10CanisterRifle,Range[0]" Value="0.08"/>
+        <EffectArray index="11" Reference="Weapon,Specter,Range[0]" Value="0.08"/>
+        <EffectArray Reference="Weapon,AutoTurret,Range" Value="0.08"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
+    </CUpgrade>
+    <CUpgrade id="MarineLifeRegeneration" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineLifeRegeneration"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-ability-terran-heal-color.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Weapon,GuassRifle222,Level[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Marine,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research27].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,WarPig,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="4" Reference="Unit,Reaper,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="5" Reference="Unit,MercReaper,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="6" Reference="Unit,Marauder,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="7" Reference="Unit,HammerSecurity,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="8" Reference="Unit,Ghost,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="9" Reference="Unit,Spectre,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="10" Reference="Unit,SCV,LifeRegenRate[0]" Value="1.671800"/>
+        <EffectArray index="11" removed="1"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
+    </CUpgrade>
+    <CUpgrade id="MarineMovespeed" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineMovespeed"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-ability-protoss-charge-color.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="0" Reference="Weapon,GuassRifle22,Level[0]" Value="1"/>
+        <EffectArray index="1" Reference="Unit,Marine,Speed[0]" Value="0.101500"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research26].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Unit,WarPig,Speed[0]" Value="0.101500"/>
+        <EffectArray index="4" Reference="Unit,Reaper,Speed[0]" Value="0.101500"/>
+        <EffectArray index="5" Reference="Unit,MercReaper,Speed[0]" Value="0.101500"/>
+        <EffectArray index="6" Reference="Unit,Marauder,Speed[0]" Value="0.101500"/>
+        <EffectArray index="7" Reference="Unit,HammerSecurity,Speed[0]" Value="0.101500"/>
+        <EffectArray index="8" Reference="Unit,Ghost,Speed[0]" Value="0.101500"/>
+        <EffectArray index="9" Reference="Unit,Spectre,Speed[0]" Value="0.101500"/>
+        <EffectArray index="10" Reference="Unit,SCV,Speed[0]" Value="0.101500"/>
+        <EffectArray index="11" Reference="Unit,Zealot,Speed" Value="0.101500"/>
+        <EffectArray Reference="Unit,ZealotAiur,Speed" Value="0.101500"/>
+        <EffectArray Reference="Unit,Adept,Speed" Value="0.101500"/>
+        <EffectArray Reference="Unit,Stalker,Speed" Value="0.101500"/>
+        <EffectArray Reference="Unit,Dragoon,Speed" Value="0.101500"/>
+        <EffectArray Reference="Unit,Immortal,Speed" Value="0.101500"/>
+        <EffectArray Reference="Unit,ImmortalTaldarim,Speed" Value="0.101500"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
+    </CUpgrade>
+    <CUpgrade id="MarineWeapons" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/MarineWeapons"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-infantryweaponslevel0.dds"/>
+        <ScoreAmount value="50"/>
+        <EffectArray index="2" Reference="Abil,EngineeringBayResearch,InfoArray[Research30].Resource[Minerals]" Value="25"/>
+        <EffectArray index="3" Reference="Effect,KelmorianMinerDamage,Amount[0]" Value="1"/>
+        <EffectArray index="4" Reference="Weapon,KelmorianMinerGaussRifle,Level[0]" Value="1"/>
+        <EffectArray index="5" Reference="Weapon,P38ScytheGuassPistol,Level[0]" Value="1"/>
+        <EffectArray index="6" Reference="Effect,P38ScytheGuassPistol,Amount[0]" Value="1"/>
+        <EffectArray index="7" Reference="Weapon,D8Charge,Level[0]" Value="1"/>
+        <EffectArray index="8" Reference="Effect,D8ChargeDamage,Amount[0]" Value="1"/>
+        <EffectArray index="9" Reference="Effect,MercReaperD8ChargeDamage,Amount[0]" Value="1"/>
+        <EffectArray index="10" Reference="Weapon,MercReaperD8Charge,Level[0]" Value="1"/>
+        <EffectArray index="11" Reference="Weapon,PunisherGrenades,Level[0]" Value="1"/>
+        <EffectArray Reference="Effect,PunisherGrenadesU,Amount[0]" Value="1"/>
+        <EffectArray Reference="Weapon,HammerSecurity,Level[0]" Value="1"/>
+        <EffectArray Reference="Effect,HammerSecurityDamage,Amount[0]" Value="1"/>
+        <EffectArray Reference="Weapon,C10CanisterRifle,Level[0]" Value="1"/>
+        <EffectArray Reference="Effect,C10CanisterRifle,Amount[0]" Value="1"/>
+        <EffectArray Reference="Weapon,Specter,Level[0]" Value="1"/>
+        <EffectArray Reference="Effect,SpecterU,Amount[0]" Value="1"/>
+        <EffectArray Reference="Effect,MercReaperP38ScytheGuassPistol,Amount[0]" Value="1"/>
+        <EffectArray Reference="Weapon,MercReaperP38ScytheGuassPistol,Level[0]" Value="1"/>
+        <EffectArray Reference="Weapon,AutoTurret,Level" Value="1"/>
+        <EffectArray Reference="Effect,AutoTurret,Amount" Value="1"/>
+        <AffectedUnitArray index="0" value="Marine"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <MaxLevel value="100"/>
+    </CUpgrade>
+    <CUpgrade id="ProtossGroundArmorsLevel1">
+        <EffectArray index="73" Operation="Add" Reference="Unit,ZealotAiur,LifeArmorLevel" Value="1"/>
+        <EffectArray index="74" Reference="Unit,ZealotAiur,LifeArmor" Value="1"/>
+        <EffectArray index="75" Operation="Set" Reference="Actor,ZealotAiur,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="76" Operation="Add" Reference="Unit,ZealotShakuras,LifeArmorLevel" Value="1"/>
+        <EffectArray index="77" Reference="Unit,ZealotShakuras,LifeArmor" Value="1"/>
+        <EffectArray index="78" Operation="Set" Reference="Actor,ZealotShakuras,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="79" Operation="Add" Reference="Unit,ZealotPurifier,LifeArmorLevel" Value="1"/>
+        <EffectArray index="80" Reference="Unit,ZealotPurifier,LifeArmor" Value="1"/>
+        <EffectArray index="81" Operation="Set" Reference="Actor,ZealotPurifier,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="82" Operation="Add" Reference="Unit,StalkerShakuras,LifeArmorLevel" Value="1"/>
+        <EffectArray index="83" Reference="Unit,StalkerShakuras,LifeArmor" Value="1"/>
+        <EffectArray index="84" Operation="Set" Reference="Actor,StalkerShakuras,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="85" Operation="Add" Reference="Unit,StalkerPurifier,LifeArmorLevel" Value="1"/>
+        <EffectArray index="86" Reference="Unit,StalkerPurifier,LifeArmor" Value="1"/>
+        <EffectArray index="87" Operation="Set" Reference="Actor,StalkerPurifier,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="88" Operation="Add" Reference="Unit,Reaver,LifeArmorLevel" Value="1"/>
+        <EffectArray index="89" Reference="Unit,Reaver,LifeArmor" Value="1"/>
+        <EffectArray index="90" Operation="Set" Reference="Actor,Reaver,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="91" Operation="Add" Reference="Unit,Replicant,LifeArmorLevel" Value="1"/>
+        <EffectArray index="92" Reference="Unit,Replicant,LifeArmor" Value="1"/>
+        <EffectArray index="93" Operation="Set" Reference="Actor,Replicant,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="94" Operation="Add" Reference="Unit,Dragoon,LifeArmorLevel" Value="1"/>
+        <EffectArray index="95" Reference="Unit,Dragoon,LifeArmor" Value="1"/>
+        <EffectArray index="96" Operation="Set" Reference="Actor,Dragoon,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="97" Operation="Add" Reference="Unit,DarkArchon,LifeArmorLevel" Value="1"/>
+        <EffectArray index="98" Reference="Unit,DarkArchon,LifeArmor" Value="1"/>
+        <EffectArray index="99" Operation="Set" Reference="Actor,DarkArchon,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="100" Operation="Add" Reference="Unit,HighArchonTemplar,LifeArmorLevel" Value="1"/>
+        <EffectArray index="101" Reference="Unit,HighArchonTemplar,LifeArmor" Value="1"/>
+        <EffectArray index="102" Operation="Set" Reference="Actor,HighArchonTemplar,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="103" Operation="Add" Reference="Unit,ImmortalShakuras,LifeArmorLevel" Value="1"/>
+        <EffectArray index="104" Reference="Unit,ImmortalShakuras,LifeArmor" Value="1"/>
+        <EffectArray index="105" Operation="Set" Reference="Actor,ImmortalShakuras,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="106" Operation="Add" Reference="Unit,ImmortalAiur,LifeArmorLevel" Value="1"/>
+        <EffectArray index="107" Reference="Unit,ImmortalTaldarim,LifeArmor" Value="1"/>
+        <EffectArray index="108" Operation="Set" Reference="Actor,ImmortalAiur,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="109" Operation="Add" Reference="Unit,Monitor,LifeArmorLevel" Value="1"/>
+        <EffectArray index="110" Reference="Unit,Monitor,LifeArmor" Value="1"/>
+        <EffectArray index="111" Operation="Set" Reference="Actor,Monitor,LifeArmorIcon" Value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <EffectArray index="112" Operation="Add" Reference="Abil,UpgradeArmor,InfoArray[Research27].Resource[Minerals]" Value="25"/>
+        <EffectArray index="114" removed="1"/>
+        <EffectArray index="115" removed="1"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="ProtossGroundWeaponsLevel1">
+        <EffectArray index="1" Value="0.5"/>
+        <EffectArray index="13" Reference="Effect,ThermalLancesMU,Amount"/>
+        <EffectArray index="14" Reference="Effect,PsionicShockwaveDamage,AttributeBonus[Biological]" Value="1.000000"/>
+        <EffectArray index="15" Operation="Set" Reference="Weapon,PsiBlades,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="16" Reference="Weapon,DisruptionBeam,Icon"/>
+        <EffectArray index="17" Reference="Weapon,ParticleDisruptors,Icon"/>
+        <EffectArray index="18" Reference="Weapon,PhaseDisruptors,Icon"/>
+        <EffectArray index="19" Reference="Weapon,WarpBlades,Icon"/>
+        <EffectArray index="20" Reference="Weapon,PsionicShockwave,Icon"/>
+        <EffectArray index="21" Operation="Add" Reference="Effect,ThermalLancesFriendlyDamage,Amount" Value="1"/>
+        <EffectArray index="22" Reference="Weapon,ThermalLanceAir,Icon"/>
+        <EffectArray index="23" Reference="Weapon,ThermalLanceAir,Level" Value="1"/>
+        <EffectArray index="24" Operation="Add" Reference="Effect,ThermalLancesMUAir,Amount" Value="2"/>
+        <EffectArray index="25" Operation="Set" Reference="Weapon,PhaseDisruptersAir,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="26" Reference="Weapon,PhaseDisruptersAir,Level" Value="1"/>
+        <EffectArray index="27" Reference="Weapon,Adept,Icon"/>
+        <EffectArray index="28" Reference="Weapon,Adept,Level"/>
+        <EffectArray index="29" Operation="Add" Reference="Effect,AdeptDamage,Amount" Value="1"/>
+        <EffectArray index="30" Reference="Effect,AdeptDamage,AttributeBonus[Light]"/>
+        <EffectArray index="31" Reference="Weapon,HybridC,Level"/>
+        <EffectArray index="32" Reference="Weapon,HybridF,Level"/>
+        <EffectArray index="33" Reference="Weapon,HybridAntiAirAttack,Level"/>
+        <EffectArray index="34" Reference="Weapon,ZHybrid,Level"/>
+        <EffectArray index="35" Reference="Effect,ZHybridDamage,Amount" Value="2"/>
+        <EffectArray index="36" Reference="Effect,ZHybridDamage,AttributeBonus[Structure]" Value="3"/>
+        <EffectArray index="37" Reference="Effect,HybridCDamage,Amount"/>
+        <EffectArray index="38" Reference="Effect,HybridCDamage,AttributeBonus[Armored]" Value="2"/>
+        <EffectArray index="39" Reference="Effect,HybridCDamage,AttributeBonus[Structure]"/>
+        <EffectArray index="40" Reference="Effect,PhotonCannonU,Amount" Value="1"/>
+        <EffectArray index="41" Reference="Effect,HybridFDamage,AttributeBonus[Armored]" Value="1"/>
+        <EffectArray index="42" Reference="Effect,HybridFDamage,AttributeBonus[Structure]"/>
+        <EffectArray index="43" Reference="Effect,HybridAntiAirAttackDamage,Amount" Value="5"/>
+        <EffectArray index="44" Operation="Set" Reference="Weapon,ZHybrid,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="45" Operation="Set" Reference="Weapon,HybridC,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="46" Reference="Weapon,HybridF,Icon" Value="Assets\Textures\btn-upgrade-zerg-meleeattacks-level1.dds"/>
+        <EffectArray index="47" Reference="Weapon,HybridAntiAirAttack,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="48" Operation="Add" Reference="Weapon,ColossusPurifierThermalLances,Level" Value="1"/>
+        <EffectArray index="49" Operation="Add" Reference="Effect,ColossusPurifierThermalLancesDamage,Amount" Value="2"/>
+        <EffectArray index="50" Operation="Set" Reference="Weapon,ColossusPurifierThermalLances,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="51" Reference="Weapon,ColossusTaldarimChargedBeam,Level" Value="1"/>
+        <EffectArray index="52" Operation="Add" Reference="Effect,ColossusTaldarimDamage,Amount" Value="10"/>
+        <EffectArray index="53" Operation="Set" Reference="Weapon,ColossusTaldarimChargedBeam,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="54" Reference="Effect,ScarabExplodeTargetDamage,Amount" Value="5"/>
+        <EffectArray index="55" Operation="Add" Reference="Effect,ScarabExplodeTargetDamage,AttributeBonus[Structure]" Value="5"/>
+        <EffectArray index="56" Reference="Weapon,ReaverScarabsLaunch,Level" Value="1"/>
+        <EffectArray index="57" Operation="Set" Reference="Weapon,ReaverScarabsLaunch,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="58" Reference="Effect,DragoonDamage,Amount" Value="2"/>
+        <EffectArray index="59" Operation="Add" Reference="Weapon,Dragoon,Level" Value="1"/>
+        <EffectArray index="60" Operation="Set" Reference="Weapon,Dragoon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="61" Reference="Effect,DisruptorWeaponDamage,Amount" Value="1"/>
+        <EffectArray index="62" Operation="Add" Reference="Weapon,DisruptorWeapon,Level" Value="1"/>
+        <EffectArray index="63" Operation="Set" Reference="Weapon,DisruptorWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="64" Reference="Effect,TalisDamage,Amount" Value="1"/>
+        <EffectArray index="65" Operation="Set" Reference="Weapon,HighTemplarWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="66" Reference="Effect,DarkTemplarShakurasDamage,Amount" Value="1"/>
+        <EffectArray index="67" Reference="Weapon,DarkTemplarShakuras,Level" Value="1"/>
+        <EffectArray index="68" Operation="Set" Reference="Weapon,DarkTemplarShakuras,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="69" Reference="Weapon,DarkTemplarTaldarim,Level" Value="1"/>
+        <EffectArray index="70" Operation="Set" Reference="Weapon,DarkTemplarTaldarim,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="71" Operation="Add" Reference="Effect,ZealotAiurWeapon,Amount" Value="1"/>
+        <EffectArray index="72" Reference="Weapon,SolariteReaper,Level" Value="1"/>
+        <EffectArray index="73" Operation="Set" Reference="Weapon,SolariteReaper,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="74" Reference="Effect,DarkArchonWeaponDamage,Amount" Value="2"/>
+        <EffectArray index="75" Operation="Set" Reference="Weapon,DarkArchonWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="76" Operation="Add" Reference="Effect,ImmortalTaldarimWeaponDamage,Amount" Value="1"/>
+        <EffectArray index="77" Reference="Effect,ImmortalTaldarimWeaponDamage,AttributeBonus[Armored]" Value="1.000000"/>
+        <EffectArray index="78" Reference="Weapon,ImmortalAiur,Level" Value="1"/>
+        <EffectArray index="79" Operation="Set" Reference="Weapon,ImmortalTaldarim,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="80" Reference="Weapon,AnnihilatorParticleDisruptors,Level" Value="1"/>
+        <EffectArray index="81" Operation="Set" Reference="Weapon,AnnihilatorParticleDisruptors,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="82" Reference="Effect,AnnihilatorParticleDisruptors,Amount" Value="2"/>
+        <EffectArray index="83" Operation="Add" Reference="Effect,AnnihilatorParticleDisruptors,AttributeBonus[Armored]" Value="2"/>
+        <EffectArray index="84" Reference="Weapon,EnergizerWeapon,Level" Value="1"/>
+        <EffectArray index="85" Operation="Set" Reference="Weapon,EnergizerWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="86" Reference="Effect,SanitizationBeamDamage,Amount" Value="1"/>
+        <EffectArray index="87" Operation="Add" Reference="Weapon,PhotonCannon,Level" Value="1"/>
+        <EffectArray index="88" Operation="Set" Reference="Weapon,AvengerWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="89" Reference="Effect,PhaseDisruptorsStrafeDamage,Amount" Value="2"/>
+        <EffectArray index="90" Reference="Weapon,PhaseDisruptorsStrafe,Level" Value="1"/>
+        <EffectArray index="91" Operation="Set" Reference="Weapon,AscendantWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="92" Reference="Effect,AscendantWeaponDamage,Amount" Value="1"/>
+        <EffectArray index="93" Reference="Weapon,CenturionWarpBlades,Level" Value="1"/>
+        <EffectArray index="94" Operation="Set" Reference="Weapon,CenturionWarpBlades,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="95" Reference="Effect,ThermalBeamDamage,Amount" Value="2"/>
+        <EffectArray index="96" Reference="Effect,ThermalLancesMU,AttributeBonus[Light]" Value="1"/>
+        <EffectArray index="97" Operation="Add" Reference="Effect,ThermalLancesFriendlyDamage,AttributeBonus[Light]" Value="1"/>
+        <EffectArray index="98" Reference="Effect,HighTemplarWeaponDamage,Amount" Value="1"/>
+        <EffectArray index="99" Operation="Set" Reference="Weapon,HighTemplarWeapon,Icon" Value="Assets\Textures\btn-upgrade-protoss-groundweaponslevel1.dds"/>
+        <EffectArray index="100" Operation="Add" Reference="Weapon,Talis,Level" Value="1"/>
+        <EffectArray index="101" Reference="Effect,ParticleDisruptorsU,AttributeBonus[Armored]" Value="1"/>
+        <EffectArray index="102" Operation="Add" Reference="Abil,ForgeResearch,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray index="103" removed="1"/>
+        <EffectArray index="104" removed="1"/>
+        <EffectArray index="105" removed="1"/>
+        <EffectArray index="106" removed="1"/>
+        <EffectArray index="107" removed="1"/>
+        <EffectArray index="108" removed="1"/>
+        <EffectArray index="109" removed="1"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="ResearchBlink"/>
+    <CUpgrade id="ResearchPhaseTransfer"/>
+    <CUpgrade id="Structure" parent="ProtossShieldsLevel1">
+        <Name value="Upgrade/Name/Structure"/>
+        <EffectArray index="0" Reference="Unit,Gateway,ShieldArmorLevel"/>
+        <EffectArray index="1" Reference="Unit,Gateway,LifeArmorLevel"/>
+        <EffectArray index="2" Reference="Unit,Gateway,LifeArmor"/>
+        <EffectArray index="3" Reference="Unit,Gateway,ShieldArmor"/>
+        <EffectArray index="4" Reference="Unit,WarpGate,LifeArmorLevel"/>
+        <EffectArray index="5" Reference="Unit,WarpGate,LifeArmor" Value="1"/>
+        <EffectArray index="6" Reference="Unit,Obelisk,LifeArmorLevel"/>
+        <EffectArray index="7" Reference="Unit,Obelisk,ShieldArmorLevel"/>
+        <EffectArray index="8" Reference="Unit,Obelisk,ShieldArmor"/>
+        <EffectArray index="9" Reference="Unit,Obelisk,LifeArmor"/>
+        <EffectArray index="10" Reference="Unit,Pylon,LifeArmor"/>
+        <EffectArray index="11" Reference="Unit,Pylon,ShieldArmor"/>
+        <EffectArray index="12" Reference="Unit,Pylon,ShieldArmorLevel"/>
+        <EffectArray index="13" Reference="Unit,Pylon,LifeArmorLevel"/>
+        <EffectArray index="14" Reference="Unit,ShieldBattery,ShieldArmorLevel"/>
+        <EffectArray index="15" Reference="Unit,ShieldBattery,LifeArmorLevel"/>
+        <EffectArray index="16" Reference="Unit,ShieldBattery,LifeArmor"/>
+        <EffectArray index="17" Reference="Unit,ShieldBattery,ShieldArmor"/>
+        <EffectArray index="18" Reference="Abil,UnknownAbility,InfoArray[Research1].Resource[Minerals]" Value="50"/>
+        <EffectArray index="19" Reference="Unit,WarpGate,ShieldArmor"/>
+        <EffectArray index="20" Reference="Unit,WarpGate,ShieldArmorLevel"/>
+        <EffectArray index="21" Reference="Unit,Colossus,LifeArmor"/>
+        <EffectArray index="22" Reference="Unit,Colossus,LifeArmorLevel"/>
+        <EffectArray index="23" Reference="Unit,Colossus,ShieldArmorLevel"/>
+        <EffectArray index="24" Reference="Unit,Colossus,ShieldArmor"/>
+        <EffectArray index="25" removed="1"/>
+        <EffectArray index="26" removed="1"/>
+        <EffectArray index="27" removed="1"/>
+        <EffectArray index="28" removed="1"/>
+        <EffectArray index="29" removed="1"/>
+        <EffectArray index="30" removed="1"/>
+        <EffectArray index="31" removed="1"/>
+        <EffectArray index="32" removed="1"/>
+        <EffectArray index="33" removed="1"/>
+        <EffectArray index="34" removed="1"/>
+        <EffectArray index="35" removed="1"/>
+        <EffectArray index="36" removed="1"/>
+        <EffectArray index="37" removed="1"/>
+        <EffectArray index="38" removed="1"/>
+        <EffectArray index="39" removed="1"/>
+        <EffectArray index="40" removed="1"/>
+        <EffectArray index="41" removed="1"/>
+        <EffectArray index="42" removed="1"/>
+        <EffectArray index="43" removed="1"/>
+        <EffectArray index="44" removed="1"/>
+        <EffectArray index="45" removed="1"/>
+        <EffectArray index="46" removed="1"/>
+        <EffectArray index="47" removed="1"/>
+        <EffectArray index="48" removed="1"/>
+        <EffectArray index="49" removed="1"/>
+        <EffectArray index="50" removed="1"/>
+        <EffectArray index="51" removed="1"/>
+        <EffectArray index="52" removed="1"/>
+        <EffectArray index="53" removed="1"/>
+        <EffectArray index="54" removed="1"/>
+        <EffectArray index="55" removed="1"/>
+        <EffectArray index="56" removed="1"/>
+        <EffectArray index="57" removed="1"/>
+        <EffectArray index="58" removed="1"/>
+        <EffectArray index="59" removed="1"/>
+        <EffectArray index="60" removed="1"/>
+        <EffectArray index="61" removed="1"/>
+        <EffectArray index="62" removed="1"/>
+        <EffectArray index="63" removed="1"/>
+        <EffectArray index="64" removed="1"/>
+        <EffectArray index="65" removed="1"/>
+        <EffectArray index="66" removed="1"/>
+        <EffectArray index="67" removed="1"/>
+        <EffectArray index="68" removed="1"/>
+        <EffectArray index="69" removed="1"/>
+        <EffectArray index="70" removed="1"/>
+        <EffectArray index="71" removed="1"/>
+        <EffectArray index="72" removed="1"/>
+        <EffectArray index="73" removed="1"/>
+        <EffectArray index="74" removed="1"/>
+        <EffectArray index="75" removed="1"/>
+        <EffectArray index="76" removed="1"/>
+        <EffectArray index="77" removed="1"/>
+        <EffectArray index="78" removed="1"/>
+        <EffectArray index="79" removed="1"/>
+        <EffectArray index="80" removed="1"/>
+        <EffectArray index="81" removed="1"/>
+        <EffectArray index="82" removed="1"/>
+        <EffectArray index="83" removed="1"/>
+        <EffectArray index="84" removed="1"/>
+        <EffectArray index="85" removed="1"/>
+        <EffectArray index="86" removed="1"/>
+        <EffectArray index="87" removed="1"/>
+        <EffectArray index="88" removed="1"/>
+        <EffectArray index="89" removed="1"/>
+        <EffectArray index="90" removed="1"/>
+        <EffectArray index="91" removed="1"/>
+        <EffectArray index="92" removed="1"/>
+        <EffectArray index="93" removed="1"/>
+        <EffectArray index="94" removed="1"/>
+        <EffectArray index="95" removed="1"/>
+        <EffectArray index="96" removed="1"/>
+        <EffectArray index="97" removed="1"/>
+        <EffectArray index="98" removed="1"/>
+        <EffectArray index="99" removed="1"/>
+        <EffectArray index="100" removed="1"/>
+        <EffectArray index="101" removed="1"/>
+        <EffectArray index="102" removed="1"/>
+        <EffectArray index="103" removed="1"/>
+        <EffectArray index="104" removed="1"/>
+        <EffectArray index="105" removed="1"/>
+        <EffectArray index="106" removed="1"/>
+        <EffectArray index="107" removed="1"/>
+        <EffectArray index="108" removed="1"/>
+        <EffectArray index="109" removed="1"/>
+        <EffectArray index="110" removed="1"/>
+        <EffectArray index="111" removed="1"/>
+        <EffectArray index="112" removed="1"/>
+        <EffectArray index="113" removed="1"/>
+        <EffectArray index="114" removed="1"/>
+        <EffectArray index="115" removed="1"/>
+        <EffectArray index="116" removed="1"/>
+        <EffectArray index="117" removed="1"/>
+        <EffectArray index="118" removed="1"/>
+        <EffectArray index="119" removed="1"/>
+        <EffectArray index="120" removed="1"/>
+        <EffectArray index="121" removed="1"/>
+        <EffectArray index="122" removed="1"/>
+        <EffectArray index="123" removed="1"/>
+        <EffectArray index="124" removed="1"/>
+        <EffectArray index="125" removed="1"/>
+        <EffectArray index="126" removed="1"/>
+        <EffectArray index="127" removed="1"/>
+        <EffectArray index="128" removed="1"/>
+        <EffectArray index="129" removed="1"/>
+        <EffectArray index="130" removed="1"/>
+        <EffectArray index="131" removed="1"/>
+        <EffectArray index="132" removed="1"/>
+        <EffectArray index="133" removed="1"/>
+        <EffectArray index="134" removed="1"/>
+        <EffectArray index="135" removed="1"/>
+        <EffectArray index="136" removed="1"/>
+        <EffectArray index="137" removed="1"/>
+        <EffectArray index="138" removed="1"/>
+        <EffectArray index="139" removed="1"/>
+        <EffectArray index="140" removed="1"/>
+        <EffectArray index="141" removed="1"/>
+        <EffectArray index="142" removed="1"/>
+        <EffectArray index="143" removed="1"/>
+        <EffectArray index="144" removed="1"/>
+        <EffectArray index="145" removed="1"/>
+        <EffectArray index="146" removed="1"/>
+        <EffectArray index="147" removed="1"/>
+        <EffectArray index="148" removed="1"/>
+        <EffectArray index="149" removed="1"/>
+        <EffectArray index="150" removed="1"/>
+        <EffectArray index="151" removed="1"/>
+        <EffectArray index="152" removed="1"/>
+        <EffectArray index="153" removed="1"/>
+        <EffectArray index="154" removed="1"/>
+        <EffectArray index="155" removed="1"/>
+        <EffectArray index="156" removed="1"/>
+        <EffectArray index="157" removed="1"/>
+        <EffectArray index="158" removed="1"/>
+        <EffectArray index="159" removed="1"/>
+        <EffectArray index="160" removed="1"/>
+        <EffectArray index="161" removed="1"/>
+        <EffectArray index="162" removed="1"/>
+        <EffectArray index="163" removed="1"/>
+        <EffectArray index="164" removed="1"/>
+        <EffectArray index="165" removed="1"/>
+        <EffectArray index="166" removed="1"/>
+        <EffectArray index="167" removed="1"/>
+        <EffectArray index="168" removed="1"/>
+        <EffectArray index="169" removed="1"/>
+        <EffectArray index="170" removed="1"/>
+        <EffectArray index="171" removed="1"/>
+        <EffectArray index="172" removed="1"/>
+        <EffectArray index="173" removed="1"/>
+        <EffectArray index="174" removed="1"/>
+        <EffectArray index="175" removed="1"/>
+        <EffectArray index="176" removed="1"/>
+        <EffectArray index="177" removed="1"/>
+        <EffectArray index="178" removed="1"/>
+        <EffectArray index="179" removed="1"/>
+        <EffectArray index="180" removed="1"/>
+        <EffectArray index="181" removed="1"/>
+        <EffectArray index="182" removed="1"/>
+        <EffectArray index="183" removed="1"/>
+        <EffectArray index="184" removed="1"/>
+        <EffectArray index="185" removed="1"/>
+        <EffectArray index="186" removed="1"/>
+        <EffectArray index="187" removed="1"/>
+        <EffectArray index="188" removed="1"/>
+        <EffectArray index="189" removed="1"/>
+        <EffectArray index="190" removed="1"/>
+        <EffectArray index="191" removed="1"/>
+        <EffectArray index="192" removed="1"/>
+        <EffectArray index="193" removed="1"/>
+        <EffectArray index="194" removed="1"/>
+        <EffectArray index="195" removed="1"/>
+        <EffectArray index="196" removed="1"/>
+        <EffectArray index="197" removed="1"/>
+        <EffectArray index="198" removed="1"/>
+        <EffectArray index="199" removed="1"/>
+        <EffectArray index="200" removed="1"/>
+        <EffectArray index="201" removed="1"/>
+        <EffectArray index="202" removed="1"/>
+        <EffectArray index="203" removed="1"/>
+        <EffectArray index="204" removed="1"/>
+        <EffectArray index="205" removed="1"/>
+        <EffectArray index="206" removed="1"/>
+        <EffectArray index="207" removed="1"/>
+        <EffectArray index="208" removed="1"/>
+        <EffectArray index="209" removed="1"/>
+        <EffectArray index="210" removed="1"/>
+        <EffectArray index="211" removed="1"/>
+        <EffectArray index="212" removed="1"/>
+        <EffectArray index="213" removed="1"/>
+        <EffectArray index="214" removed="1"/>
+        <EffectArray index="215" removed="1"/>
+        <EffectArray index="216" removed="1"/>
+        <EffectArray index="217" removed="1"/>
+        <EffectArray index="218" removed="1"/>
+        <EffectArray index="219" removed="1"/>
+        <EffectArray index="220" removed="1"/>
+        <EffectArray index="221" removed="1"/>
+        <EffectArray index="222" removed="1"/>
+        <EffectArray index="223" removed="1"/>
+        <EffectArray index="224" removed="1"/>
+        <EffectArray index="225" removed="1"/>
+        <EffectArray index="226" removed="1"/>
+        <EffectArray index="227" removed="1"/>
+        <EffectArray index="228" removed="1"/>
+        <EffectArray index="229" removed="1"/>
+        <EffectArray index="230" removed="1"/>
+        <EffectArray index="231" removed="1"/>
+        <EffectArray index="232" removed="1"/>
+        <EffectArray index="233" removed="1"/>
+        <EffectArray index="234" removed="1"/>
+        <EffectArray index="235" removed="1"/>
+        <EffectArray index="236" removed="1"/>
+        <EffectArray index="237" removed="1"/>
+        <EffectArray index="238" removed="1"/>
+        <EffectArray index="239" removed="1"/>
+        <EffectArray index="240" removed="1"/>
+        <EffectArray index="241" removed="1"/>
+        <EffectArray index="242" removed="1"/>
+        <EffectArray index="243" removed="1"/>
+        <EffectArray index="244" removed="1"/>
+        <EffectArray index="245" removed="1"/>
+        <EffectArray index="246" removed="1"/>
+        <EffectArray index="247" removed="1"/>
+        <EffectArray index="248" removed="1"/>
+        <EffectArray index="249" removed="1"/>
+        <EffectArray index="250" removed="1"/>
+        <EffectArray index="251" removed="1"/>
+        <EffectArray index="252" removed="1"/>
+        <EffectArray index="253" removed="1"/>
+        <EffectArray index="254" removed="1"/>
+        <EffectArray index="255" removed="1"/>
+        <EffectArray index="256" removed="1"/>
+        <EffectArray index="257" removed="1"/>
+        <EffectArray index="258" removed="1"/>
+        <EffectArray index="259" removed="1"/>
+        <EffectArray index="260" removed="1"/>
+        <EffectArray index="261" removed="1"/>
+        <EffectArray index="262" removed="1"/>
+        <EffectArray index="263" removed="1"/>
+        <EffectArray index="264" removed="1"/>
+        <EffectArray index="265" removed="1"/>
+        <EffectArray index="266" removed="1"/>
+        <EffectArray index="267" removed="1"/>
+        <EffectArray index="268" removed="1"/>
+        <EffectArray index="269" removed="1"/>
+        <EffectArray index="270" removed="1"/>
+        <EffectArray index="271" removed="1"/>
+        <EffectArray index="272" removed="1"/>
+        <EffectArray index="273" removed="1"/>
+        <EffectArray index="274" removed="1"/>
+        <EffectArray index="275" removed="1"/>
+        <EffectArray index="276" removed="1"/>
+        <EffectArray index="277" removed="1"/>
+        <EffectArray index="278" removed="1"/>
+        <EffectArray index="279" removed="1"/>
+        <EffectArray index="280" removed="1"/>
+        <EffectArray index="281" removed="1"/>
+        <EffectArray index="282" removed="1"/>
+        <EffectArray index="283" removed="1"/>
+        <EffectArray index="284" removed="1"/>
+        <EffectArray index="285" removed="1"/>
+        <EffectArray index="286" removed="1"/>
+        <EffectArray index="287" removed="1"/>
+        <EffectArray index="288" removed="1"/>
+        <EffectArray index="289" removed="1"/>
+        <EffectArray index="290" removed="1"/>
+        <EffectArray index="291" removed="1"/>
+        <EffectArray index="292" removed="1"/>
+        <EffectArray index="293" removed="1"/>
+        <AffectedUnitArray index="0" removed="1"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+        <AffectedUnitArray index="4" removed="1"/>
+        <AffectedUnitArray index="5" removed="1"/>
+        <AffectedUnitArray index="6" removed="1"/>
+        <AffectedUnitArray index="7" removed="1"/>
+        <AffectedUnitArray index="8" removed="1"/>
+        <AffectedUnitArray index="9" removed="1"/>
+        <AffectedUnitArray index="10" removed="1"/>
+        <AffectedUnitArray index="11" removed="1"/>
+        <AffectedUnitArray index="12" removed="1"/>
+        <AffectedUnitArray index="13" removed="1"/>
+        <AffectedUnitArray index="14" removed="1"/>
+        <AffectedUnitArray index="15" removed="1"/>
+        <AffectedUnitArray index="16" removed="1"/>
+        <AffectedUnitArray index="17" removed="1"/>
+        <AffectedUnitArray index="18" removed="1"/>
+        <AffectedUnitArray index="19" removed="1"/>
+        <AffectedUnitArray index="20" removed="1"/>
+        <AffectedUnitArray index="21" removed="1"/>
+        <AffectedUnitArray index="22" removed="1"/>
+        <AffectedUnitArray index="23" removed="1"/>
+        <AffectedUnitArray index="24" removed="1"/>
+        <AffectedUnitArray index="25" removed="1"/>
+        <AffectedUnitArray index="26" removed="1"/>
+        <AffectedUnitArray index="27" removed="1"/>
+        <AffectedUnitArray index="28" removed="1"/>
+        <AffectedUnitArray index="29" removed="1"/>
+        <AffectedUnitArray index="30" removed="1"/>
+        <AffectedUnitArray index="31" removed="1"/>
+        <AffectedUnitArray index="32" removed="1"/>
+        <AffectedUnitArray index="33" removed="1"/>
+        <AffectedUnitArray index="34" removed="1"/>
+        <AffectedUnitArray index="35" removed="1"/>
+        <AffectedUnitArray index="36" removed="1"/>
+        <AffectedUnitArray index="37" removed="1"/>
+        <AffectedUnitArray index="38" removed="1"/>
+        <AffectedUnitArray index="39" removed="1"/>
+        <AffectedUnitArray index="40" removed="1"/>
+        <AffectedUnitArray index="41" removed="1"/>
+        <AffectedUnitArray index="42" removed="1"/>
+        <AffectedUnitArray index="43" removed="1"/>
+        <AffectedUnitArray index="44" removed="1"/>
+        <AffectedUnitArray index="45" removed="1"/>
+        <AffectedUnitArray index="46" removed="1"/>
+        <AffectedUnitArray index="47" removed="1"/>
+        <AffectedUnitArray index="48" removed="1"/>
+        <AffectedUnitArray index="49" removed="1"/>
+        <AffectedUnitArray index="50" removed="1"/>
+        <AffectedUnitArray index="51" removed="1"/>
+        <AffectedUnitArray index="52" removed="1"/>
+        <AffectedUnitArray index="53" removed="1"/>
+        <AffectedUnitArray index="54" removed="1"/>
+        <AffectedUnitArray index="55" removed="1"/>
+        <AffectedUnitArray index="56" removed="1"/>
+        <AffectedUnitArray index="57" removed="1"/>
+        <AffectedUnitArray index="58" removed="1"/>
+        <AffectedUnitArray index="59" removed="1"/>
+        <AffectedUnitArray index="60" removed="1"/>
+        <AffectedUnitArray index="61" removed="1"/>
+        <AffectedUnitArray index="62" removed="1"/>
+        <AffectedUnitArray index="63" removed="1"/>
+        <AffectedUnitArray index="64" removed="1"/>
+        <AffectedUnitArray index="65" removed="1"/>
+        <AffectedUnitArray index="66" removed="1"/>
+        <AffectedUnitArray index="67" removed="1"/>
+        <AffectedUnitArray index="68" removed="1"/>
+        <AffectedUnitArray index="69" removed="1"/>
+        <AffectedUnitArray index="70" removed="1"/>
+        <AffectedUnitArray index="71" removed="1"/>
+        <AffectedUnitArray index="72" removed="1"/>
+        <AffectedUnitArray index="73" removed="1"/>
+        <AffectedUnitArray index="74" removed="1"/>
+        <AffectedUnitArray index="75" removed="1"/>
+        <AffectedUnitArray index="76" removed="1"/>
+        <AffectedUnitArray index="77" removed="1"/>
+        <AffectedUnitArray index="78" removed="1"/>
+        <AffectedUnitArray index="79" removed="1"/>
+        <AffectedUnitArray index="80" removed="1"/>
+        <ScoreAmount value="0"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="PunisherGrenades">
+        <AffectedUnitArray value="HammerSecurity"/>
+    </CUpgrade>
+    <CUpgrade id="ReaperSpeed">
+        <EffectArray index="0" Reference="Unit,Reaper,Speed" Value="0.750000"/>
+        <EffectArray Reference="Unit,MercReaper,Speed[0]" Value="0.750000"/>
+    </CUpgrade>
+    <CUpgrade id="ResearchSiegeBreakerArcliteCannon">
+        <Icon value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel0.dds"/>
+        <Alert value="ResearchComplete"/>
+        <ScoreAmount value="1500"/>
+        <ScoreResult value="BuildOrder"/>
+        <EffectArray Operation="Set" Reference="Weapon,SiegeBreaker,MinimumRange" Value="0"/>
+        <EffectArray Operation="Set" Reference="Weapon,SiegeBreaker,Icon" Value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel0.dds"/>
+        <EffectArray Reference="Weapon,SiegeBreaker,Level" Value="1"/>
+    </CUpgrade>
+    <CUpgrade id="ResearchPlasmaCapacitors">
+        <Icon value="Assets\Textures\btn-upgrade-terran-corvidreactor.dds"/>
+        <Alert value="ResearchComplete"/>
+        <ScoreAmount value="350"/>
+        <ScoreResult value="BuildOrder"/>
+        <EffectArray Reference="Behavior,AutoTurretTimedLife,Duration" Value="120.000000"/>
+    </CUpgrade>
+    <CUpgrade id="SiegeTurretArea" parent="TerranInfantryWeapons">
+        <Name value="Upgrade/Name/SiegeTurretArea"/>
+        <InfoTooltipPriority value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-raynor-improvedsiegemode.dds"/>
+        <ScoreAmount value="750"/>
+        <EffectArray index="0" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[0].Radius[0]" Value="2"/>
+        <EffectArray index="1" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[1].Radius[0]" Value="2"/>
+        <EffectArray index="2" Operation="Multiply" Reference="Effect,CrucioShockCannonBlast,AreaArray[2].Radius[0]" Value="2"/>
+        <EffectArray index="3" Reference="Weapon,CrucioShockCannon,Level[0]" Value="1"/>
+        <EffectArray index="4" Operation="Set" Reference="Weapon,CrucioShockCannon,Icon[0]" Value="Assets\Textures\btn-upgrade-raynor-improvedsiegemode.dds"/>
+        <EffectArray index="5" removed="1"/>
+        <EffectArray index="6" removed="1"/>
+        <EffectArray index="7" removed="1"/>
+        <EffectArray index="8" removed="1"/>
+        <EffectArray index="9" removed="1"/>
+        <EffectArray index="10" removed="1"/>
+        <EffectArray index="11" removed="1"/>
+        <AffectedUnitArray index="0" removed="1"/>
+        <AffectedUnitArray index="1" removed="1"/>
+        <AffectedUnitArray index="2" removed="1"/>
+        <AffectedUnitArray index="3" removed="1"/>
+    </CUpgrade>
+    <CUpgrade id="StuctureRegen">
+        <EffectArray Reference="Unit,Gateway,ShieldRegenRate" Value="34.000000"/>
+        <EffectArray Reference="Unit,Pylon,ShieldRegenRate" Value="16.000000"/>
+        <EffectArray Reference="Unit,Obelisk,ShieldRegenRate" Value="17.000000"/>
+        <EffectArray Reference="Unit,WarpGate,ShieldRegenRate" Value="37.000000"/>
+        <EffectArray Reference="Unit,ShieldBattery,ShieldRegenRate" Value="7.000000"/>
+        <EffectArray Reference="Unit,Colossus,ShieldRegenRate" Value="20.000000"/>
+        <EffectArray Reference="Abil,StructureRegen,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray Reference="Weapon,ShieldRegen,Level" Value="1"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="UnknownUpgrade">
+        <Name value="Upgrade/Name/ProtossShieldRegen"/>
+        <EffectArray Reference="Unit,ImmortalAiur,ShieldRegenRate" Value="1.773400"/>
+        <EffectArray Reference="Unit,Dragoon,ShieldRegenRate" Value="2.000000"/>
+        <EffectArray Reference="Unit,Talis,ShieldRegenRate" Value="1.773400"/>
+        <EffectArray Reference="Unit,Immortal,ShieldRegenRate" Value="1.773400"/>
+        <EffectArray Reference="Unit,ZealotAiur,ShieldRegenRate" Value="1.773400"/>
+        <EffectArray Reference="Unit,Stalker,ShieldRegenRate" Value="1.871000"/>
+        <EffectArray Reference="Unit,Adept,ShieldRegenRate" Value="1.972600"/>
+        <EffectArray Reference="Abil,1PShield2,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray Reference="Weapon,UnknownWeapon,Level" Value="1"/>
+        <EffectArray Reference="Unit,Probe,ShieldRegenRate" Value="2.000000"/>
+        <EffectArray Reference="Unit,Zealot,ShieldRegenRate" Value="1.601500"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="UnknownUpgrade2">
+        <EffectArray Operation="Subtract" Reference="Abil,PhaseCannon,Cost[0].Cooldown.TimeUse" Value="1.350000"/>
+        <EffectArray Reference="Behavior,PhaseCannonTimedLife,Duration" Value="6.000000"/>
+        <EffectArray Reference="Abil,UnknownAbility2,InfoArray[Research1].Resource[Minerals]" Value="50"/>
+        <EffectArray Reference="Weapon,CannonThingy,Level" Value="1"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="UpgradeArmor">
+        <EffectArray Reference="Unit,ZealotAiur,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ZealotAiur,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Immortal,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Zealot,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Stalker,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Stalker,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Zealot,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Immortal,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Adept,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Adept,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Talis,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Talis,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Dragoon,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Dragoon,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,PhotonCannon,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,PhotonCannon,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Abil,1UpgradeArmorz,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray Reference="Unit,Probe,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Probe,LifeArmorLevel" Value="1"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="UpgradeBaseWeapon">
+        <EffectArray Reference="Weapon,TempestGround,Level" Value="1"/>
+        <EffectArray Reference="Effect,TempestDamageGround,Amount" Value="8"/>
+        <EffectArray Reference="Weapon,TempestGround,RateMultiplier" Value="0.08"/>
+        <EffectArray Reference="Abil,1StrucureDMGSPEED,InfoArray[Research1].Resource[Minerals]" Value="50"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="UpgradeFlameLance">
+        <EffectArray Operation="Set" Reference="Weapon,ThermalLances,Effect" Value="ColossusPurifierThermalLances"/>
+        <EffectArray Operation="Set" Reference="Weapon,ThermalLances,Icon" Value="Assets\Textures\btn-upgrade-protoss-fenix-carrier-solarbeam.dds"/>
+    </CUpgrade>
+    <CUpgrade id="UpgradeShields">
+        <EffectArray Reference="Unit,Zealot,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ZealotAiur,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,ZealotAiur,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Zealot,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,Immortal,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Immortal,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,Adept,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,Adept,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Talis,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Talis,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,Dragoon,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,Dragoon,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,PhotonCannon,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,PhotonCannon,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Stalker,ShieldArmor" Value="1"/>
+        <EffectArray Reference="Unit,Stalker,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Zealot,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ZealotAiur,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,ZealotAiur,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Zealot,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Immortal,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Immortal,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Adept,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Adept,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Talis,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Talis,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Dragoon,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,ImmortalAiur,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Dragoon,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,PhotonCannon,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,PhotonCannon,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Stalker,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Stalker,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Abil,1UpgradeShieldz,InfoArray[Research1].Resource[Minerals]" Value="25"/>
+        <EffectArray Reference="Unit,Probe,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Probe,ShieldArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Probe,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Probe,ShieldArmor" Value="1"/>
+        <MaxLevel value="20"/>
+    </CUpgrade>
+    <CUpgrade id="UpgradeWhirlwind"/>
+    <CUpgrade id="ZergMissileWeaponsLevel1">
+        <EffectArray index="8" Reference="Effect,Claws,Chance"/>
+        <EffectArray index="9" Reference="Weapon,InfestedGuassRifle,Level" Value="0"/>
+        <EffectArray index="10" Reference="Effect,InfestedGuassRifle,Amount"/>
+        <EffectArray index="11" Operation="Set" Reference="Weapon,NeedleSpines,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="12" Reference="Weapon,Talons,Icon"/>
+        <EffectArray index="13" Reference="Weapon,AcidSaliva,Icon"/>
+        <EffectArray index="14" Reference="Weapon,AcidSpines,Icon"/>
+        <EffectArray index="15" Reference="Weapon,InfestedGuassRifle,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level0.dds"/>
+        <EffectArray index="16" Reference="Weapon,LocustMP,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="17" Reference="Weapon,TalonsMissile,Icon"/>
+        <EffectArray index="18" Reference="Weapon,LocustMPMelee,Icon" Value="Assets\Textures\btn-upgrade-zerg-meleeattacks-level1.dds"/>
+        <EffectArray index="19" Operation="Add" Reference="Weapon,TalonsMissile,Level" Value="1"/>
+        <EffectArray index="20" Reference="Weapon,LocustMP,Level"/>
+        <EffectArray index="21" Reference="Weapon,LocustMPMelee,Level"/>
+        <EffectArray index="22" Reference="Effect,LocustMPMeleeDamage,Amount"/>
+        <EffectArray index="23" Reference="Effect,LocustMPDamage,Amount"/>
+        <EffectArray index="24" Reference="Effect,TalonsMissileDamage,Amount" Value="1.000000"/>
+        <EffectArray index="25" Operation="Set" Reference="Weapon,RavagerWeapon,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="26" Operation="Add" Reference="Weapon,RavagerWeapon,Level" Value="1"/>
+        <EffectArray index="27" Reference="Effect,RavagerWeaponDamage,Amount" Value="2"/>
+        <EffectArray index="28" Operation="Set" Reference="Weapon,InfestedStukov,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="29" Operation="Set" Reference="Weapon,DehakaAir,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="30" Operation="Set" Reference="Weapon,PrimalNeedleSpines,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="31" Operation="Set" Reference="Weapon,BrakkAir,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="32" Operation="Set" Reference="Weapon,Locust,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="33" Operation="Set" Reference="Weapon,LocustPressurizedGlands,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="34" Operation="Set" Reference="Weapon,LocustFlying,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="35" Operation="Set" Reference="Weapon,LocustFlyingPressurizedGlands,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="36" Operation="Set" Reference="Weapon,HunterKiller,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="37" Operation="Set" Reference="Weapon,HunterKillerMelee,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="38" Operation="Set" Reference="Weapon,RoachVileAcidSaliva,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="39" Operation="Set" Reference="Weapon,RoachCorpserAcidSaliva,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="40" Operation="Set" Reference="Weapon,ZaGaraAcidSpines,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="41" Operation="Set" Reference="Weapon,ZaGaraTalons,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="42" Operation="Set" Reference="Weapon,Lurker,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="43" Operation="Set" Reference="Weapon,Impaler,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="44" Operation="Set" Reference="Weapon,PrimalHydralisk,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="45" Operation="Set" Reference="Weapon,FerociousSpew,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="46" Operation="Set" Reference="Weapon,InfestedAbominationVomit,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="47" Operation="Set" Reference="Weapon,PrimalRoach,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="48" Operation="Set" Reference="Weapon,StukovInfestedTerran,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="49" Operation="Add" Reference="Effect,DehakaAirDamage,Amount" Value="5"/>
+        <EffectArray index="50" Reference="Effect,DehakaAirDamage,AttributeBonus[Structure]" Value="2"/>
+        <EffectArray index="51" Reference="Weapon,DehakaAir,Level" Value="1"/>
+        <EffectArray index="52" Reference="Weapon,PrimalNeedleSpines,Level" Value="1"/>
+        <EffectArray index="53" Reference="Effect,PrimalNeedleSpinesDamage,Amount" Value="1"/>
+        <EffectArray index="54" Reference="Effect,PrimalHydraliskMelee,Amount" Value="1"/>
+        <EffectArray index="55" Reference="Weapon,LocustLaunch,Level" Value="1"/>
+        <EffectArray index="56" Reference="Weapon,LocustLaunchPressurizedGlands,Level" Value="1"/>
+        <EffectArray index="57" Reference="Weapon,LocustFlyingLaunch,Level" Value="1"/>
+        <EffectArray index="58" Reference="Weapon,LocustFlyingLaunchPressurizedGlands,Level" Value="1"/>
+        <EffectArray index="59" Reference="Weapon,LocustLaunchCreeper,Level" Value="1"/>
+        <EffectArray index="60" Reference="Weapon,LocustLaunchCreeperPressurizedGlands,Level" Value="1"/>
+        <EffectArray index="61" Reference="Weapon,Locust,Level" Value="1"/>
+        <EffectArray index="62" Reference="Weapon,LocustPressurizedGlands,Level" Value="1"/>
+        <EffectArray index="63" Reference="Weapon,LocustFlying,Level" Value="1"/>
+        <EffectArray index="64" Reference="Weapon,LocustFlyingPressurizedGlands,Level" Value="1"/>
+        <EffectArray index="65" Reference="Effect,LocustMeleeDamage,Amount" Value="1.000000"/>
+        <EffectArray index="66" Reference="Effect,LocustDamage,Amount" Value="1.000000"/>
+        <EffectArray index="67" Reference="Effect,LocustFlyingDamage,Amount" Value="1.000000"/>
+        <EffectArray index="68" Reference="Weapon,PrimalRoach,Level" Value="1"/>
+        <EffectArray index="69" Reference="Effect,PrimalRoachDamage,Amount" Value="1"/>
+        <EffectArray index="70" Reference="Effect,HunterKillerMelee,Amount" Value="1"/>
+        <EffectArray index="71" Reference="Effect,HunterKillerU,Amount" Value="1"/>
+        <EffectArray index="72" Reference="Weapon,HunterKiller,Level" Value="1"/>
+        <EffectArray index="73" Reference="Weapon,HunterKillerMelee,Level" Value="1"/>
+        <EffectArray index="74" Reference="Effect,RoachCorpserMelee,Amount" Value="1"/>
+        <EffectArray index="75" Reference="Weapon,RoachCorpserMelee,Level" Value="1"/>
+        <EffectArray index="76" Reference="Effect,RoachVileUMelee,Amount" Value="1"/>
+        <EffectArray index="77" Reference="Weapon,RoachVileMelee,Level" Value="1"/>
+        <EffectArray index="78" Reference="Weapon,RoachVileAcidSaliva,Level" Value="1"/>
+        <EffectArray index="79" Reference="Effect,ZaGaraAcidSpinesDamage,Amount" Value="1"/>
+        <EffectArray index="80" Reference="Weapon,ZaGaraAcidSpines,Level" Value="1"/>
+        <EffectArray index="81" Reference="Effect,ZaGaraTalonsDamage,Amount" Value="1"/>
+        <EffectArray index="82" Reference="Weapon,ZaGaraTalons,Level" Value="1"/>
+        <EffectArray index="83" Reference="Effect,ImpalerDamage,AttributeBonus[Armored]" Value="2"/>
+        <EffectArray index="84" Reference="Effect,ImpalerDamage,Amount" Value="2"/>
+        <EffectArray index="85" Reference="Weapon,Impaler,Level" Value="1"/>
+        <EffectArray index="86" Reference="Effect,LurkerU,AttributeBonus[Light]" Value="1"/>
+        <EffectArray index="87" Reference="Effect,LurkerU,Amount" Value="2"/>
+        <EffectArray index="88" Reference="Weapon,Lurker,Level" Value="1"/>
+        <EffectArray index="89" Reference="Weapon,PrimalHydralisk,Level" Value="1"/>
+        <EffectArray index="90" Reference="Effect,PrimalHydraliskDamage,Amount" Value="1"/>
+        <EffectArray index="91" Reference="Weapon,FerociousSpew,Level" Value="1"/>
+        <EffectArray index="92" Reference="Effect,FerociousSpewDamage,Amount" Value="4"/>
+        <EffectArray index="93" Reference="Weapon,InfestedAbominationVomit,Level" Value="1"/>
+        <EffectArray index="94" Reference="Effect,InfestedAbominationVomitDamage,Amount" Value="2"/>
+        <EffectArray index="95" Reference="Effect,InfestedAbominationVomitDamage,AttributeBonus[Armored]" Value="1"/>
+        <EffectArray index="96" Reference="Weapon,BrakkAir,Level" Value="1"/>
+        <EffectArray index="97" Reference="Effect,BrakkAirDamage,Amount" Value="2"/>
+        <EffectArray index="98" Reference="Effect,StukovInfestedTerran,Amount" Value="1"/>
+        <EffectArray index="99" Reference="Weapon,StukovInfestedTerran,Level" Value="1"/>
+        <EffectArray index="100" Reference="Effect,InfestedStukovDamage,Amount" Value="3"/>
+        <EffectArray index="101" Reference="Weapon,InfestedStukov,Level" Value="1"/>
+        <EffectArray index="102" Operation="Set" Reference="Weapon,LurkerMP,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="103" Reference="Weapon,LurkerMP,Level" Value="1"/>
+        <EffectArray index="104" Reference="Effect,LurkerMPDamage,Amount" Value="2"/>
+        <EffectArray index="105" Reference="Effect,LurkerMPDamage,AttributeBonus[Armored]" Value="1"/>
+        <EffectArray index="106" Operation="Add" Reference="Effect,InfestedAcidSpines,Amount" Value="1"/>
+        <EffectArray index="107" Reference="Effect,InfestedGuassRifle,Amount" Value="1"/>
+        <EffectArray index="108" Reference="Weapon,InfestedGuassRifle,Level" Value="1"/>
+        <EffectArray index="109" Operation="Set" Reference="Weapon,InfestedGuassRifle,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="110" Reference="Weapon,InfestedAcidSpines,Level" Value="1"/>
+        <EffectArray index="111" Operation="Set" Reference="Weapon,InfestedAcidSpines,Icon" Value="Assets\Textures\btn-upgrade-zerg-missileattacks-level1.dds"/>
+        <EffectArray index="112" removed="1"/>
+        <EffectArray index="113" removed="1"/>
+        <EffectArray index="114" removed="1"/>
+        <EffectArray index="115" removed="1"/>
+    </CUpgrade>
+</Catalog>

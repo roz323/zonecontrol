@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CActorDoodad id="BloodSplats">
+        <Model value="InfestedSiegeBreakerSieged"/>
+        <RandomScaleRange value="0.250000,0.250000"/>
+        <VisibleOpacity value="0.250000"/>
+    </CActorDoodad>
+    <CActorUnit id="Colossus">
+        <Model value="Colossus_Golden"/>
+        <Scale value="1.200000,1.170000,1.200000"/>
+        <GlossaryAnim value="Walk"/>
+        <AcceptedTransfers index="Animator" value="1"/>
+        <BuildModel value="ProtossBuildingBirthLarge"/>
+        <!--On Terms="UnitBirth; PlayerHasReward ColossusCE" Send="StatusSet CE 1"/>
+        <On Terms="StatusSet.*.CE; IsStatus CE 1" Send="ModelSwap ColossusCE"/>
+        <On Terms="UnitDeathCustomize; IsStatus CE 1" Send="DeathCustomize Variation0"/>
+        <On Terms="UnitBirth; PlayerHasReward ColossusTal" Send="StatusSet TalCol 1"/>
+        <On Terms="StatusSet.*.TalCol; IsStatus TalCol 1" Send="ModelSwap Colossus_Taldarim_MP"/>
+        <On Terms="UnitDeathCustomize; IsStatus TalCol 1" Send="DeathCustomize Variation1"/>
+        <DeathCustoms ModelLink="ColossusCEDeath" Name="Variation0"/>
+        <DeathCustoms ModelLink="Colossus_Taldarim_MP_Death" Name="Variation1"/-->
+    </CActorUnit>
+    <CActorModel id="FloatingTextEX2Gas50" effectPickup="" actorCreate="">
+        <On index="1" Terms="ActorCreation" Send="Create"/>
+        <Scale value="1.100000,1.000000,1.000000"/>
+    </CActorModel>
+    <CActorModel id="FloatingTextMinerals100" effectPickup="" actorCreate="">
+        <Aliases index="0" removed="1"/>
+        <On index="1" Terms="ActorCreation" Send="Create"/>
+    </CActorModel>
+    <CActorModel id="FloatingTextMinerals250">
+        <Aliases index="0" removed="1"/>
+    </CActorModel>
+    <CActorUnit id="Gateway">
+        <On index="72" Terms="BehaviorLevel.PowerUserQueue.Start"/>
+    </CActorUnit>
+    <CActorModel id="GuardianShieldPermanent">
+        <AutoScaleFactor value="2.200000"/>
+    </CActorModel>
+    <!--                                                                                         -->
+    <!-- Auto Turret ........................................................................... -->
+    <!--                                                                                         -->
+    <CActorUnit id="AutoTurret">
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
+    </CActorUnit>
+    <CActorUnit id="Bunker2" parent="Bunker">
+        <On index="0" Terms="UnitBirth.InfestedBunker"/>
+        <On index="1" Terms="UnitBirth.InfestedBunker"/>
+        <On index="2" Terms="UnitRevive.InfestedBunker"/>
+        <On index="3" Terms="UnitRevive.InfestedBunker"/>
+        <On index="4" Terms="UnitConstruction.InfestedBunker"/>
+        <On index="5" Terms="UnitConstruction.InfestedBunker"/>
+        <On index="53" Terms="UnitConstruction.InfestedBunker"/>
+        <On index="54" Terms="UnitConstruction.InfestedBunker"/>
+        <On index="55" Terms="UnitConstruction.InfestedBunker"/>
+        <On index="56" Terms="UnitConstruction.InfestedBunker"/>
+        <On index="57" Terms="UnitConstruction.InfestedBunker"/>
+        <On index="58" Terms="UnitBirth.InfestedBunker"/>
+        <On index="59" Terms="UnitBirth.InfestedBunker"/>
+        <On index="60" Terms="UnitBirth.InfestedBunker"/>
+        <On index="61" Terms="UnitDeath.InfestedBunker"/>
+        <On index="62" Terms="UnitDeathCustomize.InfestedBunker; CreepEngulfs"/>
+        <On index="63" Terms="UnitDeathCustomize.InfestedBunker; ValidateUnit BunkerIsEmpty"/>
+        <On index="64" Terms="UnitDeathCustomize.InfestedBunker"/>
+        <On index="65" Terms="AbilMorph.UpgradeToOrbital.Finish" Send="Create"/>
+        <On index="66" removed="1"/>
+        <On index="67" removed="1"/>
+        <On index="68" removed="1"/>
+        <On index="69" removed="1"/>
+        <On index="70" removed="1"/>
+        <On index="71" removed="1"/>
+        <On index="72" removed="1"/>
+        <On index="73" removed="1"/>
+        <On index="74" removed="1"/>
+        <On index="75" removed="1"/>
+        <On index="76" removed="1"/>
+        <On index="77" removed="1"/>
+        <On index="78" removed="1"/>
+        <On index="79" removed="1"/>
+        <On index="80" removed="1"/>
+        <On index="81" removed="1"/>
+        <On index="82" removed="1"/>
+        <On index="83" removed="1"/>
+        <On index="84" removed="1"/>
+        <On index="85" removed="1"/>
+        <On index="86" removed="1"/>
+        <On index="87" removed="1"/>
+        <On index="88" removed="1"/>
+        <On index="89" removed="1"/>
+        <On index="90" removed="1"/>
+        <On index="91" removed="1"/>
+        <On index="92" removed="1"/>
+        <On index="93" removed="1"/>
+        <On index="94" removed="1"/>
+        <On index="95" removed="1"/>
+        <On index="96" removed="1"/>
+        <On index="97" removed="1"/>
+        <On index="98" removed="1"/>
+        <On index="99" removed="1"/>
+        <On index="100" removed="1"/>
+        <On index="101" removed="1"/>
+        <On index="102" removed="1"/>
+        <On index="103" removed="1"/>
+        <On index="104" removed="1"/>
+        <On index="105" removed="1"/>
+        <On index="106" removed="1"/>
+        <On index="107" removed="1"/>
+        <Model value="JumboBunker"/>
+        <BuildModel value="Bunker2"/>
+        <HighlightTooltip value="Unit/Name/Bunker2"/>
+    </CActorUnit>
+    <CActorModel id="ConstructionCancelTerranSensorTower">
+        <On Terms="UnitDeath.HiveMindEmulator; Death Cancel" Send="Create"/>
+    </CActorModel>
+    <CActorModel id="GuardianShield">
+        <On Terms="ActorCreation" Send="TimerSet 10.000000 repeat"/>
+        <On Terms="TimerExpired; TimerName repeat" Send="TimerSet 10.000000 repeat"/>
+        <On Terms="TimerExpired; TimerName repeat" Send="AnimSetTime BSD 1.000000"/>
+    </CActorModel>
+    <CActorUnit id="Hatchery">
+        <Scale value="0.700000"/>
+    </CActorUnit>
+    <CActorUnit id="Hive">
+        <Scale value="0.700000"/>
+    </CActorUnit>
+    <!--                                                                                         -->
+    <!-- Hive Mind Emulator .................................................................... -->
+    <!--                                                                                         -->
+    <CActorUnit id="HiveMindEmulator">
+        <BarOffset value="130"/>
+        <BarWidth value="60"/>
+        <On index="80" Terms="Abil.GuardianShield" Send="AnimPlay Attack Attack"/>
+    </CActorUnit>
+    <CActorUnit id="ImmortalAiur">
+        <Model value="DarkImmortal"/>
+        <PortraitModel value="ImmortalTaldarimPortrait"/>
+    </CActorUnit>
+    <!--                                                                                         -->
+    <!-- Infested Bunker ....................................................................... -->
+    <!--                                                                                         -->
+    <CActorUnit id="InfestedBunker">
+        <On index="0" Terms="AnimDone.*.Missing; AnimName ConstructionDeath" Send="Destroy"/>
+        <On index="1" Terms="ActorCreation; ValidateUnit IsFlying; Option Shadow Low; $AllowBlobShadow" Send="Create FlyerShadow"/>
+        <On index="2" Terms="ActorCreation; ValidateUnit IsNotFlying; Option Shadow Low; $AllowBlobShadow" Send="Create GroundShadow"/>
+        <On index="3" Terms="StatusOn.*.PreTargetingModel; ValidateUnit IsNotFlying" Send="Create ModelPretargetGround"/>
+        <On index="4" Terms="StatusOff.*.PreTargetingModel" Target="ModelPretargetGround" Send="Destroy"/>
+        <On index="5" Terms="StatusOn.*.PreTargetingModel; ValidateUnit IsFlying" Send="Create GroundPreSelection"/>
+        <On index="6" Terms="StatusOff.*.PreTargetingModel" Target="GroundPreSelection"/>
+        <On index="7" Terms="PreTargetingUpdate.*.Start" Send="SetTintColorBlendPair 255,192,192 255,128,128 0.150000 Bounce Pretarget"/>
+        <On index="8" Terms="PreTargetingUpdate.*.Stop" Send="ClearTintColor 0.100000 Pretarget"/>
+        <On index="9" Terms="StatusOn.*.PreTargetingTint" Send="PreTargetingUpdate Start"/>
+        <On index="10" Terms="StatusOff.*.PreTargetingTint" Target="" Send="PreTargetingUpdate Stop"/>
+        <On index="11" Terms="CursorUpdate.*.Start; ValidateUnit IsFlying" Send="StatusIncrement FlyerHelper"/>
+        <On index="12" Terms="CursorUpdate.*.Stop; ValidateUnit IsFlying; HasStatus FlyerHelper" Target="" Send="StatusDecrement FlyerHelper"/>
+        <On index="13" Terms="ActorCreation; ScopeContains GroundLocalSelection" Send="StatusSet Selected 1"/>
+        <On index="14" Terms="SelectionLocalUpdate.*.Start" Send="StatusSet Selected 1"/>
+        <On index="15" Terms="SelectionLocalUpdate.*.Stop" Send="StatusSet Selected 0"/>
+        <On index="16" Terms="StatusOn.*.Selected; ValidateUnit IsFlying" Send="StatusIncrement FlyerHelper"/>
+        <On index="17" Terms="StatusOff.*.Selected; ValidateUnit IsFlying; HasStatus FlyerHelper" Send="StatusDecrement FlyerHelper"/>
+        <On index="18" Terms="StatusOn.*.FlyerHelper; FlyerHelper All" Send="Create FlyerHelperSplat"/>
+        <On index="19" Terms="StatusOn.*.FlyerHelper; FlyerHelper Selected" Send="Create FlyerHelperSplat"/>
+        <On index="20" Terms="StatusOff.*.FlyerHelper; FlyerHelper Selected" Target="FlyerHelperSplat" Send="Destroy"/>
+        <On index="21" Terms="ActorCreation; FlyerHelper All; ValidateUnit IsFlying" Send="Create FlyerHelperSplat"/>
+        <On index="22" Terms="ActorDestruction; FlyerHelper All; !HasStatus FlyerHelper" Target="FlyerHelperSplat" Send="Destroy"/>
+        <On index="23" Terms="FlyerHelperChange; FlyerHelper None" Target="FlyerHelperSplat" Send="Destroy"/>
+        <On index="24" Terms="FlyerHelperChange; FlyerHelper Selected; HasStatus FlyerHelper; !ScopeContains FlyerHelperSplat"/>
+        <On index="25" Terms="FlyerHelperChange; FlyerHelper Selected; !HasStatus FlyerHelper" Target="FlyerHelperSplat" Send="Destroy"/>
+        <On index="26" Terms="FlyerHelperChange; FlyerHelper All; ValidateUnit IsFlying; !ScopeContains FlyerHelperSplat"/>
+        <On index="27" Terms="UnitBirth.*.Normal" Send="$Birth 0 0.000000"/>
+        <On index="28" Terms="UnitFidget" Target="" Send="AnimPlay Fidget Fidget"/>
+        <On index="29" Terms="UnitMovementUpdate.*.Walk" Send="AnimClear Fidget"/>
+        <On index="30" Terms="UnitDetectedByViewer.*.On; ValidateUnit IsHallucination" Target="_HallucinationTinter" Send="Signal HallucinationTintOn"/>
+        <On index="31" Terms="UnitDetectedByViewer.*.Off; ValidateUnit IsHallucination" Target="_HallucinationTinter" Send="Signal HallucinationTintOff"/>
+        <On index="32" Terms="UnitDeathCustomize; ValidateUnit HasEitherAntiGrav" Send="DeathCustomize AntiGravGeneric"/>
+        <On index="33" Terms="UnitDeathCustomize; ValidateUnit HasAntiGravProtoss" Send="DeathCustomize AntiGravProtoss"/>
+        <On index="34" Terms="UnitDeathCustomize; ValidateUnit HasAntiGravTerran" Send="DeathCustomize AntiGravTerran"/>
+        <On index="35" Terms="UnitDeathCustomize; ValidateUnit HasAntiGravZerg" Send="DeathCustomize AntiGravZerg"/>
+        <On index="36" Terms="Behavior.PhoenixAntiGrav.On" Send="ModelSuddenMotionStart"/>
+        <On index="37" Terms="Behavior.PhoenixAntiGrav.Off" Send="ModelSuddenMotionStop"/>
+        <On index="38" Terms="UnitTaunt.*.Start; Taunt" Send="AnimPlay Cheer Stand,Victory"/>
+        <On index="39" Terms="UnitTaunt.*.Stop; Taunt" Send="AnimClear Cheer"/>
+        <On index="40" Terms="UnitTaunt.*.Start; Taunt Dance" Send="AnimPlay Dance Stand,Dance"/>
+        <On index="41" Terms="UnitTaunt.*.Stop; Taunt Dance" Send="AnimClear Dance"/>
+        <On index="42" Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On index="43" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On index="44" Terms="WeaponStart.*.AttackStart; AnimPlaying Birth" Send="AnimClear Birth"/>
+        <On index="45" Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On index="46" Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On index="47" Terms="ActorCreation" Send="AnimGroupApply Work Work,Start Work,End"/>
+        <On index="48" Terms="Behavior.ColonyInfestation.On" Send="Create InfestationBunker"/>
+        <On index="49" Terms="Behavior.InfestedVisual.On" Send="Create InfestationBunker"/>
+        <On index="50" Terms="Behavior.ColonyInfestation.On" Send="StatusSet Infested 1"/>
+        <On index="51" Terms="Behavior.InfestedVisual.On" Send="StatusSet Infested 1"/>
+        <On index="52" Terms="UnitDeathCustomize; IsStatus Infested 1" Target="InfestationBunker" Send="Signal InfestationDeathSmall"/>
+        <On index="53" removed="1"/>
+        <On index="54" removed="1"/>
+        <On index="55" removed="1"/>
+        <On index="56" removed="1"/>
+        <On index="57" removed="1"/>
+        <On index="58" removed="1"/>
+        <On index="59" removed="1"/>
+        <On index="60" removed="1"/>
+        <On index="61" removed="1"/>
+        <On index="62" removed="1"/>
+        <On index="63" removed="1"/>
+        <On index="64" removed="1"/>
+        <On index="65" removed="1"/>
+        <On index="66" removed="1"/>
+        <On index="67" removed="1"/>
+        <On index="68" removed="1"/>
+        <On index="69" removed="1"/>
+        <On index="70" removed="1"/>
+        <On index="71" removed="1"/>
+        <On index="72" removed="1"/>
+        <On index="73" removed="1"/>
+        <On index="74" removed="1"/>
+    </CActorUnit>
+    <!--                                                                                         -->
+    <!-- Invisible Pylon ....................................................................... -->
+    <!--                                                                                         -->
+    <CActorUnit id="InvisiblePylon" unitName="LargeInvisiblePylon">
+        <On index="0" Terms="UnitBirth.LargeInvisiblePylon" Send="Create SoundEmitter LargeInvisiblePylon_Ambience"/>
+        <On index="1" Terms="UnitBirth.LargeInvisiblePylon"/>
+        <On index="2" Terms="UnitRevive.LargeInvisiblePylon"/>
+        <On index="3" Terms="UnitRevive.LargeInvisiblePylon"/>
+        <On index="4" Terms="UnitConstruction.LargeInvisiblePylon.Start"/>
+        <On index="5" Terms="UnitConstruction.LargeInvisiblePylon.Finish"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="LargeInvisiblePylonFootprint"/>
+        <BuildModel value="LargeInvisiblePylon"/>
+        <DeathArray index="Normal" ModelLink="LargeInvisiblePylon" SoundLink="LargeInvisiblePylonDeath" VoiceLink="LargeInvisiblePylonDeathVoice"/>
+        <PlacementModel value="LargeInvisiblePylon"/>
+        <GroupSoundArray index="What" value="LargeInvisiblePylon_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="LargeInvisiblePylon_GroupYes"/>
+        <GroupSoundArray index="Attack" value="LargeInvisiblePylon_GroupAttack"/>
+        <GroupSoundArray index="Board" value="LargeInvisiblePylon_GroupBoard"/>
+        <SoundArray index="Birth" value="LargeInvisiblePylon_Birth"/>
+        <SoundArray index="Ready" value="LargeInvisiblePylon_Ready"/>
+        <SoundArray index="Help" value="LargeInvisiblePylon_Help"/>
+        <SoundArray index="What" value="LargeInvisiblePylon_What"/>
+        <SoundArray index="Yes" value="LargeInvisiblePylon_Yes"/>
+        <SoundArray index="Attack" value="LargeInvisiblePylon_Attack"/>
+        <SoundArray index="Pissed" value="LargeInvisiblePylon_Pissed"/>
+        <SoundArray index="Movement" value="LargeInvisiblePylon_Movement"/>
+        <SoundArray index="Turning" value="LargeInvisiblePylon_Turning"/>
+        <SoundArray index="Board" value="LargeInvisiblePylon_Board"/>
+        <SoundArray index="Click" value="LargeInvisiblePylon_Click"/>
+        <SoundArray index="ClickError" value="LargeInvisiblePylon_ClickError"/>
+        <SoundArray index="Highlight" value="LargeInvisiblePylon_Highlight"/>
+    </CActorUnit>
+    <CActorUnit id="KaraxInvisiblePylon" unitName="SmallInvisiblePylon">
+        <On index="0" Terms="UnitBirth.SmallInvisiblePylon" Send="Create SoundEmitter SmallInvisiblePylon_Ambience"/>
+        <On index="1" Terms="UnitBirth.SmallInvisiblePylon"/>
+        <On index="2" Terms="UnitRevive.SmallInvisiblePylon"/>
+        <On index="3" Terms="UnitRevive.SmallInvisiblePylon"/>
+        <On index="4" Terms="UnitConstruction.SmallInvisiblePylon.Start"/>
+        <On index="5" Terms="UnitConstruction.SmallInvisiblePylon.Finish"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="SmallInvisiblePylonFootprint"/>
+        <BuildModel value="SmallInvisiblePylon"/>
+        <DeathArray index="Normal" ModelLink="SmallInvisiblePylon" SoundLink="SmallInvisiblePylonDeath" VoiceLink="SmallInvisiblePylonDeathVoice"/>
+        <PlacementModel value="SmallInvisiblePylon"/>
+        <GroupSoundArray index="What" value="SmallInvisiblePylon_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="SmallInvisiblePylon_GroupYes"/>
+        <GroupSoundArray index="Attack" value="SmallInvisiblePylon_GroupAttack"/>
+        <GroupSoundArray index="Board" value="SmallInvisiblePylon_GroupBoard"/>
+        <SoundArray index="Birth" value="SmallInvisiblePylon_Birth"/>
+        <SoundArray index="Ready" value="SmallInvisiblePylon_Ready"/>
+        <SoundArray index="Help" value="SmallInvisiblePylon_Help"/>
+        <SoundArray index="What" value="SmallInvisiblePylon_What"/>
+        <SoundArray index="Yes" value="SmallInvisiblePylon_Yes"/>
+        <SoundArray index="Attack" value="SmallInvisiblePylon_Attack"/>
+        <SoundArray index="Pissed" value="SmallInvisiblePylon_Pissed"/>
+        <SoundArray index="Movement" value="SmallInvisiblePylon_Movement"/>
+        <SoundArray index="Turning" value="SmallInvisiblePylon_Turning"/>
+        <SoundArray index="Board" value="SmallInvisiblePylon_Board"/>
+        <SoundArray index="Click" value="SmallInvisiblePylon_Click"/>
+        <SoundArray index="ClickError" value="SmallInvisiblePylon_ClickError"/>
+        <SoundArray index="Highlight" value="SmallInvisiblePylon_Highlight"/>
+    </CActorUnit>
+    <!--                                                                                         -->
+    <!-- Korhal Spore Cannon .................................................................... -->
+    <!--                                                                                         -->
+    <CActorUnit id="KorhalSporeCannon">
+        <Scale value="0.700000"/>
+    </CActorUnit>
+    <CActorUnit id="Lair">
+        <Scale value="0.700000"/>
+    </CActorUnit>
+    <CActorUnit id="Lurker">
+        <On index="4" Send="Create Egg"/>
+        <On index="5" Send="Destroy"/>
+        <On Terms="UnitConstruction.LurkerBurrowed.Start" Send="Create Egg"/>
+        <On Terms="UnitConstruction.LurkerBurrowed.Finish" Send="Destroy"/>
+        <Scale value="1.500000"/>
+        <BuildModel value="InfestedCocoon"/>
+    </CActorUnit>
+    <CActorUnit id="LurkerMP">
+        <Scale value="1.400000"/>
+        <BuildModel value="EvoEggUltralisk"/>
+        <EditorModel value="LurkerMP"/>
+    </CActorUnit>
+    <CActorUnit id="PalletMinerals">
+        <Wireframe>
+            <Image index="0" value="Assets\Textures\icon-highyieldmineral-nobg.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorPower id="Power">
+        <On index="0" Terms="Behavior.PowerSource.Create" Send="Create"/>
+        <On index="1" Terms="Behavior.PowerSource.Destroy" Send="Destroy"/>
+        <On index="2" Terms="Behavior.PowerSourceFast.Enable" Send="Destroy"/>
+        <On index="3" Terms="Behavior.PowerSourceFast.Disable" Send="Create"/>
+        <VisualArray index="0" removed="1"/>
+        <VisualArray index="1" removed="1"/>
+    </CActorPower>
+    <CActorRange id="SensorTowerRadar"/>
+    <CActorUnit id="ShieldBattery">
+        <Scale value="0.400000"/>
+    </CActorUnit>
+    <!--                                                                                         -->
+    <!-- Siege Breaker ......................................................................... -->
+    <!--                                                                                         -->
+    <CActorUnit id="SiegeBreaker">
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+    </CActorUnit>
+    <CActorUnit id="SiegeBreakerSieged">
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <PlacementModel value="AdeptPlacement"/>
+    </CActorUnit>
+    <CActorUnit id="SpawningPool">
+        <BuildModel value="Invisible"/>
+    </CActorUnit>
+    <CActorUnit id="Stalker">
+        <Scale value="0.870000"/>
+    </CActorUnit>
+    <CActorUnit id="SunkenColony">
+        <Scale value="1.500000"/>
+    </CActorUnit>
+    <CActorUnit id="Talis">
+        <Scale value="1.100000"/>
+    </CActorUnit>
+    <CActorAction id="TalisAttack">
+        <LaunchAssets Sound="Adept_AttackLaunch"/>
+        <ContainerAssets Sound="Adept_AttackLaunch"/>
+        <ImpactMap index="None" Sound="Adept_AttackImpact"/>
+        <ImpactMap index="Shield" Sound="Adept_AttackImpact"/>
+        <DamageMap index="None" Sound="Adept_Attack"/>
+    </CActorAction>
+    <CActorAction id="TempestAttack">
+        <Missile value="NexusShieldOverchargeModel"/>
+    </CActorAction>
+    <CActorAction id="TempestAttackGround" effectImpact="MothershipCoreWeaponAB" effectLaunch="MothershipCoreWeaponAB">
+        <Missile value="MothershipCoreWeaponAttackMissile"/>
+    </CActorAction>
+    <CActorMissile id="TempestAttackGroundMissile">
+        <Model value="HybridCPlasmaWeapon"/>
+    </CActorMissile>
+    <CActorSound id="UI_ResourcePickup">
+        <On index="0" removed="1"/>
+        <On index="1" removed="1"/>
+        <On index="2" removed="1"/>
+        <On index="3" removed="1"/>
+        <On index="4" removed="1"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+        <On index="7" removed="1"/>
+    </CActorSound>
+    <CActorDoodad id="UlnarCurtain">
+        <Footprint value=""/>
+    </CActorDoodad>
+    <CActorUnit id="Zealot">
+        <Scale value="0.980000"/>
+        <!--DeathCustoms ModelLink="ZealotXPRDeath" Name="Variation10"/-->
+    </CActorUnit>
+</Catalog>
