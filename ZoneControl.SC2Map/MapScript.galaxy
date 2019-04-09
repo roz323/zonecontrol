@@ -3540,6 +3540,10 @@ void gf_TestHugeNukeAchievement (unit lp_unit) {
     // Variable Initialization
 
     // Implementation
+    if ((UnitGetCustomValue(lp_unit, 4) == 0.0)) {
+        return ;
+    }
+
     lv_total_kills = UnitGetPropertyFixed(lp_unit, c_unitPropKills, c_unitPropCurrent);
     lv_num_kills = (lv_total_kills - UnitGetCustomValue(lp_unit, 3));
     if ((lv_num_kills <= 0.0)) {
@@ -3892,12 +3896,12 @@ void gf_UpdateTeamInfoForPlayer (int lp_player) {
 void gf_RewardMessage (point lp_position, int lp_killing_player, int lp_value, int lp_killed_player) {
     // Automatic Variable Declarations
     // Implementation
-    if (((lp_killed_player == 0) || (libNtve_gf_PlayerIsEnemy(lp_killed_player, lp_killing_player, libNtve_ge_PlayerRelation_Ally) == false))) {
+    if (((lp_killed_player == 0) || (gv_player_team[lp_killed_player] == gv_player_team[lp_killed_player]))) {
+        TextTagCreate(TextWithColor((StringExternal("Param/Value/5B24D363") + IntToText(lp_value)), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lp_killing_player, false))), 40, lp_position, 1.0, true, false, gv_teams[gv_player_team[lp_killing_player]]);
+        TextTagSetVelocity(TextTagLastCreated(), 0.5, 90.0);
+        TextTagSetTime(TextTagLastCreated(), c_textTagTimeDuration, 5.0);
     }
 
-    TextTagCreate(TextWithColor((StringExternal("Param/Value/5B24D363") + IntToText(lp_value)), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lp_killing_player, false))), 40, lp_position, 1.0, true, false, gv_teams[gv_player_team[lp_killing_player]]);
-    TextTagSetVelocity(TextTagLastCreated(), 0.5, 90.0);
-    TextTagSetTime(TextTagLastCreated(), c_textTagTimeDuration, 5.0);
 }
 
 void gf_RedrawDeathNotifications () {
@@ -4438,7 +4442,7 @@ void gt_Handles_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_mjgaqntcyrroywcl;
+    int lv_lcuoluftdcbllttf;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -4491,11 +4495,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_mjgaqntcyrroywcl = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_mjgaqntcyrroywcl <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_mjgaqntcyrroywcl >= autoA9265719_ae) ) ; lv_mjgaqntcyrroywcl += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_mjgaqntcyrroywcl])) {
+        lv_lcuoluftdcbllttf = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_lcuoluftdcbllttf <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_lcuoluftdcbllttf >= autoA9265719_ae) ) ; lv_lcuoluftdcbllttf += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_lcuoluftdcbllttf])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_mjgaqntcyrroywcl]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_lcuoluftdcbllttf]), c_orderQueueReplace);
                 }
 
             }
@@ -5016,7 +5020,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_ddjsyfngqqfcgfbn;
+    int lv_cjwyjwgscthbeudn;
     int lv_player;
     int lv_ally;
 
@@ -5040,10 +5044,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             UIDisplayMessage(PlayerGroupAlliance(c_playerGroupAlly, lv_player), c_messageAreaChat, (TextWithColor(PlayerName(lv_player), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))) + StringExternal("Param/Value/33188E24")));
-            lv_ddjsyfngqqfcgfbn = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_ddjsyfngqqfcgfbn <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_ddjsyfngqqfcgfbn >= autoFC6C6804_ae) ) ; lv_ddjsyfngqqfcgfbn += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_ddjsyfngqqfcgfbn], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_ddjsyfngqqfcgfbn], PlayerGroupSingle(lv_player), true);
+            lv_cjwyjwgscthbeudn = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_cjwyjwgscthbeudn <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_cjwyjwgscthbeudn >= autoFC6C6804_ae) ) ; lv_cjwyjwgscthbeudn += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_cjwyjwgscthbeudn], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_cjwyjwgscthbeudn], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
             lv_ally = -1;
@@ -6432,6 +6436,7 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
     lv_player = UnitGetOwner(EventUnit());
     lv_spawnPosition = UnitGetPosition(EventUnit());
     gv_player_has_worker_death[lv_player] = true;
+    gf_RewardMessage(UnitGetPosition(EventUnit()), libNtve_gf_KillingPlayer(), FixedToInt(UnitGetPropertyFixed(EventUnit(), c_unitPropBountyMinerals, c_unitPropCurrent)), UnitGetOwner(EventUnit()));
     gf_TestHugeNukeAchievement(EventUnit());
     Wait(5.0, c_timeGame);
     UnitGroupAdd(lv_group, UnitGroupClosestToPoint(gv_structuresGroup[lv_player], lv_spawnPosition));
@@ -6598,10 +6603,12 @@ bool gt_DetectNukeAction_Func (bool testConds, bool runActions) {
 
     lv_player = UnitGetOwner(EventUnit());
     UnitSetCustomValue(EventUnit(), 3, UnitGetPropertyFixed(EventUnit(), c_unitPropKills, c_unitPropCurrent));
+    UnitSetCustomValue(EventUnit(), 4, 1.0);
     gv_num_nuke_used[lv_player] += 1;
     lv_num_used = gv_num_nuke_used[lv_player];
     Wait(2.0, c_timeGame);
     gf_TestHugeNukeAchievement(EventUnit());
+    UnitSetCustomValue(EventUnit(), 4, 0.0);
     Wait(1.0, c_timeGame);
     if (((gv_num_nuke_used[lv_player] == lv_num_used) && (gv_num_nukes_detected[lv_player] < gv_num_nuke_used[lv_player]))) {
         gv_num_nuke_used[lv_player] -= 1;
