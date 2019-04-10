@@ -112,6 +112,16 @@ Attribute015/Value004/Name=3:00
 Attribute016/Name=Fill With AI
 Attribute016/Value001/Name=Enabled
 Attribute016/Value002/Name=Disabled
+Attribute017/Desc=Whispers only work in Classic mode, which is the default blizzard chat system.
+Attribute017/Name=Chat Mode
+Attribute017/Value001/Desc=Custom chat that disables [ALL] chat from dead teams and hides identities in anonymous mode. Cannot recieve whispers.
+Attribute017/Value001/Name=All Chat Enabled
+Attribute017/Value002/Desc=Custom chat that disables [ALL] chat from dead teams and hides identities in anonymous mode. Cannot recieve whispers.
+Attribute017/Value002/Name=All Chat Disabled
+Attribute017/Value003/Desc=Standard Blizzard chat system.  Whispers are supported, dead players can [ALL] chat, and identities are revealed in anonymous mode.
+Attribute017/Value003/Name=Classic
+Attribute017/Value004/Desc=Uses "All Chat Enabled" for anonymous mode games and "Classic" for all others.
+Attribute017/Value004/Name=Auto
 Behavior/Name/RetireStructure=Retired Structure
 Behavior/Tooltip/GuardianShield=Damage reduced by <d ref="-(Behavior,GuardianShield,DamageResponse[0].ModifyAmount[0])"/>.
 Behavior/Tooltip/RetireStructure=This structure cannot produce units.<n/><n/><c val="FFFFAE">Provides an additional <d ref="(Behavior,RetireStructure,Modification.Food)"/> supply.</c>
@@ -242,6 +252,8 @@ DocInfo/PatchNote018=Nuke kill counts displayed for all players.
 DocInfo/PatchNote019=Bugfix; allow turrets to be placed on of line-of-sight blockers around mid.
 DocInfo/PatchNote020=-help command displays a dialog with an updated list of commands.
 DocInfo/PatchNote021=
+DocInfo/PatchNote022=-Configurable custom chat that supports anonymous mode and disabling of all-chat.
+DocInfo/PatchNote023=
 DocInfo/Screenshot01=Drop Nukes to protect expansions or gain a boost of minerals!
 DocInfo/Screenshot02=
 DocInfo/Screenshot03=Hunker down and protect your Bunkers!
@@ -274,101 +286,94 @@ Param/Value/0035E0FF=Toggles leaderboard modes.
 Param/Value/07DB2B02=Defeat
 Param/Value/08AECC7B= @ 
 Param/Value/09C7D2D3=Scoreboard
+Param/Value/0A48B5E9=Attempting Early Combat Challenge
 Param/Value/0E083112=)
 Param/Value/0F21282C=+
-Param/Value/10B37AA2= 
-Param/Value/12841285=a
-Param/Value/14FEAE57= 
+Param/Value/0F8B8BDB=[Dead]
 Param/Value/15229CAF=<s val="BoardWarAppraiseMid"><c val="D8D8D8">(type <c val="FFFFFF">-records</c> to view W-L stats)</c></s>
-Param/Value/18010F2A= minerals
+Param/Value/1964AE3D=Bad builds are not permanently enabled.
 Param/Value/1AE20288=R
 Param/Value/1CB9AF72= W, 
-Param/Value/1CFBFBF6=Average opponent elo is 
-Param/Value/1EA5D7F0=
+Param/Value/1F8BB3B8=Bad builds are not permanently enabled.
 Param/Value/1FF53BC7=)
 Param/Value/22292F1D=<s val="BoardWarAppraiseBig1"><c val="8000FF">+</c><c val="9F00DF">2</c><c val="BF00BF">0</c><c val="DE00A0">0</c>
 Param/Value/28003E0A=R
+Param/Value/295089B1=[Allies]
 Param/Value/298CA7FA= (
 Param/Value/2CB32ECF=Nuke Glitch Corrected
+Param/Value/2D742252=[All]
 Param/Value/2DABF6B5= 
-Param/Value/2E913FA3= has sent 
+Param/Value/2E3A58BF= 
+Param/Value/30165E8A=: 
 Param/Value/312A6E35= (team Elo)  - Vs - 
-Param/Value/33188E24= is afk, control has been automatically shared.
-Param/Value/3434053B=TEST
-Param/Value/36A71756= 
-Param/Value/3AC4D29A= losses
+Param/Value/3397408D=Feature only supported in training mode.
 Param/Value/3C1367FD=Victory<n/>
-Param/Value/40746770=Shared control is now <c val="FF0000">disabled </c>for all teammates.
 Param/Value/4214D75A=)
-Param/Value/436384BF= 
+Param/Value/4355C44A= has sent 
+Param/Value/4A211734=Playing as 
+Param/Value/4BDD3BD8=Stubborn Mode is now <c val="03E409">Enabled</c>
 Param/Value/4E2F7B84=Dismiss
-Param/Value/4E4C49FD= 
 Param/Value/54674B9B=">+
+Param/Value/59C82D4B= has <c val="09D70E">enabled </c>shared control.
 Param/Value/5B24D363=+
-Param/Value/5C72117E=team 
+Param/Value/61BEA48B= minerals
 Param/Value/63C0F234=Unsupported Bank Type
-Param/Value/64965991= is the runner up team with a peak performance of 
 Param/Value/64AB9EFE= (
-Param/Value/6652DF1C=Playing as 
-Param/Value/66D9F048=Bad builds are permanently <c val="09D70E">enabled</c>.
-Param/Value/6B40F80D=Terminating game due to presence of AI player.
+Param/Value/689431A5=Stubborn Mode is now <c val="E80005">Disabled</c>
 Param/Value/6BB49CE4=
+Param/Value/6EF9EAEA=Feature only supported in training mode.
 Param/Value/70EDA249=0
-Param/Value/740451DE= has <c val="09D70E">enabled </c>shared control.
+Param/Value/71C62D9B=Elo, records, and settings will not be updated for this game.
 Param/Value/75A0334C=<s val="BoardWarAppraiseBig1"><c val="FF8000">+</c><c val="FF9F00">1</c><c val="FFBF00">0</c><c val="FFDE00">0</c>
 Param/Value/7674BEDF=T
 Param/Value/76DCB49E=Toggles shared control.
-Param/Value/77531E47= wins 
 Param/Value/7A4B289B= Elo
 Param/Value/7A6AD867=: 
-Param/Value/7B036259=Massive Nuke
 Param/Value/7C3E8FE0=Score
-Param/Value/8A94AF44=Attempting Early Combat Challenge
+Param/Value/7CEBE995= kills
+Param/Value/8258300E=Terminating game due to imbalanced lobby.
+Param/Value/8D124400= losses
 Param/Value/8D5E846C= has left the game
-Param/Value/907071D9=Bad builds are not permanently enabled.
 Param/Value/90E4AD59= has died
 Param/Value/911BE273= or Lose 
 Param/Value/92B980A1=
 Param/Value/95B92D04= (enemy Elo)
 Param/Value/97853DA3=<s val="BoardWarAppraiseBig1"><c val="
 Param/Value/9FD17718=L
+Param/Value/A035FE66=aa
 Param/Value/A0987309=L
 Param/Value/A4DBF220=2000
 Param/Value/A698A56B=T
 Param/Value/AD714ED6=Win 
 Param/Value/AE178147=Dismiss
-Param/Value/AEB4688D= has received  
+Param/Value/AF820515= is afk, control has been automatically shared.
 Param/Value/B3C976A8=<s val="BoardWarAppraiseMid">
 Param/Value/B75EFE4C= (
 Param/Value/B80DF5EE=<s val="BoardWarAppraiseMid"><c val="
 Param/Value/B9484BC1=</c>, Loss <c val="FF0000">-
 Param/Value/BB11940F= 
-Param/Value/BBC5CEEB=Shared control is now <c val="FF0000">disabled </c>for all teammates.
 Param/Value/BDC6300B= L, 
 Param/Value/BDFC7C56=<c val="347600">teewfffwef </c> is dead
-Param/Value/C25F0BB7= has <c val="E80005">disabled </c>shared control.
-Param/Value/C499AFB3= 
-Param/Value/C6238D14=
+Param/Value/BE296957= has received  
 Param/Value/C63ADDFB=B
 Param/Value/C6898BBE=
+Param/Value/CABF479B= has <c val="E80005">disabled </c>shared control.
+Param/Value/CC77A88D= wins 
 Param/Value/CE0871DE=<s val="BoardWarAppraiseMid">Win <c val="00FF00">+
-Param/Value/CFE0085C=Elo, records, and settings will not be updated for this game.
-Param/Value/D2EB51C9=Stubborn Mode is now <c val="E80005">Disabled</c>
+Param/Value/D471A456=Terminating game due to presence of AI player.
 Param/Value/D4783B0D=
 Param/Value/D6B9972F=Player (Elo Rating)
-Param/Value/D78C84C8= kills
 Param/Value/D82F42FA=B
 Param/Value/DB7F0C5D= (
-Param/Value/DFB2EDB0= wins with a peak performance of 
-Param/Value/E216D822= 
-Param/Value/E26CC330=Terminating game due to imbalanced lobby.
+Param/Value/DBFBC601=Feature is not supported in anonymous mode.
+Param/Value/E0072A15= 
 Param/Value/E621DDBB=<n/><n/>Average opponent elo: 
-Param/Value/E66400FB= 
+Param/Value/E752B8EC=Feature only supported in training mode.
 Param/Value/F1B2F557= has been defeated!
 Param/Value/FEC831E8=)
 Param/Value/FEEA8607=">+
 Param/Value/FEF10A99=<s val="BoardWarAppraiseBig1"><c val="0080FF">+</c><c val="0055FF">5</c><c val="002BFF">0</c>
-Param/Value/FFE4453B=Stubborn Mode is now <c val="03E409">Enabled</c>
+Param/Value/FF7D3D0F=Average opponent elo is 
 Random: Positioning is completely random=
 RequirementNode/Tooltip/204156726092=Max upgrade level.
 RequirementNode/Tooltip/CountUnitInfestedBunkerCompleteOnly4084108369=Have Mercenary Bunker.
