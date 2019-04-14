@@ -215,6 +215,35 @@
         <On index="73" removed="1"/>
         <On index="74" removed="1"/>
     </CActorUnit>
+    <CActorUnit id="Invisible5x5" unitName="InvisiblePylon">
+        <On index="0" Terms="UnitBirth.InvisiblePylon" Send="Create SoundEmitter InvisiblePylon_Ambience"/>
+        <On index="1" Terms="UnitBirth.InvisiblePylon"/>
+        <On index="2" Terms="UnitRevive.InvisiblePylon"/>
+        <On index="3" Terms="UnitRevive.InvisiblePylon"/>
+        <On index="4" Terms="UnitConstruction.InvisiblePylon.Start"/>
+        <On index="5" Terms="UnitConstruction.InvisiblePylon.Finish"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="InvisiblePylonFootprint"/>
+        <BuildModel value="InvisiblePylon"/>
+        <DeathArray index="Normal" ModelLink="InvisiblePylon" SoundLink="InvisiblePylonDeath" VoiceLink="InvisiblePylonDeathVoice"/>
+        <PlacementModel value="InvisiblePylon"/>
+        <GroupSoundArray index="What" value="InvisiblePylon_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="InvisiblePylon_GroupYes"/>
+        <GroupSoundArray index="Attack" value="InvisiblePylon_GroupAttack"/>
+        <GroupSoundArray index="Board" value="InvisiblePylon_GroupBoard"/>
+        <SoundArray index="Birth" value="InvisiblePylon_Birth"/>
+        <SoundArray index="Ready" value="InvisiblePylon_Ready"/>
+        <SoundArray index="Help" value="InvisiblePylon_Help"/>
+        <SoundArray index="What" value="InvisiblePylon_What"/>
+        <SoundArray index="Yes" value="InvisiblePylon_Yes"/>
+        <SoundArray index="Attack" value="InvisiblePylon_Attack"/>
+        <SoundArray index="Pissed" value="InvisiblePylon_Pissed"/>
+        <SoundArray index="Movement" value="InvisiblePylon_Movement"/>
+        <SoundArray index="Turning" value="InvisiblePylon_Turning"/>
+        <SoundArray index="Board" value="InvisiblePylon_Board"/>
+        <SoundArray index="Click" value="InvisiblePylon_Click"/>
+        <SoundArray index="ClickError" value="InvisiblePylon_ClickError"/>
+        <SoundArray index="Highlight" value="InvisiblePylon_Highlight"/>
+    </CActorUnit>
     <!--                                                                                         -->
     <!-- Invisible Pylon ....................................................................... -->
     <!--                                                                                         -->
