@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <Catalog>
+    <CEffectDamage id="AcidSalivaU">
+        <AttributeBonus index="Armored" value="20"/>
+        <Amount value="40"/>
+    </CEffectDamage>
     <CEffectDamage id="AdeptDamage">
         <Amount value="40"/>
         <AttributeBonus index="Light" value="25"/>
@@ -78,6 +82,9 @@
         <AttributeBonus index="Armored" value="30"/>
         <Amount value="55"/>
     </CEffectDamage>
+    <CEffectDamage id="HunterKillerU">
+        <Amount value="37"/>
+    </CEffectDamage>
     <CEffectDamage id="ImmortalSplashDamage">
         <AttributeBonus index="Armored" value="0"/>
         <Amount value="0"/>
@@ -131,6 +138,9 @@
     </CEffectDamage>
     <CEffectDamage id="MothershipCoreRepulsorCannonDamage">
         <Amount value="60"/>
+    </CEffectDamage>
+    <CEffectDamage id="NeedleSpinesDamage">
+        <Amount value="32"/>
     </CEffectDamage>
     <CEffectDamage id="NukeDamage">
         <AttributeBonus index="Structure" value="2500"/>
@@ -187,6 +197,14 @@
     <CEffectModifyPlayer id="PickupMinerals250">
         <Resources index="Minerals" value="200"/>
     </CEffectModifyPlayer>
+    <CEffectDamage id="PrimalBaseWeaponDamage">
+        <ArmorReduction value="2"/>
+        <Amount value="130"/>
+    </CEffectDamage>
+    <CEffectDamage id="PrimalRoachDamage">
+        <AttributeBonus index="Armored" value="25"/>
+        <Amount value="45"/>
+    </CEffectDamage>
     <CEffectDamage id="PsiBlades">
         <Amount value="55"/>
         <AttributeBonus index="Mechanical" value="275"/>
@@ -201,10 +219,19 @@
         <AttributeBonus index="Armored" value="25"/>
         <Amount value="50"/>
     </CEffectDamage>
+    <CEffectDamage id="RavagerCorrosiveBileDamage">
+        <AttributeBonus index="Mechanical" value="1700"/>
+        <AttributeBonus index="Structure" value="1700"/>
+        <Amount value="300"/>
+    </CEffectDamage>
     <CEffectApplyBehavior id="RetireStructure">
         <ValidatorArray index="0" value="RetireStructure"/>
         <EditorCategories value=""/>
     </CEffectApplyBehavior>
+    <CEffectDamage id="RoachUMelee">
+        <AttributeBonus index="Armored" value="20"/>
+        <Amount value="40"/>
+    </CEffectDamage>
     <CEffectDamage id="SalvageDeath">
         <ValidatorArray value="HasNoCargo"/>
         <ValidatorArray value="CasterLifeFull"/>
@@ -221,6 +248,9 @@
         <AttributeBonus index="Armored" value="15"/>
         <Amount value="60"/>
     </CEffectDamage>
+    <CEffectDamage id="SporeCrawlerU">
+        <Amount value="130"/>
+    </CEffectDamage>
     <!--CEffectDamage id="StalkerSecondaryDamage" parent="DU_WEAP_MISSILE">-->
     <!--        <EditorCategories value="Race:Protoss"/>-->
     <!--        <Amount value="3"/>-->
@@ -229,13 +259,17 @@
     <CEffectDamage id="StalkerEntropyLanceSecondaryDamage">
         <Amount value="0"/>
     </CEffectDamage>
+    <CEffectDamage id="SunkenColonyDamage">
+        <ArmorReduction value="2"/>
+        <Amount value="120"/>
+    </CEffectDamage>
     <CEffectDamage id="TalisDamage">
         <Amount value="40"/>
         <AttributeBonus index="Light" value="25"/>
         <AttributeBonus index="Structure" value="100"/>
     </CEffectDamage>
     <CEffectDamage id="TempestDamageGround">
-        <Amount value="120"/>
+        <Amount value="130"/>
     </CEffectDamage>
     <CEffectDamage id="ThermalLancesFireBeamDamage">
         <AttributeBonus index="Structure" value="300"/>
