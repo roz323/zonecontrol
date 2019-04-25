@@ -3,7 +3,7 @@
 <Desc>
 
 <Frame type="Frame" name="TeammateStateIcons">
-        <Width val="600"/>
+        <Width val="700"/>
         <Height val="40"/>
 
 
@@ -55,6 +55,13 @@
             <Anchor side="Left" relative="$parent" pos="Min" offset="448"/>
         </Frame>
 
+  <Frame type="Image" name="PlayerSupplyIcon">
+            <Height val="20"/>
+            <Width val="20"/>
+          <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="550"/>
+        </Frame>
+
   <Frame type="Image" name="SpeedIcon">
             <Height val="20"/>
             <Width val="20"/>
@@ -100,7 +107,7 @@
 
 
   <Frame type="Frame" name="TeammateState">
-        <Width val="600"/>
+        <Width val="700"/>
         <Height val="40"/>
 
 
@@ -110,7 +117,7 @@
             <Height val="40"/>
             <Width val="90"/>
   <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="500"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="600"/>
             <Text val="0"/> 
         </Frame>
 
@@ -209,6 +216,15 @@
             <Width val="90"/>
   <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
             <Anchor side="Left" relative="$parent" pos="Min" offset="415"/>
+            <Text val="50"/> 
+        </Frame>
+
+        <Frame type="Label" name="PlayerSupply">
+            <Style val="TeamStats"/>
+            <Height val="40"/>
+            <Width val="130"/>
+  <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="500"/>
             <Text val="50"/> 
         </Frame>
 
