@@ -140,6 +140,9 @@ Attribute020/Value007/Name=8:00
 Attribute020/Value008/Name=9:00
 Attribute020/Value009/Name=10:00
 Attribute020/Value010/Name=3:00
+Attribute021/Name=Horizontal Wall
+Attribute021/Value001/Name=Enabled
+Attribute021/Value002/Name=Disabled
 Behavior/Name/RetireStructure=Retired Structure
 Behavior/Tooltip/GuardianShield=Damage reduced by <d ref="-(Behavior,GuardianShield,DamageResponse[0].ModifyAmount[0])"/>.
 Behavior/Tooltip/RetireStructure=This structure cannot produce units.<n/><n/><c val="FFFFAE">Provides an additional <d ref="(Behavior,RetireStructure,Modification.Food)"/> supply.</c>
@@ -311,6 +314,7 @@ Param/Value/08AECC7B= @
 Param/Value/09C7D2D3=Scoreboard
 Param/Value/0A48B5E9=Attempting Early Combat Challenge
 Param/Value/0A5765B9=[Observers]
+Param/Value/0DF3FE86=)
 Param/Value/0E083112=)
 Param/Value/0F21282C=+
 Param/Value/0F8B8BDB=[Dead]
@@ -321,10 +325,11 @@ Param/Value/1CB8727B=/
 Param/Value/1CB9AF72= W, 
 Param/Value/1F8BB3B8=Bad builds are not permanently enabled.
 Param/Value/1FF53BC7=)
+Param/Value/204DD57E= 
+Param/Value/20E44777= (
 Param/Value/22292F1D=<s val="BoardWarAppraiseBig1"><c val="8000FF">+</c><c val="9F00DF">2</c><c val="BF00BF">0</c><c val="DE00A0">0</c>
 Param/Value/28003E0A=R
 Param/Value/295089B1=[Allies]
-Param/Value/298CA7FA= (
 Param/Value/2CB32ECF=Nuke Glitch Corrected
 Param/Value/2D742252=[All]
 Param/Value/2DABF6B5= 
@@ -332,21 +337,21 @@ Param/Value/2E3A58BF=
 Param/Value/30165E8A=: 
 Param/Value/312A6E35= (team Elo)  - Vs - 
 Param/Value/3397408D=Feature only supported in training mode.
+Param/Value/35C39E8D= 
+Param/Value/35D57A04=Reveals player identities.
 Param/Value/3C1367FD=Victory<n/>
-Param/Value/4214D75A=)
 Param/Value/4355C44A= has sent 
 Param/Value/4A211734=Playing as 
 Param/Value/4BDD3BD8=Stubborn Mode is now <c val="03E409">Enabled</c>
 Param/Value/4E2F7B84=Dismiss
 Param/Value/50D5E327= minutes remaining.
 Param/Value/54674B9B=">+
+Param/Value/56645396=k
 Param/Value/59C82D4B= has <c val="09D70E">enabled </c>shared control.
 Param/Value/5B24D363=+
 Param/Value/61BEA48B= minerals
 Param/Value/63C0F234=Unsupported Bank Type
-Param/Value/64AB9EFE= (
 Param/Value/689431A5=Stubborn Mode is now <c val="E80005">Disabled</c>
-Param/Value/6BB49CE4=
 Param/Value/6EF9EAEA=Feature only supported in training mode.
 Param/Value/70EDA249=0
 Param/Value/71C62D9B=Elo, records, and settings will not be updated for this game.
@@ -399,7 +404,7 @@ Param/Value/E0072A15=
 Param/Value/E621DDBB=<n/><n/>Average opponent elo: 
 Param/Value/E752B8EC=Feature only supported in training mode.
 Param/Value/F1B2F557= has been defeated!
-Param/Value/FEC831E8=)
+Param/Value/F6D7DA7A=
 Param/Value/FEEA8607=">+
 Param/Value/FEF10A99=<s val="BoardWarAppraiseBig1"><c val="0080FF">+</c><c val="0055FF">5</c><c val="002BFF">0</c>
 Param/Value/FF7D3D0F=Average opponent elo is 
@@ -459,6 +464,8 @@ Variant004/ModeDesc=Allies at cross spawn locations.
 Variant004/ModeName=Training
 Variant005/ModeDesc=All settings may be customized.
 Variant005/ModeName=1v1 custom
+Variant006/ModeDesc=Settings optimized for tournament play.
+Variant006/ModeName=Tournament
 Variant007/ModeDesc=Allies at cross spawn locations.
 Variant007/ModeName=2v2v2v2 custom
 Variant008/ModeDesc=Free for All
