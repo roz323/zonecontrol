@@ -193,6 +193,10 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="UpgradeFlameLance" State="QueuedOrBetter"/>
     </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeUpgradeLimitQueuedOrBetter4156726092">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="UpgradeLimit" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeUpgradeShieldsQueuedOrBetter">
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="UpgradeShields" State="QueuedOrBetter"/>
@@ -237,30 +241,30 @@
         <OperandArray index="0" value="CountUpgradeBunkerLifeRegenerationQueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
-    <CRequirementLT id="LTCountUpgradeMarineAttackRangeQueuedOrBetter204156726092">
-        <Tooltip value=""/>
-        <OperandArray index="0" value="CountUpgradeMarineAttackRangeQueuedOrBetter"/>
-        <OperandArray index="1" value="204156726092"/>
-    </CRequirementLT>
-    <CRequirementLT id="LTCountUpgradeMarineArmorQueuedOrBetter204156726092">
-        <Tooltip value=""/>
+    <CRequirementLT id="LTCountUpgradeMarineArmorQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeMarineArmorQueuedOrBetter"/>
-        <OperandArray index="1" value="204156726092"/>
+        <OperandArray index="1" value="CountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
     </CRequirementLT>
-    <CRequirementLT id="LTCountUpgradeMarineLifeRegenerationQueuedOrBetter204156726092">
-        <Tooltip value=""/>
+    <CRequirementLT id="LTCountUpgradeMarineAttackRangeQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeMarineAttackRangeQueuedOrBetter"/>
+        <OperandArray index="1" value="CountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
+    </CRequirementLT>
+    <CRequirementLT id="LTCountUpgradeMarineLifeRegenerationQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeMarineLifeRegenerationQueuedOrBetter"/>
-        <OperandArray index="1" value="204156726092"/>
+        <OperandArray index="1" value="CountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
     </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeMarineMovespeedQueuedOrBetter204156726092">
-        <Tooltip value=""/>
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeMarineMovespeedQueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
-    <CRequirementLT id="LTCountUpgradeMarineWeaponsQueuedOrBetter204156726092">
-        <Tooltip value=""/>
+    <CRequirementLT id="LTCountUpgradeMarineWeaponsQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeMarineWeaponsQueuedOrBetter"/>
-        <OperandArray index="1" value="204156726092"/>
+        <OperandArray index="1" value="CountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
     </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeProtossGroundWeaponsLevel1QueuedOrBetter20">
         <OperandArray index="0" value="CountUpgradeProtossGroundWeaponsLevel1QueuedOrBetter"/>
@@ -306,7 +310,6 @@
         <OperandArray index="0" value="CountBehaviorRetireStructureCompleteOnlyAtUnit"/>
     </CRequirementNot>
     <CRequirementNot id="NotCountUpgradeAllowBadBuildsCompleteOnly">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeAllowBadBuildsCompleteOnly"/>
     </CRequirementNot>
     <CRequirementNot id="NotCountUpgradeResearchBlinkQueuedOrBetter">

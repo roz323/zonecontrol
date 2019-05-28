@@ -126,6 +126,7 @@ Attribute018/Name=Game Length
 Attribute018/Value001/Name=None
 Attribute018/Value002/Name=60 min
 Attribute018/Value003/Name=90 min
+Attribute018/Value004/Name=75 min
 Attribute019/Name=Lobby Num Teams
 Attribute019/Value001/Name=2
 Attribute019/Value002/Name=4
@@ -155,6 +156,18 @@ Attribute023/Value003/Desc=Teams fight vertically.
 Attribute023/Value003/Name=Top vs Bottom
 Attribute023/Value004/Desc=Only applies to 2v2.  One team spawns in a corner and the other team spawns cross-map. 
 Attribute023/Value004/Name=Corner
+Attribute024/Name=Max Upgrades
+Attribute024/Value001/Name=20
+Attribute024/Value002/Name=25
+Attribute024/Value003/Name=30
+Attribute024/Value004/Name=35
+Attribute025/Name=Map Control Reward
+Attribute025/Value001/Desc=Mineral crystals spawn every 20s.
+Attribute025/Value001/Name=Mineral Shards
+Attribute025/Value002/Name=None
+Attribute025/Value003/Name=Tower Control
+Attribute025/Value004/Desc=Mineral crystals spawn every 5s.
+Attribute025/Value004/Name=More Mineral Crystals
 Behavior/Name/RetireStructure=Retired Structure
 Behavior/Tooltip/GuardianShield=Damage reduced by <d ref="-(Behavior,GuardianShield,DamageResponse[0].ModifyAmount[0])"/>.
 Behavior/Tooltip/RetireStructure=This structure cannot produce units.<n/><n/><c val="FFFFAE">Provides an additional <d ref="(Behavior,RetireStructure,Modification.Food)"/> supply.</c>
@@ -287,6 +300,9 @@ DocInfo/PatchNote020=-help command displays a dialog with an updated list of com
 DocInfo/PatchNote021=
 DocInfo/PatchNote022=-Configurable custom chat that supports anonymous mode and disabling of all-chat.
 DocInfo/PatchNote023=
+DocInfo/PatchNote024=- Configurable "max upgrades"
+DocInfo/PatchNote025=- When player-zoom is enabled, defaults to level 2 for all players.
+DocInfo/PatchNote026=- Score screen displays for observers at end of game.
 DocInfo/Screenshot01=Drop Nukes to protect expansions or gain a boost of minerals!
 DocInfo/Screenshot02=
 DocInfo/Screenshot03=Hunker down and protect your Bunkers!
@@ -322,6 +338,7 @@ MapInfo/Player14/Name=Player 14
 MapInfo/Player15/Name=Hostile
 Param/Value/0035E0FF=Toggles leaderboard modes.
 Param/Value/077CBEA9= 
+Param/Value/07B79955=`type`: `
 Param/Value/07DB2B02=Defeat
 Param/Value/08AECC7B= @ 
 Param/Value/09C7D2D3=Scoreboard
@@ -333,7 +350,6 @@ Param/Value/0F21282C=+
 Param/Value/0F8B8BDB=[Dead]
 Param/Value/13C936EA=Control is shared for the following players:
 Param/Value/15229CAF=<s val="BoardWarAppraiseMid"><c val="D8D8D8">(type <c val="FFFFFF">-records</c> to view W-L stats)</c></s>
-Param/Value/172E41AF=
 Param/Value/176B674B=
 Param/Value/1964AE3D=Bad builds are not permanently enabled.
 Param/Value/1AE20288=R
@@ -351,7 +367,6 @@ Param/Value/2CB32ECF=Nuke Glitch Corrected
 Param/Value/2D742252=[All]
 Param/Value/2DABF6B5= 
 Param/Value/30165E8A=: 
-Param/Value/30908887=, 
 Param/Value/312A6E35= (team Elo)  - Vs - 
 Param/Value/3397408D=Feature only supported in training mode.
 Param/Value/35C39E8D= 
@@ -361,18 +376,21 @@ Param/Value/4355C44A= has sent
 Param/Value/4A211734=Playing as 
 Param/Value/4BDD3BD8=Stubborn Mode is now <c val="03E409">Enabled</c>
 Param/Value/4E2F7B84=Dismiss
+Param/Value/4FF34724=`, `time`:
 Param/Value/50D5E327= minutes remaining.
 Param/Value/54674B9B=">+
 Param/Value/56645396=k
 Param/Value/59C82D4B= has <c val="09D70E">enabled </c>shared control.
 Param/Value/5B24D363=+
-Param/Value/61569689={
 Param/Value/61BEA48B= minerals
 Param/Value/63C0F234=Unsupported Bank Type
 Param/Value/689431A5=Stubborn Mode is now <c val="E80005">Disabled</c>
+Param/Value/68CF60A9={
+Param/Value/6B24B648=<c val="0391DC">Mineral Spawns Disabled</c>
 Param/Value/6EF9EAEA=Feature only supported in training mode.
 Param/Value/70EDA249=0
 Param/Value/71C62D9B=Elo, records, and settings will not be updated for this game.
+Param/Value/73964D02= }
 Param/Value/75A0334C=<s val="BoardWarAppraiseBig1"><c val="FF8000">+</c><c val="FF9F00">1</c><c val="FFBF00">0</c><c val="FFDE00">0</c>
 Param/Value/7674BEDF=T
 Param/Value/76DCB49E=Toggles shared control.
@@ -381,23 +399,25 @@ Param/Value/7A6AD867=:
 Param/Value/7C3E8FE0=Score
 Param/Value/7CEBE995= kills
 Param/Value/7E72698F= 
-Param/Value/7F1B0683=`type`: `
 Param/Value/8258300E=Terminating game due to imbalanced lobby.
 Param/Value/86FCBE39=
 Param/Value/8D5E846C= has left the game
 Param/Value/90E4AD59= has died
 Param/Value/911BE273= or Lose 
 Param/Value/92B980A1=
-Param/Value/9331839B=`, `time`:
 Param/Value/95B92D04= (enemy Elo)
+Param/Value/973DB80B= minerals
 Param/Value/97853DA3=<s val="BoardWarAppraiseBig1"><c val="
+Param/Value/9F0342D9=<c val="0391DC">Tower Control Reward</c>
 Param/Value/9FD17718=L
 Param/Value/A0987309=L
 Param/Value/A4DBF220=2000
 Param/Value/A698A56B=T
+Param/Value/A8D1F3EB=<c val="0391DC">Extra infantry upgrades.</c>
 Param/Value/AD714ED6=Win 
 Param/Value/AE178147=Dismiss
 Param/Value/AF820515= is afk, control has been automatically shared.
+Param/Value/B12C78CF=, 
 Param/Value/B3C976A8=<s val="BoardWarAppraiseMid">
 Param/Value/B75EFE4C= (
 Param/Value/B80DF5EE=<s val="BoardWarAppraiseMid"><c val="
@@ -407,13 +427,13 @@ Param/Value/BDC6300B= L,
 Param/Value/BDFC7C56=<c val="347600">teewfffwef </c> is dead
 Param/Value/BE296957= has received  
 Param/Value/C385B952= wins 
+Param/Value/C4D78A55=<c val="0391DC">Mineral Spawns Disabled</c>
 Param/Value/C63ADDFB=B
 Param/Value/C6898BBE=
 Param/Value/C840F232= losses
 Param/Value/CABF479B= has <c val="E80005">disabled </c>shared control.
 Param/Value/CB32798C=: 
 Param/Value/CE0871DE=<s val="BoardWarAppraiseMid">Win <c val="00FF00">+
-Param/Value/D0E6BAA5= }
 Param/Value/D45AC080= 
 Param/Value/D471A456=Terminating game due to presence of AI player.
 Param/Value/D4783B0D=
@@ -424,6 +444,7 @@ Param/Value/DD33938D=[All]
 Param/Value/E0072A15= 
 Param/Value/E621DDBB=<n/><n/>Average opponent elo: 
 Param/Value/E752B8EC=Feature only supported in training mode.
+Param/Value/EEA092B6=<c val="0391DC">Mineral Spawns Accelerated</c>
 Param/Value/F1B2F557= has been defeated!
 Param/Value/F6D7DA7A=
 Param/Value/F87C6C99=
@@ -434,6 +455,7 @@ Random: Positioning is completely random=
 RequirementNode/Tooltip/204156726092=Max upgrade level.
 RequirementNode/Tooltip/CountUnitInfestedBunkerCompleteOnly4084108369=Have Mercenary Bunker.
 RequirementNode/Tooltip/CountUnitNukeCompleteOnly1541890172=No Nukes remaining.
+RequirementNode/Tooltip/CountUpgradeUpgradeLimitQueuedOrBetter4156726092=Max upgrade level.
 Structure already retired.=Structure already retired.
 Structure not retired.=Structure not retired.
 Tournament: Diagonal matchups are preserved.=

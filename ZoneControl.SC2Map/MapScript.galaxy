@@ -837,6 +837,7 @@ bool gv_periodic_observer_reveal;
 int gv_observer_reveal_checkbox;
 bool[17] gv_movement_detected;
 bool[17] gv_player_is_afk;
+int gv_max_upgrades;
 int[4] gv_zoom_buttons;
 bool[17] gv_player_is_observer;
 bool gv_anonymous_mode;
@@ -1027,6 +1028,7 @@ void InitGlobals () {
     gv_leaderboard_button = c_invalidDialogControlId;
     gv_alliance_checkbox = c_invalidDialogControlId;
     gv_observer_reveal_checkbox = c_invalidDialogControlId;
+    gv_max_upgrades = 20;
     for (init_i = 0; init_i <= 3; init_i += 1) {
         gv_zoom_buttons[init_i] = c_invalidDialogControlId;
     }
@@ -1278,7 +1280,6 @@ void gf_TestEarlyCombatPurchased (int lp_player);
 void gf_TestEarlyCombatAchievement (int lp_player);
 void gf_TestSafeWorkerAchievement (int lp_player);
 void gf_TestCarryTeammateAchievement (int lp_player);
-void gf_TestHugeNukeAchievement (unit lp_unit);
 void gf_TestTankRushAchievement (int lp_player);
 void gf_TestVictoryBasedAcievements (int lp_winning_team);
 void gf_MarkAchievementCompleted (string lp_id, int lp_player, int lp_level);
@@ -1291,6 +1292,7 @@ void gf_UpdateTeamInfoColor (int lp_player);
 void gf_RefreshTeamInfoSup ();
 void gf_TeamInfoInit ();
 void gf_UpdateTeamInfoForPlayer (int lp_player);
+void gf_SetupRewards ();
 void gf_RewardMessage (point lp_position, int lp_killing_player, int lp_value, int lp_killed_player);
 void gf_RedrawDeathNotifications ();
 void gf_NotifyPlayerDied (int lp_palyer);
@@ -1300,6 +1302,7 @@ int gf_GetBunkerIndex (unit lp_bunker);
 void gf_OnBunkerCreated (int lp_player, unit lp_bunker);
 void gf_OnBunkerCreated3 (int lp_player, unit lp_bunker, bool lp_starting_bunker);
 void gf_OnScvCreated (unit lp_worker);
+fixed gf_TestHugeNukeAchievement (unit lp_unit);
 void gf_UpdateAllWorkers (int lp_player);
 void gf_UpdateSingleWorker (unit lp_worker, bool lp_player_has_nuke);
 bool gf_PlayerHasNuke (int lp_player);
@@ -1315,8 +1318,11 @@ void gf_SendChatMessage (string lp_message, playergroup lp_recipientPlayerGroup,
 void gf_DisplayChatMessage (text lp_message, playergroup lp_recipientPlayerGroup, int lp_sendingPlayer);
 void gf_GameMessage (text lp_message, playergroup lp_recipientPlayerGroup);
 text gf_EmojifyStringAsText (string lp_inputText);
+void gf_WriteMatchEndEvent (playergroup lp_event_players);
+void gf_MatchEndCommand (int lp_player);
 void gf_WriteDebug (string lp_key, text lp_text);
-void gf_WriteEvent (string lp_type, string lp_text);
+void gf_WriteEventForAllPlayers (string lp_type, string lp_text);
+void gf_WriteEventForPlayers (playergroup lp_observers, string lp_type, string lp_text);
 void gf_InitDebugBanks ();
 void gf_InitEventBanks ();
 
@@ -1355,8 +1361,9 @@ trigger gt_UpdateLosses;
 trigger gt_TeamInfoTrackUpgrades;
 trigger gt_RefreshTeamInfoMins;
 trigger gt_UpdateTeamInfo;
-trigger gt_ShardCollected;
+trigger gt_tower;
 trigger gt_ShardSpawn;
+trigger gt_ShardCollected;
 trigger gt_SpawnUnit;
 trigger gt_OnRallyChange;
 trigger gt_OnUpgrade;
@@ -1511,6 +1518,23 @@ void gf_ConfigureConstants () {
     // Implementation
     UISetResourceTradingAllowed(c_resourceTypeMinerals, true);
     UISetResourceTradingAllowed(c_resourceTypeVespene, false);
+    if ((GameAttributeGameValue("24") == "0002")) {
+        gf_GameMessage(StringExternal("Param/Value/C4D78A55"), gv_all_players_and_observers);
+        gv_max_upgrades = 25;
+    }
+
+    if ((GameAttributeGameValue("24") == "0003")) {
+        gv_max_upgrades = 30;
+    }
+
+    if ((GameAttributeGameValue("24") == "0004")) {
+        gv_max_upgrades = 35;
+    }
+
+    if ((GameAttributeGameValue("24") != "0001")) {
+        gf_GameMessage(StringExternal("Param/Value/A8D1F3EB"), gv_all_players_and_observers);
+    }
+
     if ((GameAttributeGameValue("20") == "0001")) {
     }
 
@@ -2383,6 +2407,7 @@ void gf_SpawnPlayers () {
     while (true) {
         lv_player = PlayerGroupNextPlayer(autoF3930426_g, lv_player);
         if (lv_player < 0) { break; }
+        libNtve_gf_SetUpgradeLevelForPlayer(lv_player, "UpgradeLimit", gv_max_upgrades);
         PlayerModifyPropertyInt(lv_player, c_playerPropHandicap, c_playerPropOperSetTo, 100);
         PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesLimit, c_playerPropOperSetTo, 500);
         gv_total_resource_granted = gv_starting_minerals;
@@ -2451,6 +2476,7 @@ void gf_SpectatorInit () {
     const int auto285C103B_ae = 3;
     const int auto285C103B_ai = 1;
     playergroup autoF6CB2BFD_g;
+    playergroup auto6008E2B0_g;
 
     // Variable Initialization
     lv_zoom_dialog = c_invalidDialogControlId;
@@ -2493,6 +2519,13 @@ void gf_SpectatorInit () {
     DialogSetImageVisible(DialogLastCreated(), false);
     if ((GameAttributeGameValue("22") == "0001")) {
         DialogSetVisible(DialogLastCreated(), gv_all_players_and_observers, true);
+        auto6008E2B0_g = gv_all_players;
+        lv_player = -1;
+        while (true) {
+            lv_player = PlayerGroupNextPlayer(auto6008E2B0_g, lv_player);
+            if (lv_player < 0) { break; }
+            gf_SpectatorZoom(lv_player, 1, false);
+        }
     }
     else {
         DialogSetVisible(DialogLastCreated(), gv_all_observers, true);
@@ -2506,6 +2539,7 @@ void gf_SpectatorInit () {
     gv_zoom_buttons[1] = DialogControlLastCreated();
     DialogControlHookup(lv_zoom_dialog, c_triggerControlTypeButton, "Zoom3");
     gv_zoom_buttons[2] = DialogControlLastCreated();
+    UISetMiniMapBounds(gv_all_observers, RegionFromId(2));
 }
 
 void gf_SpectatorZoom (int lp_player, int lp_level, bool lp_also_center) {
@@ -2611,6 +2645,15 @@ void gf_InitGameTime () {
         TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 2700.0, c_timeReal);
         TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 3300.0, c_timeReal);
         TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 3540.0, c_timeReal);
+    }
+
+    if ((GameAttributeGameValue("18") == "0004")) {
+        gv_game_duration = 60;
+        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 60.0, c_timeReal);
+        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 2700.0, c_timeReal);
+        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 3600.0, c_timeReal);
+        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 4200.0, c_timeReal);
+        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 4440.0, c_timeReal);
     }
 
     if ((GameAttributeGameValue("18") == "0003")) {
@@ -4290,33 +4333,6 @@ void gf_TestCarryTeammateAchievement (int lp_player) {
     gf_MarkAchievementCompleted("ct", lp_player, RoundI(gf_GetAverageOpponentElo(lp_player)));
 }
 
-void gf_TestHugeNukeAchievement (unit lp_unit) {
-    // Variable Declarations
-    fixed lv_total_kills;
-    fixed lv_num_kills;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Implementation
-    if ((UnitGetCustomValue(lp_unit, 4) == 0.0)) {
-        return ;
-    }
-
-    lv_total_kills = UnitGetPropertyFixed(lp_unit, c_unitPropKills, c_unitPropCurrent);
-    lv_num_kills = (lv_total_kills - UnitGetCustomValue(lp_unit, 3));
-    if ((lv_num_kills <= 0.0)) {
-        return ;
-    }
-
-    gf_GameMessage(TextWithColor((IntToText(RoundI(lv_num_kills)) + StringExternal("Param/Value/7CEBE995")), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(EventPlayer(), false))), gv_teams_and_observers[gv_player_team[EventPlayer()]]);
-    UnitSetCustomValue(lp_unit, 3, lv_total_kills);
-    if ((TimerGetElapsed(gv_game_timer) <= 400.0) && (lv_num_kills >= 103.0)) {
-        gf_MarkAchievementCompleted("mn", UnitGetOwner(lp_unit), RoundI(gf_GetAverageOpponentElo(UnitGetOwner(lp_unit))));
-    }
-
-}
-
 void gf_TestTankRushAchievement (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
@@ -4761,6 +4777,29 @@ void gf_UpdateTeamInfoForPlayer (int lp_player) {
 
 }
 
+void gf_SetupRewards () {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((GameAttributeGameValue("25") == "0001")) {
+        TriggerAddEventTimePeriodic(gt_ShardSpawn, 20.0, c_timeGame);
+    }
+
+    if ((GameAttributeGameValue("25") == "0003")) {
+        TriggerAddEventTimePeriodic(gt_tower, 3.0, c_timeGame);
+        gf_GameMessage(StringExternal("Param/Value/9F0342D9"), gv_all_players_and_observers);
+    }
+
+    if ((GameAttributeGameValue("25") == "0004")) {
+        TriggerAddEventTimePeriodic(gt_ShardSpawn, 5.0, c_timeGame);
+        gf_GameMessage(StringExternal("Param/Value/EEA092B6"), gv_all_players_and_observers);
+    }
+
+    if ((GameAttributeGameValue("25") == "0002")) {
+        gf_GameMessage(StringExternal("Param/Value/6B24B648"), gv_all_players_and_observers);
+    }
+
+}
+
 void gf_RewardMessage (point lp_position, int lp_killing_player, int lp_value, int lp_killed_player) {
     // Automatic Variable Declarations
     // Implementation
@@ -4887,7 +4926,7 @@ void gf_OnBunkerCreated3 (int lp_player, unit lp_bunker, bool lp_starting_bunker
     UnitGroupAdd(gv_structuresGroup[lp_player], lp_bunker);
     UnitControlGroupAddUnit(lp_player, 2, lp_bunker);
     if ((lp_starting_bunker == false)) {
-        gf_WriteEvent("bunker_started", ("`index`: " + IntToString(lv_bunker_index) + ", `player`: `" + gv_player_handles[lp_player] + "` "));
+        gf_WriteEventForAllPlayers("bunker_started", ("`index`: " + IntToString(lv_bunker_index) + ", `player`: `" + gv_player_handles[lp_player] + "` "));
     }
 
      TriggerAddEventUnitOrder(gt_OnRallyChange, UnitRefFromUnit(lp_bunker), AbilityCommand("Rally", 0));
@@ -4917,6 +4956,34 @@ void gf_OnScvCreated (unit lp_worker) {
         TriggerAddEventUnitCreated(gt_TurretCreated, UnitRefFromUnit(lp_worker), "BuildAutoTurret", null);
     }
 
+}
+
+fixed gf_TestHugeNukeAchievement (unit lp_unit) {
+    // Variable Declarations
+    fixed lv_total_kills;
+    fixed lv_num_kills;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    if ((UnitGetCustomValue(lp_unit, 4) == 0.0)) {
+        return 0.0;
+    }
+
+    lv_total_kills = UnitGetPropertyFixed(lp_unit, c_unitPropKills, c_unitPropCurrent);
+    lv_num_kills = (lv_total_kills - UnitGetCustomValue(lp_unit, 3));
+    if ((lv_num_kills <= 0.0)) {
+        return 0.0;
+    }
+
+    gf_GameMessage(TextWithColor((IntToText(RoundI(lv_num_kills)) + StringExternal("Param/Value/7CEBE995")), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(EventPlayer(), false))), gv_teams_and_observers[gv_player_team[EventPlayer()]]);
+    UnitSetCustomValue(lp_unit, 3, lv_total_kills);
+    if ((TimerGetElapsed(gv_game_timer) <= 400.0) && (lv_num_kills >= 103.0)) {
+        gf_MarkAchievementCompleted("mn", UnitGetOwner(lp_unit), RoundI(gf_GetAverageOpponentElo(UnitGetOwner(lp_unit))));
+    }
+
+    return 0.0;
 }
 
 void gf_UpdateAllWorkers (int lp_player) {
@@ -5035,7 +5102,8 @@ void gf_TestVictory () {
 
     }
     if ((lv_game_might_be_over == true)) {
-        gf_WriteEvent("match_end", ("`winning_team`: " + IntToString(gv_winning_team)));
+        gv_winning_team = lv_alive_team;
+        gf_WriteMatchEndEvent(gv_event_players);
         gv_game_over = true;
     }
 
@@ -5044,7 +5112,6 @@ void gf_TestVictory () {
         return ;
     }
 
-    gv_winning_team = lv_alive_team;
     gf_ComputeFinalScores(gv_winning_team);
     gf_TestVictoryBasedAcievements(gv_winning_team);
     autoFF8AFB91_g = gv_all_players;
@@ -5066,7 +5133,7 @@ void gf_TestVictory () {
         gf_SaveBankIfFullGame(lv_player);
     }
     gf_CreateResultsButtons();
-    gf_CreateResultsDialog(lv_alive_team, gv_all_players);
+    gf_CreateResultsDialog(lv_alive_team, gv_all_players_and_observers);
     Wait(60.0, c_timeGame);
     auto298AE089_g = PlayerGroupAll();
     lv_player = -1;
@@ -5241,7 +5308,7 @@ void gf_TestPlayerDead (int lp_player) {
 
     }
     gf_OnPlayerDead(lp_player);
-    gf_WriteEvent("player_died", ("`player`: `" + gv_player_handles[lp_player] + "`"));
+    gf_WriteEventForAllPlayers("player_died", ("`player`: `" + gv_player_handles[lp_player] + "`"));
     gf_NotifyPlayerDied(lp_player);
 }
 
@@ -5365,6 +5432,45 @@ text gf_EmojifyStringAsText (string lp_inputText) {
     return lv_text;
 }
 
+void gf_WriteMatchEndEvent (playergroup lp_event_players) {
+    // Variable Declarations
+    bool lv_is_first;
+    int lv_team;
+    string lv_winning_team_string;
+
+    // Automatic Variable Declarations
+    const int auto4E5831AC_ae = 3;
+    const int auto4E5831AC_ai = 1;
+
+    // Variable Initialization
+    lv_is_first = true;
+    lv_winning_team_string = "";
+
+    // Implementation
+    lv_team = 0;
+    for ( ; ( (auto4E5831AC_ai >= 0 && lv_team <= auto4E5831AC_ae) || (auto4E5831AC_ai < 0 && lv_team >= auto4E5831AC_ae) ) ; lv_team += auto4E5831AC_ai ) {
+        if ((gv_team_alive[lv_team] == true)) {
+            if ((lv_is_first == false)) {
+                lv_winning_team_string = (lv_winning_team_string + ",");
+            }
+
+            lv_winning_team_string = (lv_winning_team_string + IntToString(lv_team));
+            lv_is_first = false;
+        }
+
+    }
+    gf_WriteEventForPlayers(lp_event_players, "match_end", ("`winning_team`: `" + lv_winning_team_string + "`"));
+}
+
+void gf_MatchEndCommand (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((PlayerGroupHasPlayer(gv_event_players, lp_player) == true)) {
+        gf_WriteMatchEndEvent(PlayerGroupSingle(lp_player));
+    }
+
+}
+
 void gf_WriteDebug (string lp_key, text lp_text) {
     // Variable Declarations
     int lv_player;
@@ -5385,13 +5491,19 @@ void gf_WriteDebug (string lp_key, text lp_text) {
     }
 }
 
-void gf_WriteEvent (string lp_type, string lp_text) {
+void gf_WriteEventForAllPlayers (string lp_type, string lp_text) {
+    // Automatic Variable Declarations
+    // Implementation
+    gf_WriteEventForPlayers(gv_event_players, lp_type, lp_text);
+}
+
+void gf_WriteEventForPlayers (playergroup lp_observers, string lp_type, string lp_text) {
     // Variable Declarations
     text lv_combined;
     int lv_player;
 
     // Automatic Variable Declarations
-    playergroup auto4060A0C6_g;
+    playergroup auto99560D1F_g;
 
     // Variable Initialization
 
@@ -5400,11 +5512,11 @@ void gf_WriteEvent (string lp_type, string lp_text) {
         return ;
     }
 
-    lv_combined = (StringExternal("Param/Value/61569689") + StringExternal("Param/Value/7F1B0683") + StringToText(lp_type) + StringExternal("Param/Value/9331839B") + FixedToText(TimerGetElapsed(gv_game_timer), c_fixedPrecisionAny) + StringExternal("Param/Value/30908887") + StringToText(lp_text) + StringExternal("Param/Value/D0E6BAA5"));
-    auto4060A0C6_g = gv_event_players;
+    lv_combined = (StringExternal("Param/Value/68CF60A9") + StringExternal("Param/Value/07B79955") + StringToText(lp_type) + StringExternal("Param/Value/4FF34724") + FixedToText(TimerGetElapsed(gv_game_timer), c_fixedPrecisionAny) + StringExternal("Param/Value/B12C78CF") + StringToText(lp_text) + StringExternal("Param/Value/73964D02"));
+    auto99560D1F_g = lp_observers;
     lv_player = -1;
     while (true) {
-        lv_player = PlayerGroupNextPlayer(auto4060A0C6_g, lv_player);
+        lv_player = PlayerGroupNextPlayer(auto99560D1F_g, lv_player);
         if (lv_player < 0) { break; }
         if ((gv_event_banks[lv_player] != null)) {
             BankValueSetFromText(gv_event_banks[lv_player], IntToString(gv_game_id), IntToString(gv_event_number), lv_combined);
@@ -5499,10 +5611,12 @@ void gf_InitEventBanks () {
         lv_startstr = (lv_startstr + IntToString(gv_player_positions[lv_player]));
         lv_startstr = (lv_startstr + ", `team`: ");
         lv_startstr = (lv_startstr + IntToString(gv_player_team[lv_player]));
-        lv_startstr = (lv_startstr + "} ");
+        lv_startstr = (lv_startstr + ", `color`: `");
+        lv_startstr = (lv_startstr + libNtve_gf_ConvertColorToString(libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))));
+        lv_startstr = (lv_startstr + "`} ");
     }
     lv_startstr = (lv_startstr + "]");
-    gf_WriteEvent("match_start", lv_startstr);
+    gf_WriteEventForAllPlayers("match_start", lv_startstr);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5510,7 +5624,7 @@ void gf_InitEventBanks () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_yuajnipqltkirbwx;
+    int lv_jxdeyeshywpddlny;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -5563,11 +5677,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_yuajnipqltkirbwx = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_yuajnipqltkirbwx <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_yuajnipqltkirbwx >= autoA9265719_ae) ) ; lv_yuajnipqltkirbwx += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_yuajnipqltkirbwx])) {
+        lv_jxdeyeshywpddlny = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_jxdeyeshywpddlny <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_jxdeyeshywpddlny >= autoA9265719_ae) ) ; lv_jxdeyeshywpddlny += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_jxdeyeshywpddlny])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_yuajnipqltkirbwx]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_jxdeyeshywpddlny]), c_orderQueueReplace);
                 }
 
             }
@@ -5679,6 +5793,7 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
     gf_AddControlButton();
     gf_ApplyTrainingMode();
     gf_InitEventBanks();
+    gf_SetupRewards();
     return true;
 }
 
@@ -5982,7 +6097,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_botdhtlnbkkqtbpb;
+    int lv_wowhsbqpjeuoldfk;
     int lv_player;
     int lv_ally;
 
@@ -6006,10 +6121,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_botdhtlnbkkqtbpb = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_botdhtlnbkkqtbpb <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_botdhtlnbkkqtbpb >= autoFC6C6804_ae) ) ; lv_botdhtlnbkkqtbpb += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_botdhtlnbkkqtbpb], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_botdhtlnbkkqtbpb], PlayerGroupSingle(lv_player), true);
+            lv_wowhsbqpjeuoldfk = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_wowhsbqpjeuoldfk <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_wowhsbqpjeuoldfk >= autoFC6C6804_ae) ) ; lv_wowhsbqpjeuoldfk += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_wowhsbqpjeuoldfk], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_wowhsbqpjeuoldfk], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -6645,6 +6760,106 @@ void gt_UpdateTeamInfo_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: TowerReward
+//--------------------------------------------------------------------------------------------------
+bool gt_tower_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_reward;
+    int lv_owner;
+    bool[17] lv_players;
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    unitgroup auto59D5C8E2_g;
+    int auto59D5C8E2_u;
+
+    // Variable Initialization
+    lv_reward = 5;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto59D5C8E2_g = UnitGroupSearch(null, c_playerAny, UnitGetPosition(UnitFromId(2058176399)), 4.0, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto59D5C8E2_u = UnitGroupCount(auto59D5C8E2_g, c_unitCountAll);
+    for (;; auto59D5C8E2_u -= 1) {
+        lv_unit = UnitGroupUnitFromEnd(auto59D5C8E2_g, auto59D5C8E2_u);
+        if (lv_unit == null) { break; }
+        lv_owner = UnitGetOwner(lv_unit);
+        if ((lv_players[lv_owner] == false)) {
+            lv_players[lv_owner] = true;
+            gv_player_shards_collected[lv_owner] = (gv_player_shards_collected[lv_owner] + lv_reward);
+            PlayerModifyPropertyInt(lv_owner, c_playerPropMinerals, c_playerPropOperAdd, lv_reward);
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_tower_Init () {
+    gt_tower = TriggerCreate("gt_tower_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ShardSpawn
+//--------------------------------------------------------------------------------------------------
+bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    string lv_spawn_type;
+    int lv_p;
+    unit lv_shard;
+    fixed lv_elapsed_seconds;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_elapsed_seconds = TimerGetElapsed(gv_game_timer);
+    if ((lv_elapsed_seconds < 90.0)) {
+        return true;
+    }
+
+    if ((RandomInt(0, 100) < 50)) {
+        lv_p = RandomInt(0, 100);
+        if ((lv_p <= gv_untitledVariable002)) {
+            lv_spawn_type = "MineralCrystal";
+        }
+        else if ((lv_p <= (gv_untitledVariable002 + gv_untitledVariable003))) {
+            lv_spawn_type = "PalletMinerals";
+        }
+        else if ((lv_p < 1000)) {
+            lv_spawn_type = "NaturalMineralsRed";
+        }
+        UnitCreate(1, lv_spawn_type, 0, 0, RegionRandomPoint(RegionFromId(4)), 270.0);
+        lv_shard = UnitLastCreated();
+        TriggerAddEventUnitDied(gt_ShardCollected, UnitRefFromUnit(lv_shard));
+    }
+
+    if ((lv_elapsed_seconds > 180.0)) {
+        if ((gv_untitledVariable002 > 0)) {
+            gv_untitledVariable002 = (gv_untitledVariable002 - 2);
+            gv_untitledVariable003 = (gv_untitledVariable003 + 2);
+        }
+        else {
+            gv_untitledVariable003 = (gv_untitledVariable003 - 2);
+        }
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ShardSpawn_Init () {
+    gt_ShardSpawn = TriggerCreate("gt_ShardSpawn_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: ShardCollected
 //--------------------------------------------------------------------------------------------------
 bool gt_ShardCollected_Func (bool testConds, bool runActions) {
@@ -6699,64 +6914,6 @@ bool gt_ShardCollected_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ShardCollected_Init () {
     gt_ShardCollected = TriggerCreate("gt_ShardCollected_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: ShardSpawn
-//--------------------------------------------------------------------------------------------------
-bool gt_ShardSpawn_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    string lv_spawn_type;
-    int lv_p;
-    unit lv_shard;
-    fixed lv_elapsed_seconds;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_elapsed_seconds = TimerGetElapsed(gv_game_timer);
-    if ((lv_elapsed_seconds < 90.0)) {
-        return true;
-    }
-
-    if ((RandomInt(0, 100) < 50)) {
-        lv_p = RandomInt(0, 100);
-        if ((lv_p <= gv_untitledVariable002)) {
-            lv_spawn_type = "MineralCrystal";
-        }
-        else if ((lv_p <= (gv_untitledVariable002 + gv_untitledVariable003))) {
-            lv_spawn_type = "PalletMinerals";
-        }
-        else if ((lv_p < 1000)) {
-            lv_spawn_type = "NaturalMineralsRed";
-        }
-        UnitCreate(1, lv_spawn_type, 0, 0, RegionRandomPoint(RegionFromId(1)), 270.0);
-        lv_shard = UnitLastCreated();
-        TriggerAddEventUnitDied(gt_ShardCollected, UnitRefFromUnit(lv_shard));
-    }
-
-    if ((lv_elapsed_seconds > 180.0)) {
-        if ((gv_untitledVariable002 > 0)) {
-            gv_untitledVariable002 = (gv_untitledVariable002 - 2);
-            gv_untitledVariable003 = (gv_untitledVariable003 + 2);
-        }
-        else {
-            gv_untitledVariable003 = (gv_untitledVariable003 - 2);
-        }
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_ShardSpawn_Init () {
-    gt_ShardSpawn = TriggerCreate("gt_ShardSpawn_Func");
-    TriggerAddEventTimePeriodic(gt_ShardSpawn, 20.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7047,7 +7204,7 @@ bool gt_ConstructionCancelled_Func (bool testConds, bool runActions) {
     UnitSetCustomValue(lv_unit, 0, lv_refund_losses);
     if ((UnitGetType(lv_unit) == "Bunker")) {
         lv_bunker_index = gf_GetBunkerIndex(lv_unit);
-        gf_WriteEvent("bunker_cancelled", ("`index`: " + IntToString(lv_bunker_index) + ", `player`: `" + gv_player_handles[lv_player] + "` "));
+        gf_WriteEventForAllPlayers("bunker_cancelled", ("`index`: " + IntToString(lv_bunker_index) + ", `player`: `" + gv_player_handles[lv_player] + "` "));
     }
 
     gf_UpdateTeamInfoForPlayer(UnitGetOwner(EventUnitProgressUnit()));
@@ -7082,7 +7239,7 @@ bool gt_BunkerDestoryed_Func (bool testConds, bool runActions) {
     lv_owning_player = EventPlayer();
     lv_bunker_index = gf_GetBunkerIndex(lv_bunker_unit);
     gf_RewardMessage(UnitGetPosition(EventUnit()), libNtve_gf_KillingPlayer(), FixedToInt(UnitGetPropertyFixed(EventUnit(), c_unitPropBountyMinerals, c_unitPropCurrent)), UnitGetOwner(EventUnit()));
-    gf_WriteEvent("bunker_killed", ("`index`: " + IntToString(lv_bunker_index) + ", `owner`: `" + gv_player_handles[lv_owning_player] + "`, `killer`: `" + gv_player_handles[libNtve_gf_KillingPlayer()] + "` "));
+    gf_WriteEventForAllPlayers("bunker_killed", ("`index`: " + IntToString(lv_bunker_index) + ", `owner`: `" + gv_player_handles[lv_owning_player] + "`, `killer`: `" + gv_player_handles[libNtve_gf_KillingPlayer()] + "` "));
     if ((gv_bunker_owners[lv_bunker_index] != 0)) {
         gv_bunker_owners[lv_bunker_index] = 0;
         if (true) {
@@ -7326,6 +7483,9 @@ void gt_TurretDied_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_DetectNukeAction_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    int lv_score_before;
+    int lv_score_delta;
+    fixed lv_num_kills;
     int lv_num_used;
     int lv_player;
 
@@ -7342,8 +7502,10 @@ bool gt_DetectNukeAction_Func (bool testConds, bool runActions) {
     UnitSetCustomValue(EventUnit(), 4, 1.0);
     gv_num_nuke_used[lv_player] += 1;
     lv_num_used = gv_num_nuke_used[lv_player];
+    lv_score_before = gv_player_scores[lv_player];
     Wait(2.0, c_timeGame);
-    gf_TestHugeNukeAchievement(EventUnit());
+    lv_num_kills = gf_TestHugeNukeAchievement(EventUnit());
+    lv_score_delta = (gv_player_scores[lv_player] - lv_score_before);
     gf_UpdateLeaderboard(false);
     UnitSetCustomValue(EventUnit(), 4, 0.0);
     Wait(1.0, c_timeGame);
@@ -7353,7 +7515,10 @@ bool gt_DetectNukeAction_Func (bool testConds, bool runActions) {
         gf_UpdateTeamInfoForPlayer(lv_player);
         TriggerDebugOutput(1, StringExternal("Param/Value/2CB32ECF"), true);
     }
-
+    else {
+        gf_WriteEventForAllPlayers("player_nuke", ("`player`: `" + gv_player_handles[lv_player] + "`,  `value`: " + IntToString(lv_score_delta)));
+        gf_GameMessage(TextWithColor((IntToText(RoundI(lv_score_delta)) + StringExternal("Param/Value/973DB80B")), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))), gv_teams_and_observers[gv_player_team[lv_player]]);
+    }
     return true;
 }
 
@@ -7475,7 +7640,7 @@ bool gt_PlayerLeaveGame_Func (bool testConds, bool runActions) {
     }
 
     lv_player = EventPlayer();
-    gf_WriteEvent("player_leave", ("`player`: `" + gv_player_handles[lv_player] + "`,  `position`: " + IntToString(gv_player_positions[lv_player])));
+    gf_WriteEventForAllPlayers("player_leave", ("`player`: `" + gv_player_handles[lv_player] + "`,  `position`: " + IntToString(gv_player_positions[lv_player])));
     if ((PlayerGroupHasPlayer(gv_all_players, lv_player) == false)) {
         return true;
     }
@@ -7849,6 +8014,10 @@ bool gt_UseChatSystem_Func (bool testConds, bool runActions) {
             gf_TradesCommand(EventPlayer());
         }
 
+        if (((StringEqual(EventChatMessage(false), "-match_end", c_stringCase) == true))) {
+            gf_MatchEndCommand(EventPlayer());
+        }
+
     }
 
     return true;
@@ -7916,8 +8085,9 @@ void InitTriggers () {
     gt_TeamInfoTrackUpgrades_Init();
     gt_RefreshTeamInfoMins_Init();
     gt_UpdateTeamInfo_Init();
-    gt_ShardCollected_Init();
+    gt_tower_Init();
     gt_ShardSpawn_Init();
+    gt_ShardCollected_Init();
     gt_SpawnUnit_Init();
     gt_OnRallyChange_Init();
     gt_OnUpgrade_Init();
