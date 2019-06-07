@@ -837,6 +837,10 @@ bool gv_periodic_observer_reveal;
 int gv_observer_reveal_checkbox;
 bool[17] gv_movement_detected;
 bool[17] gv_player_is_afk;
+int gv_max_zoom_level;
+point[65] gv_bunker_slot_centers;
+bool[65] gv_bunker_slot_is_real;
+region[65] gv_bunker_slot_regions;
 int gv_max_upgrades;
 int[4] gv_zoom_buttons;
 bool[17] gv_player_is_observer;
@@ -892,7 +896,7 @@ bool[17] gv_player_alive;
 bool[17] gv_team_alive;
 point[65] gv_bunker_rally_points;
 point[65][6] gv_bunker_rally_points_repeated;
-int[61] gv_spawn_scan_order;
+int[65] gv_spawn_scan_order;
 unit[65] gv_bunkers;
 unit[65] gv_bunker_rally_units;
 unit[65][6] gv_bunker_rally_units_repeated;
@@ -987,6 +991,10 @@ int[17] gv_team_info_player_tanks;
 int[17] gv_team_info_player_workers;
 int[17] gv_team_info_player_nukes;
 int[17][8] gv_team_info_player_upgrade_buttons;
+int gv_zone_control_rate_limit;
+int[17] gv_num_zones_controlled;
+int[65] gv_zone_controller;
+actor[65] gv_zone_controller_beacon;
 int gv_untitledVariable002;
 int gv_untitledVariable003;
 bool gv_message_lock;
@@ -1028,6 +1036,10 @@ void InitGlobals () {
     gv_leaderboard_button = c_invalidDialogControlId;
     gv_alliance_checkbox = c_invalidDialogControlId;
     gv_observer_reveal_checkbox = c_invalidDialogControlId;
+    gv_max_zoom_level = 35;
+    for (init_i = 0; init_i <= 64; init_i += 1) {
+        gv_bunker_slot_is_real[init_i] = true;
+    }
     gv_max_upgrades = 20;
     for (init_i = 0; init_i <= 3; init_i += 1) {
         gv_zoom_buttons[init_i] = c_invalidDialogControlId;
@@ -1176,6 +1188,7 @@ void InitGlobals () {
             gv_team_info_player_upgrade_buttons[init_i][init_j] = c_invalidDialogControlId;
         }
     }
+    gv_zone_control_rate_limit = 18;
     gv_untitledVariable002 = 100;
     gv_dead_team_players = PlayerGroupEmpty();
     for (init_i = 0; init_i <= 16; init_i += 1) {
@@ -1292,6 +1305,7 @@ void gf_UpdateTeamInfoColor (int lp_player);
 void gf_RefreshTeamInfoSup ();
 void gf_TeamInfoInit ();
 void gf_UpdateTeamInfoForPlayer (int lp_player);
+void gf_SetupZoneControlReward ();
 void gf_SetupRewards ();
 void gf_RewardMessage (point lp_position, int lp_killing_player, int lp_value, int lp_killed_player);
 void gf_RedrawDeathNotifications ();
@@ -1331,6 +1345,8 @@ void gf_InitEventBanks ();
 //--------------------------------------------------------------------------------------------------
 trigger gt_ButtonPress;
 trigger gt_CheckForInvalidGame;
+trigger gt_PlayerInitZoom;
+trigger gt_CheckZoomLevels;
 trigger gt_MeleeInitialization;
 trigger gt_GameTimeRemaining;
 trigger gt_CeaseFireOver;
@@ -1361,6 +1377,9 @@ trigger gt_UpdateLosses;
 trigger gt_TeamInfoTrackUpgrades;
 trigger gt_RefreshTeamInfoMins;
 trigger gt_UpdateTeamInfo;
+trigger gt_ZoneControlDetection;
+trigger gt_ZoneControlLimitReduction;
+trigger gt_ZoneControlReward;
 trigger gt_tower;
 trigger gt_ShardSpawn;
 trigger gt_ShardCollected;
@@ -1497,6 +1516,8 @@ void gf_ApplyPlayerSettings () {
 
 void gf_ConfigureConstants () {
     // Variable Declarations
+    int lv_y;
+    int lv_x;
     int lv_num_lobby_teams;
     int lv_race;
     int lv_tier;
@@ -1506,6 +1527,10 @@ void gf_ConfigureConstants () {
     // Automatic Variable Declarations
     const int autoFACDB944_ae = 15;
     const int autoFACDB944_ai = 1;
+    const int autoA08FAAE3_ae = 7;
+    const int autoA08FAAE3_ai = 1;
+    const int auto3D378665_ae = 7;
+    const int auto3D378665_ai = 1;
     const int auto09C3E088_ae = 2;
     const int auto09C3E088_ai = 1;
     const int auto9745A44B_ae = 3;
@@ -1516,6 +1541,11 @@ void gf_ConfigureConstants () {
     // Variable Initialization
 
     // Implementation
+    if ((GameAttributeGameValue("22") == "0002")) {
+        gf_GameMessage(StringExternal("Param/Value/C02148CE"), gv_all_players_and_observers);
+        gv_max_zoom_level = 100;
+    }
+
     UISetResourceTradingAllowed(c_resourceTypeMinerals, true);
     UISetResourceTradingAllowed(c_resourceTypeVespene, false);
     if ((GameAttributeGameValue("24") == "0002")) {
@@ -1605,6 +1635,20 @@ void gf_ConfigureConstants () {
 
     gv_all_chat_enabled = (gv_chat_mode != "0002");
     gv_custom_chat_enabled = (gv_chat_mode != "0003");
+    lv_x = 0;
+    for ( ; ( (autoA08FAAE3_ai >= 0 && lv_x <= autoA08FAAE3_ae) || (autoA08FAAE3_ai < 0 && lv_x >= autoA08FAAE3_ae) ) ; lv_x += autoA08FAAE3_ai ) {
+        lv_y = 0;
+        for ( ; ( (auto3D378665_ai >= 0 && lv_y <= auto3D378665_ae) || (auto3D378665_ai < 0 && lv_y >= auto3D378665_ae) ) ; lv_y += auto3D378665_ai ) {
+            lv_index = (lv_x + (lv_y * 8));
+            gv_bunker_slot_centers[lv_index] = Point((21 + (lv_x * 10)), (89 - (lv_y * 10)));
+            gv_bunker_slot_centers[lv_index] = Point((21 + (lv_x * 10)), (89 - (lv_y * 10)));
+            gv_bunker_slot_regions[lv_index] = RegionRect((PointGetX(gv_bunker_slot_centers[lv_index]) - 4.5), (PointGetY(gv_bunker_slot_centers[lv_index]) - 4.5), (PointGetX(gv_bunker_slot_centers[lv_index]) + 4.5), (PointGetY(gv_bunker_slot_centers[lv_index]) + 4.5));
+        }
+    }
+    gv_bunker_slot_is_real[0] = false;
+    gv_bunker_slot_is_real[7] = false;
+    gv_bunker_slot_is_real[56] = false;
+    gv_bunker_slot_is_real[63] = false;
     gv_race_spawn_unit_types[0][0][0] = "Marine";
     gv_race_spawn_unit_types[0][1][0] = "Reaper";
     gv_race_spawn_unit_types[0][2][0] = "Marauder";
@@ -1831,6 +1875,10 @@ void gf_ConfigureConstants () {
     gv_spawn_scan_order[57] = 28;
     gv_spawn_scan_order[58] = 36;
     gv_spawn_scan_order[59] = 35;
+    gv_spawn_scan_order[60] = 0;
+    gv_spawn_scan_order[61] = 0;
+    gv_spawn_scan_order[62] = 0;
+    gv_spawn_scan_order[63] = 0;
     gv_engineering_bay_positions[0] = Point(18.5, 88.5);
     gv_engineering_bay_positions[1] = Point(21.5, 90.5);
     gv_engineering_bay_positions[2] = Point(90.5, 90.5);
@@ -3372,6 +3420,9 @@ void gf_SaveBankIfFullGame (int lp_player) {
 
 void gf_RecordUpdateGameStart () {
     // Variable Declarations
+    fixed lv_max_team_elo;
+    fixed lv_min_team_elo;
+    fixed lv_elo_boost;
     text lv_message;
     int lv_real_player_count;
     fixed lv_r1;
@@ -3386,9 +3437,12 @@ void gf_RecordUpdateGameStart () {
     // Automatic Variable Declarations
     playergroup autoF6B8A1AF_g;
     playergroup autoB2E70265_g;
+    playergroup auto4FD0733F_g;
     playergroup auto63DE3FB6_g;
 
     // Variable Initialization
+    lv_max_team_elo = -2000.0;
+    lv_min_team_elo = 10000.0;
 
     // Implementation
     autoF6B8A1AF_g = gv_all_players;
@@ -3452,18 +3506,43 @@ void gf_RecordUpdateGameStart () {
         }
 
     }
+    auto4FD0733F_g = gv_all_players;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto4FD0733F_g, lv_player);
+        if (lv_player < 0) { break; }
+        lv_team = gv_player_team[lv_player];
+        gv_team_elo_averages[lv_team] = (gv_team_elo_sums[lv_team] / gv_players_per_team);
+        lv_min_team_elo = MinF(lv_min_team_elo, gv_team_elo_averages[lv_team]);
+        lv_max_team_elo = MaxF(lv_max_team_elo, gv_team_elo_averages[lv_team]);
+    }
+    if ((GameAttributeGameValue("3") == "0001")) {
+        gf_GameMessage(StringExternal("Param/Value/39650EBA"), PlayerGroupActive());
+        lv_elo_boost = 1.5;
+    }
+
+    if (((lv_max_team_elo - lv_min_team_elo) <= 350.0)) {
+        gf_GameMessage(StringExternal("Param/Value/1C257F3D"), PlayerGroupActive());
+        lv_elo_boost = 1.5;
+    }
+
+    if (((lv_max_team_elo - lv_min_team_elo) <= 250.0)) {
+        gf_GameMessage(StringExternal("Param/Value/475FF37B"), PlayerGroupActive());
+        lv_elo_boost = 2.0;
+    }
+
     auto63DE3FB6_g = gv_all_players;
     lv_player = -1;
     while (true) {
         lv_player = PlayerGroupNextPlayer(auto63DE3FB6_g, lv_player);
         if (lv_player < 0) { break; }
         lv_team = gv_player_team[lv_player];
-        gv_team_elo_averages[lv_team] = (gv_team_elo_sums[lv_team] / gv_players_per_team);
         lv_average_opponent_elo = ((lv_total_elo - gv_team_elo_sums[lv_team]) / ((gv_num_teams - 1) * gv_players_per_team));
         lv_r1 = Pow(10.0, (gv_team_elo_averages[lv_team] / 400.0));
         lv_r2 = Pow(10.0, (lv_average_opponent_elo / 400.0));
         lv_e1 = (lv_r1 / (lv_r1 + lv_r2));
         gv_player_elos_wagers[lv_player] = ((6.0 * lv_e1) / 1.0);
+        gv_player_elos_wagers[lv_player] *= lv_elo_boost;
         gv_total_wagers = (gv_total_wagers + gv_player_elos_wagers[lv_player]);
         gv_player_current_elo[lv_player] = (gv_player_elos[lv_player] - gv_player_elos_wagers[lv_player]);
         BankValueSetFromFixed(gv_banks[lv_player], "Player", ("elo" + gv_game_mode_string), gv_player_current_elo[lv_player]);
@@ -4769,6 +4848,27 @@ void gf_UpdateTeamInfoForPlayer (int lp_player) {
 
 }
 
+void gf_SetupZoneControlReward () {
+    // Variable Declarations
+    int lv_bunk_index;
+
+    // Automatic Variable Declarations
+    const int autoA5DEE792_ae = 63;
+    const int autoA5DEE792_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    lv_bunk_index = 1;
+    for ( ; ( (autoA5DEE792_ai >= 0 && lv_bunk_index <= autoA5DEE792_ae) || (autoA5DEE792_ai < 0 && lv_bunk_index >= autoA5DEE792_ae) ) ; lv_bunk_index += autoA5DEE792_ai ) {
+        if ((gv_bunker_slot_is_real[lv_bunk_index] == true)) {
+            libNtve_gf_CreateModelAtPoint("MarSaraGroundProps", gv_bunker_slot_centers[lv_bunk_index]);
+            gv_zone_controller_beacon[lv_bunk_index] = libNtve_gf_ActorLastCreated();
+        }
+
+    }
+}
+
 void gf_SetupRewards () {
     // Automatic Variable Declarations
     // Implementation
@@ -4784,6 +4884,13 @@ void gf_SetupRewards () {
     if ((GameAttributeGameValue("25") == "0004")) {
         TriggerAddEventTimePeriodic(gt_ShardSpawn, 5.0, c_timeGame);
         gf_GameMessage(StringExternal("Param/Value/EEA092B6"), gv_all_players_and_observers);
+    }
+
+    if ((GameAttributeGameValue("25") == "0002")) {
+        gf_GameMessage(StringExternal("Param/Value/BC1FC531"), gv_all_players_and_observers);
+        gf_SetupZoneControlReward();
+        TriggerAddEventTimePeriodic(gt_ZoneControlDetection, 3.0, c_timeGame);
+        TriggerAddEventTimePeriodic(gt_ZoneControlReward, 2.0, c_timeGame);
     }
 
     if ((GameAttributeGameValue("25") == "0002")) {
@@ -5616,7 +5723,7 @@ void gf_InitEventBanks () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_myynfkiwytcwevtc;
+    int lv_avcgigxoxglqjxul;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -5669,11 +5776,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_myynfkiwytcwevtc = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_myynfkiwytcwevtc <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_myynfkiwytcwevtc >= autoA9265719_ae) ) ; lv_myynfkiwytcwevtc += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_myynfkiwytcwevtc])) {
+        lv_avcgigxoxglqjxul = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_avcgigxoxglqjxul <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_avcgigxoxglqjxul >= autoA9265719_ae) ) ; lv_avcgigxoxglqjxul += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_avcgigxoxglqjxul])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_myynfkiwytcwevtc]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_avcgigxoxglqjxul]), c_orderQueueReplace);
                 }
 
             }
@@ -5750,6 +5857,84 @@ bool gt_CheckForInvalidGame_Func (bool testConds, bool runActions) {
 void gt_CheckForInvalidGame_Init () {
     gt_CheckForInvalidGame = TriggerCreate("gt_CheckForInvalidGame_Func");
     TriggerAddEventTimeElapsed(gt_CheckForInvalidGame, 1.0, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PlayerInitZoom
+//--------------------------------------------------------------------------------------------------
+bool gt_PlayerInitZoom_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup autoD34FDA67_g;
+
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((gv_max_zoom_level > 35))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoD34FDA67_g = PlayerGroupAll();
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(autoD34FDA67_g, lv_player);
+        if (lv_player < 0) { break; }
+        libNtve_gf_SwooshCamera(lv_player, (CameraGetDistance(lv_player) + 0.0), 60.0, CameraGetTarget(lv_player), 1.0);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_PlayerInitZoom_Init () {
+    gt_PlayerInitZoom = TriggerCreate("gt_PlayerInitZoom_Func");
+    TriggerAddEventTimeElapsed(gt_PlayerInitZoom, 0.2, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: CheckZoomLevels
+//--------------------------------------------------------------------------------------------------
+bool gt_CheckZoomLevels_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup auto22596F93_g;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto22596F93_g = PlayerGroupAll();
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto22596F93_g, lv_player);
+        if (lv_player < 0) { break; }
+        if (((gv_player_alive[lv_player] == true) && (CameraGetDistance(lv_player) > gv_max_zoom_level))) {
+            libNtve_gf_SwooshCamera(lv_player, CameraGetDistance(lv_player), CameraInfoGetValue(CameraInfoDefault(), c_cameraValueDistance), CameraGetTarget(lv_player), 0.5);
+            CameraShakeStart(lv_player, c_cameraPositionTarget, c_cameraDirectionZ, 1.0, 0.1, 100.0, 1.5);
+            gf_GameMessage(StringExternal("Param/Value/B820D30D"), PlayerGroupSingle(lv_player));
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CheckZoomLevels_Init () {
+    gt_CheckZoomLevels = TriggerCreate("gt_CheckZoomLevels_Func");
+    TriggerAddEventTimePeriodic(gt_CheckZoomLevels, 2.9, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6089,7 +6274,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_elojdqyvetogmetb;
+    int lv_qlayhqutjsaiveat;
     int lv_player;
     int lv_ally;
 
@@ -6113,10 +6298,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_elojdqyvetogmetb = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_elojdqyvetogmetb <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_elojdqyvetogmetb >= autoFC6C6804_ae) ) ; lv_elojdqyvetogmetb += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_elojdqyvetogmetb], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_elojdqyvetogmetb], PlayerGroupSingle(lv_player), true);
+            lv_qlayhqutjsaiveat = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_qlayhqutjsaiveat <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_qlayhqutjsaiveat >= autoFC6C6804_ae) ) ; lv_qlayhqutjsaiveat += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_qlayhqutjsaiveat], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_qlayhqutjsaiveat], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -6749,6 +6934,137 @@ bool gt_UpdateTeamInfo_Func (bool testConds, bool runActions) {
 void gt_UpdateTeamInfo_Init () {
     gt_UpdateTeamInfo = TriggerCreate("gt_UpdateTeamInfo_Func");
     TriggerAddEventDialogControl(gt_UpdateTeamInfo, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ZoneControlDetection
+//--------------------------------------------------------------------------------------------------
+bool gt_ZoneControlDetection_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_controller;
+    int lv_total_owned;
+    unit lv_unit;
+    int lv_bunk;
+
+    // Automatic Variable Declarations
+    const int auto4C414067_ae = 63;
+    const int auto4C414067_ai = 1;
+    unitgroup autoB92FB158_g;
+    int autoB92FB158_u;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_bunk = 1;
+    for ( ; ( (auto4C414067_ai >= 0 && lv_bunk <= auto4C414067_ae) || (auto4C414067_ai < 0 && lv_bunk >= auto4C414067_ae) ) ; lv_bunk += auto4C414067_ai ) {
+        if ((gv_bunker_slot_is_real[lv_bunk] == true)) {
+            if (((gv_zone_controller[lv_bunk] >= 1) && (UnitCountAlliance(gv_zone_controller[lv_bunk], c_unitAllianceAlly, gv_bunker_slot_regions[lv_bunk], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0) >= 1) && (gv_player_alive[gv_zone_controller[lv_bunk]] == true))) {
+            }
+            else {
+                autoB92FB158_g = UnitGroup(null, c_playerAny, gv_bunker_slot_regions[lv_bunk], UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1);
+                autoB92FB158_u = UnitGroupCount(autoB92FB158_g, c_unitCountAll);
+                for (;; autoB92FB158_u -= 1) {
+                    lv_unit = UnitGroupUnitFromEnd(autoB92FB158_g, autoB92FB158_u);
+                    if (lv_unit == null) { break; }
+                    lv_controller = UnitGetOwner(lv_unit);
+                    ActorSend(gv_zone_controller_beacon[lv_bunk], libNtve_gf_SetTintColor(libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_controller, false)), 1.0, 0.0));
+                    gv_num_zones_controlled[gv_zone_controller[lv_bunk]] -= 1;
+                    gv_zone_controller[lv_bunk] = UnitGetOwner(lv_unit);
+                    gv_num_zones_controlled[lv_controller] += 1;
+                }
+            }
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ZoneControlDetection_Init () {
+    gt_ZoneControlDetection = TriggerCreate("gt_ZoneControlDetection_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ZoneControlLimitReduction
+//--------------------------------------------------------------------------------------------------
+bool gt_ZoneControlLimitReduction_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_zone_control_rate_limit -= 1;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ZoneControlLimitReduction_Init () {
+    gt_ZoneControlLimitReduction = TriggerCreate("gt_ZoneControlLimitReduction_Func");
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 240.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 360.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 480.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 600.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 720.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 840.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 960.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1080.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1200.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1320.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1440.0, c_timeGame);
+    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1560.0, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ZoneControlReward
+//--------------------------------------------------------------------------------------------------
+bool gt_ZoneControlReward_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_index;
+    int lv_starting_index;
+    int lv_slot;
+    int lv_palyer;
+
+    // Automatic Variable Declarations
+    int auto89586605_ae;
+    const int auto89586605_ai = 1;
+
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!((RandomInt(0, gv_zone_control_rate_limit) <= 6))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_starting_index = (RandomInt(0, 7) * 8);
+    auto89586605_ae = (lv_starting_index + 7);
+    lv_index = lv_starting_index;
+    for ( ; ( (auto89586605_ai >= 0 && lv_index <= auto89586605_ae) || (auto89586605_ai < 0 && lv_index >= auto89586605_ae) ) ; lv_index += auto89586605_ai ) {
+        lv_slot = gv_spawn_scan_order[lv_index];
+        lv_palyer = gv_zone_controller[lv_slot];
+        TextTagCreate(TextWithColor(StringExternal("Param/Value/C572A9EC"), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_palyer, false))), 20, gv_bunker_slot_centers[lv_slot], 1.0, true, false, gv_teams[gv_player_team[lv_palyer]]);
+        TextTagSetVelocity(TextTagLastCreated(), 0.5, 90.0);
+        TextTagSetTime(TextTagLastCreated(), c_textTagTimeDuration, 2.0);
+        gv_player_shards_collected[lv_palyer] += 1;
+        PlayerModifyPropertyInt(lv_palyer, c_playerPropMinerals, c_playerPropOperAdd, 1);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ZoneControlReward_Init () {
+    gt_ZoneControlReward = TriggerCreate("gt_ZoneControlReward_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7497,11 +7813,12 @@ bool gt_DetectNukeAction_Func (bool testConds, bool runActions) {
     UnitSetCustomValue(EventUnit(), 4, 1.0);
     gv_num_nuke_used[lv_player] += 1;
     lv_num_used = gv_num_nuke_used[lv_player];
+    gf_UpdateLeaderboard(false);
     lv_score_before = gv_player_scores[lv_player];
     Wait(2.0, c_timeGame);
     lv_num_kills = gf_TestHugeNukeAchievement(EventUnit());
-    lv_score_delta = (gv_player_scores[lv_player] - lv_score_before);
     gf_UpdateLeaderboard(false);
+    lv_score_delta = (gv_player_scores[lv_player] - lv_score_before);
     UnitSetCustomValue(EventUnit(), 4, 0.0);
     Wait(1.0, c_timeGame);
     if (((gv_num_nuke_used[lv_player] == lv_num_used) && (gv_num_nukes_detected[lv_player] < gv_num_nuke_used[lv_player]))) {
@@ -8050,6 +8367,8 @@ void gt_EditValue_Init () {
 void InitTriggers () {
     gt_ButtonPress_Init();
     gt_CheckForInvalidGame_Init();
+    gt_PlayerInitZoom_Init();
+    gt_CheckZoomLevels_Init();
     gt_MeleeInitialization_Init();
     gt_GameTimeRemaining_Init();
     gt_CeaseFireOver_Init();
@@ -8080,6 +8399,9 @@ void InitTriggers () {
     gt_TeamInfoTrackUpgrades_Init();
     gt_RefreshTeamInfoMins_Init();
     gt_UpdateTeamInfo_Init();
+    gt_ZoneControlDetection_Init();
+    gt_ZoneControlLimitReduction_Init();
+    gt_ZoneControlReward_Init();
     gt_tower_Init();
     gt_ShardSpawn_Init();
     gt_ShardCollected_Init();

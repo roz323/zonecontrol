@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CActorDoodad id="BattleStation_Line_Decals">
+        <On Terms="ActorCreation" Send="SetTeamColor 71,172,4"/>
+    </CActorDoodad>
     <CActorDoodad id="BloodSplats">
         <Model value="InfestedSiegeBreakerSieged"/>
         <RandomScaleRange value="0.250000,0.250000"/>
@@ -20,6 +23,9 @@
         <DeathCustoms ModelLink="ColossusCEDeath" Name="Variation0"/>
         <DeathCustoms ModelLink="Colossus_Taldarim_MP_Death" Name="Variation1"/-->
     </CActorUnit>
+    <CActorDoodad id="DOM_Decals">
+        <On Terms="ActorCreation" Send="SetTintColor {35,7,163 1000.000000}"/>
+    </CActorDoodad>
     <CActorModel id="FloatingTextEX2Gas50" effectPickup="" actorCreate="">
         <On index="1" Terms="ActorCreation" Send="Create"/>
         <Scale value="1.100000,1.000000,1.000000"/>
@@ -330,11 +336,18 @@
         <BuildModel value="EvoEggUltralisk"/>
         <EditorModel value="LurkerMP"/>
     </CActorUnit>
+    <CActorDoodad id="MarSaraGroundProps">
+        <On Terms="ActorCreation" Send="SetTintColor 242,242,242"/>
+        <Scale value="3.000000,3.000000,1.000000"/>
+    </CActorDoodad>
     <CActorUnit id="PalletMinerals">
         <Wireframe>
             <Image index="0" value="Assets\Textures\icon-highyieldmineral-nobg.dds"/>
         </Wireframe>
     </CActorUnit>
+    <CActorDoodad id="PortCity_Trims">
+        <On Terms="ActorCreation" Send="SetTintColor 109,121,228"/>
+    </CActorDoodad>
     <CActorPower id="Power">
         <On index="0" Terms="Behavior.PowerSource.Create" Send="Create"/>
         <On index="1" Terms="Behavior.PowerSource.Destroy" Send="Destroy"/>
@@ -343,6 +356,9 @@
         <VisualArray index="0" removed="1"/>
         <VisualArray index="1" removed="1"/>
     </CActorPower>
+    <CActorDoodad id="Protoss_Base_GroundTrim_Dark">
+        <On Terms="ActorCreation" Send="SetTintColor 35,35,199"/>
+    </CActorDoodad>
     <CActorRange id="SensorTowerRadar"/>
     <CActorUnit id="ShieldBattery">
         <Scale value="0.400000"/>
@@ -398,6 +414,10 @@
         <On index="6" removed="1"/>
         <On index="7" removed="1"/>
     </CActorSound>
+    <CActorDoodad id="XelNaga_Base_Decals">
+        <On Terms="ActorCreation" Send="SetTintColor 159,73,254"/>
+        <Model value="BattleStation_Line_Decals"/>
+    </CActorDoodad>
     <CActorUnit id="Zealot">
         <Scale value="0.980000"/>
         <!--DeathCustoms ModelLink="ZealotXPRDeath" Name="Variation10"/-->

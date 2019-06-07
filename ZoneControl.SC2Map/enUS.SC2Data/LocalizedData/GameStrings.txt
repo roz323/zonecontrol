@@ -144,6 +144,9 @@ Attribute020/Value010/Name=3:00
 Attribute021/Name=Horizontal Wall
 Attribute021/Value001/Name=Enabled
 Attribute021/Value002/Name=Disabled
+Attribute022/Name=Maximum Zoom
+Attribute022/Value001/Name=35
+Attribute022/Value002/Name=100
 Attribute023/Name=2-Team Placement
 Attribute023/Value001/Desc=Teammates are spawned diagonal from each other.
 Attribute023/Value001/Name=Diagonal
@@ -161,7 +164,9 @@ Attribute024/Value004/Name=35
 Attribute025/Name=Map Control Reward
 Attribute025/Value001/Desc=Mineral crystals spawn every 20s.
 Attribute025/Value001/Name=Mineral Shards
-Attribute025/Value002/Name=None
+Attribute025/Value002/Desc=Rewards players for being the last to control a zone.
+Attribute025/Value002/Name=Zone Control
+Attribute025/Value003/Desc=Rewards all players in range of the Xel'Naga tower.
 Attribute025/Value003/Name=Tower Control
 Attribute025/Value004/Desc=Mineral crystals spawn every 5s.
 Attribute025/Value004/Name=More Mineral Crystals
@@ -350,6 +355,7 @@ Param/Value/15229CAF=<s val="BoardWarAppraiseMid"><c val="D8D8D8">(type <c val="
 Param/Value/176B674B=
 Param/Value/1964AE3D=Bad builds are not permanently enabled.
 Param/Value/1AE20288=R
+Param/Value/1C257F3D=Balanced game detected! Elo is boosted 1.5x.
 Param/Value/1CB8727B=/
 Param/Value/1CB9AF72= W, 
 Param/Value/1F8BB3B8=Bad builds are not permanently enabled.
@@ -368,8 +374,10 @@ Param/Value/312A6E35= (team Elo)  - Vs -
 Param/Value/3397408D=Feature only supported in training mode.
 Param/Value/35C39E8D= 
 Param/Value/35D57A04=Reveals player identities.
+Param/Value/39650EBA=Random teams selected, elo is boosted 1.5x!
 Param/Value/3C1367FD=Victory<n/>
 Param/Value/4355C44A= has sent 
+Param/Value/475FF37B=Balanced game detected, elo is boosted 2x!
 Param/Value/4A211734=Playing as 
 Param/Value/4BDD3BD8=Stubborn Mode is now <c val="03E409">Enabled</c>
 Param/Value/4E2F7B84=Dismiss
@@ -418,13 +426,17 @@ Param/Value/B12C78CF=,
 Param/Value/B3C976A8=<s val="BoardWarAppraiseMid">
 Param/Value/B75EFE4C= (
 Param/Value/B80DF5EE=<s val="BoardWarAppraiseMid"><c val="
+Param/Value/B820D30D=Zoom-out is currently disabled. Join our Discord at zcleagues.com to vote on whether zoom-out should be allowed.
 Param/Value/B9484BC1=</c>, Loss <c val="FF0000">-
 Param/Value/BB11940F= 
+Param/Value/BC1FC531=<c val="0391DC">Zone Control Reward</c>
 Param/Value/BDC6300B= L, 
 Param/Value/BDFC7C56=<c val="347600">teewfffwef </c> is dead
 Param/Value/BE296957= has received  
+Param/Value/C02148CE=<c val="0391DC">Zoom Enabled</c>
 Param/Value/C385B952= wins 
 Param/Value/C4D78A55=<c val="0391DC">Mineral Spawns Disabled</c>
+Param/Value/C572A9EC=+1
 Param/Value/C63ADDFB=B
 Param/Value/C6898BBE=
 Param/Value/C840F232= losses
@@ -511,6 +523,8 @@ Variant007/ModeDesc=Allies at cross spawn locations.
 Variant007/ModeName=2v2v2v2 custom
 Variant008/ModeDesc=Free for All
 Variant008/ModeName=Races 2v2v2v2
+Variant009/ModeDesc=Allies at cross spawn locations.
+Variant009/ModeName=Featured
 Variant010/ModeDesc=Most settings fixed for a consistent experience.
 Variant010/ModeName=Standard
 Weapon/Name/FireRate=Fire Rate 
