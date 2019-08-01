@@ -781,6 +781,11 @@ void InitLibs () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Constants
+//--------------------------------------------------------------------------------------------------
+const int gv_timer_length = 50;
+
+//--------------------------------------------------------------------------------------------------
 // Global Structures
 //--------------------------------------------------------------------------------------------------
 struct gs_CustomChatRecord {
@@ -820,6 +825,7 @@ string[4] gv_race_nuke_facility_types;
 string[4][12] gv_race_teaminfo_icons;
 string[4][9] gv_race_teaminfo_upgrades;
 abilcmd[4][9] gv_race_teaminfo_upgrade_abilities;
+bool gv_init_completed;
 int gv_game_duration;
 timer gv_game_timer;
 timer gv_real_timer;
@@ -980,7 +986,6 @@ int[17] gv_team_info_player_mineral;
 int[17] gv_team_info_player_supply;
 int[17] gv_team_info_player_losses;
 int[17] gv_team_info_player_armor;
-int[17] gv_team_info_player_attack;
 int[17] gv_team_info_player_range;
 int[17] gv_team_info_player_regen;
 int[17] gv_team_info_player_speed;
@@ -988,9 +993,12 @@ int[17] gv_team_info_player_bunker_armor;
 int[17] gv_team_info_player_bunker_regen;
 int[17] gv_team_info_player_bunker_slots;
 int[17] gv_team_info_player_tanks;
+int[17] gv_team_info_player_attack;
 int[17] gv_team_info_player_workers;
 int[17] gv_team_info_player_nukes;
 int[17][8] gv_team_info_player_upgrade_buttons;
+int[41] gv_tags;
+int gv_current_tag;
 int gv_zone_control_rate_limit;
 int[17] gv_num_zones_controlled;
 int[65] gv_zone_controller;
@@ -1022,6 +1030,21 @@ int gv_game_id;
 int gv_event_number;
 bank[17] gv_debug_banks;
 bank[17] gv_event_banks;
+timer[gv_timer_length + 1] gv_registeredTimer;
+int gv_activePeriodicCount;
+int gv_allPeriodicCount;
+fixed[301] gv_activePeriodic;
+fixed[301] gv_allPeriodic;
+trigger[301] gv_activePeriodicTriggers;
+trigger[301] gv_allPeriodicTriggers;
+bool gv_game_paused;
+bool gv_game_resuming;
+int gv_pause_button;
+bool[17] gv_pause_allowed_for_player;
+int[17] gv_player_vote_statuses;
+int gv_pause_overlay;
+int[4] gv_pause_buttons;
+int gv_countdown_label;
 
 void InitGlobals () {
     int init_i;
@@ -1154,9 +1177,6 @@ void InitGlobals () {
         gv_team_info_player_armor[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= 16; init_i += 1) {
-        gv_team_info_player_attack[init_i] = c_invalidDialogControlId;
-    }
-    for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_team_info_player_range[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= 16; init_i += 1) {
@@ -1178,6 +1198,9 @@ void InitGlobals () {
         gv_team_info_player_tanks[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_team_info_player_attack[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_team_info_player_workers[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= 16; init_i += 1) {
@@ -1187,6 +1210,9 @@ void InitGlobals () {
         for (init_j = 0; init_j <= 7; init_j += 1) {
             gv_team_info_player_upgrade_buttons[init_i][init_j] = c_invalidDialogControlId;
         }
+    }
+    for (init_i = 0; init_i <= 40; init_i += 1) {
+        gv_tags[init_i] = c_textTagNone;
     }
     gv_zone_control_rate_limit = 18;
     gv_untitledVariable002 = 100;
@@ -1221,6 +1247,18 @@ void InitGlobals () {
     }
     gv_event_players = PlayerGroupEmpty();
     gv_game_id = CurrentSynchronousGameTimeGet();
+    gv_pause_button = c_invalidDialogControlId;
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_pause_allowed_for_player[init_i] = true;
+    }
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        gv_player_vote_statuses[init_i] = 1;
+    }
+    gv_pause_overlay = c_invalidDialogId;
+    for (init_i = 0; init_i <= 3; init_i += 1) {
+        gv_pause_buttons[init_i] = c_invalidDialogControlId;
+    }
+    gv_countdown_label = c_invalidDialogControlId;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1305,6 +1343,7 @@ void gf_UpdateTeamInfoColor (int lp_player);
 void gf_RefreshTeamInfoSup ();
 void gf_TeamInfoInit ();
 void gf_UpdateTeamInfoForPlayer (int lp_player);
+void gf_RegisterTagForCleanup (int lp_tag);
 void gf_SetupZoneControlReward ();
 void gf_SetupRewards ();
 void gf_RewardMessage (point lp_position, int lp_killing_player, int lp_value, int lp_killed_player);
@@ -1339,6 +1378,21 @@ void gf_WriteEventForAllPlayers (string lp_type, string lp_text);
 void gf_WriteEventForPlayers (playergroup lp_observers, string lp_type, string lp_text);
 void gf_InitDebugBanks ();
 void gf_InitEventBanks ();
+timer gf_OneshotGameTime (fixed lp_time, trigger lp_trigger);
+timer gf_OneshotRealTime (fixed lp_time, trigger lp_trigger);
+timer gf_InternalOneshot (fixed lp_time, trigger lp_trigger, int lp_type);
+void gf_Elapsed (trigger t, fixed lp_time);
+void gf_Periodic (trigger t, fixed lp_time);
+void gf_SetPeriodicTimerForTrigger (fixed lp_time, trigger lp_t);
+void gf_TogglePeriodicTrigger (bool lp_onOff, trigger lp_trigger);
+void gf_SetPeriodicTime (trigger lp_trigger, fixed lp_time);
+void gf_PauseRegisteredTimers ();
+void gf_UnpauseRegisteredTimers ();
+void gf_PauseGame ();
+void gf_ResumeGame ();
+void gf_EvaluatePlayerStatuses ();
+void gf_Overlay ();
+void gf_PlayerPause (int lp_player);
 
 //--------------------------------------------------------------------------------------------------
 // Trigger Variables
@@ -1348,6 +1402,7 @@ trigger gt_CheckForInvalidGame;
 trigger gt_PlayerInitZoom;
 trigger gt_CheckZoomLevels;
 trigger gt_MeleeInitialization;
+trigger gt_CheckInitCompleted;
 trigger gt_GameTimeRemaining;
 trigger gt_CeaseFireOver;
 trigger gt_AutoEnableBadBuilds;
@@ -1407,6 +1462,8 @@ trigger gt_CheckCheat;
 trigger gt_PunishCheat;
 trigger gt_UseChatSystem;
 trigger gt_EditValue;
+trigger gt_MainLoop;
+trigger gt_ButtonClicked;
 
 //--------------------------------------------------------------------------------------------------
 // Global Functions
@@ -1559,6 +1616,10 @@ void gf_ConfigureConstants () {
 
     if ((GameAttributeGameValue("24") == "0004")) {
         gv_max_upgrades = 35;
+    }
+
+    if ((GameAttributeGameValue("24") == "0005")) {
+        gv_max_upgrades = 99;
     }
 
     if ((GameAttributeGameValue("24") != "0001")) {
@@ -2627,7 +2688,7 @@ void gf_SpectatorUI (int lp_player) {
     DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/MinimapPanel/PingButton");
     DialogControlSetVisible(DialogControlLastCreated(), PlayerGroupSingle(lp_player), false);
     DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/MinimapPanel/Minimap");
-    DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupSingle(lp_player), c_anchorBottomLeft, 0, -10);
+    DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupSingle(lp_player), c_anchorBottomLeft, 0, 0);
     DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/MissionTimePanel");
     DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupSingle(lp_player), c_anchorBottomLeft, 5, 265);
     DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer/InfoPanel");
@@ -2674,32 +2735,27 @@ void gf_InitGameTime () {
     TimerStart(gv_real_timer, 50000.0, false, c_timeReal);
     if ((GameAttributeGameValue("18") == "0002")) {
         gv_game_duration = 60;
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 60.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 1800.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 2700.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 3300.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 3540.0, c_timeReal);
     }
 
     if ((GameAttributeGameValue("18") == "0004")) {
-        gv_game_duration = 60;
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 60.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 2700.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 3600.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 4200.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 4440.0, c_timeReal);
+        gv_game_duration = 75;
     }
 
     if ((GameAttributeGameValue("18") == "0003")) {
         gv_game_duration = 90;
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 60.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 1800.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 3600.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 4500.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 5100.0, c_timeReal);
-        TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 5340.0, c_timeReal);
     }
 
+    if ((GameAttributeGameValue("18") == "0001")) {
+        gv_game_duration = 0;
+        return ;
+    }
+
+    gf_OneshotRealTime(10.0, gt_GameTimeRemaining);
+    gf_OneshotRealTime(60.0, gt_GameTimeRemaining);
+    gf_OneshotRealTime(((gv_game_duration * 60) - 60), gt_GameTimeRemaining);
+    gf_OneshotRealTime(((gv_game_duration * 60) - 300), gt_GameTimeRemaining);
+    gf_OneshotRealTime(((gv_game_duration * 60) - 900), gt_GameTimeRemaining);
+    gf_OneshotRealTime(((gv_game_duration * 60) - 1800), gt_GameTimeRemaining);
 }
 
 void gf_TMFogCommand (int lp_palyer) {
@@ -3104,6 +3160,8 @@ void gf_AddControlButton () {
     gv_leaderboard_button = DialogControlLastCreated();
     DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/FullscreenUpperContainer/ResourcePanel");
     DialogControlSetPosition(DialogControlLastCreated(), PlayerGroupAll(), c_anchorTopRight, 40, 0);
+    DialogControlHookupStandard(c_triggerControlTypeButton, "UIContainer/FullscreenUpperContainer/Pause");
+    gv_pause_button = DialogControlLastCreated();
     UISetFrameVisible(gv_all_players, c_syncFrameTypeTeamResourceButton, true);
     UISetFrameVisible(gv_all_players_and_observers, c_syncFrameTypeAllianceButton, false);
 }
@@ -3443,6 +3501,7 @@ void gf_RecordUpdateGameStart () {
     // Variable Initialization
     lv_max_team_elo = -2000.0;
     lv_min_team_elo = 10000.0;
+    lv_elo_boost = 1.0;
 
     // Implementation
     autoF6B8A1AF_g = gv_all_players;
@@ -3450,7 +3509,7 @@ void gf_RecordUpdateGameStart () {
     while (true) {
         lv_player = PlayerGroupNextPlayer(autoF6B8A1AF_g, lv_player);
         if (lv_player < 0) { break; }
-        if (((PlayerType(lv_player) == c_playerTypeUser) && (GameAttributePlayerValue("11", lv_player) == "0001"))) {
+        if (((PlayerType(lv_player) == c_playerTypeUser) && (GameAttributePlayerValue("11", lv_player) == "0001") && (gv_player_is_observer[lv_player] == false))) {
             lv_real_player_count = (lv_real_player_count + 1);
         }
 
@@ -3459,7 +3518,7 @@ void gf_RecordUpdateGameStart () {
         gv_full_game = true;
     }
     else {
-        gf_GameMessage(StringExternal("Param/Value/71C62D9B"), PlayerGroupAll());
+        gf_GameMessage(StringExternal("Param/Value/71C62D9B"), gv_all_players_and_observers);
     }
     autoB2E70265_g = gv_all_players_and_observers;
     lv_player = -1;
@@ -3491,8 +3550,12 @@ void gf_RecordUpdateGameStart () {
                 gv_player_elos[lv_player] = 1000.0;
             }
 
-            if ((gv_player_elos[lv_player] > 2500.0)) {
-                gv_player_elos[lv_player] = 2500.0;
+            if (((gv_player_elos[lv_player] > 2500.0) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2438645", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4728462", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4632373", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4668107", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10852186", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-5692110", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2425002", c_stringCase) == false))) {
+                gv_player_elos[lv_player] = 2300.0;
+            }
+
+            if ((gv_player_elos[lv_player] > 3500.0)) {
+                gv_player_elos[lv_player] = 3500.0;
             }
 
             gv_team_elo_sums[lv_team] = (gv_team_elo_sums[lv_team] + gv_player_elos[lv_player]);
@@ -4848,6 +4911,17 @@ void gf_UpdateTeamInfoForPlayer (int lp_player) {
 
 }
 
+void gf_RegisterTagForCleanup (int lp_tag) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((gv_tags[gv_current_tag] != c_textTagNone)) {
+        TextTagDestroy(gv_tags[gv_current_tag]);
+    }
+
+    gv_tags[gv_current_tag] = lp_tag;
+    gv_current_tag = ModI((gv_current_tag + 1), 40);
+}
+
 void gf_SetupZoneControlReward () {
     // Variable Declarations
     int lv_bunk_index;
@@ -4873,24 +4947,24 @@ void gf_SetupRewards () {
     // Automatic Variable Declarations
     // Implementation
     if ((GameAttributeGameValue("25") == "0001")) {
-        TriggerAddEventTimePeriodic(gt_ShardSpawn, 20.0, c_timeGame);
+        gf_SetPeriodicTimerForTrigger(20.0, gt_ShardSpawn);
     }
 
     if ((GameAttributeGameValue("25") == "0003")) {
-        TriggerAddEventTimePeriodic(gt_tower, 3.0, c_timeGame);
+        gf_SetPeriodicTimerForTrigger(3.0, gt_tower);
         gf_GameMessage(StringExternal("Param/Value/9F0342D9"), gv_all_players_and_observers);
     }
 
     if ((GameAttributeGameValue("25") == "0004")) {
-        TriggerAddEventTimePeriodic(gt_ShardSpawn, 5.0, c_timeGame);
+        gf_SetPeriodicTimerForTrigger(5.0, gt_ShardSpawn);
         gf_GameMessage(StringExternal("Param/Value/EEA092B6"), gv_all_players_and_observers);
     }
 
     if ((GameAttributeGameValue("25") == "0002")) {
         gf_GameMessage(StringExternal("Param/Value/BC1FC531"), gv_all_players_and_observers);
         gf_SetupZoneControlReward();
-        TriggerAddEventTimePeriodic(gt_ZoneControlDetection, 3.0, c_timeGame);
-        TriggerAddEventTimePeriodic(gt_ZoneControlReward, 2.0, c_timeGame);
+        gf_SetPeriodicTimerForTrigger(3.0, gt_ZoneControlDetection);
+        gf_SetPeriodicTimerForTrigger(2.0, gt_ZoneControlReward);
     }
 
     if ((GameAttributeGameValue("25") == "0002")) {
@@ -4906,6 +4980,7 @@ void gf_RewardMessage (point lp_position, int lp_killing_player, int lp_value, i
         TextTagCreate(TextWithColor((StringExternal("Param/Value/5B24D363") + IntToText(lp_value)), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lp_killing_player, false))), 40, lp_position, 1.0, true, false, gv_teams_and_observers[gv_player_team[lp_killing_player]]);
         TextTagSetVelocity(TextTagLastCreated(), 0.5, 90.0);
         TextTagSetTime(TextTagLastCreated(), c_textTagTimeDuration, 5.0);
+        gf_RegisterTagForCleanup(TextTagLastCreated());
     }
 
 }
@@ -5661,6 +5736,7 @@ void gf_InitEventBanks () {
     int auto3FE4E636_ae;
     const int auto3FE4E636_ai = 1;
     playergroup auto0D807D23_g;
+    playergroup autoE948E0BE_g;
 
     // Variable Initialization
     lv_is_first = true;
@@ -5714,8 +5790,403 @@ void gf_InitEventBanks () {
         lv_startstr = (lv_startstr + libNtve_gf_ConvertColorToString(libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_player, false))));
         lv_startstr = (lv_startstr + "`} ");
     }
+    lv_startstr = (lv_startstr + "], ");
+    lv_startstr = (lv_startstr + "`observers`: [");
+    lv_is_first = true;
+    autoE948E0BE_g = gv_all_observers;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(autoE948E0BE_g, lv_player);
+        if (lv_player < 0) { break; }
+        if ((lv_is_first == false)) {
+            lv_startstr = (lv_startstr + ", ");
+        }
+
+        lv_is_first = false;
+        lv_startstr = (lv_startstr + "{ `handle`: `");
+        lv_startstr = (lv_startstr + gv_player_handles[lv_player]);
+        lv_startstr = (lv_startstr + "`} ");
+    }
     lv_startstr = (lv_startstr + "]");
     gf_WriteEventForAllPlayers("match_start", lv_startstr);
+}
+
+timer gf_OneshotGameTime (fixed lp_time, trigger lp_trigger) {
+    // Automatic Variable Declarations
+    // Implementation
+    return gf_InternalOneshot(lp_time, lp_trigger, c_timeGame);
+}
+
+timer gf_OneshotRealTime (fixed lp_time, trigger lp_trigger) {
+    // Automatic Variable Declarations
+    // Implementation
+    return gf_InternalOneshot(lp_time, lp_trigger, c_timeReal);
+}
+
+timer gf_InternalOneshot (fixed lp_time, trigger lp_trigger, int lp_type) {
+    // Variable Declarations
+    int lv_i;
+    timer lv_timer;
+
+    // Automatic Variable Declarations
+    int autoBEDFA423_ae;
+    const int autoBEDFA423_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    lv_timer = TimerCreate();
+    TriggerAddEventTimer(lp_trigger, lv_timer);
+    TimerStart(lv_timer, lp_time, false, lp_type);
+    autoBEDFA423_ae = (gv_timer_length - 1);
+    lv_i = 0;
+    for ( ; ( (autoBEDFA423_ai >= 0 && lv_i <= autoBEDFA423_ae) || (autoBEDFA423_ai < 0 && lv_i >= autoBEDFA423_ae) ) ; lv_i += autoBEDFA423_ai ) {
+        if (((gv_registeredTimer[lv_i] == null) || (TimerGetRemaining(gv_registeredTimer[lv_i]) <= 0.0))) {
+            gv_registeredTimer[lv_i] = lv_timer;
+            return lv_timer;
+        }
+
+    }
+    TriggerDebugOutput(1, StringExternal("Param/Value/D4B62BA8"), true);
+    return lv_timer;
+}
+
+void gf_Elapsed (trigger t, fixed lp_time) {
+    // Automatic Variable Declarations
+    // Implementation
+    gf_OneshotGameTime(lp_time, t);
+}
+
+void gf_Periodic (trigger t, fixed lp_time) {
+    // Automatic Variable Declarations
+    // Implementation
+    gf_SetPeriodicTimerForTrigger(lp_time, t );
+}
+
+void gf_SetPeriodicTimerForTrigger (fixed lp_time, trigger lp_t) {
+    // Automatic Variable Declarations
+    // Implementation
+    gv_allPeriodic[gv_allPeriodicCount] = lp_time;
+    gv_allPeriodicTriggers[gv_allPeriodicCount] = lp_t;
+    gv_allPeriodicCount += 1;
+    if ((TriggerIsEnabled(lp_t) == true)) {
+        gv_activePeriodic[gv_activePeriodicCount] = lp_time;
+        gv_activePeriodicTriggers[gv_activePeriodicCount] = lp_t;
+        gv_activePeriodicCount += 1;
+    }
+
+}
+
+void gf_TogglePeriodicTrigger (bool lp_onOff, trigger lp_trigger) {
+    // Variable Declarations
+    int lv_index;
+    int lv_i;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    if (lp_onOff == true) {
+        if (TriggerIsEnabled(lp_trigger) == true) {
+            TriggerDebugOutput(10, StringToText("Tried to ENABLE periodic trigger: " + TriggerGetFunction(lp_trigger) + ", but it is already enabled."), false);
+            return;
+        }
+        TriggerEnable(lp_trigger, true);
+        for (; lv_i < gv_allPeriodicCount; lv_i += 1) {
+            if (gv_allPeriodicTriggers[lv_i] == lp_trigger) {
+                gv_activePeriodic[gv_activePeriodicCount] = gv_allPeriodic[lv_i];
+                gv_activePeriodicTriggers[gv_activePeriodicCount] = lp_trigger;
+                gv_activePeriodicCount += 1;
+                break;
+            }
+        }
+    } else {
+        if (TriggerIsEnabled(lp_trigger) == false) {
+            TriggerDebugOutput(10, StringToText("Tried to DISABLE periodic trigger: " + TriggerGetFunction(lp_trigger) + ", but it is already disable."), false);
+            return;
+        }
+        TriggerEnable(lp_trigger, false);
+        for (; lv_i < gv_activePeriodicCount; lv_i += 1) {
+            if (gv_activePeriodicTriggers[lv_i] == lp_trigger) {
+                lv_index = lv_i;
+                break;
+            }
+        }
+        lv_i = lv_index;
+        for (; lv_i < gv_activePeriodicCount; lv_i += 1) {
+            gv_activePeriodic[lv_i] = gv_activePeriodic[lv_i+1];
+            gv_activePeriodicTriggers[lv_i] = gv_activePeriodicTriggers[lv_i+1];
+        }
+        gv_activePeriodicCount -= 1;
+    }
+}
+
+void gf_SetPeriodicTime (trigger lp_trigger, fixed lp_time) {
+    // Variable Declarations
+    int lv_i;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    for (; lv_i < gv_activePeriodicCount; lv_i += 1) {
+        if (gv_activePeriodicTriggers[lv_i] == lp_trigger) {
+            gv_activePeriodic[lv_i] = lp_time;
+            break;
+        }
+    }
+    lv_i = 0;
+    for (; lv_i < gv_allPeriodicCount; lv_i += 1) {
+        if (gv_allPeriodicTriggers[lv_i] == lp_trigger) {
+            gv_allPeriodic[lv_i] = lp_time;
+            break;
+        }
+    }
+}
+
+void gf_PauseRegisteredTimers () {
+    // Variable Declarations
+    int lv_i;
+
+    // Automatic Variable Declarations
+    int auto6DEC8C89_ae;
+    const int auto6DEC8C89_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    TimerPause(gv_game_timer, true);
+    TimerPause(gv_real_timer, true);
+    auto6DEC8C89_ae = (gv_timer_length - 1);
+    lv_i = 0;
+    for ( ; ( (auto6DEC8C89_ai >= 0 && lv_i <= auto6DEC8C89_ae) || (auto6DEC8C89_ai < 0 && lv_i >= auto6DEC8C89_ae) ) ; lv_i += auto6DEC8C89_ai ) {
+        if (((gv_registeredTimer[lv_i] != null) && (TimerGetRemaining(gv_registeredTimer[lv_i]) > 0.0))) {
+            TimerPause(gv_registeredTimer[lv_i], true);
+        }
+
+    }
+}
+
+void gf_UnpauseRegisteredTimers () {
+    // Variable Declarations
+    int lv_i;
+
+    // Automatic Variable Declarations
+    int autoF53FF4C7_ae;
+    const int autoF53FF4C7_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    TimerPause(gv_game_timer, false);
+    TimerPause(gv_real_timer, false);
+    autoF53FF4C7_ae = (gv_timer_length - 1);
+    lv_i = 0;
+    for ( ; ( (autoF53FF4C7_ai >= 0 && lv_i <= autoF53FF4C7_ae) || (autoF53FF4C7_ai < 0 && lv_i >= autoF53FF4C7_ae) ) ; lv_i += autoF53FF4C7_ai ) {
+        if (((gv_registeredTimer[lv_i] != null) && (TimerGetRemaining(gv_registeredTimer[lv_i]) > 0.0))) {
+            TimerPause(gv_registeredTimer[lv_i], false);
+        }
+
+    }
+}
+
+void gf_PauseGame () {
+    // Automatic Variable Declarations
+    playergroup autoD178F368_g;
+    int autoD178F368_var;
+
+    // Implementation
+    gv_game_paused = true;
+    autoD178F368_g = PlayerGroupAll();
+    autoD178F368_var = -1;
+    while (true) {
+        autoD178F368_var = PlayerGroupNextPlayer(autoD178F368_g, autoD178F368_var);
+        if (autoD178F368_var < 0) { break; }
+        CameraLockInput(autoD178F368_var, true);
+    }
+    GameSetGlobalTimeScale(0.0);
+    GameSetMissionTimePaused(true);
+    AITimePause(true);
+    gf_PauseRegisteredTimers();
+    UISetSelectionTypeEnabled(PlayerGroupAll(), c_localSelectionTypeUnknown, false);
+    UnitPauseAll(true);
+    GamePauseAllCooldowns(true);
+    GamePauseAllCharges(true);
+    TriggerQueuePause(true);
+    libNtve_gf_HideGameUI(false, PlayerGroupAll());
+    UISetFrameVisible(PlayerGroupAll(), c_syncFrameTypeConsolePanel, false);
+    TriggerDebugOutput(10, (StringExternal("Param/Value/DC3049E0") + FixedToText(GameGetMissionTime(), c_fixedPrecisionAny)), false);
+}
+
+void gf_ResumeGame () {
+    // Automatic Variable Declarations
+    playergroup auto2915FEA0_g;
+    int auto2915FEA0_var;
+
+    // Implementation
+    GameSetGlobalTimeScale(1.0);
+    auto2915FEA0_g = PlayerGroupAll();
+    auto2915FEA0_var = -1;
+    while (true) {
+        auto2915FEA0_var = PlayerGroupNextPlayer(auto2915FEA0_g, auto2915FEA0_var);
+        if (auto2915FEA0_var < 0) { break; }
+        CameraLockInput(auto2915FEA0_var, false);
+    }
+    UISetSelectionTypeEnabled(PlayerGroupAll(), c_localSelectionTypeUnknown, true);
+    libNtve_gf_HideGameUI(true, PlayerGroupAll());
+    GameSetMissionTimePaused(false);
+    AITimePause(false);
+    UnitPauseAll(false);
+    GamePauseAllCooldowns(false);
+    GamePauseAllCharges(false);
+    TriggerQueuePause(false);
+    gv_game_paused = false;
+    gf_UnpauseRegisteredTimers();
+    TriggerDebugOutput(10, (StringExternal("Param/Value/9A6C89BD") + FixedToText(GameGetMissionTime(), c_fixedPrecisionAny)), false);
+}
+
+void gf_EvaluatePlayerStatuses () {
+    // Variable Declarations
+    bool lv_force_resume;
+    fixed lv_total_votes;
+    int[4] lv_status_sums;
+    text[4] lv_status_tooltips;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup autoBF6E0FBD_g;
+    const int auto6A4FD501_ae = 15;
+    const int auto6A4FD501_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    if ((gv_game_resuming == true)) {
+        return ;
+    }
+
+    autoBF6E0FBD_g = gv_all_players_and_observers;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(autoBF6E0FBD_g, lv_player);
+        if (lv_player < 0) { break; }
+        if (((gv_player_alive[lv_player] == true) || (gv_player_is_observer[lv_player] == true))) {
+            lv_total_votes += 1.0;
+            if ((gv_player_vote_statuses[lv_player] == 0)) {
+                lv_status_sums[0] += 1;
+                if (((lv_status_tooltips[0] != null) == true)) {
+                    lv_status_tooltips[0] = (lv_status_tooltips[0] + StringExternal("Param/Value/48B00177"));
+                }
+
+                lv_status_tooltips[0] = (lv_status_tooltips[0] + gv_player_names_colored[lv_player]);
+            }
+
+            if (((gv_player_vote_statuses[lv_player] == 1) || (gv_player_vote_statuses[lv_player] == 2))) {
+                lv_status_sums[1] += 1;
+                if (((lv_status_tooltips[1] != null) == true)) {
+                    lv_status_tooltips[1] = (lv_status_tooltips[1] + StringExternal("Param/Value/F5A8F6FD"));
+                }
+
+                lv_status_tooltips[1] = (lv_status_tooltips[1] + gv_player_names_colored[lv_player]);
+            }
+
+            if ((gv_player_vote_statuses[lv_player] == 2)) {
+                lv_status_sums[2] += 1;
+                if (((lv_status_tooltips[2] != null) == true)) {
+                    lv_status_tooltips[2] = (lv_status_tooltips[2] + StringExternal("Param/Value/3CF1D5FE"));
+                }
+
+                lv_status_tooltips[2] = (lv_status_tooltips[2] + gv_player_names_colored[lv_player]);
+            }
+
+        }
+
+    }
+    libNtve_gf_SetDialogItemText(gv_pause_buttons[0], (StringExternal("Param/Value/CCD3A3B1") + FormatNumber(lv_status_sums[0])), PlayerGroupAll());
+    libNtve_gf_SetDialogItemTooltip(gv_pause_buttons[0], lv_status_tooltips[0], PlayerGroupAll());
+    libNtve_gf_SetDialogItemText(gv_pause_buttons[1], (StringExternal("Param/Value/5C628953") + FormatNumber(lv_status_sums[1])), PlayerGroupAll());
+    libNtve_gf_SetDialogItemTooltip(gv_pause_buttons[1], lv_status_tooltips[1], PlayerGroupAll());
+    libNtve_gf_SetDialogItemText(gv_pause_buttons[2], (StringExternal("Param/Value/6A1D09FE") + FormatNumber(lv_status_sums[2])), PlayerGroupAll());
+    libNtve_gf_SetDialogItemTooltip(gv_pause_buttons[2], lv_status_tooltips[2], PlayerGroupAll());
+    lv_force_resume = (IntToFixed(lv_status_sums[2]) > ((lv_total_votes - 1.0) / 2.0));
+    if (((lv_status_sums[0] == 0) || (lv_force_resume == true))) {
+        gv_game_resuming = true;
+        libNtve_gf_SetDialogItemText(gv_countdown_label, StringExternal("Param/Value/F2302596"), PlayerGroupAll());
+        Wait(1.0, c_timeReal);
+        libNtve_gf_SetDialogItemText(gv_countdown_label, StringExternal("Param/Value/755628CD"), PlayerGroupAll());
+        Wait(1.0, c_timeReal);
+        libNtve_gf_SetDialogItemText(gv_countdown_label, StringExternal("Param/Value/02BA715E"), PlayerGroupAll());
+        Wait(1.0, c_timeReal);
+        libNtve_gf_SetDialogItemText(gv_countdown_label, StringExternal("Param/Value/4693CD48"), PlayerGroupAll());
+        Wait(1.0, c_timeReal);
+        libNtve_gf_SetDialogItemText(gv_countdown_label, StringExternal("Param/Value/AB7CDAA1"), PlayerGroupAll());
+        Wait(1.0, c_timeReal);
+        libNtve_gf_SetDialogItemText(gv_countdown_label, StringToText(""), PlayerGroupAll());
+        gv_game_resuming = false;
+        lv_player = 0;
+        for ( ; ( (auto6A4FD501_ai >= 0 && lv_player <= auto6A4FD501_ae) || (auto6A4FD501_ai < 0 && lv_player >= auto6A4FD501_ae) ) ; lv_player += auto6A4FD501_ai ) {
+            if ((gv_player_vote_statuses[lv_player] == 0)) {
+                gv_pause_allowed_for_player[lv_player] = false;
+            }
+
+            gv_player_vote_statuses[lv_player] = 1;
+        }
+        gf_ResumeGame();
+        DialogSetVisible(gv_pause_overlay, PlayerGroupAll(), false);
+        TriggerEnable(gt_ButtonClicked, false);
+    }
+
+}
+
+void gf_Overlay () {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((gv_pause_overlay == c_invalidDialogId)) {
+        DialogCreate(600, 500, c_anchorCenter, 0, 0, true);
+        DialogSetRenderPriority(DialogLastCreated(), 10);
+        DialogSetFullscreen(DialogLastCreated(), true);
+        libNtve_gf_CreateDialogItemImage(DialogLastCreated(), 200, 50, c_anchorTopLeft, 50, 50, StringToText(""), "Assets\\Textures\\ui_screens_trophyroom_background_diff.dds", c_triggerImageTypeNormal, false, Color(100,100,100), c_triggerBlendModeNormal);
+        DialogControlSetFullDialog(DialogControlLastCreated(), PlayerGroupAll(), true);
+        DialogSetTransparency(DialogLastCreated(), 30.0);
+        DialogSetImageVisible(DialogLastCreated(), false);
+        gv_pause_overlay = DialogLastCreated();
+        libNtve_gf_CreateDialogItemButton(gv_pause_overlay, 200, 150, c_anchorBottom, -200, 100, StringToText(""), StringExternal("Param/Value/F171D7F5"), "");
+        gv_pause_buttons[0] = DialogControlLastCreated();
+        libNtve_gf_CreateDialogItemButton(gv_pause_overlay, 200, 150, c_anchorBottom, 0, 100, StringToText(""), StringExternal("Param/Value/48521148"), "");
+        gv_pause_buttons[1] = DialogControlLastCreated();
+        libNtve_gf_CreateDialogItemButton(gv_pause_overlay, 200, 150, c_anchorBottom, 200, 100, StringToText(""), StringExternal("Param/Value/3B2904D3"), "");
+        gv_pause_buttons[2] = DialogControlLastCreated();
+        libNtve_gf_CreateDialogItemLabel(DialogLastCreated(), 500, 200, c_anchorCenter, 0, -100, StringToText(""), ColorWithAlpha(0,0,0,0), false, 2.0);
+        libNtve_gf_SetDialogItemStyle(DialogControlLastCreated(), "Countdown", PlayerGroupAll());
+        gv_countdown_label = DialogControlLastCreated();
+    }
+
+    DialogSetVisible(gv_pause_overlay, PlayerGroupAll(), true);
+    libNtve_gf_SetDialogItemText(gv_countdown_label, StringExternal("Param/Value/1E3571F8"), PlayerGroupAll());
+    TriggerEnable(gt_ButtonClicked, true);
+}
+
+void gf_PlayerPause (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if (((gv_game_resuming == true))) {
+        return ;
+    }
+
+    if ((gv_pause_allowed_for_player[lp_player] == false)) {
+        gf_GameMessage(StringExternal("Param/Value/B16EF650"), PlayerGroupSingle(lp_player));
+        return ;
+    }
+
+    gv_player_vote_statuses[lp_player] = 0;
+    if (((gv_game_paused == true))) {
+        gf_EvaluatePlayerStatuses();
+        return ;
+    }
+
+    gf_PauseGame();
+    gf_Overlay();
+    gf_EvaluatePlayerStatuses();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5723,7 +6194,7 @@ void gf_InitEventBanks () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_avcgigxoxglqjxul;
+    int lv_cmxgclksgvnavhdb;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -5739,6 +6210,10 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Actions
     if (!runActions) {
         return true;
+    }
+
+    if ((EventDialogControl() == gv_pause_button)) {
+        gf_PlayerPause(EventPlayer());
     }
 
     if ((EventDialogControl() == gv_help_dismiss)) {
@@ -5776,11 +6251,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_avcgigxoxglqjxul = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_avcgigxoxglqjxul <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_avcgigxoxglqjxul >= autoA9265719_ae) ) ; lv_avcgigxoxglqjxul += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_avcgigxoxglqjxul])) {
+        lv_cmxgclksgvnavhdb = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_cmxgclksgvnavhdb <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_cmxgclksgvnavhdb >= autoA9265719_ae) ) ; lv_cmxgclksgvnavhdb += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_cmxgclksgvnavhdb])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_avcgigxoxglqjxul]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_cmxgclksgvnavhdb]), c_orderQueueReplace);
                 }
 
             }
@@ -5856,7 +6331,7 @@ bool gt_CheckForInvalidGame_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_CheckForInvalidGame_Init () {
     gt_CheckForInvalidGame = TriggerCreate("gt_CheckForInvalidGame_Func");
-    TriggerAddEventTimeElapsed(gt_CheckForInvalidGame, 1.0, c_timeGame);
+    gf_Elapsed(gt_CheckForInvalidGame, 1.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5896,7 +6371,7 @@ bool gt_PlayerInitZoom_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_PlayerInitZoom_Init () {
     gt_PlayerInitZoom = TriggerCreate("gt_PlayerInitZoom_Func");
-    TriggerAddEventTimeElapsed(gt_PlayerInitZoom, 0.2, c_timeGame);
+    gf_Elapsed(gt_PlayerInitZoom, 0.2);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5934,7 +6409,7 @@ bool gt_CheckZoomLevels_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_CheckZoomLevels_Init () {
     gt_CheckZoomLevels = TriggerCreate("gt_CheckZoomLevels_Func");
-    TriggerAddEventTimePeriodic(gt_CheckZoomLevels, 2.9, c_timeGame);
+    gf_Periodic(gt_CheckZoomLevels, 2.9);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5969,8 +6444,9 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
     gf_ApplyPlayerSettings();
     gf_AddControlButton();
     gf_ApplyTrainingMode();
-    gf_InitEventBanks();
     gf_SetupRewards();
+    gf_InitEventBanks();
+    gv_init_completed = true;
     return true;
 }
 
@@ -5978,6 +6454,33 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
 void gt_MeleeInitialization_Init () {
     gt_MeleeInitialization = TriggerCreate("gt_MeleeInitialization_Func");
     TriggerAddEventMapInit(gt_MeleeInitialization);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: CheckInitCompleted
+//--------------------------------------------------------------------------------------------------
+bool gt_CheckInitCompleted_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_init_completed == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/B7AEC6F5"), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_CheckInitCompleted_Init () {
+    gt_CheckInitCompleted = TriggerCreate("gt_CheckInitCompleted_Func");
+    TriggerAddEventTimeElapsed(gt_CheckInitCompleted, 5.0, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6004,7 +6507,6 @@ bool gt_GameTimeRemaining_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_GameTimeRemaining_Init () {
     gt_GameTimeRemaining = TriggerCreate("gt_GameTimeRemaining_Func");
-    TriggerAddEventTimeElapsed(gt_GameTimeRemaining, 2.5, c_timeReal);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6081,7 +6583,7 @@ bool gt_AutoEnableBadBuilds_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_AutoEnableBadBuilds_Init () {
     gt_AutoEnableBadBuilds = TriggerCreate("gt_AutoEnableBadBuilds_Func");
-    TriggerAddEventTimePeriodic(gt_AutoEnableBadBuilds, 300.0, c_timeGame);
+    gf_Periodic(gt_AutoEnableBadBuilds, 300.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6116,7 +6618,7 @@ bool gt_PeriodicReveal_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_PeriodicReveal_Init () {
     gt_PeriodicReveal = TriggerCreate("gt_PeriodicReveal_Func");
-    TriggerAddEventTimeElapsed(gt_PeriodicReveal, 5.0, c_timeGame);
+    gf_Elapsed(gt_PeriodicReveal, 5.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6228,9 +6730,9 @@ bool gt_TrackUnitMovement_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_TrackUnitMovement_Init () {
     gt_TrackUnitMovement = TriggerCreate("gt_TrackUnitMovement_Func");
-    TriggerAddEventTimeElapsed(gt_TrackUnitMovement, 1.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_TrackUnitMovement, 5.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_TrackUnitMovement, 15.0, c_timeGame);
+    gf_Elapsed(gt_TrackUnitMovement, 1.0);
+    gf_Elapsed(gt_TrackUnitMovement, 5.0);
+    gf_Elapsed(gt_TrackUnitMovement, 15.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6266,7 +6768,7 @@ bool gt_TrackRallyChange_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_TrackRallyChange_Init () {
     gt_TrackRallyChange = TriggerCreate("gt_TrackRallyChange_Func");
-    TriggerAddEventTimeElapsed(gt_TrackRallyChange, 1.0, c_timeGame);
+    gf_Elapsed(gt_TrackRallyChange, 1.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6274,7 +6776,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_qlayhqutjsaiveat;
+    int lv_pbhcuytfffufplio;
     int lv_player;
     int lv_ally;
 
@@ -6298,10 +6800,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_qlayhqutjsaiveat = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_qlayhqutjsaiveat <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_qlayhqutjsaiveat >= autoFC6C6804_ae) ) ; lv_qlayhqutjsaiveat += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_qlayhqutjsaiveat], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_qlayhqutjsaiveat], PlayerGroupSingle(lv_player), true);
+            lv_pbhcuytfffufplio = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_pbhcuytfffufplio <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_pbhcuytfffufplio >= autoFC6C6804_ae) ) ; lv_pbhcuytfffufplio += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_pbhcuytfffufplio], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_pbhcuytfffufplio], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -6323,7 +6825,7 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ShareControlForAfkPlayer_Init () {
     gt_ShareControlForAfkPlayer = TriggerCreate("gt_ShareControlForAfkPlayer_Func");
-    TriggerAddEventTimeElapsed(gt_ShareControlForAfkPlayer, 60.0, c_timeGame);
+    gf_Elapsed(gt_ShareControlForAfkPlayer, 60.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6343,7 +6845,7 @@ bool gt_DisplayEloAtStart_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_DisplayEloAtStart_Init () {
     gt_DisplayEloAtStart = TriggerCreate("gt_DisplayEloAtStart_Func");
-    TriggerAddEventTimeElapsed(gt_DisplayEloAtStart, 1.0, c_timeGame);
+    gf_Elapsed(gt_DisplayEloAtStart, 1.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6455,7 +6957,7 @@ bool gt_ComputeStandings_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ComputeStandings_Init () {
     gt_ComputeStandings = TriggerCreate("gt_ComputeStandings_Func");
-    TriggerAddEventTimePeriodic(gt_ComputeStandings, 5.0, c_timeGame);
+    gf_Periodic(gt_ComputeStandings, 5.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6663,7 +7165,7 @@ bool gt_TestPickupAchievement_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_TestPickupAchievement_Init () {
     gt_TestPickupAchievement = TriggerCreate("gt_TestPickupAchievement_Func");
-    TriggerAddEventTimeElapsed(gt_TestPickupAchievement, 400.0, c_timeGame);
+    gf_Elapsed(gt_TestPickupAchievement, 400.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6822,7 +7324,7 @@ bool gt_UpdateLosses_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_UpdateLosses_Init () {
     gt_UpdateLosses = TriggerCreate("gt_UpdateLosses_Func");
-    TriggerAddEventTimeElapsed(gt_UpdateLosses, 5.0, c_timeGame);
+    gf_Elapsed(gt_UpdateLosses, 5.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7005,18 +7507,18 @@ bool gt_ZoneControlLimitReduction_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_ZoneControlLimitReduction_Init () {
     gt_ZoneControlLimitReduction = TriggerCreate("gt_ZoneControlLimitReduction_Func");
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 240.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 360.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 480.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 600.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 720.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 840.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 960.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1080.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1200.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1320.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1440.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_ZoneControlLimitReduction, 1560.0, c_timeGame);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 240.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 360.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 480.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 600.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 720.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 840.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 960.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 1080.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 1200.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 1320.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 1440.0);
+    gf_Elapsed(gt_ZoneControlLimitReduction, 1560.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7056,6 +7558,7 @@ bool gt_ZoneControlReward_Func (bool testConds, bool runActions) {
         TextTagCreate(TextWithColor(StringExternal("Param/Value/C572A9EC"), libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lv_palyer, false))), 20, gv_bunker_slot_centers[lv_slot], 1.0, true, false, gv_teams[gv_player_team[lv_palyer]]);
         TextTagSetVelocity(TextTagLastCreated(), 0.5, 90.0);
         TextTagSetTime(TextTagLastCreated(), c_textTagTimeDuration, 2.0);
+        gf_RegisterTagForCleanup(TextTagLastCreated());
         gv_player_shards_collected[lv_palyer] += 1;
         PlayerModifyPropertyInt(lv_palyer, c_playerPropMinerals, c_playerPropOperAdd, 1);
     }
@@ -7307,15 +7810,15 @@ bool gt_SpawnUnit_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_SpawnUnit_Init () {
     gt_SpawnUnit = TriggerCreate("gt_SpawnUnit_Func");
-    TriggerAddEventTimeElapsed(gt_SpawnUnit, 0.1, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_SpawnUnit, 1.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_SpawnUnit, 3.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_SpawnUnit, 5.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_SpawnUnit, 7.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_SpawnUnit, 9.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_SpawnUnit, 11.0, c_timeGame);
-    TriggerAddEventTimeElapsed(gt_SpawnUnit, 13.0, c_timeGame);
-    TriggerAddEventTimePeriodic(gt_SpawnUnit, 2.0, c_timeGame);
+    gf_Elapsed(gt_SpawnUnit, 0.1);
+    gf_Elapsed(gt_SpawnUnit, 1.0);
+    gf_Elapsed(gt_SpawnUnit, 3.0);
+    gf_Elapsed(gt_SpawnUnit, 5.0);
+    gf_Elapsed(gt_SpawnUnit, 7.0);
+    gf_Elapsed(gt_SpawnUnit, 9.0);
+    gf_Elapsed(gt_SpawnUnit, 11.0);
+    gf_Elapsed(gt_SpawnUnit, 13.0);
+    gf_Periodic(gt_SpawnUnit, 2.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -8109,7 +8612,7 @@ bool gt_MineralTrickle_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_MineralTrickle_Init () {
     gt_MineralTrickle = TriggerCreate("gt_MineralTrickle_Func");
-    TriggerAddEventTimePeriodic(gt_MineralTrickle, 3.0, c_timeGame);
+    gf_Periodic(gt_MineralTrickle, 3.0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -8298,6 +8801,10 @@ bool gt_UseChatSystem_Func (bool testConds, bool runActions) {
             gf_PerfCommand(PlayerGroupSingle(EventPlayer()));
         }
 
+        if (((StringEqual(EventChatMessage(false), "-pause", c_stringCase) == true))) {
+            gf_PlayerPause(EventPlayer());
+        }
+
         if (((StringEqual(EventChatMessage(false), "-r", c_stringCase) == true) || (StringEqual(EventChatMessage(false), "-records", c_stringCase) == true))) {
             gf_RecordCommand();
         }
@@ -8362,6 +8869,94 @@ void gt_EditValue_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Main Loop
+//--------------------------------------------------------------------------------------------------
+bool gt_MainLoop_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_i;
+    fixed lv_time;
+    fixed lv_noexecute;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    Wait((GameGetMissionTime() % 1) + 1, c_timeReal);
+    while ( true ) {
+        if ( GameIsMissionTimePaused() ) {
+            Wait(0.062, c_timeReal);
+        } else {
+            lv_time = GameGetMissionTime();
+            if (lv_time > 1) {
+                lv_noexecute = 0.1;
+                for (lv_i = 0; lv_i < gv_activePeriodicCount; lv_i += 1) {
+                    if ((lv_time % gv_activePeriodic[lv_i]) <= 0.9) {
+                        TriggerExecute(gv_activePeriodicTriggers[lv_i], true, false);
+                        lv_noexecute = 0;
+                    }
+                }
+            }
+            Wait(0.97 - lv_noexecute, c_timeGame);
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_MainLoop_Init () {
+    gt_MainLoop = TriggerCreate("gt_MainLoop_Func");
+    TriggerAddEventMapInit(gt_MainLoop);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Button Clicked
+//--------------------------------------------------------------------------------------------------
+bool gt_ButtonClicked_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((gv_game_paused == true))) {
+            return false;
+        }
+
+        if (!((gv_game_resuming == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((EventDialogControl() == gv_pause_buttons[0])) {
+        gv_player_vote_statuses[EventPlayer()] = 0;
+    }
+
+    if ((EventDialogControl() == gv_pause_buttons[1])) {
+        gv_player_vote_statuses[EventPlayer()] = 1;
+    }
+
+    if ((EventDialogControl() == gv_pause_buttons[2])) {
+        gv_player_vote_statuses[EventPlayer()] = 2;
+    }
+
+    gf_EvaluatePlayerStatuses();
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ButtonClicked_Init () {
+    gt_ButtonClicked = TriggerCreate("gt_ButtonClicked_Func");
+    TriggerEnable(gt_ButtonClicked, false);
+    TriggerAddEventDialogControl(gt_ButtonClicked, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger Initialization
 //--------------------------------------------------------------------------------------------------
 void InitTriggers () {
@@ -8370,6 +8965,7 @@ void InitTriggers () {
     gt_PlayerInitZoom_Init();
     gt_CheckZoomLevels_Init();
     gt_MeleeInitialization_Init();
+    gt_CheckInitCompleted_Init();
     gt_GameTimeRemaining_Init();
     gt_CeaseFireOver_Init();
     gt_AutoEnableBadBuilds_Init();
@@ -8429,6 +9025,8 @@ void InitTriggers () {
     gt_PunishCheat_Init();
     gt_UseChatSystem_Init();
     gt_EditValue_Init();
+    gt_MainLoop_Init();
+    gt_ButtonClicked_Init();
 }
 
 //--------------------------------------------------------------------------------------------------

@@ -161,6 +161,7 @@ Attribute024/Value001/Name=20
 Attribute024/Value002/Name=25
 Attribute024/Value003/Name=30
 Attribute024/Value004/Name=35
+Attribute024/Value005/Name=99
 Attribute025/Name=Map Control Reward
 Attribute025/Value001/Desc=Mineral crystals spawn every 20s.
 Attribute025/Value001/Name=Mineral Shards
@@ -279,13 +280,13 @@ DocInfo/HowToPlayBasic01=Kill Enemy Armies and Bases for Income
 DocInfo/HowToPlayBasic02=Buy Upgrades and Bunkers
 DocInfo/HowToPlayWinning00=Destroy All Enemy Bunkers
 DocInfo/Name=Zone Control CE Dev
-DocInfo/PatchNote001=Tanks placement now works in fog or when units in the way. 
-DocInfo/PatchNote002=Bunkers spawn units faster for first 13 seconds of the game.
-DocInfo/PatchNote003=Turret now desplays proper health regeneration upgrade.
-DocInfo/PatchNote004=Games with <= 4 players can start with an extra bunker.
-DocInfo/PatchNote005=Incomplete lobbies work as long as they are balanced.
-DocInfo/PatchNote006=Acrlite cannon upgrade no longer needs to be purcahsed.
-DocInfo/PatchNote007=Observers can view all player upgrades and scoreboard.
+DocInfo/PatchNote001=
+DocInfo/PatchNote002=Turret now desplays proper health regeneration upgrade.
+DocInfo/PatchNote003=Games with <= 4 players can start with an extra bunker.
+DocInfo/PatchNote004=Incomplete lobbies work as long as they are balanced.
+DocInfo/PatchNote005=Acrlite cannon upgrade no longer needs to be purcahsed.
+DocInfo/PatchNote006=Tanks placement now works in fog or when units in the way. 
+DocInfo/PatchNote007=Bunkers spawn units faster for first 13 seconds of the game.
 DocInfo/PatchNote008=Starting bunks moved forward in slot.
 DocInfo/PatchNote009=Concussive shells adjusted to match zc4.
 DocInfo/PatchNote010=Second shard for bunks with < 25% health.
@@ -302,9 +303,12 @@ DocInfo/PatchNote020=-help command displays a dialog with an updated list of com
 DocInfo/PatchNote021=
 DocInfo/PatchNote022=-Configurable custom chat that supports anonymous mode and disabling of all-chat.
 DocInfo/PatchNote023=
-DocInfo/PatchNote024=- Configurable "max upgrades"
-DocInfo/PatchNote025=- When player-zoom is enabled, defaults to level 2 for all players.
-DocInfo/PatchNote026=- Score screen displays for observers at end of game.
+DocInfo/PatchNote024=Configurable "max upgrades"
+DocInfo/PatchNote025=When player-zoom is enabled, defaults to level 2 for all players.
+DocInfo/PatchNote026=Score screen displays for observers at end of game.
+DocInfo/PatchNote027=Default max upgrades set to 30.
+DocInfo/PatchNote028=Attributes reordered.
+DocInfo/PatchNote029=Observers can view all player upgrades and scoreboard.
 DocInfo/Screenshot01=Drop Nukes to protect expansions or gain a boost of minerals!
 DocInfo/Screenshot02=
 DocInfo/Screenshot03=Hunker down and protect your Bunkers!
@@ -339,6 +343,7 @@ MapInfo/Player13/Name=Hostile
 MapInfo/Player14/Name=Player 14
 MapInfo/Player15/Name=Hostile
 Param/Value/0035E0FF=Toggles leaderboard modes.
+Param/Value/02BA715E=3
 Param/Value/077CBEA9= 
 Param/Value/07B79955=`type`: `
 Param/Value/07DB2B02=Defeat
@@ -358,6 +363,7 @@ Param/Value/1AE20288=R
 Param/Value/1C257F3D=Balanced game detected! Elo is boosted 1.5x.
 Param/Value/1CB8727B=/
 Param/Value/1CB9AF72= W, 
+Param/Value/1E3571F8=Paused
 Param/Value/1F8BB3B8=Bad builds are not permanently enabled.
 Param/Value/1FF53BC7=)
 Param/Value/204DD57E= 
@@ -375,9 +381,14 @@ Param/Value/3397408D=Feature only supported in training mode.
 Param/Value/35C39E8D= 
 Param/Value/35D57A04=Reveals player identities.
 Param/Value/39650EBA=Random teams selected, elo is boosted 1.5x!
+Param/Value/3B2904D3=(1) Let's Go
 Param/Value/3C1367FD=Victory<n/>
+Param/Value/3CF1D5FE=<n/>
 Param/Value/4355C44A= has sent 
+Param/Value/4693CD48=2
 Param/Value/475FF37B=Balanced game detected, elo is boosted 2x!
+Param/Value/48521148=(2) Ready
+Param/Value/48B00177=<n/>
 Param/Value/4A211734=Playing as 
 Param/Value/4BDD3BD8=Stubborn Mode is now <c val="03E409">Enabled</c>
 Param/Value/4E2F7B84=Dismiss
@@ -387,16 +398,20 @@ Param/Value/54674B9B=">+
 Param/Value/56645396=k
 Param/Value/59C82D4B= has <c val="09D70E">enabled </c>shared control.
 Param/Value/5B24D363=+
+Param/Value/5C628953=Ready - 
 Param/Value/61BEA48B= minerals
 Param/Value/63C0F234=Unsupported Bank Type
 Param/Value/689431A5=Stubborn Mode is now <c val="E80005">Disabled</c>
 Param/Value/68CF60A9={
+Param/Value/6A1D09FE=Let's GO! - 
 Param/Value/6B24B648=<c val="0391DC">Mineral Spawns Disabled</c>
 Param/Value/6EF9EAEA=Feature only supported in training mode.
 Param/Value/70EDA249=0
 Param/Value/71C62D9B=Elo, records, and settings will not be updated for this game.
 Param/Value/73964D02= }
+Param/Value/755628CD=4
 Param/Value/75A0334C=<s val="BoardWarAppraiseBig1"><c val="FF8000">+</c><c val="FF9F00">1</c><c val="FFBF00">0</c><c val="FFDE00">0</c>
+Param/Value/75A652D7=
 Param/Value/7674BEDF=T
 Param/Value/76DCB49E=Toggles shared control.
 Param/Value/7A4B289B= Elo
@@ -413,18 +428,22 @@ Param/Value/92B980A1=
 Param/Value/95B92D04= (enemy Elo)
 Param/Value/973DB80B= minerals
 Param/Value/97853DA3=<s val="BoardWarAppraiseBig1"><c val="
+Param/Value/9A6C89BD=Resuming at game time: 
 Param/Value/9F0342D9=<c val="0391DC">Tower Control Reward</c>
 Param/Value/9FD17718=L
 Param/Value/A0987309=L
 Param/Value/A4DBF220=2000
 Param/Value/A698A56B=T
 Param/Value/A8D1F3EB=<c val="0391DC">Extra infantry upgrades.</c>
+Param/Value/AB7CDAA1=1
 Param/Value/AD714ED6=Win 
 Param/Value/AE178147=Dismiss
 Param/Value/AF820515= is afk, control has been automatically shared.
 Param/Value/B12C78CF=, 
+Param/Value/B16EF650=0 Pauses remaining.
 Param/Value/B3C976A8=<s val="BoardWarAppraiseMid">
 Param/Value/B75EFE4C= (
+Param/Value/B7AEC6F5=Init Failed!!
 Param/Value/B80DF5EE=<s val="BoardWarAppraiseMid"><c val="
 Param/Value/B820D30D=Zoom-out is currently disabled. Join our Discord at zcleagues.com to vote on whether zoom-out should be allowed.
 Param/Value/B9484BC1=</c>, Loss <c val="FF0000">-
@@ -442,19 +461,27 @@ Param/Value/C6898BBE=
 Param/Value/C840F232= losses
 Param/Value/CABF479B= has <c val="E80005">disabled </c>shared control.
 Param/Value/CB32798C=: 
+Param/Value/CCD3A3B1=Not Ready - 
 Param/Value/CE0871DE=<s val="BoardWarAppraiseMid">Win <c val="00FF00">+
+Param/Value/CE7CA310=
 Param/Value/D45AC080= 
 Param/Value/D471A456=Terminating game due to presence of AI player.
 Param/Value/D4783B0D=
+Param/Value/D4B62BA8=Too many timers!
 Param/Value/D6B9972F=Player (Elo Rating)
 Param/Value/D82F42FA=B
 Param/Value/DB7F0C5D= (
+Param/Value/DC3049E0=Pausing at game time: 
 Param/Value/DD33938D=[All]
 Param/Value/E0072A15= 
 Param/Value/E621DDBB=<n/><n/>Average opponent elo: 
 Param/Value/E752B8EC=Feature only supported in training mode.
 Param/Value/EEA092B6=<c val="0391DC">Mineral Spawns Accelerated</c>
+Param/Value/F171D7F5=(0) Not Ready.
 Param/Value/F1B2F557= has been defeated!
+Param/Value/F2302596=5
+Param/Value/F5A8F6FD=<n/>
+Param/Value/F661FF1F=
 Param/Value/F6D7DA7A=
 Param/Value/F87C6C99=
 Param/Value/FEEA8607=">+

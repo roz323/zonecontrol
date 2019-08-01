@@ -75,12 +75,23 @@
 	<!-- Main Frame begins -->
 	<Frame type="Frame" name="GameUI/UIContainer" file="GameUI">
 		<Frame type="Frame" name="FullscreenUpperContainer">
+
+ <Frame type="Button" name="Pause" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+       <Text val="P"/>
+       <Width val="1"/>
+       <Height val="1"/>
+       <Anchor side="Top" relative="$parent" pos="Min" offset="7"/>
+       <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+       <Shortcut val="Control+P"/>
+  </Frame>
 		
 			<!-- This hides the normal in-game chat -->
 			<Frame type="GameMessageDisplay" name="ChatDisplay">
 			
 			</Frame>
-			
+
+
+
 		
 		
 			<!-- This is a hacky way of getting Player Name as String -->
