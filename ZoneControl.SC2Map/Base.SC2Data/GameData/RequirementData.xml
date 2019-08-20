@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
     <CRequirement id="AdeptCompleteRE">
         <NodeArray index="Show" Link="NotCountUpgradeResearchPhaseTransferQueuedOrBetter"/>
@@ -115,13 +115,13 @@
         <NodeArray index="Show" Link="NotCountUpgradeStimpackQueuedOrBetter"/>
     </CRequirement>
     <CRequirement id="MaxLevelBunkerArmor">
-        <NodeArray index="Show" Link="LTCountUpgradeBunkerArmorQueuedOrBetter204156726092"/>
+        <NodeArray index="Show" Link="LTCountUpgradeBunkerArmorQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
     </CRequirement>
     <CRequirement id="MaxLevelBunkerRegen">
-        <NodeArray index="Show" Link="LTCountUpgradeBunkerLifeRegenerationQueuedOrBetter204156726092"/>
+        <NodeArray index="Show" Link="LTCountUpgradeBunkerLifeRegenerationQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
     </CRequirement>
     <CRequirement id="MaxLevelBunkerCapacity">
-        <NodeArray index="Show" Link="LTCountUpgradeBunkerCapacityQueuedOrBetter204156726092"/>
+        <NodeArray index="Show" Link="LTCountUpgradeBunkerCapacityQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
     </CRequirement>
     <CRequirement id="MaxLevelInfantryArmor">
         <NodeArray index="Show" Link="LTCountUpgradeMarineArmorQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
@@ -166,7 +166,7 @@
         <NodeArray index="Show" Link="CountBehaviorRetireStructureCompleteOnlyAtUnit"/>
     </CRequirement>
     <CRequirement id="UnknownRequirement6">
-        <NodeArray index="Show" Link="NotCountBehaviorRetireStructureCompleteOnlyAtUnit"/>
+        <NodeArray index="Show" Link="AndNotCountUpgradeRetirePlaceholderInProgressOnlyAtUnitNotCountBehaviorRetireStructureCompleteOnly"/>
     </CRequirement>
     <CRequirement id="UseStimpackSM">
         <NodeArray index="Show" Link="CountUpgradeStimpackCompleteOnly"/>

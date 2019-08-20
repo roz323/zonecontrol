@@ -263,7 +263,13 @@
             <Button Requirements=""/>
         </InfoArray>
     </CAbilBuild>
-    <CAbilEffectInstant id="RetireStructure">
+    <CAbilResearch id="RetireStructure">
+        <InfoArray index="Research1" Time="3" Upgrade="RetirePlaceholder">
+            <Resource index="Minerals" value="550"/>
+            <Button DefaultButtonFace="ProtossGroundArmorLevel1" Requirements="UnknownRequirement6"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="RetireStructureOld">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Cost>
             <Resource index="Minerals" value="550"/>
