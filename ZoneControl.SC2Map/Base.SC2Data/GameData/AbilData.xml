@@ -206,6 +206,23 @@
             <Button DefaultButtonFace="InfantryWeapons" Requirements="MaxLevelInfantryWeapons"/>
         </InfoArray>
     </CAbilResearch>
+    <CAbilEffectInstant id="OrderInfantryArmorUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="InfantryArmorUpgradeSet"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="25"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="InfantryArmor" Requirements="MaxLevelInfantryArmor"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="InfantryArmorResearch">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="MarineArmor">
+            <Charge CountMax="1"/>
+            <Button DefaultButtonFace="InfantryArmor" Requirements="MaxLevelInfantryArmor"/>
+        </InfoArray>
+    </CAbilResearch>
     <CAbilResearch id="ForgeResearch">
         <InfoArray index="Research1" Time="0">
             <Resource index="Minerals" value="25"/>

@@ -251,8 +251,10 @@
     <CUnit id="EngineeringBay">
         <AbilArray Link="BarracksTechLabResearch"/>
         <AbilArray Link="StarportTrain"/>
+        <AbilArray Link="OrderInfantryArmorUpgrade"/>
+        <AbilArray Link="InfantryArmorResearch"/>
         <CardLayouts index="0">
-            <LayoutButtons index="0" Face="InfantryArmor" AbilCmd="EngineeringBayResearch,Research29"/>
+            <LayoutButtons index="0" Face="InfantryArmor" AbilCmd="OrderInfantryArmorUpgrade,Execute"/>
             <LayoutButtons index="1" Face="InfantryWeapons" AbilCmd="EngineeringBayResearch,Research30" Column="1"/>
             <LayoutButtons index="2" Face="InfantryAttackRange" AbilCmd="EngineeringBayResearch,Research28" Column="2"/>
             <LayoutButtons index="3" Face="InfantryLifeRegeneration" AbilCmd="EngineeringBayResearch,Research27" Row="0" Column="3"/>
@@ -264,6 +266,20 @@
             <LayoutButtons index="9" Face="ResearchPunisherGrenades" AbilCmd="BarracksTechLabResearch,Research3" Row="2" Column="3"/>
             <LayoutButtons index="10" Face="ResearchObliterationOrdnance" AbilCmd="BarracksTechLabResearch,Research4" Row="2" Column="4"/>
             <LayoutButtons index="11" Face="ReaperSpeed" Type="AbilCmd" AbilCmd="BarracksTechLabResearch,Research5" Row="2" Column="2"/>
+            <LayoutButtons>
+                <Face value="InfantryArmor"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="InfantryArmorResearch,Research1"/>
+                <Behavior value=""/>
+                <Requirements value=""/>
+                <SubmenuAbilState value=""/>
+                <SubmenuCardId value=""/>
+                <SubmenuFullSubCmdValidation value="0"/>
+                <SubmenuIsSticky value="0"/>
+                <ShowInGlossary value="1"/>
+                <Row value="0"/>
+                <Column value="0"/>
+            </LayoutButtons>
             <LayoutButtons>
                 <Face value="ResearchPlasmaCapacitors"/>
                 <Type value="AbilCmd"/>
@@ -278,20 +294,7 @@
                 <Row value="1"/>
                 <Column value="3"/>
             </LayoutButtons>
-            <LayoutButtons>
-                <Face value="BunkerCapacity"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="EngineeringBayResearch,Research23"/>
-                <Behavior value=""/>
-                <Requirements value=""/>
-                <SubmenuAbilState value=""/>
-                <SubmenuCardId value=""/>
-                <SubmenuFullSubCmdValidation value="0"/>
-                <SubmenuIsSticky value="0"/>
-                <ShowInGlossary value="1"/>
-                <Row value="1"/>
-                <Column value="2"/>
-            </LayoutButtons>
+            <LayoutButtons Face="BunkerCapacity" Type="AbilCmd" AbilCmd="EngineeringBayResearch,Research23" Row="1" Column="2"/>
         </CardLayouts>
         <FlagArray index="Invulnerable" value="1"/>
         <Food value="45"/>
@@ -750,7 +753,7 @@
             <LayoutButtons index="4" Face="StimRedirect" Type="AbilCmd" AbilCmd="StimpackRedirect,Execute" Row="1" Column="0"/>
             <LayoutButtons index="5" Face="AttackRedirect" Type="AbilCmd" AbilCmd="AttackRedirect,Execute" Row="0" Column="4"/>
             <LayoutButtons index="6" Face="SetBunkerRallyPoint" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="0" Column="2"/>
-            <LayoutButtons Face="RetireStructure" Type="AbilCmd" AbilCmd="RetireStructure,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="RetireStructure" Type="AbilCmd" AbilCmd="RetireStructure,Research1" Row="2" Column="2"/>
             <LayoutButtons Face="UnretireStructure" Type="AbilCmd" AbilCmd="UnretireStructure,Execute" Row="2" Column="3"/>
         </CardLayouts>
         <CardLayouts CardId="0002">
