@@ -249,27 +249,48 @@
         </CardLayouts>
     </CUnit>
     <CUnit id="EngineeringBay">
-        <AbilArray Link="BarracksTechLabResearch"/>
-        <AbilArray Link="StarportTrain"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <Sight value="0"/>
+        <Food value="45"/>
         <AbilArray Link="OrderInfantryArmorUpgrade"/>
         <AbilArray Link="InfantryArmorResearch"/>
+        <AbilArray Link="OrderInfantryWeaponsUpgrade"/>
+        <AbilArray Link="OrderInfantryMovespeedUpgrade"/>
+        <AbilArray Link="OrderInfantryLifeRegenerationUpgrade"/>
+        <AbilArray Link="OrderInfantryAttackRangeUpgrade"/>
+        <AbilArray Link="InfantryAttackRangeResearch"/>
+        <AbilArray Link="InfantryLifeRegenerationResearch"/>
+        <AbilArray Link="InfantryMovespeedResearch"/>
+        <AbilArray Link="InfantryWeaponsResearch"/>
+        <AbilArray Link="OrderConcussiveShellsUpgrade"/>
+        <AbilArray Link="ConcussiveShellsResearch"/>
+        <AbilArray Link="ObliterationOrdinanceResearch"/>
+        <AbilArray Link="OrderObliterationOrdiananceUpgrade"/>
+        <AbilArray Link="OrderCombatShieldUpgrade"/>
+        <AbilArray Link="CombatShieldResearch"/>
+        <AbilArray Link="OrderStimpackUpgrade"/>
+        <AbilArray Link="StimpackResearch"/>
+        <AbilArray Link="OrderReaperSpeedUpgrade"/>
+        <AbilArray Link="ReaperSpeedResearch"/>
+        <AbilArray Link="OrderTurretTimeUpgrade"/>
+        <AbilArray Link="TurretTimeResearch"/>
         <CardLayouts index="0">
             <LayoutButtons index="0" Face="InfantryArmor" AbilCmd="OrderInfantryArmorUpgrade,Execute"/>
-            <LayoutButtons index="1" Face="InfantryWeapons" AbilCmd="EngineeringBayResearch,Research30" Column="1"/>
-            <LayoutButtons index="2" Face="InfantryAttackRange" AbilCmd="EngineeringBayResearch,Research28" Column="2"/>
-            <LayoutButtons index="3" Face="InfantryLifeRegeneration" AbilCmd="EngineeringBayResearch,Research27" Row="0" Column="3"/>
-            <LayoutButtons index="4" Face="InfantryMovespeed" AbilCmd="EngineeringBayResearch,Research26" Row="0"/>
-            <LayoutButtons index="5" Face="BunkerArmor" AbilCmd="EngineeringBayResearch,Research25" Row="1" Column="0"/>
-            <LayoutButtons index="6" Face="BunkerLifeRegeneration" AbilCmd="EngineeringBayResearch,Research24"/>
-            <LayoutButtons index="7" Face="Stimpack" AbilCmd="BarracksTechLabResearch,Research1" Row="2" Column="0"/>
-            <LayoutButtons index="8" Face="ResearchShieldWall" AbilCmd="BarracksTechLabResearch,Research2" Row="2" Column="1"/>
-            <LayoutButtons index="9" Face="ResearchPunisherGrenades" AbilCmd="BarracksTechLabResearch,Research3" Row="2" Column="3"/>
-            <LayoutButtons index="10" Face="ResearchObliterationOrdnance" AbilCmd="BarracksTechLabResearch,Research4" Row="2" Column="4"/>
-            <LayoutButtons index="11" Face="ReaperSpeed" Type="AbilCmd" AbilCmd="BarracksTechLabResearch,Research5" Row="2" Column="2"/>
+            <LayoutButtons index="1" Face="BunkerArmor" AbilCmd="EngineeringBayResearch,Research25" Row="1"/>
+            <LayoutButtons index="2" Face="BunkerLifeRegeneration" AbilCmd="EngineeringBayResearch,Research24" Row="1" Column="1"/>
+            <LayoutButtons index="3" Face="InfantryArmor" AbilCmd="InfantryArmorResearch,Research1" Row="0" Column="0"/>
+            <LayoutButtons index="4" Face="BunkerCapacity" AbilCmd="EngineeringBayResearch,Research23" Row="1" Column="2"/>
+            <LayoutButtons index="5" Face="InfantryWeapons" AbilCmd="OrderInfantryWeaponsUpgrade,Execute" Row="0" Column="1"/>
+            <LayoutButtons index="6" Face="InfantryWeapons" AbilCmd="InfantryWeaponsResearch,Research1" Row="0"/>
+            <LayoutButtons index="7" Face="InfantryAttackRange" AbilCmd="OrderInfantryAttackRangeUpgrade,Execute" Row="0" Column="2"/>
+            <LayoutButtons index="8" Face="InfantryAttackRange" AbilCmd="InfantryAttackRangeResearch,Research1" Row="0" Column="2"/>
+            <LayoutButtons index="9" Face="InfantryLifeRegeneration" AbilCmd="OrderInfantryLifeRegenerationUpgrade,Execute" Column="3"/>
+            <LayoutButtons index="10" Face="InfantryLifeRegeneration" AbilCmd="InfantryLifeRegenerationResearch,Research1" Column="3"/>
+            <LayoutButtons index="11" Face="InfantryMovespeed" Type="AbilCmd" AbilCmd="OrderInfantryMovespeedUpgrade,Execute" Row="0" Column="4"/>
             <LayoutButtons>
-                <Face value="InfantryArmor"/>
+                <Face value="InfantryMovespeed"/>
                 <Type value="AbilCmd"/>
-                <AbilCmd value="InfantryArmorResearch,Research1"/>
+                <AbilCmd value="InfantryMovespeedResearch,Research1"/>
                 <Behavior value=""/>
                 <Requirements value=""/>
                 <SubmenuAbilState value=""/>
@@ -278,12 +299,12 @@
                 <SubmenuIsSticky value="0"/>
                 <ShowInGlossary value="1"/>
                 <Row value="0"/>
-                <Column value="0"/>
+                <Column value="4"/>
             </LayoutButtons>
             <LayoutButtons>
-                <Face value="ResearchPlasmaCapacitors"/>
+                <Face value="ResearchPunisherGrenades"/>
                 <Type value="AbilCmd"/>
-                <AbilCmd value="BarracksTechLabResearch,Research7"/>
+                <AbilCmd value="OrderConcussiveShellsUpgrade,Execute"/>
                 <Behavior value=""/>
                 <Requirements value=""/>
                 <SubmenuAbilState value=""/>
@@ -291,14 +312,21 @@
                 <SubmenuFullSubCmdValidation value="0"/>
                 <SubmenuIsSticky value="0"/>
                 <ShowInGlossary value="1"/>
-                <Row value="1"/>
+                <Row value="2"/>
                 <Column value="3"/>
             </LayoutButtons>
-            <LayoutButtons Face="BunkerCapacity" Type="AbilCmd" AbilCmd="EngineeringBayResearch,Research23" Row="1" Column="2"/>
+            <LayoutButtons Face="ResearchPunisherGrenades" Type="AbilCmd" AbilCmd="ConcussiveShellsResearch,Research1" Row="2" Column="3"/>
+            <LayoutButtons Face="ResearchObliterationOrdnance" Type="AbilCmd" AbilCmd="OrderObliterationOrdiananceUpgrade,Execute" Row="2" Column="4"/>
+            <LayoutButtons Face="ResearchObliterationOrdnance" Type="AbilCmd" AbilCmd="ObliterationOrdinanceResearch,Research1" Row="2" Column="4"/>
+            <LayoutButtons Face="ResearchShieldWall" Type="AbilCmd" AbilCmd="OrderCombatShieldUpgrade,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="CombatShield" Type="AbilCmd" AbilCmd="CombatShieldResearch,Research1" Row="2" Column="1"/>
+            <LayoutButtons Face="Stimpack" Type="AbilCmd" AbilCmd="OrderStimpackUpgrade,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="ReaperSpeed" Type="AbilCmd" AbilCmd="OrderReaperSpeedUpgrade,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="ReaperSpeed" Type="AbilCmd" AbilCmd="ReaperSpeedResearch,Research1" Row="2" Column="2"/>
+            <LayoutButtons Face="ResearchPlasmaCapacitors" Type="AbilCmd" AbilCmd="OrderTurretTimeUpgrade,Execute" Row="1" Column="3"/>
+            <LayoutButtons Face="ResearchPlasmaCapacitors" Type="AbilCmd" AbilCmd="TurretTimeResearch,Research1" Row="1" Column="3"/>
+            <LayoutButtons Face="Stim" Type="AbilCmd" AbilCmd="StimpackResearch,Research1" Row="2" Column="0"/>
         </CardLayouts>
-        <FlagArray index="Invulnerable" value="1"/>
-        <Food value="45"/>
-        <Sight value="0"/>
     </CUnit>
     <CUnit id="Forge">
         <AbilArray index="1" Link="ForgeResearch"/>

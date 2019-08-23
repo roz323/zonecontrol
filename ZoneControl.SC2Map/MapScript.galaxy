@@ -1022,6 +1022,7 @@ int[17] gv_total_structure_granted_value;
 unitgroup[17] gv_structuresGroup;
 unitgroup[17] gv_structuresGroup2;
 unitgroup[17] gv_structuresGroup3;
+bool[17][17] gv_player_muted;
 playergroup gv_cheated_players;
 bool gv_chat_lock;
 gs_CustomChatRecord gv_customChatRecord;
@@ -1365,6 +1366,7 @@ void gf_TestVictory ();
 void gf_OnPlayerDead (int lp_player);
 void gf_TestTeamDead (int lp_team);
 void gf_TestPlayerDead (int lp_player);
+void gf_MutePlayerCommand (int lp_muting_player, string lp_muted_player_string, bool lp_mute);
 void gf_InitChat ();
 void gf_DialogItemRegister (int lp_dialogItem, int lp_dialogItemEvent, trigger lp_trigger);
 void gf_SendChatMessage (string lp_message, playergroup lp_recipientPlayerGroup, int lp_sendingPlayer, text lp_nameofRecipient);
@@ -1817,10 +1819,10 @@ void gf_ConfigureConstants () {
     gv_race_teaminfo_upgrades[2][6] = "StuctureRegen";
     gv_race_teaminfo_upgrades[2][7] = "UpgradeBaseWeapon";
     gv_race_teaminfo_upgrade_abilities[0][0] = AbilityCommand("OrderInfantryArmorUpgrade", 0);
-    gv_race_teaminfo_upgrade_abilities[0][1] = AbilityCommand("EngineeringBayResearch", 29);
-    gv_race_teaminfo_upgrade_abilities[0][2] = AbilityCommand("EngineeringBayResearch", 27);
-    gv_race_teaminfo_upgrade_abilities[0][3] = AbilityCommand("EngineeringBayResearch", 26);
-    gv_race_teaminfo_upgrade_abilities[0][4] = AbilityCommand("EngineeringBayResearch", 25);
+    gv_race_teaminfo_upgrade_abilities[0][1] = AbilityCommand("OrderInfantryWeaponsUpgrade", 0);
+    gv_race_teaminfo_upgrade_abilities[0][2] = AbilityCommand("OrderInfantryAttackRangeUpgrade", 0);
+    gv_race_teaminfo_upgrade_abilities[0][3] = AbilityCommand("OrderInfantryLifeRegenerationUpgrade", 0);
+    gv_race_teaminfo_upgrade_abilities[0][4] = AbilityCommand("OrderInfantryMovespeedUpgrade", 0);
     gv_race_teaminfo_upgrade_abilities[0][5] = AbilityCommand("EngineeringBayResearch", 24);
     gv_race_teaminfo_upgrade_abilities[0][6] = AbilityCommand("EngineeringBayResearch", 23);
     gv_race_teaminfo_upgrade_abilities[0][7] = AbilityCommand("EngineeringBayResearch", 22);
@@ -5508,6 +5510,47 @@ void gf_TestPlayerDead (int lp_player) {
     gf_NotifyPlayerDied(lp_player);
 }
 
+void gf_MutePlayerCommand (int lp_muting_player, string lp_muted_player_string, bool lp_mute) {
+    // Variable Declarations
+    string lv_muted_string;
+    int lv_player;
+    int lv_mute_player;
+
+    // Automatic Variable Declarations
+    playergroup autoC8712720_g;
+
+    // Variable Initialization
+    lv_muted_string = "";
+    lv_mute_player = -1;
+
+    // Implementation
+    lv_mute_player = StringToInt(lp_muted_player_string);
+    if ((lv_mute_player == 0)) {
+        autoC8712720_g = gv_all_players_and_observers;
+        lv_player = -1;
+        while (true) {
+            lv_player = PlayerGroupNextPlayer(autoC8712720_g, lv_player);
+            if (lv_player < 0) { break; }
+            if ((lv_player != 0)) {
+                lv_muted_string = "";
+                if ((gv_player_muted[lp_muting_player][lv_player] == true)) {
+                    lv_muted_string = " (muted)";
+                }
+
+                gf_GameMessage((StringToText(IntToString(lv_player)) + StringExternal("Param/Value/E27D0006") + gv_player_names_colored[lv_player] + StringToText(lv_muted_string)), PlayerGroupSingle(lp_muting_player));
+            }
+
+        }
+    }
+    else {
+        if ((lp_mute != gv_player_muted[lp_muting_player][lv_mute_player])) {
+            gf_GameMessage((gv_player_names_colored[lp_muting_player] + StringExternal("Param/Value/30280883") + gv_player_names_colored[lv_mute_player]), PlayerGroupSingle(lp_muting_player));
+        }
+
+        gv_player_muted[lp_muting_player][lv_mute_player] = lp_mute;
+    }
+}
+
 void gf_InitChat () {
     // Automatic Variable Declarations
     // Implementation
@@ -5544,20 +5587,33 @@ void gf_SendChatMessage (string lp_message, playergroup lp_recipientPlayerGroup,
 
 void gf_DisplayChatMessage (text lp_message, playergroup lp_recipientPlayerGroup, int lp_sendingPlayer) {
     // Variable Declarations
+    playergroup lv_filtered_group;
     int lv_chat_message;
     bool lv_found_real_player;
     int lv_player;
     int lv_length;
 
     // Automatic Variable Declarations
+    playergroup autoE884188A_g;
     playergroup auto4ADD4924_g;
     playergroup autoBFFB14A8_g;
 
     // Variable Initialization
+    lv_filtered_group = PlayerGroupEmpty();
     lv_chat_message = c_invalidDialogControlId;
 
     // Implementation
-    auto4ADD4924_g = lp_recipientPlayerGroup;
+    autoE884188A_g = lp_recipientPlayerGroup;
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(autoE884188A_g, lv_player);
+        if (lv_player < 0) { break; }
+        if ((gv_player_muted[lv_player][lp_sendingPlayer] == false)) {
+            libNtve_gf_AddPlayerGroupToPlayerGroup(PlayerGroupSingle(lv_player), lv_filtered_group);
+        }
+
+    }
+    auto4ADD4924_g = lv_filtered_group;
     lv_player = -1;
     while (true) {
         lv_player = PlayerGroupNextPlayer(auto4ADD4924_g, lv_player);
@@ -5577,11 +5633,11 @@ void gf_DisplayChatMessage (text lp_message, playergroup lp_recipientPlayerGroup
     gv_chat_lock = true;
     DialogControlCreateInPanelFromTemplate(gv_customChatRecord.lv_messages_Container, c_triggerControlTypeLabel, "ZoneChat/MessageTemplate");
     lv_chat_message = DialogControlLastCreated();
-    DialogControlSetVisible(lv_chat_message, lp_recipientPlayerGroup, true);
+    DialogControlSetVisible(lv_chat_message, lv_filtered_group, true);
     libNtve_gf_SetDialogItemText(DialogControlLastCreated(), lp_message, PlayerGroupAll());
     libNtve_gf_SetDialogItemStyle(lv_chat_message, "ChatDisplay", PlayerGroupAll());
     DialogControlSetPosition(lv_chat_message, PlayerGroupAll(), c_anchorBottomLeft, 0, 0);
-    autoBFFB14A8_g = lp_recipientPlayerGroup;
+    autoBFFB14A8_g = lv_filtered_group;
     lv_player = -1;
     while (true) {
         lv_player = PlayerGroupNextPlayer(autoBFFB14A8_g, lv_player);
@@ -6216,7 +6272,7 @@ void gf_PlayerPause (int lp_player) {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_hnbwoaqodxoxeqij;
+    int lv_xkroqucxfgmygeqr;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -6273,11 +6329,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_hnbwoaqodxoxeqij = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_hnbwoaqodxoxeqij <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_hnbwoaqodxoxeqij >= autoA9265719_ae) ) ; lv_hnbwoaqodxoxeqij += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_hnbwoaqodxoxeqij])) {
+        lv_xkroqucxfgmygeqr = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_xkroqucxfgmygeqr <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_xkroqucxfgmygeqr >= autoA9265719_ae) ) ; lv_xkroqucxfgmygeqr += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_xkroqucxfgmygeqr])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_hnbwoaqodxoxeqij]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_xkroqucxfgmygeqr]), c_orderQueueReplace);
                 }
 
             }
@@ -6798,7 +6854,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_omxxvlxqajtrxkow;
+    int lv_mdskfskncumlyeph;
     int lv_player;
     int lv_ally;
 
@@ -6822,10 +6878,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_omxxvlxqajtrxkow = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_omxxvlxqajtrxkow <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_omxxvlxqajtrxkow >= autoFC6C6804_ae) ) ; lv_omxxvlxqajtrxkow += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_omxxvlxqajtrxkow], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_omxxvlxqajtrxkow], PlayerGroupSingle(lv_player), true);
+            lv_mdskfskncumlyeph = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_mdskfskncumlyeph <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_mdskfskncumlyeph >= autoFC6C6804_ae) ) ; lv_mdskfskncumlyeph += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_mdskfskncumlyeph], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_mdskfskncumlyeph], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -8820,6 +8876,18 @@ bool gt_UseChatSystem_Func (bool testConds, bool runActions) {
 
         if (((StringEqual(EventChatMessage(false), "-l", c_stringCase) == true) || (StringEqual(EventChatMessage(false), "-leaderboard", c_stringCase) == true))) {
             gf_ToggleLeaderboardMode(EventPlayer());
+        }
+
+        if (((StringContains(EventChatMessage(false), "-m ", c_stringBegin, c_stringCase) == true))) {
+            gf_MutePlayerCommand(EventPlayer(), StringSub(EventChatMessage(false), 4, (StringLength(EventChatMessage(false)) - 0)), true);
+        }
+
+        if (((StringContains(EventChatMessage(false), "-mute ", c_stringBegin, c_stringCase) == true))) {
+            gf_MutePlayerCommand(EventPlayer(), StringSub(EventChatMessage(false), 7, (StringLength(EventChatMessage(false)) - 0)), true);
+        }
+
+        if (((StringEqual(EventChatMessage(false), "-m", c_stringCase) == true) || (StringEqual(EventChatMessage(false), "-mute", c_stringCase) == true))) {
+            gf_MutePlayerCommand(EventPlayer(), "", true);
         }
 
         if (((StringEqual(EventChatMessage(false), "-p", c_stringCase) == true) || (StringEqual(EventChatMessage(false), "-performance", c_stringCase) == true))) {

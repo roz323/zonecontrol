@@ -36,39 +36,6 @@
             <Button Requirements=""/>
         </InfoArray>
     </CAbilArmMagazine>
-    <CAbilResearch id="BarracksTechLabResearch">
-        <InfoArray index="Research1" Time="0">
-            <Resource index="Minerals" value="750"/>
-            <Resource index="Vespene" value="0"/>
-            <Button Requirements="MarineOrMarauder"/>
-        </InfoArray>
-        <InfoArray index="Research2" Time="0" Upgrade="CombatShield">
-            <Resource index="Minerals" value="300"/>
-            <Resource index="Vespene" value="0"/>
-            <Button Requirements="HaveDarkTemplar"/>
-        </InfoArray>
-        <InfoArray index="Research3" Time="0">
-            <Resource index="Minerals" value="200"/>
-            <Resource index="Vespene" value="0"/>
-            <Button Requirements="HaveMarauder"/>
-        </InfoArray>
-        <InfoArray index="Research4" Upgrade="SiegeTurretArea">
-            <Resource index="Minerals" value="2000"/>
-            <Button DefaultButtonFace="ResearchObliterationOrdnance" Requirements="LearnObliterationOrdnance"/>
-        </InfoArray>
-        <InfoArray index="Research5" Upgrade="ReaperSpeed">
-            <Resource index="Minerals" value="250"/>
-            <Button DefaultButtonFace="ReaperSpeed" Requirements="HaveReaper"/>
-        </InfoArray>
-        <InfoArray index="Research6" Upgrade="ResearchSiegeBreakerArcliteCannon">
-            <Resource index="Minerals" value="350"/>
-            <Button DefaultButtonFace="ResearchArcliteCannon" Requirements="LearnArcliteCannon"/>
-        </InfoArray>
-        <InfoArray index="Research7" Upgrade="ResearchPlasmaCapacitors">
-            <Resource index="Minerals" value="350"/>
-            <Button DefaultButtonFace="ResearchPlasmaCapacitors" Requirements="LearnPlasmaCapacitors"/>
-        </InfoArray>
-    </CAbilResearch>
     <CAbilEffectTarget id="Blink">
         <Cost index="0">
             <Cooldown Link="Blink" TimeUse="60"/>
@@ -185,30 +152,10 @@
             <Resource index="Minerals" value="25"/>
             <Button DefaultButtonFace="BunkerArmor" Requirements="MaxLevelBunkerArmor"/>
         </InfoArray>
-        <InfoArray index="Research26" Upgrade="MarineMovespeed">
-            <Resource index="Minerals" value="25"/>
-            <Button DefaultButtonFace="InfantryMovespeed" Requirements="MaxLevelInfantryMovespeed"/>
-        </InfoArray>
-        <InfoArray index="Research27" Upgrade="MarineLifeRegeneration">
-            <Resource index="Minerals" value="25"/>
-            <Button DefaultButtonFace="InfantryLifeRegeneration" Requirements="MaxLevelInfantryRegen"/>
-        </InfoArray>
-        <InfoArray index="Research28" Upgrade="MarineAttackRange">
-            <Resource index="Minerals" value="25"/>
-            <Button DefaultButtonFace="InfantryAttackRange" Requirements="MaxLevelInfantryRange"/>
-        </InfoArray>
-        <InfoArray index="Research29" Upgrade="MarineArmor">
-            <Resource index="Minerals" value="25"/>
-            <Button DefaultButtonFace="InfantryArmor" Requirements="MaxLevelInfantryArmor"/>
-        </InfoArray>
-        <InfoArray index="Research30" Upgrade="MarineWeapons">
-            <Resource index="Minerals" value="25"/>
-            <Button DefaultButtonFace="InfantryWeapons" Requirements="MaxLevelInfantryWeapons"/>
-        </InfoArray>
     </CAbilResearch>
     <CAbilEffectInstant id="OrderInfantryArmorUpgrade">
         <EditorCategories value="AbilityorEffectType:Units"/>
-        <Effect index="0" value="InfantryArmorUpgradeSet"/>
+        <Effect index="0" value="InfantryArmorIssueUpgrade"/>
         <Flags index="AutoCast" value="1"/>
         <Cost>
             <Resource index="Minerals" value="25"/>
@@ -221,6 +168,172 @@
         <InfoArray index="Research1" Upgrade="MarineArmor">
             <Charge CountMax="1"/>
             <Button DefaultButtonFace="InfantryArmor" Requirements="MaxLevelInfantryArmor"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderInfantryWeaponsUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="InfantryWeaponsIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="25"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="InfantryWeapons" Requirements="MaxLevelInfantryWeapons"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="InfantryWeaponsResearch">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="MarineWeapons">
+            <Charge CountMax="1"/>
+            <Button DefaultButtonFace="InfantryWeapons" Requirements="MaxLevelInfantryWeapons"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderInfantryAttackRangeUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="InfantryAttackRangeIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="25"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="InfantryAttackRange" Requirements="MaxLevelInfantryRange"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="InfantryAttackRangeResearch">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="MarineAttackRange">
+            <Charge CountMax="1"/>
+            <Button DefaultButtonFace="InfantryAttackRange" Requirements="MaxLevelInfantryRange"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderInfantryLifeRegenerationUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="InfantryLifeRegenerationIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="25"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="InfantryLifeRegeneration" Requirements="MaxLevelInfantryRegen"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="InfantryLifeRegenerationResearch">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="MarineLifeRegeneration">
+            <Charge CountMax="1"/>
+            <Button DefaultButtonFace="InfantryLifeRegeneration" Requirements="MaxLevelInfantryRegen"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderInfantryMovespeedUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="InfantryMovespeedIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="25"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="InfantryMovespeed" Requirements="MaxLevelInfantryMovespeed"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="InfantryMovespeedResearch">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="MarineMovespeed">
+            <Charge CountMax="1"/>
+            <Button DefaultButtonFace="InfantryMovespeed" Requirements="MaxLevelInfantryMovespeed"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderConcussiveShellsUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="ConcussiveShellsIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="200"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ResearchPunisherGrenades" Requirements="HaveMarauder"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="ConcussiveShellsResearch">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="PunisherGrenades">
+            <Button DefaultButtonFace="ResearchPunisherGrenades" State="Restricted" Requirements="HaveMarauder">
+                <Flags index="ShowInGlossary" value="1"/>
+            </Button>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderObliterationOrdiananceUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="ObliterationOrdiananceIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="2000"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ResearchObliterationOrdnance" Requirements="LearnObliterationOrdnance"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="ObliterationOrdinanceResearch">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="SiegeTurretArea">
+            <Button DefaultButtonFace="ResearchObliterationOrdnance" Requirements="LearnObliterationOrdnance"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderCombatShieldUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="CombatShieldIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="300"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CombatShield" Requirements="HaveDarkTemplar"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="CombatShieldResearch">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="CombatShield">
+            <Button DefaultButtonFace="CombatShield" Requirements="HaveDarkTemplar"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderStimpackUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="StimpackIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="750"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Stimpack" Requirements="MarineOrMarauder"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="StimpackResearch">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="Stimpack">
+            <Button DefaultButtonFace="Stimpack" Requirements="MarineOrMarauder"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderReaperSpeedUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="ReaperSpeedIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="250"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ReaperSpeed" Requirements="HaveReaper"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="ReaperSpeedResearch">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="ReaperSpeed">
+            <Button DefaultButtonFace="ReaperSpeed" Requirements="HaveReaper"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderTurretTimeUpgrade">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="TurretTimeIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="350"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ResearchPlasmaCapacitors" Requirements="LearnPlasmaCapacitors"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="TurretTimeResearch">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="ResearchPlasmaCapacitors">
+            <Button DefaultButtonFace="ResearchPlasmaCapacitors" Requirements="LearnPlasmaCapacitors"/>
         </InfoArray>
     </CAbilResearch>
     <CAbilResearch id="ForgeResearch">
