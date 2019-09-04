@@ -17,16 +17,11 @@
         <Tooltip value=""/>
         <OperandArray value="CountUpgradeResearchPlasmaCapacitorsQueuedOrBetter"/>
     </CRequirementAnd>
-    <CRequirementAnd id="AndNotCountUpgradeRetirePlaceholderInProgressOnlyAtUnitNotCountBehaviorRetireStructureCompleteOnly">
+    <CRequirementAnd id="AndNotCountUpgradeRetirePlaceholderInProgressOnlyAtUnitNotCountBehaviorRetireStructureCompleteOnlyAtUnit">
         <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray value="NotCountUpgradeRetirePlaceholderInProgressOnlyAtUnit"/>
-        <OperandArray value="NotCountBehaviorRetireStructureCompleteOnly"/>
+        <OperandArray value="NotCountBehaviorRetireStructureCompleteOnlyAtUnit"/>
     </CRequirementAnd>
-    <CRequirementCountBehavior id="CountBehaviorRetireStructureCompleteOnly">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
-        <Count Link="RetireStructure" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
     <CRequirementCountBehavior id="CountBehaviorRetireStructureCompleteOnlyAtUnit">
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="RetireStructure" State="CompleteOnlyAtUnit"/>
@@ -173,7 +168,6 @@
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeRetirePlaceholderInProgressOnlyAtUnit">
         <Flags index="TechTreeCheat" value="0"/>
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <Count Link="RetirePlaceholder" State="InProgressOnlyAtUnit"/>
     </CRequirementCountUpgrade>
     <CRequirementCountUpgrade id="CountUpgradeSingularityChargeCompleteOnly2435624496">
@@ -237,7 +231,6 @@
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeBunkerArmorQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeBunkerArmorQueuedOrBetter"/>
         <OperandArray index="1" value="CountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
     </CRequirementLT>
@@ -247,12 +240,10 @@
         <Count Link="SiegeTurretArea" State="QueuedOrBetter"/>
     </CRequirementCountUpgrade>
     <CRequirementLT id="LTCountUpgradeBunkerCapacityQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeBunkerCapacityQueuedOrBetter"/>
         <OperandArray index="1" value="CountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
     </CRequirementLT>
     <CRequirementLT id="LTCountUpgradeBunkerLifeRegenerationQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeBunkerLifeRegenerationQueuedOrBetter"/>
         <OperandArray index="1" value="CountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
     </CRequirementLT>
@@ -316,9 +307,9 @@
         <OperandArray index="0" value="CountUpgradeUpgradeShieldsQueuedOrBetter"/>
         <OperandArray index="1" value="204156726092"/>
     </CRequirementLT>
-    <CRequirementNot id="NotCountBehaviorRetireStructureCompleteOnly">
+    <CRequirementNot id="NotCountBehaviorRetireStructureCompleteOnlyAtUnit">
         <Tooltip value="RequirementNode/Tooltip/##id##"/>
-        <OperandArray index="0" value="CountBehaviorRetireStructureCompleteOnly"/>
+        <OperandArray index="0" value="CountBehaviorRetireStructureCompleteOnlyAtUnit"/>
     </CRequirementNot>
     <CRequirementNot id="NotCountUpgradeAllowBadBuildsCompleteOnly">
         <OperandArray index="0" value="CountUpgradeAllowBadBuildsCompleteOnly"/>
@@ -342,7 +333,6 @@
         <OperandArray index="0" value="CountUpgradeResearchSiegeBreakerArcliteCannonQueuedOrBetter"/>
     </CRequirementNot>
     <CRequirementNot id="NotCountUpgradeRetirePlaceholderInProgressOnlyAtUnit">
-        <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeRetirePlaceholderInProgressOnlyAtUnit"/>
     </CRequirementNot>
     <CRequirementNot id="NotCountUpgradeSiegeTurretAreaQueuedOrBetter">

@@ -76,6 +76,16 @@
 	<Frame type="Frame" name="GameUI/UIContainer" file="GameUI">
 		<Frame type="Frame" name="FullscreenUpperContainer">
 
+
+
+                <Frame type="TeamResourcePanelToggleButton" name="TeamResourceButton">
+                   <Shortcut val="Control+R"/>
+
+                </Frame>
+
+
+
+
  <Frame type="Button" name="Pause" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
        <Text val="P"/>
        <Width val="1"/>
@@ -83,6 +93,15 @@
        <Anchor side="Top" relative="$parent" pos="Min" offset="7"/>
        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
        <Shortcut val="Control+P"/>
+  </Frame>
+
+ <Frame type="Button" name="ToggleShareControl" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+       <Text val="T"/>
+       <Width val="1"/>
+       <Height val="1"/>
+       <Anchor side="Top" relative="$parent" pos="Min" offset="7"/>
+       <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+       <Shortcut val="Control+T"/>
   </Frame>
 		
 			<!-- This hides the normal in-game chat -->
