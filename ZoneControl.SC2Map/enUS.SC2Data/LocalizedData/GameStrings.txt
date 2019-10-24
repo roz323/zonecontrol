@@ -7,6 +7,7 @@ Abil/Name/CalldownMULE=Calldown SCV
 Abil/Name/GhostAcademyResearch=GhostAcademyResearch
 Abil/Name/RetireStructure=RetireStructure
 Abil/Name/SalvageBunkerRefund=Self-Destruct
+Abil/Name/ScanUpgrades=ScanUpgrades
 Abil/Name/SupplyDropInstant=Supply Drop Instant
 Abil/Name/UnknownAbility=Upgrade Structure Life and Shield Armor
 Abil/Name/UnknownAbility2=Upgrade Cannon
@@ -84,10 +85,6 @@ Attribute010/Desc=For games with 4 or less players, adds an extra starting bunke
 Attribute010/Name=Extra Bunk
 Attribute010/Value001/Name=Yes
 Attribute010/Value002/Name=No
-Attribute011/Name=Player Type
-Attribute011/Value001/Name=Player
-Attribute011/Value002/Name=Spectator
-Attribute011/Value003/Name=None
 Attribute012/Name=Anonymous
 Attribute012/Value001/Name=Enabled
 Attribute012/Value002/Name=Disabled
@@ -204,6 +201,7 @@ Button/Name/ResearchObliterationOrdnance=Research Obliteration Ordnance
 Button/Name/ResearchPlasmaCapacitors=Research Plasma Capacitors
 Button/Name/RetireStructure=Retire Structure
 Button/Name/SOASuperShield=Upgrade Structure Regeneration
+Button/Name/ScanUpsButton=ScanUpsButton
 Button/Name/SelfDestruct=Self-Destruct
 Button/Name/ShieldBattery=Warp In Shield Battery
 Button/Name/ShieldTowerPassive=Shield Tower Passive
@@ -359,10 +357,12 @@ Param/Value/08AECC7B= @
 Param/Value/09C7D2D3=Scoreboard
 Param/Value/0A48B5E9=Attempting Early Combat Challenge
 Param/Value/0A5765B9=[Observers]
+Param/Value/0DE22CE6=Yes
 Param/Value/0DF3FE86=)
 Param/Value/0E083112=)
 Param/Value/0F21282C=+
 Param/Value/0F8B8BDB=[Dead]
+Param/Value/13A42130= random_teams=
 Param/Value/13C936EA=Control is shared for the following players:
 Param/Value/15229CAF=<s val="BoardWarAppraiseMid"><c val="D8D8D8">(type <c val="FFFFFF">-records</c> to view W-L stats)</c></s>
 Param/Value/176B674B=
@@ -412,6 +412,7 @@ Param/Value/61BEA48B= minerals
 Param/Value/63C0F234=Unsupported Bank Type
 Param/Value/689431A5=Stubborn Mode is now <c val="E80005">Disabled</c>
 Param/Value/68CF60A9={
+Param/Value/69C83475= 
 Param/Value/6A1D09FE=Let's GO! - 
 Param/Value/6B24B648=<c val="0391DC">Mineral Spawns Disabled</c>
 Param/Value/6EF9EAEA=Feature only supported in training mode.
@@ -430,6 +431,7 @@ Param/Value/7CEBE995= kills
 Param/Value/7E72698F= 
 Param/Value/8258300E=Terminating game due to imbalanced lobby.
 Param/Value/86FCBE39=
+Param/Value/892D4A81=OH NO
 Param/Value/8D5E846C= has left the game
 Param/Value/90E4AD59= has died
 Param/Value/911BE273= or Lose 
@@ -438,6 +440,7 @@ Param/Value/95B92D04= (enemy Elo)
 Param/Value/973DB80B= minerals
 Param/Value/97853DA3=<s val="BoardWarAppraiseBig1"><c val="
 Param/Value/9A6C89BD=Resuming at game time: 
+Param/Value/9CCD38A4=full_game=
 Param/Value/9F0342D9=<c val="0391DC">Tower Control Reward</c>
 Param/Value/9FD17718=L
 Param/Value/A0987309=L
@@ -456,6 +459,7 @@ Param/Value/B75EFE4C= (
 Param/Value/B7AEC6F5=Init Failed!!
 Param/Value/B80DF5EE=<s val="BoardWarAppraiseMid"><c val="
 Param/Value/B9484BC1=</c>, Loss <c val="FF0000">-
+Param/Value/B9A2623E= 
 Param/Value/BB11940F= 
 Param/Value/BC1FC531=<c val="0391DC">Zone Control Reward</c>
 Param/Value/BDC6300B= L, 
@@ -483,11 +487,15 @@ Param/Value/D82F42FA=B
 Param/Value/DB7F0C5D= (
 Param/Value/DC3049E0=Pausing at game time: 
 Param/Value/DD33938D=[All]
+Param/Value/DDF332AE= 
+Param/Value/DE677AC0= 
 Param/Value/E0072A15= 
 Param/Value/E27D0006=) 
 Param/Value/E621DDBB=<n/><n/>Average opponent elo: 
 Param/Value/E745ABC0=: 
 Param/Value/E752B8EC=Feature only supported in training mode.
+Param/Value/EDA088A4=Banks wont update.
+Param/Value/EE5EC175=
 Param/Value/EEA092B6=<c val="0391DC">Mineral Spawns Accelerated</c>
 Param/Value/F08140B8= Received
 Param/Value/F171D7F5=(0) Not Ready.
@@ -539,6 +547,7 @@ Upgrade/Name/ResearchPhaseTransfer=Research Phase Transfer
 Upgrade/Name/ResearchPlasmaCapacitors=Research Plasma Capacitors
 Upgrade/Name/ResearchSiegeBreakerArcliteCannon=Research Siege Breaker - Arclite Cannon
 Upgrade/Name/RetirePlaceholder=RetirePlaceholder
+Upgrade/Name/ScanUpsPlaceholder=ScanUpsPlaceholder
 Upgrade/Name/SiegeTurretArea=Siege Turret Area
 Upgrade/Name/Structure=Structure Life and Shield Armor
 Upgrade/Name/UnknownUpgrade=Protoss Shield Regen
@@ -568,6 +577,8 @@ Variant009/ModeDesc=Allies at cross spawn locations.
 Variant009/ModeName=Featured
 Variant010/ModeDesc=Most settings fixed for a consistent experience.
 Variant010/ModeName=Standard
+Variant011/ModeDesc=Most settings fixed for a consistent experience.
+Variant011/ModeName=Random
 Weapon/Name/FireRate=Fire Rate 
 Weapon/Name/GuassRifle2=Range
 Weapon/Name/GuassRifle22=Movespeed

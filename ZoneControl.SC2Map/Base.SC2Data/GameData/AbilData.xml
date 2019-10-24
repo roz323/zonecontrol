@@ -298,6 +298,12 @@
         <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="Stimpack" Requirements="MarineOrMarauder"/>
     </CAbilEffectInstant>
+    <CAbilResearch id="ScanUpgrades">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoArray index="Research1" Upgrade="ScanUpsPlaceholder">
+            <Button DefaultButtonFace="ScanUpsButton"/>
+        </InfoArray>
+    </CAbilResearch>
     <CAbilResearch id="StimpackResearch">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <InfoArray index="Research1" Upgrade="Stimpack">

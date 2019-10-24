@@ -103,6 +103,15 @@
        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
        <Shortcut val="Control+T"/>
   </Frame>
+
+ <Frame type="Button" name="ScanUpsButton" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+       <Text val="V"/>
+       <Width val="1"/>
+       <Height val="1"/>
+       <Anchor side="Top" relative="$parent" pos="Min" offset="7"/>
+       <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+       <Shortcut val="Control+V" priority="-1" />
+  </Frame>
 		
 			<!-- This hides the normal in-game chat -->
 			<Frame type="GameMessageDisplay" name="ChatDisplay">
