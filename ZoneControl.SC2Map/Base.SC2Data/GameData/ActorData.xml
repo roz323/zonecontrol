@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CActorUnit id="Adept">
+        <Scale value="0.900000"/>
+        <!-- AdeptCE -->
+        <!--On Terms="UnitBirth; PlayerHasReward AdeptCE" Send="StatusSet CE 1"/>
+        <On Terms="StatusSet.*.CE; IsStatus CE 1" Send="ModelSwap AdeptPurifier"/>
+        <On Terms="UnitDeathCustomize; IsStatus CE 1" Send="DeathCustomize Variation0"/>
+        <DeathCustoms ModelLink="AdeptPurifierDeath" Name="Variation0"/-->
+    </CActorUnit>
     <CActorDoodad id="BattleStation_Line_Decals">
         <On Terms="ActorCreation" Send="SetTeamColor 71,172,4"/>
     </CActorDoodad>
@@ -26,6 +34,12 @@
     <CActorDoodad id="DOM_Decals">
         <On Terms="ActorCreation" Send="SetTintColor {35,7,163 1000.000000}"/>
     </CActorDoodad>
+    <CActorMissile id="DominionKillTeamAttackMissile">
+        <Model value="ScoutAirWeaponRight"/>
+    </CActorMissile>
+    <CActorUnit id="Dragoon" unitName="StalkerShakurasACGluescreenDummy">
+        <Scale value="0.800000"/>
+    </CActorUnit>
     <CActorModel id="FloatingTextEX2Gas50" effectPickup="" actorCreate="">
         <On index="1" Terms="ActorCreation" Send="Create"/>
         <Scale value="1.100000,1.000000,1.000000"/>
@@ -137,9 +151,15 @@
         <BarWidth value="60"/>
         <On index="80" Terms="Abil.GuardianShield" Send="AnimPlay Attack Attack"/>
     </CActorUnit>
+    <CActorMissile id="HybridDAttackMissile">
+        <Scale value="0.700000"/>
+    </CActorMissile>
     <CActorUnit id="ImmortalAiur">
         <Model value="DarkImmortal"/>
         <PortraitModel value="ImmortalTaldarimPortrait"/>
+    </CActorUnit>
+    <CActorUnit id="ImmortalTaldarim">
+        <StandAnimTurnTime value="4"/>
     </CActorUnit>
     <!--                                                                                         -->
     <!-- Infested Bunker ....................................................................... -->
@@ -340,6 +360,9 @@
         <On Terms="ActorCreation" Send="SetTintColor 242,242,242"/>
         <Scale value="3.000000,3.000000,1.000000"/>
     </CActorDoodad>
+    <CActorMissile id="MengskMarauderAttackMissile">
+        <Model value="ScoutAirWeaponLeft"/>
+    </CActorMissile>
     <CActorUnit id="PalletMinerals">
         <Wireframe>
             <Image index="0" value="Assets\Textures\icon-highyieldmineral-nobg.dds"/>
@@ -359,10 +382,11 @@
     <CActorDoodad id="Protoss_Base_GroundTrim_Dark">
         <On Terms="ActorCreation" Send="SetTintColor 35,35,199"/>
     </CActorDoodad>
-    <CActorRange id="SensorTowerRadar"/>
-    <CActorUnit id="ShieldBattery">
-        <Scale value="0.400000"/>
+    <CActorUnit id="Reaver">
+        <Scale value="1.400000"/>
+        <BuildModel value="Reaver"/>
     </CActorUnit>
+    <CActorRange id="SensorTowerRadar"/>
     <!--                                                                                         -->
     <!-- Siege Breaker ......................................................................... -->
     <!--                                                                                         -->
@@ -380,13 +404,73 @@
         <Scale value="0.600000"/>
     </CActorUnit>
     <CActorUnit id="Stalker">
-        <Scale value="0.870000"/>
+        <Scale value="1.150000"/>
+        <GroupIcon>
+            <Image index="0" value="Assets\Textures\wireframe-protoss-reiter-bWul.dds"/>
+        </GroupIcon>
+        <UnitIcon value="Assets\Textures\btn-unit-protoss-reiter-bWul.dds"/>
+        <Wireframe>
+            <Image index="0" value="Assets\Textures\wireframe-protoss-reiter-bWul.dds"/>
+        </Wireframe>
+        <On Terms="ActorCreation" Send="StatusSet WeaponNext 0"/>
+        <On Terms="Effect" Send="ActionDamagePhysics"/>
+        <SoundArray index="Ready" value="Immortal_Ready"/>
+        <SoundArray index="Help" value="Immortal_Help"/>
+        <SoundArray index="What" value="Immortal_What"/>
+        <SoundArray index="Yes" value="Immortal_Yes"/>
+        <SoundArray index="Attack" value="Immortal_Attack"/>
+        <SoundArray index="Pissed" value="Immortal_Pissed"/>
+    </CActorUnit>
+    <CActorUnit id="StalkerPurifier">
+        <Scale value="1.150000"/>
+        <GroupIcon>
+            <Image index="0" value="Assets\Textures\wireframe-protoss-immortal-taldarim.dds"/>
+        </GroupIcon>
+        <UnitIcon value="Assets\Textures\btn-unit-protoss-reiter-bWul.dds"/>
+        <Wireframe>
+            <Image index="0" value="Assets\Textures\wireframe-protoss-reiter-bWul.dds"/>
+        </Wireframe>
+        <SoundArray index="Ready" value="Vanguard_Ready"/>
+        <SoundArray index="Help" value="Vanguard_Help"/>
+        <SoundArray index="What" value="Vanguard_What"/>
+        <SoundArray index="Yes" value="Vanguard_Yes"/>
+        <SoundArray index="Attack" value="Vanguard_Attack"/>
+        <SoundArray index="Pissed" value="Vanguard_Pissed"/>
+    </CActorUnit>
+    <CActorUnit id="StalkerShakuras" unitName="Dragoon">
+        <On index="0" Terms="UnitBirth.Dragoon" Send="Create SoundEmitter Dragoon_Ambience"/>
+        <On index="1" Terms="UnitBirth.Dragoon"/>
+        <On index="2" Terms="UnitRevive.Dragoon"/>
+        <On index="3" Terms="UnitRevive.Dragoon"/>
+        <On index="4" Terms="UnitConstruction.Dragoon.Start"/>
+        <On index="5" Terms="UnitConstruction.Dragoon.Finish"/>
+        <Model value="Dragoon"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="DragoonFootprint"/>
+        <DeathArray index="Normal" VoiceLink="DragoonDeathVoice"/>
+        <GroupSoundArray index="What" value="Dragoon_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="Dragoon_GroupYes"/>
+        <GroupSoundArray index="Attack" value="Dragoon_GroupAttack"/>
+        <GroupSoundArray index="Board" value="Dragoon_GroupBoard"/>
+        <SoundArray index="Movement" value="Dragoon_Movement"/>
+        <SoundArray index="Turning" value="Dragoon_Turning"/>
+        <SoundArray index="Board" value="Dragoon_Board"/>
+        <SoundArray index="Click" value="Dragoon_Click"/>
+        <SoundArray index="ClickError" value="Dragoon_ClickError"/>
+        <SoundArray index="Highlight" value="Dragoon_Highlight"/>
     </CActorUnit>
     <CActorUnit id="SunkenColony">
         <Scale value="1.500000"/>
     </CActorUnit>
     <CActorUnit id="Talis">
-        <Scale value="1.100000"/>
+        <Scale value="0.950000"/>
+        <Model value="Adept_Taldarim_Collection"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\wireframe-protoss-adept-taldarim.dds"/>
+        </GroupIcon>
+        <UnitIcon value="Assets\Textures\btn-unit-collection-taldarim-adept.dds"/>
+        <Wireframe>
+            <Image index="0" value="Assets\Textures\wireframe-protoss-adept-taldarim.dds"/>
+        </Wireframe>
     </CActorUnit>
     <CActorAction id="TalisAttack">
         <LaunchAssets Sound="Adept_AttackLaunch"/>
@@ -404,6 +488,22 @@
     <CActorMissile id="TempestAttackGroundMissile">
         <Model value="HybridCPlasmaWeapon"/>
     </CActorMissile>
+    <CActorProgress id="TerranConstruction2">
+        <On Terms="Abil.TerranBuild3.BuiltStart" Send="Create"/>
+        <On Terms="Abil.BarracksAddOns.BuiltStart" Send="Create"/>
+        <On Terms="Abil.FactoryAddOns.BuiltStart" Send="Create"/>
+        <On Terms="Abil.StarportAddOns.BuiltStart" Send="Create"/>
+        <On Terms="Abil.MachineShop.BuiltStart" Send="Create"/>
+        <On Terms="ProgressLevel.TerranConstruction.Start; Level 0" Send="SetTransferOverrideAnim Build,A,Stand"/>
+        <On Terms="ProgressLevel.TerranConstruction.Stop; Level 0" Send="SetTransferOverrideAnim"/>
+        <StageArray AnimProps="Build,A,Start" BlendTime="0.000000"/>
+        <StageArray AnimProps="Build,A,Stand"/>
+        <StageArray AnimProps="Build,B,Start"/>
+        <StageArray AnimProps="Build,B,Stand"/>
+        <StageArray AnimProps="Build,C,Start"/>
+        <StageArray AnimProps="Build,C,Stand"/>
+        <StageArray AnimProps="Build,D"/>
+    </CActorProgress>
     <CActorSound id="UI_ResourcePickup">
         <On index="0" removed="1"/>
         <On index="1" removed="1"/>
@@ -419,7 +519,31 @@
         <Model value="BattleStation_Line_Decals"/>
     </CActorDoodad>
     <CActorUnit id="Zealot">
-        <Scale value="0.980000"/>
+        <Scale value="0.920000"/>
+        <GroupIcon>
+            <Image index="0" value="Assets\Textures\wireframe-protoss-vindicator.dds"/>
+        </GroupIcon>
+        <UnitIcon value="Assets\Textures\vindicator_dark_btn.dds"/>
+        <Wireframe>
+            <Image index="0" value="Assets\Textures\wireframe-protoss-vindicator.dds"/>
+        </Wireframe>
         <!--DeathCustoms ModelLink="ZealotXPRDeath" Name="Variation10"/-->
+    </CActorUnit>
+    <!-- No ragdolls for the new Zealot units, No model swaps, do have a water setup though -->
+    <!-- Parenting isnt worthwhile as we would have to change and remove so much it wouldnt save us time/data/neatness -->
+    <CActorUnit id="ZealotAiur">
+        <Scale value="1.020000"/>
+        <!--WireframeShield>
+            <Image value="Assets\Textures\Wireframe-Protoss-Zealot-Shield01.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-Zealot-Shield02.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-Zealot-Shield03.dds"/>
+        </WireframeShield-->
+        <GroupIcon>
+            <Image index="0" value="Assets\Textures\Vindicator.dds"/>
+        </GroupIcon>
+        <UnitIcon value="Assets\Textures\vindicator_dark_btn.dds"/>
+        <Wireframe>
+            <Image index="0" value="Assets\Textures\Vindicator.dds"/>
+        </Wireframe>
     </CActorUnit>
 </Catalog>

@@ -51,6 +51,11 @@
         </Cost>
         <Range index="0" value="7"/>
     </CAbilEffectTarget>
+    <CAbilTransport id="BunkerTransport">
+        <LoadValidatorArray index="0" value="NotWidowMineTarget"/>
+        <LoadValidatorArray index="1" value="IsNotHellionTank"/>
+        <LoadValidatorArray index="2" removed="1"/>
+    </CAbilTransport>
     <CAbilMorph id="BurrowBanelingDown">
         <InfoArray index="0" Unit="KorhalSporeCannon">
             <SectionArray index="Actor">
@@ -75,6 +80,22 @@
     <CAbilEffectTarget id="ChronoBoostEnergyCost">
         <TargetFilters index="0" value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
     </CAbilEffectTarget>
+    <CAbilResearch id="CombatShieldResearch2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="CombatShield">
+            <Resource index="Minerals" value="300"/>
+            <Button DefaultButtonFace="CombatShield" Requirements="HaveDarkTemplar2"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilResearch id="ConcussiveShellsResearch2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="PunisherGrenades">
+            <Resource index="Minerals" value="200"/>
+            <Button DefaultButtonFace="ResearchPunisherGrenades" State="Restricted" Requirements="HaveMarauder2">
+                <Flags index="ShowInGlossary" value="1"/>
+            </Button>
+        </InfoArray>
+    </CAbilResearch>
     <CAbilResearch id="EngineeringBayResearch">
         <InfoArray index="Research2" Time="0">
             <Resource index="Minerals" value="50"/>
@@ -153,6 +174,37 @@
             <Button DefaultButtonFace="BunkerArmor" Requirements="MaxLevelBunkerArmor"/>
         </InfoArray>
     </CAbilResearch>
+    <CAbilResearch id="ObliterationOrdinanceResearch2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="SiegeTurretArea">
+            <Resource index="Minerals" value="2000"/>
+            <Button DefaultButtonFace="ResearchObliterationOrdnance" Requirements="HaveReaver"/>
+        </InfoArray>
+    </CAbilResearch>
+    <CAbilEffectInstant id="OrderCombatShieldUpgrade2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="CombatShieldIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="300"/>
+            <Charge Link="Abil/OrderCombatShieldUpgrade"/>
+            <Cooldown Link="Abil/OrderCombatShieldUpgrade"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CombatShield" Requirements="HaveDarkTemplar2"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="OrderConcussiveShellsUpgrade2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="ConcussiveShellsIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="200"/>
+            <Charge Link="Abil/OrderConcussiveShellsUpgrade"/>
+            <Cooldown Link="Abil/OrderConcussiveShellsUpgrade"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ResearchPunisherGrenades" Requirements="HaveMarauder2"/>
+    </CAbilEffectInstant>
     <CAbilEffectInstant id="OrderInfantryArmorUpgrade">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Effect index="0" value="InfantryArmorIssueUpgrade"/>
@@ -288,6 +340,30 @@
             <Button DefaultButtonFace="CombatShield" Requirements="HaveDarkTemplar"/>
         </InfoArray>
     </CAbilResearch>
+    <CAbilEffectInstant id="OrderObliterationOrdiananceUpgrade2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="ObliterationOrdiananceIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="2000"/>
+            <Charge Link="Abil/OrderObliterationOrdiananceUpgrade"/>
+            <Cooldown Link="Abil/OrderObliterationOrdiananceUpgrade"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ResearchObliterationOrdnance" Requirements="HaveReaver"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="OrderReaperSpeedUpgrade2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="ReaperSpeedIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="250"/>
+            <Charge Link="Abil/OrderReaperSpeedUpgrade"/>
+            <Cooldown Link="Abil/OrderReaperSpeedUpgrade"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ReaperSpeed" Requirements="HaveReaper2"/>
+    </CAbilEffectInstant>
     <CAbilEffectInstant id="OrderStimpackUpgrade">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Effect index="0" value="StimpackIssueUpgrade"/>
@@ -298,6 +374,25 @@
         <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="Stimpack" Requirements="MarineOrMarauder"/>
     </CAbilEffectInstant>
+    <CAbilEffectInstant id="OrderStimpackUpgrade2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="StimpackIssueUpgrade"/>
+        <Flags index="AutoCast" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="750"/>
+            <Charge Link="Abil/OrderStimpackUpgrade"/>
+            <Cooldown Link="Abil/OrderStimpackUpgrade"/>
+        </Cost>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Stimpack" Requirements="MarineOrMarauder2"/>
+    </CAbilEffectInstant>
+    <CAbilResearch id="ReaperSpeedResearch2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="ReaperSpeed">
+            <Resource index="Minerals" value="250"/>
+            <Button DefaultButtonFace="ReaperSpeed" Requirements="HaveReaper2"/>
+        </InfoArray>
+    </CAbilResearch>
     <CAbilResearch id="ScanUpgrades">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <InfoArray index="Research1" Upgrade="ScanUpsPlaceholder">
@@ -336,6 +431,13 @@
         <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="ResearchPlasmaCapacitors" Requirements="LearnPlasmaCapacitors"/>
     </CAbilEffectInstant>
+    <CAbilResearch id="StimpackResearch2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <InfoArray index="Research1" Upgrade="Stimpack">
+            <Resource index="Minerals" value="750"/>
+            <Button DefaultButtonFace="Stimpack" Requirements="MarineOrMarauder2"/>
+        </InfoArray>
+    </CAbilResearch>
     <CAbilResearch id="TurretTimeResearch">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <InfoArray index="Research1" Upgrade="ResearchPlasmaCapacitors">
@@ -483,9 +585,8 @@
         <InfoArray index="Build7" Time="60">
             <Button Requirements=""/>
         </InfoArray>
-        <InfoArray index="Build8" Unit="HiveMindEmulator" Time="15">
+        <InfoArray index="Build8" Unit="HiveMindEmulator">
             <Button DefaultButtonFace="HiveMindEmulator"/>
-            <ValidatorArray index="0" removed="1"/>
         </InfoArray>
         <InfoArray index="Build9" Time="15">
             <Button Requirements=""/>
@@ -510,9 +611,6 @@
             <Button DefaultButtonFace="Lurker" Requirements=""/>
             <ValidatorArray index="0" removed="1"/>
         </InfoArray>
-        <InfoArray index="Build8" Time="30">
-            <ValidatorArray value="HasVespene"/>
-        </InfoArray>
         <InfoArray index="Build9" Unit="SporeCrawler"/>
         <InfoArray index="Build11" Unit="Hatchery" Time="50">
             <Button Requirements=""/>
@@ -521,51 +619,22 @@
             <Button DefaultButtonFace="SpineCrawler" Requirements=""/>
         </InfoArray>
     </CAbilBuild>
-    <CAbilResearch id="TwilightCouncilResearch">
-        <InfoArray index="Research1" Time="0">
-            <Resource index="Minerals" value="350"/>
-            <Resource index="Vespene" value="0"/>
+    <CAbilBuild id="TerranBuild3" parent="TerranBuild">
+        <Name value="Abil/Name/TerranBuild3"/>
+        <InfoArray index="Build2" Unit="Pylon">
+            <Button Requirements=""/>
         </InfoArray>
-        <InfoArray index="Research2" Time="0" Upgrade="ResearchBlink">
-            <Resource index="Minerals" value="450"/>
-            <Resource index="Vespene" value="0"/>
-            <Button Requirements="UnknownRequirement2"/>
+        <InfoArray index="Build7" Unit="Gateway"/>
+        <InfoArray index="Build8">
+            <ValidatorArray index="0" removed="1"/>
         </InfoArray>
-        <InfoArray index="Research3" Time="0" Upgrade="ResearchPhaseTransfer">
-            <Resource index="Minerals" value="300"/>
-            <Resource index="Vespene" value="0"/>
-            <Button Requirements="AdeptCompleteRE"/>
+        <InfoArray index="Build9" Unit="Obelisk"/>
+        <InfoArray index="Build29" Unit="Reaver">
+            <Button Requirements="HaveWhirlwind"/>
         </InfoArray>
-        <InfoArray index="Research4" Upgrade="UpgradeWhirlwind">
-            <Resource index="Minerals" value="400"/>
-            <Button DefaultButtonFace="FenixWhirlwind" Requirements="HaveWhirlwind"/>
-        </InfoArray>
-    </CAbilResearch>
+    </CAbilBuild>
     <CAbilResearch id="AllowBadBuilds">
         <InfoArray index="Research2" Upgrade="AllowBadBuilds"/>
-    </CAbilResearch>
-    <CAbilResearch id="UnknownAbility">
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Activity value="UI/Training"/>
-        <InfoArray index="Research1" Upgrade="Structure">
-            <Resource index="Minerals" value="50"/>
-            <Button DefaultButtonFace="BuildingShield" Requirements="LSArmorMax"/>
-        </InfoArray>
-    </CAbilResearch>
-    <CAbilResearch id="UnknownAbility2">
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Activity value="UI/Training"/>
-        <InfoArray index="Research1" Upgrade="UnknownUpgrade2">
-            <Resource index="Minerals" value="50"/>
-            <Button DefaultButtonFace="PhotonCannon" Requirements="CannonUpgradeMax"/>
-        </InfoArray>
-    </CAbilResearch>
-    <CAbilResearch id="UpgradeFIreRate">
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <InfoArray index="Research1" Upgrade="AdeptPiercingAttack">
-            <Resource index="Minerals" value="25"/>
-            <Button DefaultButtonFace="ProtossFIreRate" Requirements="LearnAdeptPiercingAttack"/>
-        </InfoArray>
     </CAbilResearch>
     <CAbilEffectInstant id="UnretireStructure">
         <EditorCategories value="AbilityorEffectType:Units"/>

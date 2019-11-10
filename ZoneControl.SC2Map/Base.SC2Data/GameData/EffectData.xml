@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CEffectDamage id="AscendantWeaponDamage">
+        <AttributeBonus index="Light" value="10"/>
+        <AttributeBonus index="Armored" value="10"/>
+        <AttributeBonus index="Mechanical" value="10"/>
+        <Amount value="65"/>
+    </CEffectDamage>
+    <CEffectDamage id="DominionKillTeamDamage">
+        <AttributeBonus index="Armored" value="25"/>
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CEffectDamage id="HighTemplarWeaponDamage">
+        <AttributeBonus index="Light" value="10"/>
+        <AttributeBonus index="Armored" value="10"/>
+        <AttributeBonus index="Mechanical" value="10"/>
+        <Amount value="50"/>
+    </CEffectDamage>
     <CEffectIssueOrder id="InfantryArmorIssueUpgrade">
         <EditorCategories value=""/>
         <Abil value="InfantryArmorResearch"/>
@@ -24,6 +40,10 @@
         <EditorCategories value=""/>
         <Abil value="ConcussiveShellsResearch"/>
     </CEffectIssueOrder>
+    <CEffectDamage id="MengskMarauderDamage">
+        <AttributeBonus index="Armored" value="20"/>
+        <Amount value="55"/>
+    </CEffectDamage>
     <CEffectIssueOrder id="ObliterationOrdiananceIssueUpgrade">
         <EditorCategories value=""/>
         <Abil value="ObliterationOrdinanceResearch"/>
@@ -32,6 +52,32 @@
         <EditorCategories value=""/>
         <Abil value="CombatShieldResearch"/>
     </CEffectIssueOrder>
+    <CEffectDamage id="ScarabExplodeTargetDamage">
+        <AttributeBonus index="Mechanical" value="5220"/>
+        <AttributeBonus index="Structure" value="5220"/>
+        <Amount value="280"/>
+        <AreaArray index="0" Radius="0.6" Fraction="0.8"/>
+        <AreaArray index="1" Radius="0.6" Fraction="0.6"/>
+        <AreaArray index="2" Radius="1.1" Fraction="0.5"/>
+        <AreaArray index="3" Radius="1.6" Fraction="0.25"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="ScarabLaunchPersistent">
+        <ValidatorArray index="0" removed="1"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="ScoutGround">
+        <AttributeBonus index="Light" value="0"/>
+        <Amount value="30"/>
+    </CEffectDamage>
+    <!--                                                                                         -->
+    <!-- Scout .......................................................................... -->
+    <!--                                                                                         -->
+    <CEffectDamage id="ScoutMPGround">
+        <Amount value="35"/>
+    </CEffectDamage>
+    <CEffectDamage id="ShockDDamage">
+        <ArmorReduction value="2"/>
+        <Amount value="100"/>
+    </CEffectDamage>
     <CEffectIssueOrder id="StimpackIssueUpgrade">
         <EditorCategories value=""/>
         <Abil value="StimpackResearch"/>
@@ -49,9 +95,8 @@
         <Amount value="40"/>
     </CEffectDamage>
     <CEffectDamage id="AdeptDamage">
-        <Amount value="40"/>
-        <AttributeBonus index="Light" value="25"/>
-        <AttributeBonus index="Structure" value="100"/>
+        <Amount value="25"/>
+        <AttributeBonus index="Light" value="17"/>
     </CEffectDamage>
     <CEffectDamage id="AutoTurret">
         <Amount value="50"/>
@@ -308,9 +353,8 @@
         <Amount value="120"/>
     </CEffectDamage>
     <CEffectDamage id="TalisDamage">
-        <Amount value="40"/>
-        <AttributeBonus index="Light" value="25"/>
-        <AttributeBonus index="Structure" value="100"/>
+        <Amount value="29"/>
+        <AttributeBonus index="Light" value="23"/>
     </CEffectDamage>
     <CEffectDamage id="TempestDamageGround">
         <Amount value="130"/>

@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
-    <CRequirement id="AdeptCompleteRE">
-        <NodeArray index="Show" Link="NotCountUpgradeResearchPhaseTransferQueuedOrBetter"/>
-    </CRequirement>
-    <CRequirement id="BaseWeapMax">
-        <NodeArray index="Show" Link="LTCountUpgradeUpgradeBaseWeaponQueuedOrBetter204156726092"/>
-    </CRequirement>
-    <CRequirement id="CannonUpgradeMax">
-        <NodeArray index="Show" Link="LTCountUpgradeUnknownUpgrade2QueuedOrBetter204156726092"/>
-    </CRequirement>
-    <CRequirement id="ColossusUpgrade">
-        <NodeArray index="Show" Link="NotCountUpgradeUpgradeFlameLanceQueuedOrBetter"/>
-    </CRequirement>
     <CRequirement id="AllowBadBuildsAvailable">
         <NodeArray index="Show" Link="NotCountUpgradeAllowBadBuildsCompleteOnly"/>
     </CRequirement>
     <CRequirement id="HaveDarkTemplar">
         <NodeArray index="Use" Link="SumCountUnitMarineCompleteOnlyCountUnitWarPigCompleteOnly"/>
         <NodeArray index="Show" Link="NotCountUpgradeCombatShieldQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="HaveDarkTemplar2">
+        <EditorCategories value="Race:Protoss,TechType:Ability"/>
+        <NodeArray index="Use" Link="SumCountUnitZealotCompleteOnlyCountUnitZealotAiurCompleteOnly"/>
+        <NodeArray index="Show" Link="NotCountUpgradeCombatShieldQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="HaveMarauder2">
+        <EditorCategories value="Race:Protoss,TechType:Ability"/>
+        <NodeArray index="Use" Link="SumCountUnitStalkerCompleteOnlyCountUnitStalkerPurifierCompleteOnly"/>
+        <NodeArray index="Show" Link="NotCountUpgradePunisherGrenadesCompleteOnly"/>
     </CRequirement>
     <CRequirement id="HaveReaper">
         <EditorCategories value="Race:Protoss,TechType:Ability"/>
@@ -33,32 +31,14 @@
         <NodeArray index="Use" Link="SumCountUnitMarauderCompleteOnlyCountUnitHammerSecurityCompleteOnly"/>
         <NodeArray index="Show" Link="NotCountUpgradePunisherGrenadesQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="HaveStargate">
-        <NodeArray index="Use" Link="CountUpgradeSingularityChargeCompleteOnly2435624496"/>
+    <CRequirement id="HaveReaper2">
+        <EditorCategories value="Race:Protoss,TechType:Ability"/>
+        <NodeArray index="Use" Link="SumCountUnitAdeptCompleteOnlyCountUnitTalisCompleteOnly"/>
+        <NodeArray index="Show" Link="NotCountUpgradeReaperSpeedQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="HaveVoidColossusFireBeam2">
-        <NodeArray index="Show" Link="CountUpgradeVoidColossusFireBeamQueuedOrBetter"/>
-    </CRequirement>
-    <CRequirement id="HaveVoidZealotCharge">
-        <NodeArray index="Use" Link="CountUpgradeChargeCompleteOnly"/>
-        <NodeArray index="Show" Link=""/>
-    </CRequirement>
-    <CRequirement id="HaveWhirlwind">
-        <NodeArray index="Show" Link="NotCountUpgradeUpgradeWhirlwindQueuedOrBetter"/>
-    </CRequirement>
-    <CRequirement id="LSArmorMax">
-        <NodeArray index="Show" Link="LTCountUpgradeStructureQueuedOrBetter204156726092"/>
-    </CRequirement>
-    <CRequirement id="LearnAdeptPiercingAttack">
-        <NodeArray index="Show" Link="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092"/>
-    </CRequirement>
-    <CRequirement id="LearnProtossShield2">
-        <NodeArray index="Use" Link=""/>
-        <NodeArray index="Show" Link="LTCountUpgradeProtossShieldsLevel2QueuedOrBetter204156726092"/>
-    </CRequirement>
-    <CRequirement id="LearnProtossShield3">
-        <NodeArray index="Use" Link=""/>
-        <NodeArray index="Show" Link="LTCountUpgradeProtossShieldsLevel3QueuedOrBetter20"/>
+    <CRequirement id="HaveReaver">
+        <NodeArray index="Use" Link="CountUnitReaverCompleteOnly"/>
+        <NodeArray index="Show" Link="NotCountUpgradeSiegeTurretAreaQueuedOrBetter"/>
     </CRequirement>
     <CRequirement id="LearnWhirlwind">
         <NodeArray index="Show" Link="CountUpgradeUpgradeWhirlwindCompleteOnly"/>
@@ -101,9 +81,6 @@
         <NodeArray index="Use" Link="SumCountUnitSiegeBreakerSiegedInProgressOrBetterCountUnitSiegeBreakerInProgressOrBetter"/>
         <NodeArray index="Show" Link="NotCountUpgradeResearchSiegeBreakerArcliteCannonQueuedOrBetter"/>
     </CRequirement>
-    <CRequirement id="LearnProtossGroundWeapon1">
-        <NodeArray index="Show" Link="LTCountUpgradeProtossGroundWeaponsLevel1QueuedOrBetter20"/>
-    </CRequirement>
     <CRequirement id="LearnPunisherGrenades">
         <EditorCategories value="Race:Terran,TechType:Upgrade"/>
     </CRequirement>
@@ -111,7 +88,16 @@
         <NodeArray index="Use" Link="SumCountUnitSiegeBreakerSiegedInProgressOrBetterCountUnitSiegeBreakerInProgressOrBetter"/>
         <NodeArray index="Show" Link="NotCountUpgradeSiegeTurretAreaQueuedOrBetter"/>
     </CRequirement>
+    <CRequirement id="LearnObliterationOrdnance2" parent="LearnPunisherGrenades">
+        <NodeArray index="Use" Link="SumCountUnitReaverInProgressOrBetter"/>
+        <NodeArray index="Show" Link="NotCountUpgradeSiegeTurretAreaQueuedOrBetter"/>
+    </CRequirement>
     <CRequirement id="LearnStimpack">
+        <NodeArray index="Show" Link="NotCountUpgradeStimpackQueuedOrBetter"/>
+    </CRequirement>
+    <CRequirement id="MarineOrMarauder2">
+        <EditorCategories value="Race:Protoss,TechType:Ability"/>
+        <NodeArray index="Use" Link="SumCountUnitZealotCompleteOnlyCountUnitZealotAiurCompleteOnlyCountUnitStalkerCompleteOnlyCountUnitStalkerPurifierCompleteOnly"/>
         <NodeArray index="Show" Link="NotCountUpgradeStimpackQueuedOrBetter"/>
     </CRequirement>
     <CRequirement id="MaxLevelBunkerArmor">
@@ -137,30 +123,6 @@
     </CRequirement>
     <CRequirement id="MaxLevelInfantryRange">
         <NodeArray index="Show" Link="LTCountUpgradeMarineAttackRangeQueuedOrBetterCountUpgradeUpgradeLimitQueuedOrBetter4156726092"/>
-    </CRequirement>
-    <CRequirement id="MaxShieldRegen">
-        <NodeArray index="Show" Link="LTCountUpgradeUnknownUpgradeQueuedOrBetter204156726092"/>
-    </CRequirement>
-    <CRequirement id="ProtossArmorMax">
-        <NodeArray index="Show" Link="LTCountUpgradeUpgradeArmorQueuedOrBetter204156726092"/>
-    </CRequirement>
-    <CRequirement id="ProtossShieldMax">
-        <NodeArray index="Show" Link="LTCountUpgradeUpgradeShieldsQueuedOrBetter204156726092"/>
-    </CRequirement>
-    <CRequirement id="UnknownRequirement">
-        <NodeArray index="Show" Link="LTCountUpgradeAdeptPiercingAttackQueuedOrBetter204156726092"/>
-    </CRequirement>
-    <CRequirement id="UnknownRequirement2">
-        <NodeArray index="Show" Link="NotCountUpgradeResearchBlinkQueuedOrBetter"/>
-    </CRequirement>
-    <CRequirement id="UnknownRequirement3">
-        <NodeArray index="Use" Link="CountUpgradeResearchBlinkCompleteOnly"/>
-    </CRequirement>
-    <CRequirement id="UnknownRequirement4">
-        <NodeArray index="Use" Link="CountUpgradeResearchPhaseTransferCompleteOnly"/>
-    </CRequirement>
-    <CRequirement id="UnknownRequirement5">
-        <NodeArray index="Show" Link="LTCountUpgradeStuctureRegenQueuedOrBetter204156726092"/>
     </CRequirement>
     <CRequirement id="NotRetired">
         <NodeArray index="Show" Link="CountBehaviorRetireStructureCompleteOnlyAtUnit"/>
