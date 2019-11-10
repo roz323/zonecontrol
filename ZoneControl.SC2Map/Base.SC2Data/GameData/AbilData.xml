@@ -483,8 +483,9 @@
         <InfoArray index="Build7" Time="60">
             <Button Requirements=""/>
         </InfoArray>
-        <InfoArray index="Build8" Unit="HiveMindEmulator">
+        <InfoArray index="Build8" Unit="HiveMindEmulator" Time="15">
             <Button DefaultButtonFace="HiveMindEmulator"/>
+            <ValidatorArray index="0" removed="1"/>
         </InfoArray>
         <InfoArray index="Build9" Time="15">
             <Button Requirements=""/>
@@ -508,6 +509,9 @@
         <InfoArray index="Build3" Unit="LurkerMP" Time="90">
             <Button DefaultButtonFace="Lurker" Requirements=""/>
             <ValidatorArray index="0" removed="1"/>
+        </InfoArray>
+        <InfoArray index="Build8" Time="30">
+            <ValidatorArray value="HasVespene"/>
         </InfoArray>
         <InfoArray index="Build9" Unit="SporeCrawler"/>
         <InfoArray index="Build11" Unit="Hatchery" Time="50">
