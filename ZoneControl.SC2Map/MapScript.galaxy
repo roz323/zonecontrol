@@ -6628,7 +6628,7 @@ void gt_Zoom_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_scohypyrgtbgqinl;
+    int lv_jdisvsmdlsjluxmg;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -6693,11 +6693,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_scohypyrgtbgqinl = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_scohypyrgtbgqinl <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_scohypyrgtbgqinl >= autoA9265719_ae) ) ; lv_scohypyrgtbgqinl += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_scohypyrgtbgqinl])) {
+        lv_jdisvsmdlsjluxmg = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_jdisvsmdlsjluxmg <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_jdisvsmdlsjluxmg >= autoA9265719_ae) ) ; lv_jdisvsmdlsjluxmg += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_jdisvsmdlsjluxmg])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_scohypyrgtbgqinl]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_jdisvsmdlsjluxmg]), c_orderQueueReplace);
                 }
 
             }
@@ -7161,7 +7161,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_gavsvchahudhysna;
+    int lv_epoirsahmuhntxew;
     int lv_player;
     int lv_ally;
 
@@ -7185,10 +7185,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_gavsvchahudhysna = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_gavsvchahudhysna <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_gavsvchahudhysna >= autoFC6C6804_ae) ) ; lv_gavsvchahudhysna += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_gavsvchahudhysna], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_gavsvchahudhysna], PlayerGroupSingle(lv_player), true);
+            lv_epoirsahmuhntxew = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_epoirsahmuhntxew <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_epoirsahmuhntxew >= autoFC6C6804_ae) ) ; lv_epoirsahmuhntxew += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_epoirsahmuhntxew], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_epoirsahmuhntxew], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -8509,6 +8509,7 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerDebugOutput(1, StringExternal("Param/Value/01FF48A0"), true);
     lv_player = UnitGetOwner(EventUnit());
     lv_spawnPosition = UnitGetPosition(EventUnit());
     gv_player_has_worker_death[lv_player] = true;
@@ -8522,6 +8523,7 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
 
     lv_structure_to_spawn_at = UnitGroupClosestToPoint(lv_group, lv_spawnPosition);
     if ((gv_player_alive[lv_player] == true)) {
+        TriggerDebugOutput(1, StringExternal("Param/Value/93F75F22"), true);
         UnitCreate(1, gv_race_worker_types[gv_player_race_index[lv_player]], 0, lv_player, PointWithOffset(UnitGetPosition(lv_structure_to_spawn_at), (0.0 - gv_player_spawn_offsets[lv_player][0]), (0.0 - gv_player_spawn_offsets[lv_player][1])), 270.0);
         gf_OnScvCreated(UnitLastCreated());
     }
