@@ -2,7 +2,7 @@
 // 
 // Generated Map Script
 // 
-// Name:   Zone Control CE Dev
+// Name:   Zone Control CE Races Public Test
 // 
 //==================================================================================================
 include "TriggerLibs/NativeLib"
@@ -1566,7 +1566,23 @@ void gf_ApplyPlayerSettings () {
         if (lv_player < 0) { break; }
         gf_TryAllowBadBuilds(lv_player);
         PlayerApplySkin(lv_player, "MarineXPR", false);
+        PlayerApplySkin(lv_player, "MarineXPR", false);
         PlayerApplySkin(lv_player, "GhostNova", false);
+        PlayerApplySkin(lv_player, "ZealotTaldarim", false);
+        PlayerApplySkin(lv_player, "ZealotGolden", false);
+        PlayerApplySkin(lv_player, "ZealotXPR", false);
+        PlayerApplySkin(lv_player, "ZealotPurifier", false);
+        PlayerApplySkin(lv_player, "HighTemplarTaldarim", false);
+        PlayerApplySkin(lv_player, "HighTemplarPurifier", false);
+        PlayerApplySkin(lv_player, "StalkerTaldarim", false);
+        PlayerApplySkin(lv_player, "StalkerDeluxe", false);
+        PlayerApplySkin(lv_player, "StalkerGolden", false);
+        PlayerApplySkin(lv_player, "StalkerTaldarim", false);
+        PlayerApplySkin(lv_player, "StalkerPurifier", false);
+        PlayerApplySkin(lv_player, "AdeptCE", false);
+        PlayerApplySkin(lv_player, "AdeptTaldarim", false);
+        PlayerApplySkin(lv_player, "AdeptPurifier", false);
+        PlayerApplySkin(lv_player, "AdeptGolden", false);
         if ((gv_banks[lv_player] != null) && (BankValueGetAsFlag(gv_banks[lv_player], "Player", "stubborn_mode") == true)) {
             gf_GameMessage(StringExternal("Param/Value/4BDD3BD8"), PlayerGroupSingle(EventPlayer()));
             DialogControlHookupStandard(c_triggerControlTypeButton, "UIContainer/ConsoleUIContainer/MinimapPanel/TerrainButton");
@@ -1742,11 +1758,11 @@ void gf_ConfigureConstants () {
     gv_race_spawn_unit_types[1][0][0] = "Zealot";
     gv_race_spawn_unit_types[1][1][0] = "Adept";
     gv_race_spawn_unit_types[1][2][0] = "Stalker";
-    gv_race_spawn_unit_types[1][3][0] = "Immortal";
+    gv_race_spawn_unit_types[1][3][0] = "HighTemplar";
     gv_race_spawn_unit_types[1][0][1] = "ZealotAiur";
     gv_race_spawn_unit_types[1][1][1] = "Talis";
-    gv_race_spawn_unit_types[1][2][1] = "Dragoon";
-    gv_race_spawn_unit_types[1][3][1] = "ImmortalAiur";
+    gv_race_spawn_unit_types[1][2][1] = "StalkerPurifier";
+    gv_race_spawn_unit_types[1][3][1] = "HighTemplarTaldarim";
     gv_race_spawn_unit_types[2][0][0] = "Zergling";
     gv_race_spawn_unit_types[2][1][0] = "Hydralisk";
     gv_race_spawn_unit_types[2][2][0] = "Roach";
@@ -1821,14 +1837,14 @@ void gf_ConfigureConstants () {
     gv_race_teaminfo_upgrades[0][5] = "BunkerArmor";
     gv_race_teaminfo_upgrades[0][6] = "BunkerLifeRegeneration";
     gv_race_teaminfo_upgrades[0][7] = "BunkerCapacity";
-    gv_race_teaminfo_upgrades[1][0] = "UpgradeShields";
-    gv_race_teaminfo_upgrades[1][1] = "ProtossGroundWeaponsLevel1";
-    gv_race_teaminfo_upgrades[1][2] = "AdeptPiercingAttack";
-    gv_race_teaminfo_upgrades[1][3] = "UnknownUpgrade";
+    gv_race_teaminfo_upgrades[1][0] = "MarineArmor";
+    gv_race_teaminfo_upgrades[1][1] = "MarineWeapons";
+    gv_race_teaminfo_upgrades[1][2] = "MarineAttackRange";
+    gv_race_teaminfo_upgrades[1][3] = "MarineLifeRegeneration";
     gv_race_teaminfo_upgrades[1][4] = "MarineMovespeed";
-    gv_race_teaminfo_upgrades[1][5] = "Structure";
-    gv_race_teaminfo_upgrades[1][6] = "StuctureRegen";
-    gv_race_teaminfo_upgrades[1][7] = "UpgradeBaseWeapon";
+    gv_race_teaminfo_upgrades[1][5] = "BunkerArmor";
+    gv_race_teaminfo_upgrades[1][6] = "BunkerLifeRegeneration";
+    gv_race_teaminfo_upgrades[1][7] = "BunkerCapacity";
     gv_race_teaminfo_upgrades[2][0] = "UpgradeShields";
     gv_race_teaminfo_upgrades[2][1] = "ProtossGroundWeaponsLevel1";
     gv_race_teaminfo_upgrades[2][2] = "AdeptPiercingAttack";
@@ -6628,7 +6644,7 @@ void gt_Zoom_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_jdisvsmdlsjluxmg;
+    int lv_mnnshpbrryxevatv;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -6693,11 +6709,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_jdisvsmdlsjluxmg = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_jdisvsmdlsjluxmg <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_jdisvsmdlsjluxmg >= autoA9265719_ae) ) ; lv_jdisvsmdlsjluxmg += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_jdisvsmdlsjluxmg])) {
+        lv_mnnshpbrryxevatv = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_mnnshpbrryxevatv <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_mnnshpbrryxevatv >= autoA9265719_ae) ) ; lv_mnnshpbrryxevatv += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_mnnshpbrryxevatv])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_jdisvsmdlsjluxmg]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_mnnshpbrryxevatv]), c_orderQueueReplace);
                 }
 
             }
@@ -7161,7 +7177,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_epoirsahmuhntxew;
+    int lv_kqbmhyxqopmictgk;
     int lv_player;
     int lv_ally;
 
@@ -7185,10 +7201,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_epoirsahmuhntxew = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_epoirsahmuhntxew <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_epoirsahmuhntxew >= autoFC6C6804_ae) ) ; lv_epoirsahmuhntxew += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_epoirsahmuhntxew], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_epoirsahmuhntxew], PlayerGroupSingle(lv_player), true);
+            lv_kqbmhyxqopmictgk = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_kqbmhyxqopmictgk <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_kqbmhyxqopmictgk >= autoFC6C6804_ae) ) ; lv_kqbmhyxqopmictgk += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_kqbmhyxqopmictgk], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_kqbmhyxqopmictgk], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -8509,7 +8525,7 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    TriggerDebugOutput(1, StringExternal("Param/Value/01FF48A0"), true);
+    TriggerDebugOutput(1, StringToText(""), true);
     lv_player = UnitGetOwner(EventUnit());
     lv_spawnPosition = UnitGetPosition(EventUnit());
     gv_player_has_worker_death[lv_player] = true;
@@ -8523,7 +8539,7 @@ bool gt_ScvDied_Func (bool testConds, bool runActions) {
 
     lv_structure_to_spawn_at = UnitGroupClosestToPoint(lv_group, lv_spawnPosition);
     if ((gv_player_alive[lv_player] == true)) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/93F75F22"), true);
+        TriggerDebugOutput(1, StringToText(""), true);
         UnitCreate(1, gv_race_worker_types[gv_player_race_index[lv_player]], 0, lv_player, PointWithOffset(UnitGetPosition(lv_structure_to_spawn_at), (0.0 - gv_player_spawn_offsets[lv_player][0]), (0.0 - gv_player_spawn_offsets[lv_player][1])), 270.0);
         gf_OnScvCreated(UnitLastCreated());
     }
