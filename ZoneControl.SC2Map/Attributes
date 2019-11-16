@@ -767,6 +767,30 @@
             <Value Id="1"/>
         </Default>
     </Attribute>
+    <Attribute>
+        <Id Value="11"/>
+        <Type Value="Global"/>
+        <Name Value="Attribute011/Name"/>
+        <Availability Value="All"/>
+        <Visibility Value="All"/>
+        <Access Value="Host"/>
+        <Value>
+            <Id Value="1"/>
+            <Name Value="Attribute011/Value001/Name"/>
+        </Value>
+        <Value>
+            <Id Value="2"/>
+            <Name Value="Attribute011/Value002/Name"/>
+        </Value>
+        <Value>
+            <Id Value="3"/>
+            <Name Value="Attribute011/Value003/Name"/>
+        </Value>
+        <Default>
+            <Slot Id="Global"/>
+            <Value Id="3"/>
+        </Default>
+    </Attribute>
     <DefaultVariants Value="0"/>
     <Variant>
         <Id Value="10"/>
@@ -1165,6 +1189,13 @@
                 <Locked/>
             </Default>
         </Attribute>
+        <Attribute Id="11">
+            <Default>
+                <Slot Id="Global"/>
+                <Value Id="3"/>
+                <Locked/>
+            </Default>
+        </Attribute>
     </Variant>
     <Variant>
         <Id Value="11"/>
@@ -1500,7 +1531,7 @@
         <Attribute Id="12">
             <Default>
                 <Slot Id="Global"/>
-                <Value Id="2"/>
+                <Value Id="1"/>
             </Default>
         </Attribute>
         <Attribute Id="17">
@@ -1560,6 +1591,13 @@
             <Default>
                 <Slot Id="Global"/>
                 <Value Id="1"/>
+                <Locked/>
+            </Default>
+        </Attribute>
+        <Attribute Id="11">
+            <Default>
+                <Slot Id="Global"/>
+                <Value Id="3"/>
                 <Locked/>
             </Default>
         </Attribute>
@@ -1930,10 +1968,16 @@
             <Default>
                 <Slot Id="Global"/>
                 <Value Id="2"/>
-                <Locked/>
             </Default>
         </Attribute>
         <Attribute Id="24">
+            <Default>
+                <Slot Id="Global"/>
+                <Value Id="3"/>
+                <Locked/>
+            </Default>
+        </Attribute>
+        <Attribute Id="11">
             <Default>
                 <Slot Id="Global"/>
                 <Value Id="3"/>
