@@ -585,8 +585,9 @@
         <InfoArray index="Build7" Time="60">
             <Button Requirements=""/>
         </InfoArray>
-        <InfoArray index="Build8" Unit="HiveMindEmulator">
+        <InfoArray index="Build8" Unit="HiveMindEmulator" Time="15">
             <Button DefaultButtonFace="HiveMindEmulator"/>
+            <ValidatorArray index="0" removed="1"/>
         </InfoArray>
         <InfoArray index="Build9" Time="15">
             <Button Requirements=""/>
@@ -611,6 +612,9 @@
             <Button DefaultButtonFace="Lurker" Requirements=""/>
             <ValidatorArray index="0" removed="1"/>
         </InfoArray>
+        <InfoArray index="Build8" Time="30">
+            <ValidatorArray value="HasVespene"/>
+        </InfoArray>
         <InfoArray index="Build9" Unit="SporeCrawler"/>
         <InfoArray index="Build11" Unit="Hatchery" Time="50">
             <Button Requirements=""/>
@@ -625,9 +629,7 @@
             <Button Requirements=""/>
         </InfoArray>
         <InfoArray index="Build7" Unit="Gateway"/>
-        <InfoArray index="Build8">
-            <ValidatorArray index="0" removed="1"/>
-        </InfoArray>
+        <InfoArray index="Build8" Time="30"/>
         <InfoArray index="Build9" Unit="Obelisk"/>
         <InfoArray index="Build29" Unit="Reaver">
             <Button Requirements="HaveWhirlwind"/>

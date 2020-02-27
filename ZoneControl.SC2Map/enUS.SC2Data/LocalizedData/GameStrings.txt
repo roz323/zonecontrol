@@ -179,8 +179,12 @@ Attribute025/Value002/Desc=Rewards players for being the last to control a zone.
 Attribute025/Value002/Name=Zone Control
 Attribute025/Value003/Desc=Rewards all players in range of the Xel'Naga tower.
 Attribute025/Value003/Name=Tower Control
-Attribute025/Value004/Desc=Mineral crystals spawn every 5s.
-Attribute025/Value004/Name=More Mineral Crystals
+Attribute026/Name=Twitch Chat Overlay
+Attribute026/Value001/Name=Enabled
+Attribute026/Value002/Name=Disabled
+Attribute027/Name=Start Paused
+Attribute027/Value001/Name=False
+Attribute027/Value002/Name=True
 Behavior/Name/RetireStructure=Retired Structure
 Behavior/Tooltip/GuardianShield=Damage reduced by <d ref="-(Behavior,GuardianShield,DamageResponse[0].ModifyAmount[0])"/>.
 Behavior/Tooltip/RetireStructure=This structure cannot produce units.<n/><n/><c val="FFFFAE">Provides an additional <d ref="(Behavior,RetireStructure,Modification.Food)"/> supply.</c>
@@ -304,7 +308,7 @@ DocInfo/HowToPlayBasic00=Bunkers Spawn Infantry
 DocInfo/HowToPlayBasic01=Kill Enemy Armies and Bases for Income
 DocInfo/HowToPlayBasic02=Buy Upgrades and Bunkers
 DocInfo/HowToPlayWinning00=Destroy All Enemy Bunkers
-DocInfo/Name=Zone Control CE Races Public Test
+DocInfo/Name=Zone Control CE Dev
 DocInfo/PatchNote001=
 DocInfo/PatchNote002=Turret now desplays proper health regeneration upgrade.
 DocInfo/PatchNote003=Games with <= 4 players can start with an extra bunker.
@@ -357,7 +361,7 @@ Effect/Name/RetireStructure=Retire Structure
 Effect/Name/UnretireStructure=Unretire Structure
 Fixed: Positioning determined by lobby layout=
 Guass Rifle range: <d ref="Weapon,GuassRifle,Range[0]"/>=Guass Rifle range: <d ref="Weapon,GuassRifle,Range[0]"/>
-LoadingScreen/Subtitle=Join our leagues on Friday and Saturday evenings: zcleagues.com.
+LoadingScreen/Subtitle=$100 Prize Tournament THIS SATURDAY at 1pm PST. Join our discord: zcleagues.com.
 LoadingScreen/Tip= 
 MapInfo/Player00/Name=
 MapInfo/Player01/Name=Player 1
@@ -430,6 +434,7 @@ Param/Value/4BDD3BD8=Stubborn Mode is now <c val="03E409">Enabled</c>
 Param/Value/4E2F7B84=Dismiss
 Param/Value/4FF34724=`, `time`:
 Param/Value/50D5E327= minutes remaining.
+Param/Value/541529A8= of 
 Param/Value/54674B9B=">+
 Param/Value/56645396=k
 Param/Value/59C82D4B= has <c val="09D70E">enabled </c>shared control.
@@ -458,8 +463,11 @@ Param/Value/7CEBE995= kills
 Param/Value/7E72698F= 
 Param/Value/8258300E=Terminating game due to imbalanced lobby.
 Param/Value/86FCBE39=
+Param/Value/885F7AC7=[All]
 Param/Value/892D4A81=OH NO
+Param/Value/8C48A142=Jinx mode activated.
 Param/Value/8D5E846C= has left the game
+Param/Value/900C7515=Resource Trading is now open.
 Param/Value/90E4AD59= has died
 Param/Value/911BE273= or Lose 
 Param/Value/92B980A1=
@@ -470,6 +478,7 @@ Param/Value/9A6C89BD=Resuming at game time:
 Param/Value/9CCD38A4=full_game=
 Param/Value/9F0342D9=<c val="0391DC">Tower Control Reward</c>
 Param/Value/9FD17718=L
+Param/Value/A07B6B3C=[All]
 Param/Value/A0987309=L
 Param/Value/A217D24F=
 Param/Value/A4DBF220=2000
@@ -487,6 +496,7 @@ Param/Value/B7AEC6F5=Init Failed!!
 Param/Value/B80DF5EE=<s val="BoardWarAppraiseMid"><c val="
 Param/Value/B9484BC1=</c>, Loss <c val="FF0000">-
 Param/Value/B9A2623E= 
+Param/Value/B9D1DDB8=Game terminating as a draw!
 Param/Value/BB11940F= 
 Param/Value/BC1FC531=<c val="0391DC">Zone Control Reward</c>
 Param/Value/BDC6300B= L, 
@@ -495,6 +505,7 @@ Param/Value/BE296957= has received
 Param/Value/C02148CE=<c val="0391DC">Zoom Enabled</c>
 Param/Value/C385B952= wins 
 Param/Value/C4D78A55=<c val="0391DC">Mineral Spawns Disabled</c>
+Param/Value/C52D614B= alive players are currently offering to draw.
 Param/Value/C572A9EC=+1
 Param/Value/C63ADDFB=B
 Param/Value/C6898BBE=

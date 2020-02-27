@@ -83,6 +83,14 @@
 
                 </Frame>
 
+      <Frame type="Label" name="TradingCountdown">
+            <Style val="ResourceCountdown"/>
+            <Height val="37"/>
+            <Width val="140"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Text val=""/>
+        </Frame>
 
 
 
@@ -93,6 +101,24 @@
        <Anchor side="Top" relative="$parent" pos="Min" offset="7"/>
        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
        <Shortcut val="Control+P"/>
+  </Frame>
+
+ <Frame type="Button" name="Pause2" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+       <Text val="P"/>
+       <Width val="1"/>
+       <Height val="1"/>
+       <Anchor side="Top" relative="$parent" pos="Min" offset="7"/>
+       <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+       <Shortcut val="Pause"/>
+  </Frame>
+
+ <Frame type="Button" name="DisableCheat" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
+       <Text val="X"/>
+       <Width val="1"/>
+       <Height val="1"/>
+       <Anchor side="Top" relative="$parent" pos="Min" offset="7"/>
+       <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+       <Shortcut val="Control+Alt+Enter"/>
   </Frame>
 
  <Frame type="Button" name="ToggleShareControl" template="ResourceRequestAlertPanel/ResourceRequestPanelButtonTemplate">
