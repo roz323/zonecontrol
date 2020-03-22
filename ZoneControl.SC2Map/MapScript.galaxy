@@ -1024,6 +1024,8 @@ int[17] gv_total_structure_granted_value;
 unitgroup[17] gv_structuresGroup;
 unitgroup[17] gv_structuresGroup2;
 unitgroup[17] gv_structuresGroup3;
+int[31] gv_player_numbers;
+int[31] gv_number_players;
 bool gv_jinx_mode;
 string[6] gv_jinx_strings;
 bool[17][17] gv_player_muted;
@@ -1265,6 +1267,9 @@ void InitGlobals () {
     }
     gv_event_players = PlayerGroupEmpty();
     gv_game_id = CurrentSynchronousGameTimeGet();
+    for (init_i = 0; init_i <= 14; init_i += 1) {
+        gv_draw_timestamps[init_i] = -1.0;
+    }
     gv_pause_button = c_invalidDialogControlId;
     gv_pause_button2 = c_invalidDialogControlId;
     for (init_i = 0; init_i <= 16; init_i += 1) {
@@ -1392,9 +1397,11 @@ void gf_TestTeamDead (int lp_team);
 void gf_ForceTeammateLeave (int lp_player);
 void gf_OnPlayerLeave (int lp_player);
 void gf_TestPlayerDead (int lp_player);
+int gf_GetPlayerFromNumberCommand (string lp_command_name, string lp_command);
 void gf_EnableJinxMode (int lp_player);
 string gf_GetSectionName (bank lp_bank);
-void gf_MutePlayerCommand (int lp_muting_player, string lp_muted_player_string, bool lp_mute);
+void gf_MutePlayerCommand (int lp_muting_player, int lp_muted_player, bool lp_mute);
+void gf_DisplayPlayerNubmers (playergroup lp_group);
 void gf_InitChat ();
 void gf_DialogItemRegister (int lp_dialogItem, int lp_dialogItemEvent, trigger lp_trigger);
 void gf_SendChatMessage (string lp_message, playergroup lp_recipientPlayerGroup, int lp_sendingPlayer, text lp_nameofRecipient);
@@ -1420,7 +1427,9 @@ void gf_PauseRegisteredTimers ();
 void gf_UnpauseRegisteredTimers ();
 void gf_PauseGame ();
 void gf_ResumeGame ();
+bool gf_IsPlayerAdmin (int lp_player);
 void gf_PlayerOfferDraw (int lp_player);
+void gf_ForceDraw (int lp_target_player, int lp_player);
 void gf_EvaluatePlayerStatuses ();
 void gf_Overlay ();
 void gf_junk ();
@@ -2423,6 +2432,8 @@ void gf_AssignTeamLocations () {
                 lv_position = lv_team_placement[lv_team][lv_current_slot];
                 gv_position_players[lv_position] = lv_player;
                 gv_player_positions[lv_player] = lv_position;
+                gv_player_numbers[lv_player] = lv_position;
+                gv_number_players[lv_position] = lv_player;
                 lv_current_slot = (lv_current_slot + 1);
                 gv_player_team[lv_player] = (lv_team - 1);
                 libNtve_gf_AddPlayerGroupToPlayerGroup(PlayerGroupSingle(lv_player), gv_teams[gv_player_team[lv_player]]);
@@ -2654,12 +2665,15 @@ void gf_SpawnPlayers () {
 
 void gf_SpectatorInit () {
     // Variable Declarations
+    int lv_p;
+    int lv_max_spectator_number;
     int lv_zoom_dialog;
     int lv_possible_spectator;
     int lv_player;
     int lv_team;
 
     // Automatic Variable Declarations
+    playergroup auto80E59CDF_g;
     const int auto8DC16B56_ae = 3;
     const int auto8DC16B56_ai = 1;
     const int auto54EBEAF6_ae = 15;
@@ -2676,6 +2690,13 @@ void gf_SpectatorInit () {
     UISetResourceVisible(PlayerGroupSingle(0), c_resourceTypeMinerals, false);
     PlayerGroupAdd(gv_all_players_and_observers, 0);
     PlayerGroupAdd(gv_all_observers, 0);
+    auto80E59CDF_g = gv_all_players_and_observers;
+    lv_p = -1;
+    while (true) {
+        lv_p = PlayerGroupNextPlayer(auto80E59CDF_g, lv_p);
+        if (lv_p < 0) { break; }
+        lv_max_spectator_number = MaxI(lv_max_spectator_number, gv_player_numbers[lv_p]);
+    }
     lv_team = 0;
     for ( ; ( (auto8DC16B56_ai >= 0 && lv_team <= auto8DC16B56_ae) || (auto8DC16B56_ai < 0 && lv_team >= auto8DC16B56_ae) ) ; lv_team += auto8DC16B56_ai ) {
         PlayerGroupAdd(gv_teams_and_observers[lv_team], 0);
@@ -2685,6 +2706,9 @@ void gf_SpectatorInit () {
                 PlayerGroupAdd(gv_all_players_and_observers, lv_possible_spectator);
                 PlayerGroupAdd(gv_all_observers, lv_possible_spectator);
                 gf_SpectatorUI(lv_possible_spectator);
+                lv_max_spectator_number += 1;
+                gv_player_numbers[lv_possible_spectator] = lv_max_spectator_number;
+                gv_number_players[lv_max_spectator_number] = lv_player;
                 gf_SpectatorZoom(lv_possible_spectator, 3, true);
                 lv_team = 0;
                 for ( ; ( (auto285C103B_ai >= 0 && lv_team <= auto285C103B_ae) || (auto285C103B_ai < 0 && lv_team >= auto285C103B_ae) ) ; lv_team += auto285C103B_ai ) {
@@ -5864,6 +5888,12 @@ void gf_TestPlayerDead (int lp_player) {
     gf_NotifyPlayerDied(lp_player);
 }
 
+int gf_GetPlayerFromNumberCommand (string lp_command_name, string lp_command) {
+    // Automatic Variable Declarations
+    // Implementation
+    return gv_number_players[StringToInt(StringSub(lp_command, (StringLength(lp_command_name) + 1), (StringLength(lp_command) - 0)))];
+}
+
 void gf_EnableJinxMode (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
@@ -5888,7 +5918,32 @@ string gf_GetSectionName (bank lp_bank) {
     }
 }
 
-void gf_MutePlayerCommand (int lp_muting_player, string lp_muted_player_string, bool lp_mute) {
+void gf_MutePlayerCommand (int lp_muting_player, int lp_muted_player, bool lp_mute) {
+    // Variable Declarations
+    playergroup lv_group;
+    int lv_team;
+    string lv_muted_string;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_group = PlayerGroupEmpty();
+    lv_muted_string = "";
+
+    // Implementation
+    if ((lp_muted_player == -1)) {
+        gf_DisplayPlayerNubmers(PlayerGroupSingle(lp_muting_player));
+    }
+    else {
+        if ((lp_mute != gv_player_muted[lp_muting_player][lp_muted_player])) {
+            gf_GameMessage((gv_player_names_colored[lp_muting_player] + StringExternal("Param/Value/30280883") + gv_player_names_colored[lp_muted_player]), PlayerGroupSingle(lp_muting_player));
+        }
+
+        gv_player_muted[lp_muting_player][lp_muted_player] = lp_mute;
+    }
+}
+
+void gf_DisplayPlayerNubmers (playergroup lp_group) {
     // Variable Declarations
     playergroup lv_group;
     int lv_team;
@@ -5897,9 +5952,9 @@ void gf_MutePlayerCommand (int lp_muting_player, string lp_muted_player_string, 
     int lv_mute_player;
 
     // Automatic Variable Declarations
-    int auto2CFA43DB_ae;
-    const int auto2CFA43DB_ai = 1;
-    playergroup autoC8712720_g;
+    int autoF9181D73_ae;
+    const int autoF9181D73_ai = 1;
+    playergroup auto04FE9517_g;
 
     // Variable Initialization
     lv_group = PlayerGroupEmpty();
@@ -5907,40 +5962,26 @@ void gf_MutePlayerCommand (int lp_muting_player, string lp_muted_player_string, 
     lv_mute_player = -1;
 
     // Implementation
-    lv_mute_player = StringToInt(lp_muted_player_string);
-    if ((lv_mute_player == 0)) {
-        auto2CFA43DB_ae = gv_num_teams;
-        lv_team = 0;
-        for ( ; ( (auto2CFA43DB_ai >= 0 && lv_team <= auto2CFA43DB_ae) || (auto2CFA43DB_ai < 0 && lv_team >= auto2CFA43DB_ae) ) ; lv_team += auto2CFA43DB_ai ) {
-            if ((lv_team == gv_num_teams)) {
-                lv_group = gv_all_observers;
-            }
-            else {
-                lv_group = gv_teams[lv_team];
-            }
-            autoC8712720_g = lv_group;
-            lv_player = -1;
-            while (true) {
-                lv_player = PlayerGroupNextPlayer(autoC8712720_g, lv_player);
-                if (lv_player < 0) { break; }
-                if ((lv_player != 0)) {
-                    lv_muted_string = "";
-                    if ((gv_player_muted[lp_muting_player][lv_player] == true)) {
-                        lv_muted_string = " (muted)";
-                    }
-
-                    gf_GameMessage((StringToText(IntToString(lv_player)) + StringExternal("Param/Value/E27D0006") + gv_player_names_colored[lv_player] + StringToText(lv_muted_string)), PlayerGroupSingle(lp_muting_player));
-                }
-
-            }
+    autoF9181D73_ae = gv_num_teams;
+    lv_team = 0;
+    for ( ; ( (autoF9181D73_ai >= 0 && lv_team <= autoF9181D73_ae) || (autoF9181D73_ai < 0 && lv_team >= autoF9181D73_ae) ) ; lv_team += autoF9181D73_ai ) {
+        if ((lv_team == gv_num_teams)) {
+            lv_group = gv_all_observers;
         }
-    }
-    else {
-        if ((lp_mute != gv_player_muted[lp_muting_player][lv_mute_player])) {
-            gf_GameMessage((gv_player_names_colored[lp_muting_player] + StringExternal("Param/Value/30280883") + gv_player_names_colored[lv_mute_player]), PlayerGroupSingle(lp_muting_player));
+        else {
+            lv_group = gv_teams[lv_team];
         }
+        auto04FE9517_g = lv_group;
+        lv_player = -1;
+        while (true) {
+            lv_player = PlayerGroupNextPlayer(auto04FE9517_g, lv_player);
+            if (lv_player < 0) { break; }
+            if ((lv_player != 0)) {
+                lv_muted_string = "";
+                gf_GameMessage((StringToText(IntToString(gv_player_numbers[lv_player])) + StringExternal("Param/Value/63A9985C") + gv_player_names_colored[lv_player] + StringToText(lv_muted_string)), lp_group);
+            }
 
-        gv_player_muted[lp_muting_player][lv_mute_player] = lp_mute;
+        }
     }
 }
 
@@ -6219,7 +6260,7 @@ void gf_InitEventBanks () {
     while (true) {
         lv_player = PlayerGroupNextPlayer(auto6F11DA47_g, lv_player);
         if (lv_player < 0) { break; }
-        if (((PlayerType(lv_player) == c_playerTypeUser) && ((GameAttributeGameValue("8") == "0001") || (GameAttributeGameValue("11") == "0001") || ((GameAttributeGameValue("11") == "0002") && ((StringEqual(gv_player_handles[lv_player], "1-S2-1-4632373", c_stringNoCase) == true) || (StringEqual(gv_player_handles[lv_player], "1-S2-1-951651", c_stringNoCase) == true))) || (PlayerGroupHasPlayer(gv_all_observers, lv_player) == true)))) {
+        if (((PlayerType(lv_player) == c_playerTypeUser) && ((GameAttributeGameValue("8") == "0001") || (GameAttributeGameValue("11") == "0001") || ((GameAttributeGameValue("11") == "0002") && (gf_IsPlayerAdmin(lv_player) == true)) || (PlayerGroupHasPlayer(gv_all_observers, lv_player) == true)))) {
             PlayerGroupAdd(gv_event_players, lv_player);
         }
 
@@ -6518,69 +6559,97 @@ void gf_ResumeGame () {
     TriggerDebugOutput(10, (StringExternal("Param/Value/9A6C89BD") + FixedToText(GameGetMissionTime(), c_fixedPrecisionAny)), false);
 }
 
+bool gf_IsPlayerAdmin (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((StringEqual(gv_player_handles[lp_player], "1-S2-1-4632373", c_stringNoCase) == true) && (StringEqual(gv_player_handles[lp_player], "1-S2-1-951651", c_stringNoCase) == true) && (StringEqual(gv_player_handles[lp_player], "1-S2-1-3971708", c_stringNoCase) == true) && (StringEqual(gv_player_handles[lp_player], "1-S2-1-10360040", c_stringNoCase) == true) && (StringEqual(gv_player_handles[lp_player], "1-S2-1-4087243", c_stringNoCase) == true) && (StringEqual(gv_player_handles[lp_player], "1-S2-1-10333885", c_stringNoCase) == true)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 void gf_PlayerOfferDraw (int lp_player) {
     // Variable Declarations
+    text lv_draw_text;
     int lv_p;
     int lv_num_offering;
     int lv_num_total;
 
     // Automatic Variable Declarations
-    playergroup autoDC0D3142_g;
-    playergroup auto9D5A85CD_g;
-    playergroup auto258F3815_g;
-    playergroup auto889DE9DB_g;
-    playergroup autoB1AAE47D_g;
+    playergroup autoF20F330B_g;
+    playergroup auto707B61BA_g;
+    playergroup auto6EE5D6AB_g;
+    playergroup auto9DB7A176_g;
+    playergroup auto5E1B80AA_g;
 
     // Variable Initialization
+    lv_draw_text = StringExternal("Param/Value/811539AA");
 
     // Implementation
     gv_draw_timestamps[lp_player] = TimerGetElapsed(gv_game_timer);
-    autoDC0D3142_g = gv_all_players;
+    autoF20F330B_g = gv_all_players;
     lv_p = -1;
     while (true) {
-        lv_p = PlayerGroupNextPlayer(autoDC0D3142_g, lv_p);
+        lv_p = PlayerGroupNextPlayer(autoF20F330B_g, lv_p);
         if (lv_p < 0) { break; }
         if ((gv_player_alive[lv_p] == true) && (PlayerType(lv_p) == c_playerTypeUser)) {
             lv_num_total += 1;
-            if (((gv_draw_timestamps[lv_p] >= (TimerGetElapsed(gv_game_timer) + -120.0)) && (gv_draw_timestamps[lv_p] >= 1.0))) {
+            if (((gv_draw_timestamps[lv_p] >= (TimerGetElapsed(gv_game_timer) + -120.0)) && (gv_draw_timestamps[lv_p] >= 0.0))) {
                 lv_num_offering += 1;
+                lv_draw_text = (lv_draw_text + gv_player_names_colored[lv_p] + StringExternal("Param/Value/11DDCD36"));
             }
 
         }
 
     }
-    gf_GameMessage((IntToText(lv_num_offering) + StringExternal("Param/Value/541529A8") + IntToText(lv_num_total) + StringExternal("Param/Value/C52D614B")), PlayerGroupSingle(lp_player));
+    if ((PlayerGroupHasPlayer(gv_all_observers, lp_player) == true)) {
+        gf_GameMessage(lv_draw_text, PlayerGroupSingle(lp_player));
+    }
+
+    gf_GameMessage((IntToText(lv_num_offering) + StringExternal("Param/Value/FB7BC44C") + IntToText(lv_num_total) + StringExternal("Param/Value/547FA884")), PlayerGroupSingle(lp_player));
     if ((lv_num_total == lv_num_offering)) {
-        gf_GameMessage(StringExternal("Param/Value/B9D1DDB8"), PlayerGroupSingle(lp_player));
-        auto9D5A85CD_g = gv_all_players;
+        gf_GameMessage(StringExternal("Param/Value/9A7EA75A"), PlayerGroupSingle(lp_player));
+        auto707B61BA_g = gv_all_players;
         lv_p = -1;
         while (true) {
-            lv_p = PlayerGroupNextPlayer(auto9D5A85CD_g, lv_p);
+            lv_p = PlayerGroupNextPlayer(auto707B61BA_g, lv_p);
             if (lv_p < 0) { break; }
             BankRestore(gv_banks[lv_p], lv_p, BankBackupGetLatestId(gv_banks[lv_p]));
         }
-        auto258F3815_g = gv_all_players;
+        auto6EE5D6AB_g = gv_all_players;
         lv_p = -1;
         while (true) {
-            lv_p = PlayerGroupNextPlayer(auto258F3815_g, lv_p);
+            lv_p = PlayerGroupNextPlayer(auto6EE5D6AB_g, lv_p);
             if (lv_p < 0) { break; }
             BankWait(gv_banks[lv_p]);
         }
-        auto889DE9DB_g = gv_all_players;
+        auto9DB7A176_g = gv_all_players;
         lv_p = -1;
         while (true) {
-            lv_p = PlayerGroupNextPlayer(auto889DE9DB_g, lv_p);
+            lv_p = PlayerGroupNextPlayer(auto9DB7A176_g, lv_p);
             if (lv_p < 0) { break; }
             gf_SaveBankIfFullGame(lv_p);
         }
         Wait(1.0, c_timeGame);
-        autoB1AAE47D_g = gv_all_players;
+        auto5E1B80AA_g = gv_all_players;
         lv_p = -1;
         while (true) {
-            lv_p = PlayerGroupNextPlayer(autoB1AAE47D_g, lv_p);
+            lv_p = PlayerGroupNextPlayer(auto5E1B80AA_g, lv_p);
             if (lv_p < 0) { break; }
             GameOver(lv_p, c_gameOverTie, true, true);
         }
+    }
+
+}
+
+void gf_ForceDraw (int lp_target_player, int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    if (((gv_player_is_observer[lp_player] == true) && (gf_IsPlayerAdmin(lp_player) == true))) {
+        gf_PlayerOfferDraw(lp_target_player);
+        gf_PlayerOfferDraw(lp_player);
     }
 
 }
@@ -6954,7 +7023,7 @@ void gt_Zoom_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_tgsuchynnwicnprl;
+    int lv_igufdsolkaxepgiq;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -7019,11 +7088,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_tgsuchynnwicnprl = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_tgsuchynnwicnprl <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_tgsuchynnwicnprl >= autoA9265719_ae) ) ; lv_tgsuchynnwicnprl += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_tgsuchynnwicnprl])) {
+        lv_igufdsolkaxepgiq = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_igufdsolkaxepgiq <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_igufdsolkaxepgiq >= autoA9265719_ae) ) ; lv_igufdsolkaxepgiq += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_igufdsolkaxepgiq])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_tgsuchynnwicnprl]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_igufdsolkaxepgiq]), c_orderQueueReplace);
                 }
 
             }
@@ -7492,7 +7561,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_btpywqgfofxobxpx;
+    int lv_xyuupnpcjjxftrpq;
     int lv_player;
     int lv_ally;
 
@@ -7516,10 +7585,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_btpywqgfofxobxpx = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_btpywqgfofxobxpx <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_btpywqgfofxobxpx >= autoFC6C6804_ae) ) ; lv_btpywqgfofxobxpx += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_btpywqgfofxobxpx], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_btpywqgfofxobxpx], PlayerGroupSingle(lv_player), true);
+            lv_xyuupnpcjjxftrpq = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_xyuupnpcjjxftrpq <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_xyuupnpcjjxftrpq >= autoFC6C6804_ae) ) ; lv_xyuupnpcjjxftrpq += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_xyuupnpcjjxftrpq], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_xyuupnpcjjxftrpq], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -9528,6 +9597,10 @@ bool gt_UseChatSystem_Func (bool testConds, bool runActions) {
             gf_HandlesCommand(EventPlayer());
         }
 
+        if (((StringContains(EventChatMessage(false), "-fd ", c_stringBegin, c_stringCase) == true))) {
+            gf_ForceDraw(gf_GetPlayerFromNumberCommand("-fd ", EventChatMessage(false)), EventPlayer());
+        }
+
         if (((StringEqual(EventChatMessage(false), "-h", c_stringCase) == true) || (StringEqual(EventChatMessage(false), "-help", c_stringCase) == true))) {
             gf_HelpCommand(EventPlayer());
         }
@@ -9541,15 +9614,15 @@ bool gt_UseChatSystem_Func (bool testConds, bool runActions) {
         }
 
         if (((StringContains(EventChatMessage(false), "-m ", c_stringBegin, c_stringCase) == true))) {
-            gf_MutePlayerCommand(EventPlayer(), StringSub(EventChatMessage(false), 4, (StringLength(EventChatMessage(false)) - 0)), true);
+            gf_MutePlayerCommand(EventPlayer(), gf_GetPlayerFromNumberCommand("-m ", EventChatMessage(false)), true);
         }
 
         if (((StringContains(EventChatMessage(false), "-mute ", c_stringBegin, c_stringCase) == true))) {
-            gf_MutePlayerCommand(EventPlayer(), StringSub(EventChatMessage(false), 7, (StringLength(EventChatMessage(false)) - 0)), true);
+            gf_MutePlayerCommand(EventPlayer(), gf_GetPlayerFromNumberCommand("-mute ", EventChatMessage(false)), true);
         }
 
         if (((StringEqual(EventChatMessage(false), "-m", c_stringCase) == true) || (StringEqual(EventChatMessage(false), "-mute", c_stringCase) == true))) {
-            gf_MutePlayerCommand(EventPlayer(), "", true);
+            gf_MutePlayerCommand(EventPlayer(), -1, true);
         }
 
         if (((StringEqual(EventChatMessage(false), "-p", c_stringCase) == true) || (StringEqual(EventChatMessage(false), "-performance", c_stringCase) == true))) {
