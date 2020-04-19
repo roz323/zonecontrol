@@ -1531,7 +1531,7 @@ void gf_Build1v1Wall () {
     // Variable Initialization
 
     // Implementation
-    if ((GameAttributeGameValue("21") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]21") == "0001")) {
         lv_x = 15;
         for ( ; ( (autoA1B54154_ai >= 0 && lv_x <= autoA1B54154_ae) || (autoA1B54154_ai < 0 && lv_x >= autoA1B54154_ae) ) ; lv_x += autoA1B54154_ai ) {
             lv_point = Point((lv_x + 0.5), 53.5);
@@ -1546,29 +1546,29 @@ void gf_ApplyPlayerZoom (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
     if ((BankValueGetAsFlag(gv_banks[lp_player], "Player", "zoom_lock") == true)) {
-        if ((GameAttributeGameValue("22") == "0002")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0002")) {
             CameraSetData(PlayerGroupAll(), "Dflt5");
         }
 
-        if ((GameAttributeGameValue("22") == "0003")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0003")) {
             CameraSetData(PlayerGroupAll(), "Dflt42");
         }
 
-        if ((GameAttributeGameValue("22") == "0001")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0001")) {
             CameraSetData(PlayerGroupAll(), "Dflt2");
         }
 
     }
     else {
-        if ((GameAttributeGameValue("22") == "0002")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0002")) {
             CameraSetData(PlayerGroupAll(), "Dflt");
         }
 
-        if ((GameAttributeGameValue("22") == "0003")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0003")) {
             CameraSetData(PlayerGroupAll(), "Dflt4");
         }
 
-        if ((GameAttributeGameValue("22") == "0001")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0001")) {
             CameraSetData(PlayerGroupAll(), "Dflt2");
         }
 
@@ -1717,63 +1717,63 @@ void gf_ConfigureConstants () {
     // Variable Initialization
 
     // Implementation
-    if ((GameAttributeGameValue("22") == "0002")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0002")) {
         gv_max_player_zoom_level = 60;
         gf_GameMessage(StringExternal("Param/Value/C02148CE"), gv_all_players_and_observers);
     }
 
-    if ((GameAttributeGameValue("22") == "0003")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0003")) {
         gv_max_player_zoom_level = 48;
         gf_GameMessage(StringExternal("Param/Value/6D9D614B"), gv_all_players_and_observers);
     }
 
-    if ((GameAttributeGameValue("22") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0001")) {
         gv_max_player_zoom_level = 36;
         gf_GameMessage(StringExternal("Param/Value/67C9F39E"), gv_all_players_and_observers);
     }
 
-    if ((GameAttributeGameValue("24") == "0002")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]24") == "0002")) {
         gf_GameMessage(StringExternal("Param/Value/C4D78A55"), gv_all_players_and_observers);
         gv_max_upgrades = 25;
     }
 
-    if ((GameAttributeGameValue("24") == "0003")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]24") == "0003")) {
         gv_max_upgrades = 30;
     }
 
-    if ((GameAttributeGameValue("24") == "0004")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]24") == "0004")) {
         gv_max_upgrades = 35;
     }
 
-    if ((GameAttributeGameValue("24") == "0005")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]24") == "0005")) {
         gv_max_upgrades = 99;
     }
 
-    if ((GameAttributeGameValue("24") != "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]24") != "0001")) {
         gf_GameMessage(StringExternal("Param/Value/A8D1F3EB"), gv_all_players_and_observers);
     }
 
     lv_index = 0;
     for ( ; ( (autoFACDB944_ai >= 0 && lv_index <= autoFACDB944_ae) || (autoFACDB944_ai < 0 && lv_index >= autoFACDB944_ae) ) ; lv_index += autoFACDB944_ai ) {
         if (((PlayerType(lv_index) != c_playerTypeNone))) {
-            if (((GameAttributeGameValue("9") == "0001") || ((GameAttributeGameValue("9") == "0004") && (PlayerRace(lv_index) == "Terr")))) {
+            if (((GameAttributeGameValue("[bnet:local/0.0/384710]9") == "0001") || ((GameAttributeGameValue("[bnet:local/0.0/384710]9") == "0004") && (PlayerRace(lv_index) == "Terr")))) {
                 gv_player_race_index[lv_index] = 0;
             }
 
-            if (((GameAttributeGameValue("9") == "0002") || ((GameAttributeGameValue("9") == "0004") && (PlayerRace(lv_index) == "Prot")))) {
+            if (((GameAttributeGameValue("[bnet:local/0.0/384710]9") == "0002") || ((GameAttributeGameValue("[bnet:local/0.0/384710]9") == "0004") && (PlayerRace(lv_index) == "Prot")))) {
                 gv_player_race_index[lv_index] = 1;
             }
 
-            if (((GameAttributeGameValue("9") == "0003") || ((GameAttributeGameValue("9") == "0004") && (PlayerRace(lv_index) == "Zerg")))) {
+            if (((GameAttributeGameValue("[bnet:local/0.0/384710]9") == "0003") || ((GameAttributeGameValue("[bnet:local/0.0/384710]9") == "0004") && (PlayerRace(lv_index) == "Zerg")))) {
                 gv_player_race_index[lv_index] = 2;
             }
 
         }
 
     }
-    gv_anonymous_mode = (GameAttributeGameValue("12") == "0001");
+    gv_anonymous_mode = (GameAttributeGameValue("[bnet:local/0.0/384710]12") == "0001");
     UISetResourceTradingMajorStep(c_resourceTypeMinerals, 250);
-    gv_chat_mode = GameAttributeGameValue("17");
+    gv_chat_mode = GameAttributeGameValue("[bnet:local/0.0/384710]17");
     if ((gv_chat_mode == "0004")) {
         if ((gv_anonymous_mode == true)) {
             gv_chat_mode = "0001";
@@ -2225,7 +2225,7 @@ void gf_AssignTeamLocations () {
     lv_min_team_size = 4;
 
     // Implementation
-    if ((GameAttributeGameValue("19") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]19") == "0001")) {
         lv_num_lobby_teams = 2;
     }
     else {
@@ -2248,7 +2248,7 @@ void gf_AssignTeamLocations () {
         }
 
     }
-    lv_mode = GameAttributeGameValue("1");
+    lv_mode = GameAttributeGameValue("[bnet:local/0.0/384710]1");
     auto07BC1A5F_ae = lv_num_lobby_teams;
     lv_lobby_team = 1;
     for ( ; ( (auto07BC1A5F_ai >= 0 && lv_lobby_team <= auto07BC1A5F_ae) || (auto07BC1A5F_ai < 0 && lv_lobby_team >= auto07BC1A5F_ae) ) ; lv_lobby_team += auto07BC1A5F_ai ) {
@@ -2342,7 +2342,7 @@ void gf_AssignTeamLocations () {
         lv_team_placement[2][1] = 3;
         lv_team_placement[2][2] = 6;
         lv_team_placement[2][3] = 7;
-        if ((GameAttributeGameValue("23") == "0002")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]23") == "0002")) {
             lv_team_placement[1][0] = 4;
             lv_team_placement[1][1] = 5;
             lv_team_placement[1][2] = 2;
@@ -2353,7 +2353,7 @@ void gf_AssignTeamLocations () {
             lv_team_placement[2][3] = 7;
         }
 
-        if ((GameAttributeGameValue("23") == "0003")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]23") == "0003")) {
             lv_team_placement[1][0] = 0;
             lv_team_placement[1][1] = 1;
             lv_team_placement[1][2] = 2;
@@ -2382,21 +2382,21 @@ void gf_AssignTeamLocations () {
         lv_team_placement[1][1] = 4;
         lv_team_placement[2][0] = 2;
         lv_team_placement[2][1] = 6;
-        if ((GameAttributeGameValue("23") == "0002")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]23") == "0002")) {
             lv_team_placement[1][0] = 0;
             lv_team_placement[1][1] = 6;
             lv_team_placement[2][0] = 2;
             lv_team_placement[2][1] = 4;
         }
 
-        if ((GameAttributeGameValue("23") == "0003")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]23") == "0003")) {
             lv_team_placement[1][0] = 0;
             lv_team_placement[1][1] = 2;
             lv_team_placement[2][0] = 4;
             lv_team_placement[2][1] = 6;
         }
 
-        if ((GameAttributeGameValue("23") == "0004")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]23") == "0004")) {
             lv_team_placement[1][0] = 0;
             lv_team_placement[1][1] = 1;
             lv_team_placement[2][0] = 2;
@@ -2411,7 +2411,7 @@ void gf_AssignTeamLocations () {
         lv_team_placement[1][0] = 1;
         lv_team_placement[2][0] = 2;
     }
-    if ((lv_mode != GameAttributeGameValue("1"))) {
+    if ((lv_mode != GameAttributeGameValue("[bnet:local/0.0/384710]1"))) {
         gf_GameMessage((StringExternal("Param/Value/4A211734") + StringToText(gv_game_mode_string)), PlayerGroupAll());
         gv_mode_downgraded = true;
     }
@@ -2419,7 +2419,7 @@ void gf_AssignTeamLocations () {
     autoE286ED9A_ae = gv_num_teams;
     lv_team = 1;
     for ( ; ( (autoE286ED9A_ai >= 0 && lv_team <= autoE286ED9A_ae) || (autoE286ED9A_ai < 0 && lv_team >= autoE286ED9A_ae) ) ; lv_team += autoE286ED9A_ai ) {
-        if ((GameAttributeGameValue("16") == "0001")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]16") == "0001")) {
             while ((lv_lobby_team_size[lv_team] < gv_players_per_team)) {
                 lv_player = 1;
                 for ( ; ( (autoCD8200B8_ai >= 0 && lv_player <= autoCD8200B8_ae) || (autoCD8200B8_ai < 0 && lv_player >= autoCD8200B8_ae) ) ; lv_player += autoCD8200B8_ai ) {
@@ -2440,7 +2440,7 @@ void gf_AssignTeamLocations () {
 
         }
     }
-    if ((GameAttributeGameValue("3") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]3") == "0001")) {
         lv_loop = 1;
         for ( ; ( (auto70BD7D8D_ai >= 0 && lv_loop <= auto70BD7D8D_ae) || (auto70BD7D8D_ai < 0 && lv_loop >= auto70BD7D8D_ae) ) ; lv_loop += auto70BD7D8D_ai ) {
             lv_team1 = RandomInt(1, gv_num_teams);
@@ -2456,7 +2456,7 @@ void gf_AssignTeamLocations () {
         }
     }
     else {
-        if ((GameAttributeGameValue("2") != "0002")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]2") != "0002")) {
             lv_loop = 1;
             for ( ; ( (autoEB2318FC_ai >= 0 && lv_loop <= autoEB2318FC_ae) || (autoEB2318FC_ai < 0 && lv_loop >= autoEB2318FC_ae) ) ; lv_loop += autoEB2318FC_ai ) {
                 lv_team_index = RandomInt(0, (lv_lobby_team_size[lv_team] - 1));
@@ -2467,7 +2467,7 @@ void gf_AssignTeamLocations () {
             }
         }
 
-        if ((GameAttributeGameValue("2") == "0001")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]2") == "0001")) {
             lv_loop = 1;
             for ( ; ( (auto9C6A9D8F_ai >= 0 && lv_loop <= auto9C6A9D8F_ae) || (auto9C6A9D8F_ai < 0 && lv_loop >= auto9C6A9D8F_ae) ) ; lv_loop += auto9C6A9D8F_ai ) {
                 lv_team1 = RandomInt(1, gv_num_teams);
@@ -2669,7 +2669,7 @@ void gf_SpawnPlayers () {
     // Variable Initialization
 
     // Implementation
-    lv_spawn_extra_bunk = ((GameAttributeGameValue("10") == "0001") && (PlayerGroupCount(gv_all_players) <= 4));
+    lv_spawn_extra_bunk = ((GameAttributeGameValue("[bnet:local/0.0/384710]10") == "0001") && (PlayerGroupCount(gv_all_players) <= 4));
     autoF3930426_g = gv_all_players;
     lv_player = -1;
     while (true) {
@@ -2680,7 +2680,7 @@ void gf_SpawnPlayers () {
         PlayerModifyPropertyInt(lv_player, c_playerPropSuppliesLimit, c_playerPropOperSetTo, 500);
         gv_total_resource_granted = gv_starting_minerals;
         PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, gv_starting_minerals);
-        if ((GameAttributeGameValue("1") == "0006") && (gv_player_positions[lv_player] <= 7)) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]1") == "0006") && (gv_player_positions[lv_player] <= 7)) {
             PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperAdd, 400);
         }
 
@@ -2976,7 +2976,7 @@ void gf_DebugCommand (int lp_player) {
     // Variable Initialization
 
     // Implementation
-    gf_GameMessage((StringExternal("Param/Value/9CCD38A4") + libNtve_gf_ConvertBooleanToText(gv_full_game) + StringExternal("Param/Value/13A42130") + libNtve_gf_ConvertBooleanToText((GameAttributeGameValue("3") == "0001"))), PlayerGroupActive());
+    gf_GameMessage((StringExternal("Param/Value/9CCD38A4") + libNtve_gf_ConvertBooleanToText(gv_full_game) + StringExternal("Param/Value/13A42130") + libNtve_gf_ConvertBooleanToText((GameAttributeGameValue("[bnet:local/0.0/384710]3") == "0001"))), PlayerGroupActive());
 }
 
 void gf_InitGameTime () {
@@ -2984,19 +2984,19 @@ void gf_InitGameTime () {
     // Implementation
     TimerStart(gv_game_timer, 50000.0, false, c_timeGame);
     TimerStart(gv_real_timer, 50000.0, false, c_timeReal);
-    if ((GameAttributeGameValue("18") == "0002")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]18") == "0002")) {
         gv_game_duration = 60;
     }
 
-    if ((GameAttributeGameValue("18") == "0004")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]18") == "0004")) {
         gv_game_duration = 75;
     }
 
-    if ((GameAttributeGameValue("18") == "0003")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]18") == "0003")) {
         gv_game_duration = 90;
     }
 
-    if ((GameAttributeGameValue("18") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]18") == "0001")) {
         gv_game_duration = 0;
         return ;
     }
@@ -3012,7 +3012,7 @@ void gf_InitGameTime () {
 void gf_TMFogCommand (int lp_palyer) {
     // Automatic Variable Declarations
     // Implementation
-    if ((GameAttributeGameValue("8") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]8") == "0001")) {
     }
     else {
         gf_GameMessage(StringExternal("Param/Value/E752B8EC"), PlayerGroupSingle(lp_palyer));
@@ -3035,7 +3035,7 @@ void gf_TMResetCommand (int lp_player) {
     // Variable Initialization
 
     // Implementation
-    if ((GameAttributeGameValue("8") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]8") == "0001")) {
     }
     else {
         gf_GameMessage(StringExternal("Param/Value/6EF9EAEA"), PlayerGroupSingle(lp_player));
@@ -3068,7 +3068,7 @@ void gf_TMResetUpgradesCommand (int lp_player) {
     // Variable Initialization
 
     // Implementation
-    if ((GameAttributeGameValue("8") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]8") == "0001")) {
     }
     else {
         gf_GameMessage(StringExternal("Param/Value/3397408D"), PlayerGroupSingle(lp_player));
@@ -3111,8 +3111,8 @@ void gf_LoadGameSettings () {
     // Variable Initialization
 
     // Implementation
-    gv_fog_of_war = (GameAttributeGameValue("13") == "0001");
-    lv_starting_minerals_attribute = GameAttributeGameValue("14");
+    gv_fog_of_war = (GameAttributeGameValue("[bnet:local/0.0/384710]13") == "0001");
+    lv_starting_minerals_attribute = GameAttributeGameValue("[bnet:local/0.0/384710]14");
     if ((lv_starting_minerals_attribute == "0001")) {
         gv_starting_minerals = 50;
     }
@@ -3141,7 +3141,7 @@ void gf_LoadGameSettings () {
         gv_starting_minerals = 100000;
     }
 
-    lv_cease_fire_duration_attribute = GameAttributeGameValue("15");
+    lv_cease_fire_duration_attribute = GameAttributeGameValue("[bnet:local/0.0/384710]15");
     if ((lv_cease_fire_duration_attribute == "0001")) {
         gv_cease_fire_duration = 0;
     }
@@ -3164,7 +3164,7 @@ void gf_ApplyTrainingMode () {
     // Automatic Variable Declarations
     // Implementation
     gf_ApplyFogOfWar();
-    if ((GameAttributeGameValue("15") != "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]15") != "0001")) {
         gf_StartCeaseFire();
     }
 
@@ -3612,16 +3612,16 @@ string gf_ComputeChecksum (bank lp_bank) {
     // Implementation
     lib1_gf_InitializeHashInput();
     lib1_gf_AddStringToHashInput("nice");
-    lv_attr = GameAttributeGameValue("4");
+    lv_attr = GameAttributeGameValue("[bnet:local/0.0/384710]4");
     lv_attr2 = lv_attr;
     lib1_gf_AddStringToHashInput(lv_attr2);
-    lv_attr = GameAttributeGameValue("5");
+    lv_attr = GameAttributeGameValue("[bnet:local/0.0/384710]5");
     lv_attr2 = lv_attr;
     lib1_gf_AddStringToHashInput(lv_attr2);
-    lv_attr = GameAttributeGameValue("6");
+    lv_attr = GameAttributeGameValue("[bnet:local/0.0/384710]6");
     lv_attr2 = lv_attr;
     lib1_gf_AddStringToHashInput(lv_attr2);
-    lv_attr = GameAttributeGameValue("7");
+    lv_attr = GameAttributeGameValue("[bnet:local/0.0/384710]7");
     lv_attr2 = lv_attr;
     lib1_gf_AddStringToHashInput(lv_attr2);
     autoADA9B3E7_ae = (BankSectionCount(lp_bank) - 1);
@@ -3771,7 +3771,7 @@ void gf_RecordUpdateGameStart () {
         }
 
     }
-    if ((((GameAttributeGameValue("8") == "0002") && (gv_mode_downgraded == false) && (lv_real_player_count == (gv_num_teams * gv_players_per_team))) || (lv_real_player_count >= 0))) {
+    if ((((GameAttributeGameValue("[bnet:local/0.0/384710]8") == "0002") && (gv_mode_downgraded == false) && (lv_real_player_count == (gv_num_teams * gv_players_per_team))) || (lv_real_player_count >= 0))) {
         gv_full_game = true;
     }
     else {
@@ -3825,7 +3825,7 @@ void gf_RecordUpdateGameStart () {
                 gv_player_elos[lv_player] = 1000.0;
             }
 
-            if (((gv_player_elos[lv_player] > 2500.0) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2438645", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4728462", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4632373", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4668107", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10852186", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-5692110", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2425002", c_stringCase) == false))) {
+            if (((gv_player_elos[lv_player] > 2500.0) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2438645", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4728462", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4632373", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4668107", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10852186", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-5692110", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2425002", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-9786726", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10360040", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-7987411", c_stringCase) == false))) {
                 gv_player_elos[lv_player] = 2300.0;
             }
 
@@ -3860,7 +3860,7 @@ void gf_RecordUpdateGameStart () {
         lv_min_team_elo = MinF(lv_min_team_elo, gv_team_elo_averages[lv_team]);
         lv_max_team_elo = MaxF(lv_max_team_elo, gv_team_elo_averages[lv_team]);
     }
-    if ((GameAttributeGameValue("3") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]3") == "0001")) {
         gf_GameMessage(StringExternal("Param/Value/39650EBA"), PlayerGroupActive());
         lv_elo_boost = 1.5;
     }
@@ -4814,7 +4814,7 @@ void gf_MarkAchievementCompleted (string lp_id, int lp_player, int lp_level) {
     // Variable Initialization
 
     // Implementation
-    if ((gv_banks[lp_player] != null) && (GameAttributeGameValue("1") == "0001") && (GameAttributeGameValue("9") == "0001")) {
+    if ((gv_banks[lp_player] != null) && (GameAttributeGameValue("[bnet:local/0.0/384710]1") == "0001") && (GameAttributeGameValue("[bnet:local/0.0/384710]9") == "0001")) {
         lv_current_level = BankValueGetAsInt(gv_banks[lp_player], "C", lp_id);
         BankValueSetFromInt(gv_banks[lp_player], "C", lp_id, MaxI(lv_current_level, lp_level));
     }
@@ -5099,7 +5099,7 @@ void gf_TeamInfoInit () {
         gv_team_info_player_supply[lv_player] = DialogControlLastCreated();
         DialogControlHookup(gv_team_info_player_dialogs[lv_player], c_triggerControlTypeLabel, "PlayerLosses");
         gv_team_info_player_losses[lv_player] = DialogControlLastCreated();
-        if ((GameAttributeGameValue("8") == "0002")) {
+        if ((GameAttributeGameValue("[bnet:local/0.0/384710]8") == "0002")) {
             DialogControlSetVisible(DialogControlLastCreated(), PlayerGroupAll(), false);
         }
 
@@ -5243,28 +5243,28 @@ void gf_SetupZoneControlReward () {
 void gf_SetupRewards () {
     // Automatic Variable Declarations
     // Implementation
-    if ((GameAttributeGameValue("25") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]25") == "0001")) {
         gf_SetPeriodicTimerForTrigger(20.0, gt_ShardSpawn);
     }
 
-    if ((GameAttributeGameValue("25") == "0003")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]25") == "0003")) {
         gf_SetPeriodicTimerForTrigger(3.0, gt_tower);
         gf_GameMessage(StringExternal("Param/Value/9F0342D9"), gv_all_players_and_observers);
     }
 
-    if ((GameAttributeGameValue("25") == "0004")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]25") == "0004")) {
         gf_SetPeriodicTimerForTrigger(5.0, gt_ShardSpawn);
         gf_GameMessage(StringExternal("Param/Value/EEA092B6"), gv_all_players_and_observers);
     }
 
-    if ((GameAttributeGameValue("25") == "0002")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]25") == "0002")) {
         gf_GameMessage(StringExternal("Param/Value/BC1FC531"), gv_all_players_and_observers);
         gf_SetupZoneControlReward();
         gf_SetPeriodicTimerForTrigger(3.0, gt_ZoneControlDetection);
         gf_SetPeriodicTimerForTrigger(2.0, gt_ZoneControlReward);
     }
 
-    if ((GameAttributeGameValue("25") == "0002")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]25") == "0002")) {
         gf_GameMessage(StringExternal("Param/Value/6B24B648"), gv_all_players_and_observers);
     }
 
@@ -6322,7 +6322,7 @@ void gf_InitEventBanks () {
     while (true) {
         lv_player = PlayerGroupNextPlayer(auto6F11DA47_g, lv_player);
         if (lv_player < 0) { break; }
-        if (((PlayerType(lv_player) == c_playerTypeUser) && ((GameAttributeGameValue("8") == "0001") || (GameAttributeGameValue("11") == "0001") || ((GameAttributeGameValue("11") == "0002") && (gf_IsPlayerAdmin(lv_player) == true)) || (PlayerGroupHasPlayer(gv_all_observers, lv_player) == true)))) {
+        if (((PlayerType(lv_player) == c_playerTypeUser) && ((GameAttributeGameValue("[bnet:local/0.0/384710]8") == "0001") || (GameAttributeGameValue("[bnet:local/0.0/384710]11") == "0001") || ((GameAttributeGameValue("[bnet:local/0.0/384710]11") == "0002") && (gf_IsPlayerAdmin(lv_player) == true)) || (PlayerGroupHasPlayer(gv_all_observers, lv_player) == true)))) {
             PlayerGroupAdd(gv_event_players, lv_player);
         }
 
@@ -6914,45 +6914,45 @@ void gf_ConfigureResourceTrading () {
     UISetResourceTradingAllowed(c_resourceTypeVespene, false);
     DialogControlHookupStandard(c_triggerControlTypeLabel, "UIContainer/FullscreenUpperContainer/TradingCountdown");
     gv_resource_trading_countdown_dialog = DialogControlLastCreated();
-    if ((GameAttributeGameValue("20") == "0001")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0001")) {
         lv_seconds = 5.0;
     }
     else {
         TimerStart(gv_resource_trading_timer, 1.0, false, c_timeGame);
     }
-    if ((GameAttributeGameValue("20") == "0010")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0010")) {
         lv_seconds = 180.0;
     }
 
-    if ((GameAttributeGameValue("20") == "0003")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0003")) {
         lv_seconds = 240.0;
     }
 
-    if ((GameAttributeGameValue("20") == "0004")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0004")) {
         lv_seconds = 300.0;
     }
 
-    if ((GameAttributeGameValue("20") == "0005")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0005")) {
         lv_seconds = 360.0;
     }
 
-    if ((GameAttributeGameValue("20") == "0006")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0006")) {
         lv_seconds = 420.0;
     }
 
-    if ((GameAttributeGameValue("20") == "0007")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0007")) {
         lv_seconds = 480.0;
     }
 
-    if ((GameAttributeGameValue("20") == "0008")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0008")) {
         lv_seconds = 540.0;
     }
 
-    if ((GameAttributeGameValue("20") == "0009")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0009")) {
         lv_seconds = 600.0;
     }
 
-    if ((GameAttributeGameValue("20") == "0002")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]20") == "0002")) {
     }
     else {
         gf_Elapsed(gt_OnTradingOpen, lv_seconds);
@@ -7085,7 +7085,7 @@ void gt_Zoom_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_ooqgawjiscbhnlkt;
+    int lv_nrlswfxyilslqryd;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -7150,18 +7150,18 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_ooqgawjiscbhnlkt = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_ooqgawjiscbhnlkt <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_ooqgawjiscbhnlkt >= autoA9265719_ae) ) ; lv_ooqgawjiscbhnlkt += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_ooqgawjiscbhnlkt])) {
+        lv_nrlswfxyilslqryd = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_nrlswfxyilslqryd <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_nrlswfxyilslqryd >= autoA9265719_ae) ) ; lv_nrlswfxyilslqryd += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_nrlswfxyilslqryd])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_ooqgawjiscbhnlkt]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_nrlswfxyilslqryd]), c_orderQueueReplace);
                 }
 
             }
 
         }
     }
-    if (((PlayerGroupHasPlayer(gv_all_observers, EventPlayer()) == true) || (GameAttributeGameValue("22") == "0001"))) {
+    if (((PlayerGroupHasPlayer(gv_all_observers, EventPlayer()) == true) || (GameAttributeGameValue("[bnet:local/0.0/384710]22") == "0001"))) {
         if ((EventDialogControl() == gv_zoom_buttons[0])) {
             gf_SpectatorZoom(EventPlayer(), 0, false);
         }
@@ -7213,7 +7213,7 @@ bool gt_CheckForInvalidGame_Func (bool testConds, bool runActions) {
         }
     }
 
-    if (((GameAttributeGameValue("8") == "0002") && (gv_game_inbalanced == true))) {
+    if (((GameAttributeGameValue("[bnet:local/0.0/384710]8") == "0002") && (gv_game_inbalanced == true))) {
         gf_GameMessage(StringExternal("Param/Value/8258300E"), PlayerGroupAll());
         autoCEE91A08_g = PlayerGroupAll();
         lv_player = -1;
@@ -7290,7 +7290,7 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
     gf_InitEventBanks();
     gf_ConfigureResourceTrading();
     gv_init_completed = true;
-    if ((GameAttributeGameValue("27") == "0002")) {
+    if ((GameAttributeGameValue("[bnet:local/0.0/384710]27") == "0002")) {
         gf_PlayerSetPause(gv_all_players);
     }
 
@@ -7623,7 +7623,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_chwavmkcykyctipr;
+    int lv_dhvasouxpklljffw;
     int lv_player;
     int lv_ally;
 
@@ -7647,10 +7647,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_chwavmkcykyctipr = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_chwavmkcykyctipr <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_chwavmkcykyctipr >= autoFC6C6804_ae) ) ; lv_chwavmkcykyctipr += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_chwavmkcykyctipr], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_chwavmkcykyctipr], PlayerGroupSingle(lv_player), true);
+            lv_dhvasouxpklljffw = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_dhvasouxpklljffw <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_dhvasouxpklljffw >= autoFC6C6804_ae) ) ; lv_dhvasouxpklljffw += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_dhvasouxpklljffw], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_dhvasouxpklljffw], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -9359,7 +9359,7 @@ bool gt_TwitchChat_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((GameAttributeGameValue("26") == "0001"))) {
+        if (!((GameAttributeGameValue("[bnet:local/0.0/384710]26") == "0001"))) {
             return false;
         }
     }
