@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
     <CUpgrade id="AllowBadBuilds"/>
+    <CUpgrade id="ArmorPiercingRockets">
+        <EffectArray index="0" Reference="Effect,CrucioShockCannonBlast,AttributeBonus[Mechanical]" Value="2100"/>
+        <EffectArray index="1" Operation="Add" Reference="Effect,CrucioShockCannonDirected,AttributeBonus[Mechanical]" Value="2100"/>
+        <EffectArray index="2" Operation="Add" Reference="Effect,CrucioShockCannonDummy,AttributeBonus[Mechanical]" Value="2100"/>
+        <EffectArray index="3" removed="1"/>
+    </CUpgrade>
     <CUpgrade id="ScanUpsPlaceholder"/>
     <CUpgrade id="UpgradeLimit">
         <Icon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
