@@ -3825,8 +3825,8 @@ void gf_RecordUpdateGameStart () {
                 gv_player_elos[lv_player] = 1000.0;
             }
 
-            if (((gv_player_elos[lv_player] > 2500.0) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2438645", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4728462", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4632373", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4668107", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10852186", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-5692110", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2425002", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-9786726", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10360040", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-7987411", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-1174806", c_stringCase) == false))) {
-                gv_player_elos[lv_player] = 2500.0;
+            if (((gv_player_elos[lv_player] > 2500.0) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2438645", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4728462", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4632373", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4668107", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10852186", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-5692110", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2425002", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-9786726", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10360040", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-7987411", c_stringCase) == false))) {
+                gv_player_elos[lv_player] = 2300.0;
             }
 
             if ((gv_player_elos[lv_player] > 3500.0)) {
@@ -7081,7 +7081,7 @@ void gt_Zoom_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_rcvsdxtdvpcqvqji;
+    int lv_ceyjgamvrktkgsxr;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -7146,11 +7146,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_rcvsdxtdvpcqvqji = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_rcvsdxtdvpcqvqji <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_rcvsdxtdvpcqvqji >= autoA9265719_ae) ) ; lv_rcvsdxtdvpcqvqji += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_rcvsdxtdvpcqvqji])) {
+        lv_ceyjgamvrktkgsxr = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_ceyjgamvrktkgsxr <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_ceyjgamvrktkgsxr >= autoA9265719_ae) ) ; lv_ceyjgamvrktkgsxr += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_ceyjgamvrktkgsxr])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_rcvsdxtdvpcqvqji]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_ceyjgamvrktkgsxr]), c_orderQueueReplace);
                 }
 
             }
@@ -7619,7 +7619,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_tenapgrmnkfawnir;
+    int lv_loonvaawpqgaipyg;
     int lv_player;
     int lv_ally;
 
@@ -7643,10 +7643,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_tenapgrmnkfawnir = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_tenapgrmnkfawnir <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_tenapgrmnkfawnir >= autoFC6C6804_ae) ) ; lv_tenapgrmnkfawnir += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_tenapgrmnkfawnir], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_tenapgrmnkfawnir], PlayerGroupSingle(lv_player), true);
+            lv_loonvaawpqgaipyg = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_loonvaawpqgaipyg <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_loonvaawpqgaipyg >= autoFC6C6804_ae) ) ; lv_loonvaawpqgaipyg += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_loonvaawpqgaipyg], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_loonvaawpqgaipyg], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
