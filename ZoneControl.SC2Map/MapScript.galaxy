@@ -788,6 +788,11 @@ const int gv_timer_length = 50;
 //--------------------------------------------------------------------------------------------------
 // Global Structures
 //--------------------------------------------------------------------------------------------------
+struct gs_VoteState {
+    string[3] lv_vote_names;
+    int[3] lv_dialogEditBoxes;
+};
+
 struct gs_CustomChatRecord {
     int lv_messages_Top;
     int[17] lv_messages_Bottom;
@@ -807,6 +812,11 @@ struct gs_CustomChatRecord {
 //--------------------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------------------
+int[17][6] gv_player_votes;
+bank[17] gv_player_settings_banks;
+gs_VoteState gv_vote_state;
+string gv_all_chat_setting;
+string gv_zoom_setting;
 int gv_max_player_zoom_level;
 text[17] gv_player_names;
 text[17] gv_player_names_colored;
@@ -1064,6 +1074,12 @@ void InitGlobals () {
     int init_j;
     int init_i1;
 
+    for (init_i1 = 0; init_i1 <= 2; init_i1 += 1) {
+        gv_vote_state.lv_vote_names[init_i1] = "";
+    }
+    for (init_i1 = 0; init_i1 <= 2; init_i1 += 1) {
+        gv_vote_state.lv_dialogEditBoxes[init_i1] = c_invalidDialogControlId;
+    }
     for (init_i = 0; init_i <= 16; init_i += 1) {
         gv_player_handles[init_i] = "";
     }
@@ -1291,6 +1307,9 @@ void InitGlobals () {
 //--------------------------------------------------------------------------------------------------
 // Global Function Declarations
 //--------------------------------------------------------------------------------------------------
+void gf_ShowVotesCommand (int lp_triggering_player);
+int gf_TallyVoteWithDefault (int lp_vote_index, int lp_default);
+void gf_InitSettings ();
 void gf_Build1v1Wall ();
 void gf_ApplyPlayerZoom (int lp_player);
 void gf_ToggleZoomLockCommand (int lp_player);
@@ -1443,6 +1462,8 @@ void gf_UpdateTradingTime ();
 //--------------------------------------------------------------------------------------------------
 // Trigger Variables
 //--------------------------------------------------------------------------------------------------
+trigger gt_Init;
+trigger gt_EditBoxCheck;
 trigger gt_PlayerCallouts;
 trigger gt_Zoom;
 trigger gt_ButtonPress;
@@ -1519,6 +1540,147 @@ trigger gt_ConfigureTradingTimeUpdate;
 //--------------------------------------------------------------------------------------------------
 // Global Functions
 //--------------------------------------------------------------------------------------------------
+void gf_ShowVotesCommand (int lp_triggering_player) {
+    // Variable Declarations
+    int lv_vote;
+    text lv_votestring;
+    int lv_player;
+
+    // Automatic Variable Declarations
+    playergroup auto0124280E_g;
+    int auto1324765B_ae;
+    const int auto1324765B_ai = 1;
+
+    // Variable Initialization
+    lv_vote = 2;
+    lv_player = 2;
+
+    // Implementation
+    auto0124280E_g = PlayerGroupAll();
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(auto0124280E_g, lv_player);
+        if (lv_player < 0) { break; }
+        if ((PlayerType(lv_player) == c_playerTypeUser)) {
+            lv_votestring = PlayerName(lv_player);
+            auto1324765B_ae = (2 - 1);
+            lv_vote = 0;
+            for ( ; ( (auto1324765B_ai >= 0 && lv_vote <= auto1324765B_ae) || (auto1324765B_ai < 0 && lv_vote >= auto1324765B_ae) ) ; lv_vote += auto1324765B_ai ) {
+                lv_votestring = (lv_votestring + StringExternal("Param/Value/5DCB2D90") + IntToText(gv_player_votes[lv_player][lv_vote]));
+            }
+            gf_GameMessage(lv_votestring, PlayerGroupSingle(lp_triggering_player));
+        }
+
+    }
+}
+
+int gf_TallyVoteWithDefault (int lp_vote_index, int lp_default) {
+    // Variable Declarations
+    int[6] lv_tally;
+    int lv_player;
+    int lv_i;
+    int lv_max_count;
+    int lv_num_tallies_matching_max_count;
+    int lv_winning_vote;
+
+    // Automatic Variable Declarations
+    playergroup autoEDDAE3CD_g;
+    string auto0AACEE56_val;
+    const int autoA4673E6E_ae = 4;
+    const int autoA4673E6E_ai = 1;
+
+    // Variable Initialization
+    lv_i = 2;
+    lv_winning_vote = lp_default;
+
+    // Implementation
+    autoEDDAE3CD_g = PlayerGroupActive();
+    lv_player = -1;
+    while (true) {
+        lv_player = PlayerGroupNextPlayer(autoEDDAE3CD_g, lv_player);
+        if (lv_player < 0) { break; }
+        auto0AACEE56_val = BankValueGetAsString(gv_player_settings_banks[lv_player], "votes", gv_vote_state.lv_vote_names[lp_vote_index]);
+        if (auto0AACEE56_val == "1") {
+            gv_player_votes[lv_player][lp_vote_index] = 1;
+            lv_tally[gv_player_votes[lv_player][lp_vote_index]] = (lv_tally[gv_player_votes[lv_player][lp_vote_index]] + 1);
+            lv_max_count = MaxI(lv_max_count, lv_tally[1]);
+        }
+        else if (auto0AACEE56_val == "2") {
+            gv_player_votes[lv_player][lp_vote_index] = 2;
+            lv_tally[gv_player_votes[lv_player][lp_vote_index]] = (lv_tally[gv_player_votes[lv_player][lp_vote_index]] + 1);
+            lv_max_count = MaxI(lv_max_count, lv_tally[2]);
+        }
+        else if (auto0AACEE56_val == "3") {
+            gv_player_votes[lv_player][lp_vote_index] = 3;
+            lv_tally[gv_player_votes[lv_player][lp_vote_index]] = (lv_tally[gv_player_votes[lv_player][lp_vote_index]] + 1);
+            lv_max_count = MaxI(lv_max_count, lv_tally[2]);
+        }
+        else {
+        }
+    }
+    lv_i = 1;
+    for ( ; ( (autoA4673E6E_ai >= 0 && lv_i <= autoA4673E6E_ae) || (autoA4673E6E_ai < 0 && lv_i >= autoA4673E6E_ae) ) ; lv_i += autoA4673E6E_ai ) {
+        if ((lv_tally[lv_i] == lv_max_count)) {
+            lv_num_tallies_matching_max_count += 1;
+            lv_winning_vote = lv_i;
+        }
+
+    }
+    if ((lv_num_tallies_matching_max_count == 1)) {
+        return lv_winning_vote;
+    }
+    else {
+        return lp_default;
+    }
+}
+
+void gf_InitSettings () {
+    // Variable Declarations
+    int lv_winning_vote;
+
+    // Automatic Variable Declarations
+    int auto42621621_val;
+    int auto680C26F5_val;
+
+    // Variable Initialization
+    lv_winning_vote = 2;
+
+    // Implementation
+    gv_all_chat_setting = GameAttributeGameValue("17");
+    if ((gv_all_chat_setting == "0005")) {
+        lv_winning_vote = gf_TallyVoteWithDefault(1, 1);
+        auto42621621_val = lv_winning_vote;
+        if (auto42621621_val == 1) {
+            gv_all_chat_setting = "0002";
+        }
+        else if (auto42621621_val == 2) {
+            gv_all_chat_setting = "0001";
+        }
+        else {
+            gv_all_chat_setting = "0002";
+        }
+    }
+
+    gv_zoom_setting = GameAttributeGameValue("22");
+    if ((gv_zoom_setting == "0004")) {
+        lv_winning_vote = gf_TallyVoteWithDefault(0, 3);
+        auto680C26F5_val = lv_winning_vote;
+        if (auto680C26F5_val == 1) {
+            gv_zoom_setting = "0001";
+        }
+        else if (auto680C26F5_val == 2) {
+            gv_zoom_setting = "0003";
+        }
+        else if (auto680C26F5_val == 3) {
+            gv_zoom_setting = "0002";
+        }
+        else {
+            gv_zoom_setting = "0002";
+        }
+    }
+
+}
+
 void gf_Build1v1Wall () {
     // Variable Declarations
     point lv_point;
@@ -1546,30 +1708,30 @@ void gf_Build1v1Wall () {
 void gf_ApplyPlayerZoom (int lp_player) {
     // Automatic Variable Declarations
     // Implementation
-    if ((BankValueGetAsFlag(gv_banks[lp_player], "Player", "zoom_lock") == true)) {
-        if ((GameAttributeGameValue("22") == "0002")) {
+    if ((BankValueGetAsFlag(gv_player_settings_banks[lp_player], "Settings", "zoom_lock") == true)) {
+        if ((gv_zoom_setting == "0002")) {
             CameraSetData(PlayerGroupAll(), "Dflt5");
         }
 
-        if ((GameAttributeGameValue("22") == "0003")) {
+        if ((gv_zoom_setting == "0003")) {
             CameraSetData(PlayerGroupAll(), "Dflt42");
         }
 
-        if ((GameAttributeGameValue("22") == "0001")) {
+        if ((gv_zoom_setting == "0001")) {
             CameraSetData(PlayerGroupAll(), "Dflt2");
         }
 
     }
     else {
-        if ((GameAttributeGameValue("22") == "0002")) {
+        if ((gv_zoom_setting == "0002")) {
             CameraSetData(PlayerGroupAll(), "Dflt");
         }
 
-        if ((GameAttributeGameValue("22") == "0003")) {
+        if ((gv_zoom_setting == "0003")) {
             CameraSetData(PlayerGroupAll(), "Dflt4");
         }
 
-        if ((GameAttributeGameValue("22") == "0001")) {
+        if ((gv_zoom_setting == "0001")) {
             CameraSetData(PlayerGroupAll(), "Dflt2");
         }
 
@@ -1584,8 +1746,8 @@ void gf_ToggleZoomLockCommand (int lp_player) {
     // Variable Initialization
 
     // Implementation
-    lv_is_now_on = (BankValueGetAsFlag(gv_banks[lp_player], "Player", "zoom_lock") == false);
-    BankValueSetFromFlag(gv_banks[lp_player], "Player", "zoom_lock", lv_is_now_on);
+    lv_is_now_on = (BankValueGetAsFlag(gv_player_settings_banks[lp_player], "Settings", "zoom_lock") == false);
+    BankValueSetFromFlag(gv_player_settings_banks[lp_player], "Settings", "zoom_lock", lv_is_now_on);
     if ((lv_is_now_on == true)) {
         gf_GameMessage(StringExternal("Param/Value/126B3723"), PlayerGroupSingle(lp_player));
     }
@@ -1593,7 +1755,7 @@ void gf_ToggleZoomLockCommand (int lp_player) {
         gf_GameMessage(StringExternal("Param/Value/743A8759"), PlayerGroupSingle(lp_player));
     }
     gf_ApplyPlayerZoom(lp_player);
-    gf_SaveBankIfFullGame(lp_player);
+    BankSave(gv_player_settings_banks[lp_player]);
 }
 
 void gf_StubbornCommand (int lp_player) {
@@ -1718,17 +1880,17 @@ void gf_ConfigureConstants () {
     // Variable Initialization
 
     // Implementation
-    if ((GameAttributeGameValue("22") == "0002")) {
+    if ((gv_zoom_setting == "0002")) {
         gv_max_player_zoom_level = 60;
         gf_GameMessage(StringExternal("Param/Value/C02148CE"), gv_all_players_and_observers);
     }
 
-    if ((GameAttributeGameValue("22") == "0003")) {
+    if ((gv_zoom_setting == "0003")) {
         gv_max_player_zoom_level = 48;
         gf_GameMessage(StringExternal("Param/Value/6D9D614B"), gv_all_players_and_observers);
     }
 
-    if ((GameAttributeGameValue("22") == "0001")) {
+    if ((gv_zoom_setting == "0001")) {
         gv_max_player_zoom_level = 36;
         gf_GameMessage(StringExternal("Param/Value/67C9F39E"), gv_all_players_and_observers);
     }
@@ -1774,7 +1936,7 @@ void gf_ConfigureConstants () {
     }
     gv_anonymous_mode = (GameAttributeGameValue("12") == "0001");
     UISetResourceTradingMajorStep(c_resourceTypeMinerals, 250);
-    gv_chat_mode = GameAttributeGameValue("17");
+    gv_chat_mode = gv_all_chat_setting;
     if ((gv_chat_mode == "0004")) {
         if ((gv_anonymous_mode == true)) {
             gv_chat_mode = "0001";
@@ -2977,7 +3139,7 @@ void gf_DebugCommand (int lp_player) {
     // Variable Initialization
 
     // Implementation
-    gf_GameMessage((StringExternal("Param/Value/9CCD38A4") + libNtve_gf_ConvertBooleanToText(gv_full_game) + StringExternal("Param/Value/13A42130") + libNtve_gf_ConvertBooleanToText((GameAttributeGameValue("3") == "0001"))), PlayerGroupSingle(lp_player));
+    gf_GameMessage((StringExternal("Param/Value/9CCD38A4") + libNtve_gf_ConvertBooleanToText(gv_full_game) + StringExternal("Param/Value/13A42130") + libNtve_gf_ConvertBooleanToText((GameAttributeGameValue("3") == "0001")) + StringExternal("Param/Value/297B48D3") + libNtve_gf_ConvertBooleanToText((gv_all_chat_setting != "0002"))), PlayerGroupSingle(lp_player));
 }
 
 void gf_InitGameTime () {
@@ -3795,12 +3957,6 @@ void gf_RecordUpdateGameStart () {
             BankSectionRemove(BankLastCreated(), "Player");
         }
         gv_banks[lv_player] = BankLastCreated();
-        BankBackupLoopBegin(gv_banks[lv_player],false);
-        for ( ; !BankBackupLoopDone() ; BankBackupLoopStep() ) {
-            BankBackupRemove(gv_banks[lv_player], BankBackupGetId(BankBackupLoopCurrent()), lv_player);
-        }
-        BankBackupLoopEnd();
-        BankBackup(gv_banks[lv_player], lv_player);
         gv_player_games[lv_player] = BankValueGetAsInt(BankLastCreated(), "Player", "games");
         if ((PlayerGroupHasPlayer(gv_all_players, lv_player) == true)) {
             gv_player_wins[lv_player] = BankValueGetAsInt(BankLastCreated(), "Player", "wins");
@@ -6994,6 +7150,119 @@ void gf_UpdateTradingTime () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Init
+//--------------------------------------------------------------------------------------------------
+bool gt_Init_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_j;
+    int lv_i;
+
+    // Automatic Variable Declarations
+    int auto2AB1AAA0_ae;
+    const int auto2AB1AAA0_ai = 1;
+    playergroup autoAC8502B0_g;
+    int autoAC8502B0_var;
+    int auto5F65994E_ae;
+    const int auto5F65994E_ai = 1;
+    const int autoC4AD67A6_ae = 4;
+    const int autoC4AD67A6_ai = 1;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gv_vote_state.lv_vote_names[0] = "Zoom";
+    gv_vote_state.lv_vote_names[1] = "AllChat";
+    auto2AB1AAA0_ae = (2 - 1);
+    lv_i = 0;
+    for ( ; ( (auto2AB1AAA0_ai >= 0 && lv_i <= auto2AB1AAA0_ae) || (auto2AB1AAA0_ai < 0 && lv_i >= auto2AB1AAA0_ae) ) ; lv_i += auto2AB1AAA0_ai ) {
+        DialogControlHookupStandard(c_triggerControlTypeEditBox, ("UIContainer/FullscreenUpperContainer/" + gv_vote_state.lv_vote_names[lv_i] + "VoteReportContainer/TextBox"));
+        gv_vote_state.lv_dialogEditBoxes[lv_i] = DialogControlLastCreated();
+        TriggerAddEventDialogControl(gt_EditBoxCheck, c_playerAny, gv_vote_state.lv_dialogEditBoxes[lv_i], c_triggerControlEventTypeTextChanged);
+    }
+    autoAC8502B0_g = PlayerGroupActive();
+    autoAC8502B0_var = -1;
+    while (true) {
+        autoAC8502B0_var = PlayerGroupNextPlayer(autoAC8502B0_g, autoAC8502B0_var);
+        if (autoAC8502B0_var < 0) { break; }
+        if ((PlayerType(autoAC8502B0_var) == c_playerTypeUser)) {
+            auto5F65994E_ae = (2 - 1);
+            lv_i = 0;
+            for ( ; ( (auto5F65994E_ai >= 0 && lv_i <= auto5F65994E_ae) || (auto5F65994E_ai < 0 && lv_i >= auto5F65994E_ae) ) ; lv_i += auto5F65994E_ai ) {
+                lv_j = 0;
+                for ( ; ( (autoC4AD67A6_ai >= 0 && lv_j <= autoC4AD67A6_ae) || (autoC4AD67A6_ai < 0 && lv_j >= autoC4AD67A6_ae) ) ; lv_j += autoC4AD67A6_ai ) {
+                    DialogControlSetAnimationState(gv_vote_state.lv_dialogEditBoxes[lv_i], PlayerGroupSingle(autoAC8502B0_var), "Index", (IntToString(lv_j)));
+                }
+            }
+            BankLoad("Votes", autoAC8502B0_var);
+            gv_player_settings_banks[autoAC8502B0_var] = BankLastCreated();
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Init_Init () {
+    gt_Init = TriggerCreate("gt_Init_Func");
+    TriggerAddEventMapInit(gt_Init);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: EditBoxCheck
+//--------------------------------------------------------------------------------------------------
+bool gt_EditBoxCheck_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_i;
+    int lv_vote_name;
+    string lv_string;
+
+    // Automatic Variable Declarations
+    const int auto4904287A_ae = 1;
+    const int auto4904287A_ai = 1;
+
+    // Variable Initialization
+    lv_i = 2;
+    lv_vote_name = 2;
+    lv_string = libNtve_gf_DialogItemEditValue(EventDialogControl(), EventPlayer());
+
+    // Conditions
+    if (testConds) {
+        if (!((lv_string != null))) {
+            return false;
+        }
+
+        if (!((StringEqual(lv_string, "", c_stringCase) == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_i = 0;
+    for ( ; ( (auto4904287A_ai >= 0 && lv_i <= auto4904287A_ae) || (auto4904287A_ai < 0 && lv_i >= auto4904287A_ae) ) ; lv_i += auto4904287A_ai ) {
+        if ((EventDialogControl() == gv_vote_state.lv_dialogEditBoxes[lv_i])) {
+            BankValueSetFromString(gv_player_settings_banks[EventPlayer()], "votes", gv_vote_state.lv_vote_names[lv_i], lv_string);
+            BankSave(gv_player_settings_banks[EventPlayer()]);
+            DialogControlSetVisible(gv_vote_state.lv_dialogEditBoxes[lv_i], PlayerGroupSingle(EventPlayer()), false);
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_EditBoxCheck_Init () {
+    gt_EditBoxCheck = TriggerCreate("gt_EditBoxCheck_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: PlayerCallouts
 //--------------------------------------------------------------------------------------------------
 bool gt_PlayerCallouts_Func (bool testConds, bool runActions) {
@@ -7086,7 +7355,7 @@ void gt_Zoom_Init () {
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_x;
-    int lv_fqfryvwdlgkcyjel;
+    int lv_bdpygyfqcnvqmfiy;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -7152,11 +7421,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_fqfryvwdlgkcyjel = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_fqfryvwdlgkcyjel <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_fqfryvwdlgkcyjel >= autoA9265719_ae) ) ; lv_fqfryvwdlgkcyjel += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_fqfryvwdlgkcyjel])) {
+        lv_bdpygyfqcnvqmfiy = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_bdpygyfqcnvqmfiy <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_bdpygyfqcnvqmfiy >= autoA9265719_ae) ) ; lv_bdpygyfqcnvqmfiy += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_bdpygyfqcnvqmfiy])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_fqfryvwdlgkcyjel]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_bdpygyfqcnvqmfiy]), c_orderQueueReplace);
                 }
 
             }
@@ -7270,6 +7539,7 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    gf_InitSettings();
     gf_Build1v1Wall();
     gf_InitDebugBanks();
     gf_LoadGameSettings();
@@ -7298,7 +7568,7 @@ bool gt_MeleeInitialization_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_MeleeInitialization_Init () {
     gt_MeleeInitialization = TriggerCreate("gt_MeleeInitialization_Func");
-    TriggerAddEventMapInit(gt_MeleeInitialization);
+    TriggerAddEventTimeElapsed(gt_MeleeInitialization, 0.01, c_timeGame);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -7644,7 +7914,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_lmatmrnjiulltmor;
+    int lv_eqlfvpbxdrituqji;
     int lv_player;
     int lv_ally;
 
@@ -7668,10 +7938,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_lmatmrnjiulltmor = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_lmatmrnjiulltmor <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_lmatmrnjiulltmor >= autoFC6C6804_ae) ) ; lv_lmatmrnjiulltmor += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_lmatmrnjiulltmor], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_lmatmrnjiulltmor], PlayerGroupSingle(lv_player), true);
+            lv_eqlfvpbxdrituqji = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_eqlfvpbxdrituqji <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_eqlfvpbxdrituqji >= autoFC6C6804_ae) ) ; lv_eqlfvpbxdrituqji += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_eqlfvpbxdrituqji], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_eqlfvpbxdrituqji], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -9732,8 +10002,12 @@ bool gt_UseChatSystem_Func (bool testConds, bool runActions) {
             gf_ForceTeammateLeave(EventPlayer());
         }
 
-        if (((StringEqual(EventChatMessage(false), "-test", c_stringCase) == true))) {
+        if (((StringEqual(EventChatMessage(false), "-test", c_stringCase) == true) || (StringEqual(EventChatMessage(false), "-settings", c_stringCase) == true))) {
             gf_DebugCommand(EventPlayer());
+        }
+
+        if (((StringEqual(EventChatMessage(false), "-votes", c_stringCase) == true))) {
+            gf_ShowVotesCommand(EventPlayer());
         }
 
         if (((StringEqual(EventChatMessage(false), "-z", c_stringCase) == true) || (StringEqual(EventChatMessage(false), "-zoom", c_stringCase) == true))) {
@@ -9909,6 +10183,8 @@ void gt_ConfigureTradingTimeUpdate_Init () {
 // Trigger Initialization
 //--------------------------------------------------------------------------------------------------
 void InitTriggers () {
+    gt_Init_Init();
+    gt_EditBoxCheck_Init();
     gt_PlayerCallouts_Init();
     gt_Zoom_Init();
     gt_ButtonPress_Init();

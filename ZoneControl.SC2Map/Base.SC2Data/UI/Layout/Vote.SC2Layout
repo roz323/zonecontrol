@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="GameUI/UIContainer/FullscreenUpperContainer" file="GameUI">
+          <Frame type="Frame" name="ZoomVoteReportContainer">
+            <Anchor side="Top" relative="$parent" pos="Max" offset="1500"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="250" />
+            <Height val="75" />
+            <Visible val="True" />
+            <Handle val="ZoomVoteReport" />
+            <Frame type="EditBox" name="TextBox" template="StandardTemplates/StandardEditBoxTemplate">
+                <Anchor relative="$parent" />
+                <Insets top="0" left="15" bottom="0" right="0"/>
+                <Text val="" />
+                <StateGroup name="ZoomVoteState">
+                    <DefaultState val="NoData" />
+                    <State name="NoMode">
+                        <When type="AnimationState" frame="$this" Index="0" /> 
+                        <When type="StateGroup" frame="$parent" ZoomVoteIndex="" />
+                        <Action type="SetProperty" frame="$this" Text="" undo="false"/>
+                    </State>
+                    <State name="1">
+                        <When type="AnimationState" frame="$this" Index="1" /> 
+                        <When type="StateGroup" frame="$parent" ZoomVoteIndex="1" />
+                        <Action type="SetProperty" frame="$this" Text="1" undo="false"/>
+                    </State>
+                    <State name="2">
+                        <When type="AnimationState" frame="$this" Index="2" /> 
+                        <When type="StateGroup" frame="$parent" ZoomVoteIndex="2" />
+                        <Action type="SetProperty" frame="$this" Text="2" undo="false"/>
+                    </State>
+                    <State name="3">
+                        <When type="AnimationState" frame="$this" Index="3" /> 
+                        <When type="StateGroup" frame="$parent" ZoomVoteIndex="3" />
+                        <Action type="SetProperty" frame="$this" Text="3" undo="false"/>
+                    </State>
+                    <State name="NoData" />
+                </StateGroup>
+            </Frame>
+            <StateGroup name="ZoomVoteIndex">
+                <DefaultState val=""/>
+                <State name="1">
+                    <When type="StateGroup" frame="$ZoomVoteIndex" Index="1"/>
+                </State>
+                <State name="2">
+                    <When type="StateGroup" frame="$ZoomVoteIndex" Index="2"/>
+                </State>
+                <State name="3">
+                    <When type="StateGroup" frame="$ZoomVoteIndex" Index="3"/>
+                </State>
+                <State name="" />
+            </StateGroup>
+        </Frame>
+   
+    <Frame type="Frame" name="AllChatVoteReportContainer">
+            <Anchor side="Top" relative="$parent" pos="Max" offset="1500"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="250" />
+            <Height val="75" />
+            <Visible val="True" />
+            <Handle val="AllChatVoteReport" />
+            <Frame type="EditBox" name="TextBox" template="StandardTemplates/StandardEditBoxTemplate">
+                <Anchor relative="$parent" />
+                <Insets top="0" left="15" bottom="0" right="0"/>
+                <Text val="" />
+                <StateGroup name="VoteState">
+                    <DefaultState val="NoData" />
+                    <State name="NoMode">
+                        <When type="AnimationState" frame="$this" Index="0" /> 
+                        <When type="StateGroup" frame="$parent" AllChatVoteIndex="" />
+                        <Action type="SetProperty" frame="$this" Text="" undo="false"/>
+                    </State>
+                    <State name="1">
+                        <When type="AnimationState" frame="$this" Index="1" /> 
+                        <When type="StateGroup" frame="$parent" AllChatVoteIndex="1" />
+                        <Action type="SetProperty" frame="$this" Text="1" undo="false"/>
+                    </State>
+                    <State name="2">
+                        <When type="AnimationState" frame="$this" Index="2" /> 
+                        <When type="StateGroup" frame="$parent" AllChatVoteIndex="2" />
+                        <Action type="SetProperty" frame="$this" Text="2" undo="false"/>
+                    </State>
+         
+ 
+                    <State name="NoData" />
+                </StateGroup>
+            </Frame>
+            <StateGroup name="AllChatVoteIndex">
+                <DefaultState val=""/>
+                <State name="1">
+                    <When type="StateGroup" frame="$AllChatVoteIndex" Index="1"/>
+                </State>
+                <State name="2">
+                    <When type="StateGroup" frame="$AllChatVoteIndex" Index="2"/>
+                </State>
+      
+                <State name="" />
+            </StateGroup>
+        </Frame>
+    </Frame>
+</Desc>
