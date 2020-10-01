@@ -1529,8 +1529,6 @@ trigger gt_PeriodicCheckDeath;
 trigger gt_PlayerLeaveGame;
 trigger gt_MineralTrickle;
 trigger gt_TwitchChat;
-trigger gt_CheckCheat;
-trigger gt_PunishCheat;
 trigger gt_UseChatSystem;
 trigger gt_EditValue;
 trigger gt_MainLoop;
@@ -3983,7 +3981,7 @@ void gf_RecordUpdateGameStart () {
                 gv_player_elos[lv_player] = 1000.0;
             }
 
-            if (((gv_player_elos[lv_player] > 2500.0) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2438645", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4728462", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4632373", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4668107", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10852186", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-5692110", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2425002", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-9786726", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10360040", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-7987411", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-1174806", c_stringCase) == false))) {
+            if (((gv_player_elos[lv_player] > 2500.0) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2438645", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4728462", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4632373", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-4668107", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10852186", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-5692110", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-2425002", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-9786726", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-10360040", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-7987411", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-1174806", c_stringCase) == false) && (StringEqual(gv_player_handles[lv_player], "1-S2-1-429440", c_stringCase) == false))) {
                 gv_player_elos[lv_player] = 2500.0;
             }
 
@@ -7379,7 +7377,7 @@ void gt_Zoom_Init () {
 bool gt_ButtonPress_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_x;
-    int lv_kdtwkbyrydclmplx;
+    int lv_hebfkiwcsitwdnlv;
     bool lv_has_control_shared;
     int lv_player;
     int lv_ally;
@@ -7445,11 +7443,11 @@ bool gt_ButtonPress_Func (bool testConds, bool runActions) {
 
     lv_player = 1;
     for ( ; ( (autoDC2BB981_ai >= 0 && lv_player <= autoDC2BB981_ae) || (autoDC2BB981_ai < 0 && lv_player >= autoDC2BB981_ae) ) ; lv_player += autoDC2BB981_ai ) {
-        lv_kdtwkbyrydclmplx = 0;
-        for ( ; ( (autoA9265719_ai >= 0 && lv_kdtwkbyrydclmplx <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_kdtwkbyrydclmplx >= autoA9265719_ae) ) ; lv_kdtwkbyrydclmplx += autoA9265719_ai ) {
-            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_kdtwkbyrydclmplx])) {
+        lv_hebfkiwcsitwdnlv = 0;
+        for ( ; ( (autoA9265719_ai >= 0 && lv_hebfkiwcsitwdnlv <= autoA9265719_ae) || (autoA9265719_ai < 0 && lv_hebfkiwcsitwdnlv >= autoA9265719_ae) ) ; lv_hebfkiwcsitwdnlv += autoA9265719_ai ) {
+            if ((EventDialogControl() == gv_team_info_player_upgrade_buttons[lv_player][lv_hebfkiwcsitwdnlv])) {
                 if (((gv_player_is_afk[lv_player] == true) && (PlayerGetAlliance(lv_player, c_allianceIdControl, EventPlayer()) == true))) {
-                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_kdtwkbyrydclmplx]), c_orderQueueReplace);
+                    UnitIssueOrder(gv_research_facilities[lv_player], Order(gv_race_teaminfo_upgrade_abilities[gv_player_race_index[lv_player]][lv_hebfkiwcsitwdnlv]), c_orderQueueReplace);
                 }
 
             }
@@ -7938,7 +7936,7 @@ void gt_TrackRallyChange_Init () {
 //--------------------------------------------------------------------------------------------------
 bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    int lv_xewdydhfbkwnnsif;
+    int lv_uayolsbjifcwptel;
     int lv_player;
     int lv_ally;
 
@@ -7962,10 +7960,10 @@ bool gt_ShareControlForAfkPlayer_Func (bool testConds, bool runActions) {
         if (lv_player < 0) { break; }
         if (((gv_player_alive[lv_player] == true) && (gv_movement_detected[lv_player] == false))) {
             gf_GameMessage((gv_player_names_colored[lv_player] + StringExternal("Param/Value/AF820515")), gv_teams[gv_player_team[lv_player]]);
-            lv_xewdydhfbkwnnsif = 0;
-            for ( ; ( (autoFC6C6804_ai >= 0 && lv_xewdydhfbkwnnsif <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_xewdydhfbkwnnsif >= autoFC6C6804_ae) ) ; lv_xewdydhfbkwnnsif += autoFC6C6804_ai ) {
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_xewdydhfbkwnnsif], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
-                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_xewdydhfbkwnnsif], PlayerGroupSingle(lv_player), true);
+            lv_uayolsbjifcwptel = 0;
+            for ( ; ( (autoFC6C6804_ai >= 0 && lv_uayolsbjifcwptel <= autoFC6C6804_ae) || (autoFC6C6804_ai < 0 && lv_uayolsbjifcwptel >= autoFC6C6804_ae) ) ; lv_uayolsbjifcwptel += autoFC6C6804_ai ) {
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_uayolsbjifcwptel], PlayerGroupAlliance(c_playerGroupAlly, lv_player), true);
+                DialogControlSetVisible(gv_team_info_player_upgrade_buttons[lv_player][lv_uayolsbjifcwptel], PlayerGroupSingle(lv_player), true);
             }
             auto035062F2_g = gv_teams[gv_player_team[lv_player]];
             lv_ally = -1;
@@ -9744,105 +9742,6 @@ void gt_TwitchChat_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: CheckCheat
-//--------------------------------------------------------------------------------------------------
-bool gt_CheckCheat_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_player;
-
-    // Automatic Variable Declarations
-    playergroup auto4BA2B643_g;
-
-    // Variable Initialization
-
-    // Conditions
-    if (testConds) {
-        if (!((GameAttributeGameValue("[bnet:Core (Mod)/0.0/999,file:Mods/Core.SC2Mod]4000") == "Norm"))) {
-            return false;
-        }
-
-        if (!((gv_anonymous_mode == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto4BA2B643_g = gv_all_players;
-    lv_player = -1;
-    while (true) {
-        lv_player = PlayerGroupNextPlayer(auto4BA2B643_g, lv_player);
-        if (lv_player < 0) { break; }
-        if (((PlayerType(lv_player) == c_playerTypeUser) && (StringCompare(libNtve_gf_DialogItemEditValue(gv_customChatRecord.lv_recipient, lv_player), "C", c_stringCase) == 0) && (PlayerGroupHasPlayer(gv_cheated_players, lv_player) == false))) {
-            PlayerGroupAdd(gv_cheated_players, lv_player);
-        }
-
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_CheckCheat_Init () {
-    gt_CheckCheat = TriggerCreate("gt_CheckCheat_Func");
-    TriggerAddEventTimePeriodic(gt_CheckCheat, 5.0, c_timeGame);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: PunishCheat
-//--------------------------------------------------------------------------------------------------
-bool gt_PunishCheat_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_cheater;
-    int lv_slot;
-
-    // Automatic Variable Declarations
-    playergroup autoD05D4C0E_g;
-    const int autoE0E0167E_ae = 63;
-    const int autoE0E0167E_ai = 1;
-
-    // Variable Initialization
-
-    // Conditions
-    if (testConds) {
-        if (!((gv_anonymous_mode == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoD05D4C0E_g = gv_cheated_players;
-    lv_cheater = -1;
-    while (true) {
-        lv_cheater = PlayerGroupNextPlayer(autoD05D4C0E_g, lv_cheater);
-        if (lv_cheater < 0) { break; }
-        if ((gv_player_alive[lv_cheater] == true)) {
-            lv_slot = 1;
-            for ( ; ( (autoE0E0167E_ai >= 0 && lv_slot <= autoE0E0167E_ae) || (autoE0E0167E_ai < 0 && lv_slot >= autoE0E0167E_ae) ) ; lv_slot += autoE0E0167E_ai ) {
-                if ((gv_bunker_owners[lv_slot] == lv_cheater)) {
-                    UnitIssueOrder(gv_bunkers[lv_slot], Order(AbilityCommand("RetireStructure", 0)), c_orderQueueReplace);
-                }
-
-            }
-        }
-
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_PunishCheat_Init () {
-    gt_PunishCheat = TriggerCreate("gt_PunishCheat_Func");
-    TriggerAddEventTimePeriodic(gt_PunishCheat, 73.0, c_timeGame);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: Use Chat System
 //--------------------------------------------------------------------------------------------------
 bool gt_UseChatSystem_Func (bool testConds, bool runActions) {
@@ -10274,8 +10173,6 @@ void InitTriggers () {
     gt_PlayerLeaveGame_Init();
     gt_MineralTrickle_Init();
     gt_TwitchChat_Init();
-    gt_CheckCheat_Init();
-    gt_PunishCheat_Init();
     gt_UseChatSystem_Init();
     gt_EditValue_Init();
     gt_MainLoop_Init();
