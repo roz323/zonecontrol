@@ -38,7 +38,7 @@
     </CAbilArmMagazine>
     <CAbilEffectTarget id="Blink">
         <Cost index="0">
-            <Cooldown Link="Blink" TimeUse="60"/>
+            <Cooldown TimeUse="60"/>
         </Cost>
         <!--Effect index="0" value="VoidStalkerBlinkSet"/-->
         <CmdButtonArray index="Execute" Requirements="UnknownRequirement3"/>
@@ -47,7 +47,7 @@
         <Cost index="0">
             <Resource index="Minerals" value="225"/>
             <Vital index="Energy" value="0"/>
-            <Cooldown Link="Raven Build Link" Location="Unit" TimeUse="15"/>
+            <Cooldown TimeUse="15"/>
         </Cost>
         <Range index="0" value="7"/>
     </CAbilEffectTarget>
@@ -485,7 +485,7 @@
     <CAbilEffectTarget id="PhaseCannon">
         <Cost index="0">
             <Resource index="Minerals" value="250"/>
-            <Cooldown Link="SpawnPhaseCannon" Location="Unit" TimeUse="29"/>
+            <Cooldown TimeUse="29"/>
         </Cost>
     </CAbilEffectTarget>
     <CAbilBuild id="ProtossBuild">
@@ -507,6 +507,12 @@
             <Button Requirements=""/>
         </InfoArray>
     </CAbilBuild>
+    <CAbilResearch id="TankSupplyDepot">
+        <InfoArray index="Research1" Time="3" Upgrade="TankSupplyDepotPlaceholder">
+            <Resource index="Minerals" value="550"/>
+            <Button DefaultButtonFace="ProtossGroundArmorLevel1"/>
+        </InfoArray>
+    </CAbilResearch>
     <CAbilResearch id="RetireStructure">
         <InfoArray index="Research1" Time="3" Upgrade="RetirePlaceholder">
             <Resource index="Minerals" value="550"/>
@@ -582,7 +588,7 @@
         <Cost>
             <Resource index="Minerals" value="450"/>
         </Cost>
-        <CmdButtonArray index="Execute" DefaultButtonFace="SupplyDrop"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="SupplyDrop" Requirements="AllowExtraSupplies"/>
     </CAbilEffectInstant>
     <CAbilBuild id="TerranBuild">
         <InfoArray index="Build2" Time="20">
@@ -600,7 +606,7 @@
         </InfoArray>
         <InfoArray index="Build22" Time="15"/>
         <InfoArray index="Build29" Unit="SiegeBreakerSieged" Time="90">
-            <Button DefaultButtonFace="HireSiegeBreakers" Requirements="HaveMercenaryBunker"/>
+            <Button DefaultButtonFace="HireSiegeBreakers" Requirements="UnknownRequirement"/>
         </InfoArray>
         <InfoArray index="Build30" Unit="AutoTurret">
             <Button DefaultButtonFace="AutoTurret"/>
@@ -653,7 +659,7 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="UnretireStructure" Requirements="NotRetired"/>
     </CAbilEffectInstant>
     <CAbilMorph id="UpgradeToGreaterSpire">
-        <InfoArray index="0" Score="1" Unit="KorhalSporeCannon"/>
+        <InfoArray index="0" Unit="KorhalSporeCannon"/>
     </CAbilMorph>
     <CAbilMorph id="UpgradeToOrbital">
         <Name value="Abil/Name/UpgradeToMercenaryBunker"/>

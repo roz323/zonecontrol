@@ -3,6 +3,10 @@
     <CRequirement id="AllowBadBuildsAvailable">
         <NodeArray index="Show" Link="NotCountUpgradeAllowBadBuildsCompleteOnly"/>
     </CRequirement>
+    <CRequirement id="AllowExtraSupplies">
+        <NodeArray index="Use" Link="EqCountBehaviorSupplyDrop2QueuedOrBetterAtUnit0"/>
+        <NodeArray index="Show" Link="And"/>
+    </CRequirement>
     <CRequirement id="HaveDarkTemplar">
         <NodeArray index="Use" Link="SumCountUnitMarineCompleteOnlyCountUnitWarPigCompleteOnly"/>
         <NodeArray index="Show" Link="NotCountUpgradeCombatShieldQueuedOrBetter"/>
@@ -127,6 +131,9 @@
     </CRequirement>
     <CRequirement id="NotRetired">
         <NodeArray index="Show" Link="CountBehaviorRetireStructureCompleteOnlyAtUnit"/>
+    </CRequirement>
+    <CRequirement id="UnknownRequirement">
+        <NodeArray index="Use" Link="AndCountUnitInfestedBunkerCompleteOnlyLTSumCountUnitSiegeBreakerSiegedQueuedOrBetterCountUnitSiegeBreakerQueuedOrBetterSum1CountBehaviorSupplyDrop2CompleteOnly"/>
     </CRequirement>
     <CRequirement id="UnknownRequirement6">
         <NodeArray index="Show" Link="AndNotCountUpgradeRetirePlaceholderInProgressOnlyAtUnitNotCountBehaviorRetireStructureCompleteOnlyAtUnit"/>

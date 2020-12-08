@@ -158,38 +158,12 @@
             <LayoutButtons index="5" Face="InfantryWeapons" AbilCmd="OrderInfantryWeaponsUpgrade,Execute" Row="0" Column="1"/>
             <LayoutButtons index="6" Face="InfantryWeapons" AbilCmd="InfantryWeaponsResearch,Research1" Row="0"/>
             <LayoutButtons index="7" Face="InfantryAttackRange" AbilCmd="OrderInfantryAttackRangeUpgrade,Execute" Row="0" Column="2"/>
-            <LayoutButtons index="8" Face="InfantryAttackRange" AbilCmd="InfantryAttackRangeResearch,Research1" Row="0" Column="2"/>
+            <LayoutButtons index="8" Face="InfantryAttackRange" AbilCmd="InfantryAttackRangeResearch,Research1" Column="2"/>
             <LayoutButtons index="9" Face="InfantryLifeRegeneration" AbilCmd="OrderInfantryLifeRegenerationUpgrade,Execute" Column="3"/>
             <LayoutButtons index="10" Face="InfantryLifeRegeneration" AbilCmd="InfantryLifeRegenerationResearch,Research1" Column="3"/>
             <LayoutButtons index="11" Face="InfantryMovespeed" Type="AbilCmd" AbilCmd="OrderInfantryMovespeedUpgrade,Execute" Row="0" Column="4"/>
-            <LayoutButtons>
-                <Face value="InfantryMovespeed"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="InfantryMovespeedResearch,Research1"/>
-                <Behavior value=""/>
-                <Requirements value=""/>
-                <SubmenuAbilState value=""/>
-                <SubmenuCardId value=""/>
-                <SubmenuFullSubCmdValidation value="0"/>
-                <SubmenuIsSticky value="0"/>
-                <ShowInGlossary value="1"/>
-                <Row value="0"/>
-                <Column value="4"/>
-            </LayoutButtons>
-            <LayoutButtons>
-                <Face value="ResearchPunisherGrenades"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="OrderConcussiveShellsUpgrade,Execute"/>
-                <Behavior value=""/>
-                <Requirements value=""/>
-                <SubmenuAbilState value=""/>
-                <SubmenuCardId value=""/>
-                <SubmenuFullSubCmdValidation value="0"/>
-                <SubmenuIsSticky value="0"/>
-                <ShowInGlossary value="1"/>
-                <Row value="2"/>
-                <Column value="3"/>
-            </LayoutButtons>
+            <LayoutButtons Face="InfantryMovespeed" Type="AbilCmd" AbilCmd="InfantryMovespeedResearch,Research1" Row="0" Column="4"/>
+            <LayoutButtons Face="ResearchPunisherGrenades" Type="AbilCmd" AbilCmd="OrderConcussiveShellsUpgrade,Execute" Row="2" Column="3"/>
             <LayoutButtons Face="ResearchPunisherGrenades" Type="AbilCmd" AbilCmd="ConcussiveShellsResearch,Research1" Row="2" Column="3"/>
             <LayoutButtons Face="ResearchObliterationOrdnance" Type="AbilCmd" AbilCmd="OrderObliterationOrdiananceUpgrade,Execute" Row="2" Column="4"/>
             <LayoutButtons Face="ResearchObliterationOrdnance" Type="AbilCmd" AbilCmd="ObliterationOrdinanceResearch,Research1" Row="2" Column="4"/>
@@ -243,7 +217,7 @@
             <LayoutButtons index="8" Face="InfantryLifeRegeneration" AbilCmd="InfantryLifeRegenerationResearch,Research1" Column="3"/>
             <LayoutButtons index="9" Face="ReaverScarabs" AbilCmd="ObliterationOrdinanceResearch2,Research1" Row="2" Column="4"/>
             <LayoutButtons index="10" Face="ProtossGroundArmorLevel1" AbilCmd="InfantryArmorResearch,Research1" Column="0"/>
-            <LayoutButtons index="11" Face="" Type="Undefined" Requirements="" Row="0" Column="0"/>
+            <LayoutButtons index="11" Face="" Type="Undefined" Requirements="" Row="0"/>
             <LayoutButtons index="12">
                 <Face value="CommanderKaraxUnlockSOAChronoPassive"/>
                 <Type value="AbilCmd"/>
@@ -252,14 +226,7 @@
                 <Row value="2"/>
                 <Column value="3"/>
             </LayoutButtons>
-            <LayoutButtons index="13">
-                <Face value="VoidZealotShieldRestore"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="CombatShieldResearch2,Research1"/>
-                <Requirements value=""/>
-                <Row value="2"/>
-                <Column value="1"/>
-            </LayoutButtons>
+            <LayoutButtons index="13" Face="VoidZealotShieldRestore" Type="AbilCmd" AbilCmd="CombatShieldResearch2,Research1" Requirements="" Row="2"/>
             <LayoutButtons Face="MothershipCoreWeapon" Type="AbilCmd" AbilCmd="StimpackResearch2,Research1" Row="2" Column="0"/>
             <LayoutButtons Face="AdeptPhaseShift" Type="AbilCmd" AbilCmd="ReaperSpeedResearch2,Research1" Row="2" Column="2"/>
             <LayoutButtons Face="ResearchPlasmaCapacitors" Type="AbilCmd" AbilCmd="OrderTurretTimeUpgrade,Execute" Row="1" Column="3"/>
@@ -342,7 +309,7 @@
         <FlagArray index="Invulnerable" value="1"/>
         <Sight value="0.1"/>
         <CardLayouts index="0">
-            <LayoutButtons index="5" Face="SpectreNukeArm" AbilCmd="SpectreNukeSiloArmMagazine,Ammo2" Row="2" Column="0"/>
+            <LayoutButtons index="5" Face="SpectreNukeArm" AbilCmd="SpectreNukeSiloArmMagazine,Ammo2" Row="2"/>
             <LayoutButtons Face="EngineerHeroDismantle" Type="AbilCmd" AbilCmd="EngineeringBayResearch,Research16" Row="1" Column="4"/>
         </CardLayouts>
         <MinimapRadius value="1.25"/>
@@ -423,22 +390,8 @@
         <AbilArray index="3" Link="Stimpack"/>
         <AbilArray Link="ScanUpgrades"/>
         <CardLayouts index="0">
-            <LayoutButtons index="5">
-                <Face value="Stim"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="Stimpack,Execute"/>
-                <Requirements value=""/>
-                <Row value="2"/>
-                <Column value="0"/>
-            </LayoutButtons>
-            <LayoutButtons index="6">
-                <Face value="ScanUpsButton"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="ScanUpgrades,Research1"/>
-                <Requirements value=""/>
-                <Row value="2"/>
-                <Column value="3"/>
-            </LayoutButtons>
+            <LayoutButtons index="5" Face="Stim" Type="AbilCmd" AbilCmd="Stimpack,Execute" Requirements=""/>
+            <LayoutButtons index="6" Face="ScanUpsButton" Type="AbilCmd" AbilCmd="ScanUpgrades,Research1" Requirements="" Column="3"/>
         </CardLayouts>
         <ScoreMake value="0"/>
         <EquipmentArray Weapon="GuassRifle2"/>
@@ -559,12 +512,12 @@
         <AbilArray Link="UnretireStructure"/>
         <AbilArray Link="InstantRetireStructure"/>
         <CardLayouts index="0">
-            <LayoutButtons index="0" Face="BunkerLoad" Type="AbilCmd" AbilCmd="BunkerTransport,Load" Row="0" Column="0"/>
-            <LayoutButtons index="1" Face="BunkerUnloadAll" Type="AbilCmd" AbilCmd="BunkerTransport,UnloadAll" Row="0" Column="1"/>
-            <LayoutButtons index="3" Face="Cancel" Type="AbilCmd" AbilCmd="SalvageInfestedBunkerer,255" Row="2" Column="4"/>
-            <LayoutButtons index="4" Face="StimRedirect" Type="AbilCmd" AbilCmd="StimpackRedirect,Execute" Row="1" Column="0"/>
-            <LayoutButtons index="5" Face="AttackRedirect" Type="AbilCmd" AbilCmd="AttackRedirect,Execute" Row="0" Column="4"/>
-            <LayoutButtons index="6" Face="SetBunkerRallyPoint" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="0" Column="2"/>
+            <LayoutButtons index="0" Row="0"/>
+            <LayoutButtons index="1" Row="0"/>
+            <LayoutButtons index="3" AbilCmd="SalvageInfestedBunkerer,255"/>
+            <LayoutButtons index="4" Face="StimRedirect" AbilCmd="StimpackRedirect,Execute" Row="1"/>
+            <LayoutButtons index="5" Face="AttackRedirect" AbilCmd="AttackRedirect,Execute" Column="4"/>
+            <LayoutButtons index="6" Face="SetBunkerRallyPoint" AbilCmd="Rally,Rally1"/>
             <LayoutButtons Face="RetireStructure" Type="AbilCmd" AbilCmd="RetireStructure,Research1" Row="2" Column="2"/>
             <LayoutButtons Face="RetireStructure" Type="AbilCmd" AbilCmd="InstantRetireStructure,Research1" Row="2" Column="2"/>
             <LayoutButtons Face="UnretireStructure" Type="AbilCmd" AbilCmd="UnretireStructure,Execute" Row="2" Column="3"/>
@@ -656,23 +609,9 @@
             <LayoutButtons index="4" Face="Gateway" AbilCmd="TerranBuild3,Build7" Row="2" Column="0"/>
             <LayoutButtons index="5" Face="HiveMindEmulator" AbilCmd="TerranBuild3,Build8" Row="2" Column="3"/>
             <LayoutButtons index="6" Face="Obelisk" AbilCmd="TerranBuild3,Build9" Row="2" Column="2"/>
-            <LayoutButtons index="7">
-                <Face value="Pylon"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="TerranBuild3,Build2"/>
-                <SubmenuCardId value=""/>
-                <Row value="2"/>
-                <Column value="1"/>
-            </LayoutButtons>
-            <LayoutButtons index="8">
-                <Face value="PhaseCannon"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="PhaseCannon,Execute"/>
-                <SubmenuCardId value=""/>
-                <Row value="2"/>
-                <Column value="4"/>
-            </LayoutButtons>
-            <LayoutButtons index="9" Face="NukeCalldown" Type="AbilCmd" AbilCmd="TacNukeStrike,Execute" Row="1" Column="4"/>
+            <LayoutButtons index="7" Face="Pylon" Type="AbilCmd" AbilCmd="TerranBuild3,Build2" SubmenuCardId="" Column="1"/>
+            <LayoutButtons index="8" Face="PhaseCannon" Type="AbilCmd" AbilCmd="PhaseCannon,Execute" SubmenuCardId="" Column="4"/>
+            <LayoutButtons index="9" Face="NukeCalldown" AbilCmd="TacNukeStrike,Execute" Row="1" Column="4"/>
             <LayoutButtons Face="WarpInReaver" Type="AbilCmd" AbilCmd="TerranBuild3,Build29" Row="1" Column="2"/>
             <LayoutButtons Face="Halt" Type="AbilCmd" AbilCmd="TerranBuild3,Halt" Row="1" Column="0"/>
             <LayoutButtons Face="Repair" Type="AbilCmd" AbilCmd="Repair,Execute" Row="0" Column="4"/>
@@ -725,7 +664,7 @@
         <BehaviorArray index="0" removed="1"/>
         <CardLayouts index="0">
             <!--LayoutButtons Face="ReaverScarabs" Type="Passive" Row="2" Column="0"/-->
-            <LayoutButtons index="5" Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+            <LayoutButtons index="5" Face="CancelBuilding" AbilCmd="BuildInProgress,Cancel" Column="4"/>
         </CardLayouts>
         <PlacementFootprint value="Footprint4x4"/>
         <ScoreMake value="0"/>
@@ -760,7 +699,7 @@
                 <Column value="4"/>
             </LayoutButtons>
             <LayoutButtons index="10" Face="HireSiegeBreakers" AbilCmd="TerranBuild,Build29" Row="1" Column="2"/>
-            <LayoutButtons index="11" Face="NukeCalldown" Type="AbilCmd" AbilCmd="TacNukeStrike,Execute" Row="1" Column="4"/>
+            <LayoutButtons index="11" Face="NukeCalldown" AbilCmd="TacNukeStrike,Execute" Row="1" Column="4"/>
             <LayoutButtons Face="CalldownMULE" Type="AbilCmd" AbilCmd="CalldownMULE,Execute" Row="1" Column="3"/>
             <LayoutButtons Face="AutoTurret" Type="AbilCmd" AbilCmd="BuildAutoTurret,Execute" Row="2" Column="4"/>
         </CardLayouts>
@@ -780,14 +719,8 @@
         <ShieldsMax value="0"/>
         <CostResource index="Minerals" value="125"/>
         <AbilArray index="1" removed="1"/>
-        <AbilArray index="2" removed="1"/>
         <BehaviorArray index="0" Link="GuardianShieldPermanent"/>
         <BehaviorArray Link="PowerUserQueueSmall"/>
-        <CardLayouts index="0">
-            <LayoutButtons index="0" Face="Cancel" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
-            <LayoutButtons index="1" removed="1"/>
-            <LayoutButtons index="2" removed="1"/>
-        </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.75"/>
         <Footprint value="Footprint1x1"/>
@@ -811,24 +744,10 @@
         <AbilArray index="2" Link="SiegeBreakerSiege"/>
         <AbilArray index="3" Link="attack"/>
         <CardLayouts index="0">
-            <LayoutButtons index="3" Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
-            <LayoutButtons index="4" Face="SiegeMode" Type="AbilCmd" AbilCmd="SiegeBreakerSiege,Execute" Row="2" Column="0"/>
-            <LayoutButtons index="5">
-                <Face value="MaelstromRounds"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="UseMaelstromRoundsReq"/>
-                <Row value="2"/>
-                <Column value="2"/>
-            </LayoutButtons>
-            <LayoutButtons index="6">
-                <Face value="ShapedBlast"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255"/>
-                <Requirements value="UseShapedBlastReq"/>
-                <Row value="2"/>
-                <Column value="3"/>
-            </LayoutButtons>
+            <LayoutButtons index="3" Face="MovePatrol" AbilCmd="move,Patrol" Column="3"/>
+            <LayoutButtons index="4" Face="SiegeMode" AbilCmd="SiegeBreakerSiege,Execute" Row="2" Column="0"/>
+            <LayoutButtons index="5" Face="MaelstromRounds" Type="Passive" AbilCmd="255" Requirements="UseMaelstromRoundsReq" Column="2"/>
+            <LayoutButtons index="6" Face="ShapedBlast" Requirements="UseShapedBlastReq" Column="3"/>
             <LayoutButtons index="7">
                 <Face value="Attack"/>
                 <Type value="AbilCmd"/>
@@ -853,16 +772,9 @@
         <RepairTime value="70"/>
         <KillResource index="Minerals" value="750"/>
         <AbilArray Link="BuildInProgress"/>
-        <WeaponArray index="0" Link="CrucioShockCannon" Turret="SiegeTankSieged"/>
+        <WeaponArray index="0" Link="CrucioShockCannon"/>
         <CardLayouts index="0">
-            <LayoutButtons index="6">
-                <Face value="CancelBuilding"/>
-                <Type value="AbilCmd"/>
-                <AbilCmd value="BuildInProgress,Cancel"/>
-                <Requirements value=""/>
-                <Row value="2"/>
-                <Column value="4"/>
-            </LayoutButtons>
+            <LayoutButtons index="6" Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Requirements="" Column="4"/>
             <LayoutButtons index="7" removed="1"/>
         </CardLayouts>
         <Footprint value="Footprint2x2Contour"/>
@@ -957,15 +869,8 @@
         <LifeMax value="325"/>
         <Speed value="2.5"/>
         <CardLayouts index="0">
-            <LayoutButtons index="5" Face="JetPack" Type="Passive" AbilCmd="255,255" Row="2" Column="0"/>
-            <LayoutButtons index="6">
-                <Face value="ReaperSpeed"/>
-                <Type value="Passive"/>
-                <AbilCmd value=""/>
-                <Requirements value="LearnNitroPacks2"/>
-                <Row value="2"/>
-                <Column value="1"/>
-            </LayoutButtons>
+            <LayoutButtons index="5" AbilCmd="255,255" Column="0"/>
+            <LayoutButtons index="6" Face="ReaperSpeed" Type="Passive" AbilCmd="" Requirements="LearnNitroPacks2" Column="1"/>
             <LayoutButtons Face="ScanUpsButton" Type="AbilCmd" AbilCmd="ScanUpgrades,Research1" Row="2" Column="3"/>
         </CardLayouts>
         <ScoreMake value="0"/>
@@ -1001,8 +906,8 @@
     <CUnit id="Reaper">
         <Speed value="2.5"/>
         <CardLayouts index="0">
-            <LayoutButtons index="6" Face="ReaperSpeed" Type="Passive" Requirements="LearnNitroPacks2" Row="2" Column="1"/>
-            <LayoutButtons index="7" Face="ScanUpsButton" Type="AbilCmd" AbilCmd="ScanUpgrades,Research1" Row="2" Column="3"/>
+            <LayoutButtons index="6" Face="ReaperSpeed" Requirements="LearnNitroPacks2" Column="1"/>
+            <LayoutButtons index="7" Face="ScanUpsButton" AbilCmd="ScanUpgrades,Research1" Column="3"/>
             <LayoutButtons index="8" removed="1"/>
         </CardLayouts>
         <ScoreMake value="0"/>
@@ -1051,8 +956,8 @@
         <Speed value="2.25"/>
         <Food value="-1"/>
         <CardLayouts index="0">
-            <LayoutButtons index="4" Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
-            <LayoutButtons index="5" Face="ScanUpsButton" Type="AbilCmd" AbilCmd="ScanUpgrades,Research1" Row="2" Column="3"/>
+            <LayoutButtons index="4" Face="Attack" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons index="5" Face="ScanUpsButton" AbilCmd="ScanUpgrades,Research1" Column="3"/>
             <LayoutButtons index="6" removed="1"/>
             <LayoutButtons index="7" removed="1"/>
             <LayoutButtons index="8" removed="1"/>
@@ -1210,6 +1115,7 @@
         <AbilArray index="1" Link="SupplyDropInstant"/>
         <AbilArray Link="SupplyDepotRaise"/>
         <AbilArray Link="SalvageBunkerRefund"/>
+        <AbilArray Link="TankSupplyDepot"/>
         <CardLayouts index="0">
             <LayoutButtons index="0" Face="SupplyDrop" AbilCmd="SupplyDropInstant,Execute" Column="1"/>
             <LayoutButtons Face="Raise" Type="AbilCmd" AbilCmd="SupplyDepotRaise,Execute" Row="2" Column="0"/>
@@ -1264,14 +1170,7 @@
         <FlagArray index="IgnoreAttackAlert" value="1"/>
         <AbilArray Link="ScanUpgrades"/>
         <CardLayouts index="0">
-            <LayoutButtons index="6">
-                <Face value="CombatShield"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255,255"/>
-                <Requirements value="UseCombatShield"/>
-                <Row value="2"/>
-                <Column value="1"/>
-            </LayoutButtons>
+            <LayoutButtons index="6" AbilCmd="255,255"/>
             <LayoutButtons Face="ScanUpsButton" Type="AbilCmd" AbilCmd="ScanUpgrades,Research1" Row="2" Column="3"/>
         </CardLayouts>
     </CUnit>
